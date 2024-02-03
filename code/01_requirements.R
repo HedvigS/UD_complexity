@@ -37,5 +37,11 @@ groundhog.library(pkgs, groundhog_date)
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
 
+if(!dir.exists("output")){
+  dir.create("output")
+}
 
+if(!dir.exists("output/sum_dfs")){
+  dir.create("output/sum_dfs")
+}
 
