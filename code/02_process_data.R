@@ -1,17 +1,42 @@
 source("01_requirements.R")
 
-UD <- udpipe::udpipe_read_conllu("../data/ud-treebanks-v2.13/UD_Irish-IDT/ga_idt-ud-train.conllu")
-UD <- udpipe::udpipe_read_conllu("../data/ud-treebanks-v2.13/UD_English-EWT/en_ewt-ud-train.conllu")
+fns <- list.files(path = "../data/ud-treebanks-v2.13/", 
+                  pattern = "conllu", 
+                  full.names = T, 
+                  recursive = T)
 
-UD_split <- UD %>%
+n <- length(fns)
+
+for(i in 1:n){
+fn <- fns[i]
+
+  cat(paste0("I'm on ", fn, ".\n"))
+  cat(paste0("It is number ", i, " out of ", n ,".\n"))
+  
+conllu <- udpipe::udpipe_read_conllu(fn)
+
+conllu_split <- conllu %>%
   mutate(feats = str_split(feats, "\\|")) %>% 
-  tidyr::unnest(cols = c(feats)) 
-
-UD_split_summarised <- UD_split %>% 
-  filter(!is.na(feats)) %>% 
+  tidyr::unnest(cols = c(feats))  %>% 
+  filter(!is.na(feats)) 
+  #  filter(!str_detect(token, "[[:punct:]]")) %>% 
+  #  mutate(feats = if_else(is.na(feats), "standin", feats)) %>% 
+  
+conllu_split_n_token <- conllu_split %>% 
   group_by(sentence_id, token_id) %>% 
-  summarise(n = n(), .groups = "drop") %>% 
-  group_by(sentence_id) %>% 
-  summarise(n = sum(n))
+  summarise(n_feats_per_token = n(),
+            .groups = "drop") 
 
-UD_split_summarised$n %>% hist()  
+df_spec <- conllu_split %>% 
+  group_by(sentence_id, sentence) %>% 
+  summarise(n_feats_per_sent = n(), .groups = "drop") %>%   
+  full_join(conllu_split_n_token,
+            by = join_by(sentence_id)) %>% 
+  mutate(fn = fn)
+
+    fn_spec <- paste0("output/sum_dfs/", basename(fn), "_sum_df.tsv")
+    df_spec %>% 
+      write_tsv(file = fn_spec)
+    
+}
+
