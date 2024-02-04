@@ -1,4 +1,4 @@
-treebank dir	dir	conllu	glottocode	conllu_code	conllu_code_n	ISO-639-1	ISO639-3	ISO 639-3_macrolanguage
+treebank dir	dir	conllu	glottocode	conllu_code	conllu_code_n	ISO-639-1	ISO639-3_individual	ISO 639-3_macrolanguage
 ud-treebanks-v2.13	UD_Afrikaans-AfriBooms	af_afribooms-ud-dev.conllu	afri1274	af	2	af	afr	
 ud-treebanks-v2.13	UD_Afrikaans-AfriBooms	af_afribooms-ud-test.conllu	afri1274	af	2	af	afr	
 ud-treebanks-v2.13	UD_Afrikaans-AfriBooms	af_afribooms-ud-train.conllu	afri1274	af	2	af	afr	
@@ -32,17 +32,17 @@ ud-treebanks-v2.13	UD_Bulgarian-BTB	bg_btb-ud-train.conllu	bulg1262	bg	2	bg	bul
 ud-treebanks-v2.13	UD_Catalan-AnCora	ca_ancora-ud-dev.conllu	stan1289	ca	2	ca	cat	
 ud-treebanks-v2.13	UD_Catalan-AnCora	ca_ancora-ud-test.conllu	stan1289	ca	2	ca	cat	
 ud-treebanks-v2.13	UD_Catalan-AnCora	ca_ancora-ud-train.conllu	stan1289	ca	2	ca	cat	
-ud-treebanks-v2.13	UD_Chinese-Beginner	zh_beginner-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-CFL	zh_cfl-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-dev.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-train.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-dev.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-train.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-HK	zh_hk-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-PatentChar	zh_patentchar-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
-ud-treebanks-v2.13	UD_Chinese-PUD	zh_pud-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zha
+ud-treebanks-v2.13	UD_Chinese-Beginner	zh_beginner-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-CFL	zh_cfl-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-dev.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSD	zh_gsd-ud-train.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-dev.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-GSDSimp	zh_gsdsimp-ud-train.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-HK	zh_hk-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-PatentChar	zh_patentchar-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
+ud-treebanks-v2.13	UD_Chinese-PUD	zh_pud-ud-test.conllu	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
 ud-treebanks-v2.13	UD_Croatian-SET	hr_set-ud-dev.conllu	croa1245	hr	2	hr	hrv	
 ud-treebanks-v2.13	UD_Croatian-SET	hr_set-ud-test.conllu	croa1245	hr	2	hr	hrv	
 ud-treebanks-v2.13	UD_Croatian-SET	hr_set-ud-train.conllu	croa1245	hr	2	hr	hrv	
@@ -142,11 +142,11 @@ ud-treebanks-v2.13	UD_German-HDT	de_hdt-ud-test.conllu	stan1295	de	2	de	deu
 ud-treebanks-v2.13	UD_German-HDT	de_hdt-ud-train.conllu	stan1295	de	2	de	deu	
 ud-treebanks-v2.13	UD_German-LIT	de_lit-ud-test.conllu	stan1295	de	2	de	deu	
 ud-treebanks-v2.13	UD_German-PUD	de_pud-ud-test.conllu	stan1295	de	2	de	deu	
-ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-dev.conllu	gree1276	el	2	el	ell	
-ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-test.conllu	gree1276	el	2	el	ell	
-ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-train.conllu	gree1276	el	2	el	ell	
-ud-treebanks-v2.13	UD_Greek-GUD	el_gud-ud-test.conllu	gree1276	el	2	el	ell	
-ud-treebanks-v2.13	UD_Greek-GUD	el_gud-ud-train.conllu	gree1276	el	2	el	ell	
+ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-dev.conllu	mode1248	el	2	el	ell	
+ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-test.conllu	mode1248	el	2	el	ell	
+ud-treebanks-v2.13	UD_Greek-GDT	el_gdt-ud-train.conllu	mode1248	el	2	el	ell	
+ud-treebanks-v2.13	UD_Greek-GUD	el_gud-ud-test.conllu	mode1248	el	2	el	ell	
+ud-treebanks-v2.13	UD_Greek-GUD	el_gud-ud-train.conllu	mode1248	el	2	el	ell	
 ud-treebanks-v2.13	UD_Guarani-OldTuDeT	gn_oldtudet-ud-test.conllu	oldp1258	gn	2	gn	gnw; gug; gui; gun; nhd	grn
 ud-treebanks-v2.13	UD_Haitian_Creole-Autogramm	ht_autogramm-ud-test.conllu	hait1244	ht	2	ht	hat	
 ud-treebanks-v2.13	UD_Hebrew-HTB	he_htb-ud-dev.conllu	hebr1245	he	2	he	heb	
@@ -428,9 +428,9 @@ ud-treebanks-v2.13	UD_Ancient_Greek-PROIEL	grc_proiel-ud-train.conllu	anci1242	g
 ud-treebanks-v2.13	UD_Ancient_Greek-PTNK	grc_ptnk-ud-dev.conllu	anci1242	grc	3		grc	
 ud-treebanks-v2.13	UD_Ancient_Greek-PTNK	grc_ptnk-ud-test.conllu	anci1242	grc	3		grc	
 ud-treebanks-v2.13	UD_Ancient_Greek-PTNK	grc_ptnk-ud-train.conllu	anci1242	grc	3		grc	
-ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-dev.conllu	anci1242	hbo	3		hbo	
-ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-test.conllu	anci1242	hbo	3		hbo	
-ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-train.conllu	anci1242	hbo	3		hbo	
+ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-dev.conllu	anci1244	hbo	3		hbo	
+ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-test.conllu	anci1244	hbo	3		hbo	
+ud-treebanks-v2.13	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-train.conllu	anci1244	hbo	3		hbo	
 ud-treebanks-v2.13	UD_Apurina-UFPA	apu_ufpa-ud-test.conllu	apur1254	apu	3		apu	
 ud-treebanks-v2.13	UD_Assyrian-AS	aii_as-ud-test.conllu	assy1241	aii	3		aii	
 ud-treebanks-v2.13	UD_Beja-NSC	bej_nsc-ud-test.conllu	beja1238	bej	3		bej	
@@ -520,7 +520,7 @@ ud-treebanks-v2.13	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-test.conllu	skol1241
 ud-treebanks-v2.13	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-train.conllu	skol1241	sms	3		sms	
 ud-treebanks-v2.13	UD_Soi-AHA	soj_aha-ud-test.conllu	soii1239	soj	3		soj	
 ud-treebanks-v2.13	UD_South_Levantine_Arabic-MADAR	ajp_madar-ud-test.conllu	sout3123	ajp	3		ajp	
-ud-treebanks-v2.13	UD_Swedish_Sign_Language-SSLC	swl_sslc-ud-test.conllu	swed1257	swl	3		swl	
+ud-treebanks-v2.13	UD_Swedish_Sign_Language-SSLC	swl_sslc-ud-test.conllu	swed1236	swl	3		swl	
 ud-treebanks-v2.13	UD_Swiss_German-UZH	gsw_uzh-ud-test.conllu	swis1247	gsw	3		gsw	
 ud-treebanks-v2.13	UD_Teko-TuDeT	eme_tudet-ud-test.conllu	emer1243	eme	3		eme	
 ud-treebanks-v2.13	UD_Tupinamba-TuDeT	tpn_tudet-ud-test.conllu	tupi1273	tpn	3		tpn	
@@ -539,5 +539,5 @@ ud-treebanks-v2.13	UD_Western_Sierra_Puebla_Nahuatl-ITML	nhi_itml-ud-test.conllu
 ud-treebanks-v2.13	UD_Xavante-XDT	xav_xdt-ud-test.conllu	xava1240	xav	3		xav	
 ud-treebanks-v2.13	UD_Xibe-XDT	sjo_xdt-ud-test.conllu	xibe1242	sjo	3		sjo	
 ud-treebanks-v2.13	UD_Yakut-YKTDT	sah_yktdt-ud-test.conllu	yaku1245	sah	3		sah	
-ud-treebanks-v2.13	UD_Yupik-SLI	ess_sli-ud-test.conllu	yupi1267	ess	3		ess	
+ud-treebanks-v2.13	UD_Yupik-SLI	ess_sli-ud-test.conllu	cent2128	ess	3		ess	
 ud-treebanks-v2.13	UD_Zaar-Autogramm	say_autogramm-ud-test.conllu	zaar1253	say	3		say	
