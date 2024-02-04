@@ -26,6 +26,7 @@ pkgs <- c("dplyr",
           "tidyr",
           "stringr",
           "ggplot2",
+          "ggpubr",
           "udpipe",
           "reshape2",
           "tibble"
@@ -60,4 +61,9 @@ if(!dir.exists("output/processed_data/")){
   dir.create("output/processed_data/")
 }
 
+
+
+if(!dir.exists("output/plots")){
+  dir.create("output/plots")
+}
 
