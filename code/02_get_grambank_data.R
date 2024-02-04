@@ -18,6 +18,9 @@ grambank <- rcldf::cldf("output/processed_data/grambank/")
 theo_scores <- rgrambank::make_theo_scores(ValueTable = grambank$tables$ValueTable, 
                                            ParameterTable = grambank$tables$ParameterTable)
 
+theo_scores %>% 
+  write_tsv("output/processed_data/grambank_theo_scores.tsv")
+
 
 
 
