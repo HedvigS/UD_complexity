@@ -13,6 +13,7 @@ df_all_means <- data.frame("fn" = as.character(),
 df_all_counts <- data.frame(n_token = as.character(),
                         n_type = as.character(),
                         n_sentence = as.character(), 
+                        n_feats = as.character(),
                         n_unique_lemma = as.character(),
                         fn = as.character()) 
 
@@ -44,16 +45,6 @@ n_unique_lemma <- conllu %>%
            upos != "PUNCT") %>%
   distinct(lemma) %>% nrow()
 
-df_all_counts <- data.frame(n_token = as.character(n_token),
-           n_type = as.character(n_type),
-          n_sentence = as.character(n_sentence), 
-          n_unique_lemma = as.character(n_unique_lemma),
-          fn = fn) %>% 
-  full_join(df_all_counts, by = join_by(n_token, n_type, n_sentence, n_unique_lemma, fn))
-
-df_all_counts %>% 
-  write_tsv("output/sum_dfs/all_sum_df_counts.tsv")
-
 #counting feats per token and sentence
 conllu_split <- conllu %>%
   mutate(feats = str_split(feats, "\\|")) %>% 
@@ -62,6 +53,34 @@ conllu_split <- conllu %>%
   #  filter(!str_detect(token, "[[:punct:]]")) %>% 
   #  mutate(feats = if_else(is.na(feats), "standin", feats)) %>% 
   
+n_feats <- conllu_split %>% 
+  filter(!is.na(feats)) %>% 
+  filter(!str_detect(token, "[[:punct:]]")|
+           upos != "PUNCT") %>%
+  distinct(feats) %>% nrow()
+
+
+
+
+df_all_counts <- data.frame(n_token = as.character(n_token),
+                            n_type = as.character(n_type),
+                            n_feats = as.character(n_feats ),
+                            n_sentence = as.character(n_sentence), 
+                            n_unique_lemma = as.character(n_unique_lemma),
+                            fn = fn) %>% 
+  full_join(df_all_counts, by = join_by(n_token, n_type, n_sentence,n_feats , n_unique_lemma, fn))
+
+df_all_counts %>% 
+  write_tsv("output/sum_dfs/all_sum_df_counts.tsv")
+
+
+
+
+
+
+
+
+
 conllu_split_n_token <- conllu_split %>% 
   group_by(sentence_id, token_id) %>% 
   summarise(n_feats_per_token = n(),
