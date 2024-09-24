@@ -1,38 +1,33 @@
 ### loading packages
 
-groundhog_date = "2024-01-15"
+groundhog_date <- "2024-01-17"
 
-if(!("groundhog" %in% rownames(installed.packages()))){
-  
-  install.packages("groundhog")
-  library(groundhog)
-  
-}else{
-  
-  library(groundhog)
-  
-}
+if (!'groundhog' %in% installed.packages()) install.packages('groundhog')
+library('groundhog')
 
 groundhog_dir <- paste0("groundhog_libraries_", groundhog_date)
 
-if(!dir.exists(groundhog_dir)){
-  dir.create(groundhog_dir)
-}
-
 groundhog::set.groundhog.folder(groundhog_dir)
 
-pkgs <- c("dplyr",
+pkgs <- c("utf8", 
+          "Rcpp",
+          "plyr",
+          "data.table",
+        "dplyr",
           "readr",
           "tidyr",
           "stringr",
           "ggplot2",
           "ggpubr",
+        "psych",
           "udpipe",
           "reshape2",
-          "tibble"
-)
+          "tibble")
 
 groundhog.library(pkgs, groundhog_date)
+
+#source("fun_def_h_load.R")
+#h_load(pkg = pkgs)
 
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
