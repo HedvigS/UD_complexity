@@ -41,7 +41,7 @@ remotes::install_github("SimonGreenhill/rcldf", dependencies = F)
 
 p <- "rgrambank"
 if(!(p %in% rownames(installed.packages()))){
-  remotes::install_github("grambank/rgrambank", dependencies = F)
+  remotes::install_github("HedvigS/rgrambank", dependencies = F)
   }
 
 if(!dir.exists("output")){
@@ -56,9 +56,28 @@ if(!dir.exists("output/processed_data/")){
   dir.create("output/processed_data/")
 }
 
+if(!dir.exists("output/UD_conllu/")){
+  dir.create("output/UD_conllu/")
+}
 
+
+if(!file.exists("../data/google_pop.tsv")){
+
+google_pop_stats <- read_tsv("https://github.com/google-research/url-nlp/raw/226e1a818aa1ce32311ef0931d9d44f2ab7ae084/language_metadata/data.tsv", show_col_types = F) %>% 
+  dplyr::select(Glottocode = `Glottocode (Glottolog)`, 
+                Pop = `Number of speakers (rounded)`)
+google_pop_stats %>% write_tsv("../data/google_pop.tsv", na = "")
+}
 
 if(!dir.exists("output/plots")){
   dir.create("output/plots")
 }
+
+
+UD_feats_df <- data.frame(
+  feat = c("PronType", "NumType", "Poss", "Reflex", "Abbr", "Typo", "Foreign", "ExtPos", "Gender", "Animacy", "NounClass", "Number", "Case", "Definite", "Deixis", "DeixisRef", "Degree", "VerbForm", "Mood", "Tense", "Aspect", "Voice", "Evident", "Polarity", "Person", "Polite", "Clusivity="),
+  type = c("Lexical", "Lexical", "Lexical", "Lexical", "Other","Other","Other","Other", "Nominal","Nominal","Nominal","Nominal","Nominal","Nominal","Nominal","Nominal","Nominal","Verbal","Verbal","Verbal","Verbal","Verbal","Verbal","Verbal","Verbal","Verbal","Verbal")
+  
+)
+  
 
