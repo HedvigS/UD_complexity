@@ -10,111 +10,56 @@ df_all_means <- data.frame("fn" = as.character(),
                            "n_feats_per_sent_mean" =  as.character(),
                            "n_feats_per_token_mean" =  as.character())
 
-df_all_counts <- data.frame(n_token = as.character(),
-                        n_type = as.character(),
-                        n_sentence = as.character(), 
-                        n_feats = as.character(),
-                        n_unique_lemma = as.character(),
-                        fn = as.character()) 
 
 for(i in 1:length(fns)){
-# i <- 3
+# i <- 85
   fn <- fns[i]
 
 
   cat(paste0("I'm on ", fn, ". It is number ", i, " out of ", length(fns) ,".\n"))
   
-conllu <- udpipe::udpipe_read_conllu(fn)
+conllu <- udpipe::udpipe_read_conllu(fn) %>% 
+  dplyr::filter(!str_detect(token, "[[:punct:]]")|
+           upos != "PUNCT")  
 
 #count number of types, tokens, lemmas and sentences
-n_token <- conllu %>% 
-  filter(!str_detect(token, "[[:punct:]]")|
-           upos != "PUNCT") %>% nrow()
+n_tokens_per_sentence_df <- conllu %>% 
+  dplyr::filter(!is.na(token)) %>% 
+  group_by(sentence_id) %>% 
+  summarise(n_tokens = n(), .groups = "drop")
 
-n_type <- conllu %>% 
-  filter(!str_detect(token, "[[:punct:]]")|
-           upos != "PUNCT") %>% 
-  distinct(token) %>% 
-  nrow()
-
-n_sentence <- conllu$sentence_id %>% unique() %>% length()
-
-n_unique_lemma <- conllu %>% 
-  filter(!is.na(lemma)) %>% 
-  filter(!str_detect(token, "[[:punct:]]")|
-           upos != "PUNCT") %>%
-  distinct(lemma) %>% nrow()
-
+n_unique_per_sentence_lemma_df <- conllu %>% 
+  dplyr::filter(!is.na(lemma)) %>% 
+  distinct(sentence_id, lemma) %>%
+  group_by(sentence_id) %>% 
+  summarise(n_lemma = n(), .groups = "drop")
+  
 #counting feats per token and sentence
 conllu_split <- conllu %>%
-  mutate(feats = str_split(feats, "\\|")) %>% 
+  dplyr::mutate(feats = str_split(feats, "\\|")) %>% 
   tidyr::unnest(cols = c(feats))  %>% 
-  filter(!is.na(feats)) 
-  #  filter(!str_detect(token, "[[:punct:]]")) %>% 
-  #  mutate(feats = if_else(is.na(feats), "standin", feats)) %>% 
-  
-n_feats <- conllu_split %>% 
-  filter(!is.na(feats)) %>% 
-  filter(!str_detect(token, "[[:punct:]]")|
-           upos != "PUNCT") %>%
-  distinct(feats) %>% nrow()
+  dplyr::filter(!is.na(feats)) %>% 
+  tidyr::separate(feats, sep = "=", into = c("feats", "feat_spec"))  %>% 
+  dplyr::filter(str_detect(feats, paste0(UD_feats_df$feat, collapse = "|"))) %>% 
+  dplyr::filter(!str_detect(feats, "Abbr|Typo|Foreign|ExtPos"))
 
+n_feats_per_sentence_df <- conllu_split %>% 
+  group_by(sentence_id) %>% 
+  summarise(feats_n = n(), .groups = "drop") 
 
-
-
-df_all_counts <- data.frame(n_token = as.character(n_token),
-                            n_type = as.character(n_type),
-                            n_feats = as.character(n_feats ),
-                            n_sentence = as.character(n_sentence), 
-                            n_unique_lemma = as.character(n_unique_lemma),
-                            fn = fn) %>% 
-  full_join(df_all_counts, by = join_by(n_token, n_type, n_sentence,n_feats , n_unique_lemma, fn))
-
-df_all_counts %>% 
-  write_tsv("output/sum_dfs/all_sum_df_counts.tsv")
-
-
-
-
-
-
-
-
-
-conllu_split_n_token <- conllu_split %>% 
+n_feats_per_token_df <- conllu_split %>% 
   group_by(sentence_id, token_id) %>% 
-  summarise(n_feats_per_token = n(),
-            .groups = "drop") 
+  summarise(feats_n = n(), .groups = "drop") %>% 
+  group_by(sentence_id) %>% 
+  summarise(feats_per_token = paste0(feats_n, collapse = ";"))
 
-df_spec <- conllu_split %>% 
-  group_by(sentence_id, sentence) %>% 
-  summarise(n_feats_per_sent = n(), .groups = "drop") %>%   
-  full_join(conllu_split_n_token,
-            by = join_by(sentence_id)) %>% 
-  mutate(fn = fn)
+df <- n_tokens_per_sentence_df  %>% 
+  full_join(n_unique_per_sentence_lemma_df,by = join_by(sentence_id)) %>% 
+  full_join(n_feats_per_sentence_df, by = join_by(sentence_id)) %>% 
+  full_join(n_feats_per_token_df , by = join_by(sentence_id)) %>% 
+  dplyr::mutate(feats_ratio_sentence = feats_n / n_tokens) %>% 
+  dplyr::mutate(fn = fn)
 
-fn_spec <- paste0("output/sum_dfs/", basename(fn), "_sum_df.tsv")
-
-df_spec %>% 
-      write_tsv(file = fn_spec)
-
-        
-        #means
-token_mean <- df_spec %>% 
-      group_by(fn) %>% 
-      summarise(n_feats_per_token_mean = mean(n_feats_per_token), .groups = "drop")
-
-sent_mean <- df_spec %>% 
-  distinct(sentence_id, fn,n_feats_per_sent) %>% 
-  group_by(fn) %>% 
-  summarise(n_feats_per_sent_mean = mean(n_feats_per_sent), .groups = "drop")
-
-df_all_means <-  sent_mean %>% 
-  full_join(token_mean, by = "fn") %>% 
-  mutate(across(everything(), as.character)) %>% 
-  full_join(df_all_means, by = join_by(fn, n_feats_per_sent_mean, n_feats_per_token_mean))
-
-df_all_means %>% 
-  write_tsv("output/sum_dfs/all_sum_df_means.tsv")
+df %>% write_tsv(file = paste0("output/UD_conllu/", basename(fn), "_summarised.tsv"))
 
 }
