@@ -8,3 +8,4 @@ data/ud-treebanks-v2.13*
 code/UD_complexity.Rproj
 code/output/sum_dfs/*_sum_df.tsv
 /code/output/processed_data
+/code/output
