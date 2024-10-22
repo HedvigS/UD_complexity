@@ -1,9 +1,22 @@
-source("01_requirements.R")
 
-fns <- list.files(path = "../data/ud-treebanks-v2.13/", 
-                  pattern = "conllu", 
-                  full.names = T, 
-                  recursive = T)
+
+
+
+
+
+#combine conllus of the same language
+
+fns %>% as.data.frame() %>% View()
+
+
+
+
+
+
+
+
+
+
 
 
 df_all_means <- data.frame("fn" = as.character(),
@@ -12,7 +25,7 @@ df_all_means <- data.frame("fn" = as.character(),
 
 
 for(i in 1:length(fns)){
-# i <- 85
+# i <- 8
   fn <- fns[i]
 
 
@@ -28,7 +41,7 @@ n_tokens_per_sentence_df <- conllu %>%
   group_by(sentence_id) %>% 
   summarise(n_tokens = n(), .groups = "drop")
 
-n_unique_per_sentence_lemma_df <- conllu %>% 
+n_unique_lemma_per_sentence <- conllu %>% 
   dplyr::filter(!is.na(lemma)) %>% 
   distinct(sentence_id, lemma) %>%
   group_by(sentence_id) %>% 
@@ -42,6 +55,11 @@ conllu_split <- conllu %>%
   tidyr::separate(feats, sep = "=", into = c("feats", "feat_spec"))  %>% 
   dplyr::filter(str_detect(feats, paste0(UD_feats_df$feat, collapse = "|"))) %>% 
   dplyr::filter(!str_detect(feats, "Abbr|Typo|Foreign|ExtPos"))
+
+
+
+
+
 
 n_feats_per_sentence_df <- conllu_split %>% 
   group_by(sentence_id) %>% 
