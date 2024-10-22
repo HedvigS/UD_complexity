@@ -19,6 +19,11 @@ library(viridis)
 library(forcats)
 library(ggridges)
 
+
+UD_version <- "ud-treebanks-v2.14"
+
+
+
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
@@ -46,11 +51,12 @@ if(!dir.exists("output/processed_data/")){
   dir.create("output/processed_data/")
 }
 
-if(!dir.exists("output/UD_conllu/")){
-  dir.create("output/UD_conllu/")
-}
-
-
+dir <- paste0("output/processed_data/", UD_version)
+if(!dir.exists(dir)){
+                dir.create(dir)
+              }
+              
+              
 #if(!file.exists("../data/google_pop.tsv")){
 
 #google_pop_stats <- read_tsv("https://github.com/google-research/url-nlp/raw/226e1a818aa1ce32311ef0931d9d44f2ab7ae084/language_metadata/data.tsv", show_col_types = F) %>% 
