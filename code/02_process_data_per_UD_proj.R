@@ -1,21 +1,7 @@
+source("01_requirements.R")
 
-
-
-
-
-
-#combine conllus of the same language
-
-fns %>% as.data.frame() %>% View()
-
-
-
-
-
-
-
-
-
+fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern = ".tsv", all.files = T, full.names = T)
+                  
 
 
 
@@ -25,13 +11,13 @@ df_all_means <- data.frame("fn" = as.character(),
 
 
 for(i in 1:length(fns)){
-# i <- 8
+# i <- 238
   fn <- fns[i]
 
 
-  cat(paste0("I'm on ", fn, ". It is number ", i, " out of ", length(fns) ,".\n"))
+  cat(paste0("I'm on ", basename(fn), ". It is number ", i, " out of ", length(fns) ,".\n"))
   
-conllu <- udpipe::udpipe_read_conllu(fn) %>% 
+conllu <- read_tsv(fn, show_col_types = F) %>% 
   dplyr::filter(!str_detect(token, "[[:punct:]]")|
            upos != "PUNCT")  
 
@@ -52,9 +38,25 @@ conllu_split <- conllu %>%
   dplyr::mutate(feats = str_split(feats, "\\|")) %>% 
   tidyr::unnest(cols = c(feats))  %>% 
   dplyr::filter(!is.na(feats)) %>% 
-  tidyr::separate(feats, sep = "=", into = c("feats", "feat_spec"))  %>% 
+  tidyr::separate(feats, sep = "=", into = c("feats", "feat_value"))  %>% 
   dplyr::filter(str_detect(feats, paste0(UD_feats_df$feat, collapse = "|"))) %>% 
   dplyr::filter(!str_detect(feats, "Abbr|Typo|Foreign|ExtPos"))
+
+test <- conllu_split %>% 
+  group_by(lemma, upos, feats, feat_value) %>% 
+  summarise(n = n()) %>% 
+  group_by(lemma, upos,feats) %>% 
+  mutate(sum = sum(n)) %>% 
+  ungroup() %>% 
+  mutate(prop = n/sum) %>% 
+  group_by(lemma, upos, feats) %>% 
+  mutate(n_alt = n()) 
+
+test %>% 
+  group_by(lemma, upos, feats) %>% 
+  slice_max(prop ) %>% View()
+  
+
 
 
 
