@@ -3,29 +3,38 @@ source("01_requirements.R")
 fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern = ".tsv", all.files = T, full.names = T)
                   
 
-
-
-df_all_means <- data.frame("fn" = as.character(),
-                           "n_feats_per_sent_mean" =  as.character(),
-                           "n_feats_per_token_mean" =  as.character())
-
+#looping through one tsv at a time
 
 for(i in 1:length(fns)){
 # i <- 238
   fn <- fns[i]
 
+    cat(paste0("I'm on ", basename(fn), ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
 
-  cat(paste0("I'm on ", basename(fn), ". It is number ", i, " out of ", length(fns) ,".\n"))
-  
+  #reading in
 conllu <- read_tsv(fn, show_col_types = F) %>% 
-  dplyr::filter(!str_detect(token, "[[:punct:]]")|
-           upos != "PUNCT")  
-
-#count number of types, tokens, lemmas and sentences
-n_tokens_per_sentence_df <- conllu %>% 
+  tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
   dplyr::filter(!is.na(token)) %>% 
+#  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
+  dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
+  dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
+  dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
+  dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
+
+#some simple counts: count number of types, tokens, lemmas and sentences
+n_tokens_per_sentence_df <- conllu %>% 
   group_by(sentence_id) %>% 
   summarise(n_tokens = n(), .groups = "drop")
+
+## TTR
+n_tokens <- sum(n_tokens_per_sentence_df$n_tokens)
+n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
+n_lemmas /  n_tokens 
+
+conllu %>% 
+  group_by(lemma, upos) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  write_tsv(file = paste0("output/TTR/", basename(fn), "TTR.tsv"))
 
 n_unique_lemma_per_sentence <- conllu %>% 
   dplyr::filter(!is.na(lemma)) %>% 
@@ -33,31 +42,105 @@ n_unique_lemma_per_sentence <- conllu %>%
   group_by(sentence_id) %>% 
   summarise(n_lemma = n(), .groups = "drop")
   
-#counting feats per token and sentence
+
+########## SORT OUT TAGGING
+
+# There are inconsistencies in coding of different UD-projects. It is not the case that every token of the same part-of-speech (upos) are tagged for the same information. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
+
+#split for morph tags
 conllu_split <- conllu %>%
   dplyr::mutate(feats = str_split(feats, "\\|")) %>% 
   tidyr::unnest(cols = c(feats))  %>% 
-  dplyr::filter(!is.na(feats)) %>% 
-  tidyr::separate(feats, sep = "=", into = c("feats", "feat_value"))  %>% 
-  dplyr::filter(str_detect(feats, paste0(UD_feats_df$feat, collapse = "|"))) %>% 
-  dplyr::filter(!str_detect(feats, "Abbr|Typo|Foreign|ExtPos"))
+  tidyr::separate(feats, sep = "=", into = c("feat", "feat_value"), remove = F) 
 
-test <- conllu_split %>% 
-  group_by(lemma, upos, feats, feat_value) %>% 
-  summarise(n = n()) %>% 
-  group_by(lemma, upos,feats) %>% 
+upos_vec <- conllu$upos %>% unique() 
+
+#empty df to join to in the for-loop
+df <- data.frame(id = as.character(), 
+                 new_feat = as.character(),
+                 new_feat_value = as.character())
+
+for(i in 1:length(upos_vec)){
+  
+#  i <- 1
+  
+wide <-  conllu_split %>% 
+  filter(upos == upos_vec[i]) %>%
+  reshape2::dcast(id ~ feat, value.var = "feat_value") 
+  
+wide[is.na(wide)] <- "unassigned"
+  
+df <- wide %>% 
+  melt(id.vars = "id") %>% 
+  filter(variable != "NA") %>% 
+  rename(new_feat = variable, new_feat_value = value) %>% 
+  full_join(df, by = join_by(id, new_feat, new_feat_value))
+  
+}
+
+conllu_split <- conllu_split %>% 
+  full_join(df, relationship = "many-to-many", by = join_by(id)) %>% 
+  dplyr::select(-feat, -feat_value) %>% 
+  dplyr::rename(feat = new_feat, feat_value = new_feat_value) %>% 
+  dplyr::mutate(feat = ifelse(is.na(feat) & is.na(feat_value), "unassigned", feat)) %>% 
+  dplyr::mutate(feat_value = ifelse(feat == "unassigned" & is.na(feat_value), "unassigned", feat_value))
+
+conllu <- conllu_split %>% 
+  arrange(feat, feat_value) %>% 
+  mutate(feats_combo = paste0(feat, "=", feat_value)) %>% 
+  group_by(id) %>% 
+  summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
+  full_join(conllu) %>% 
+  dplyr::select(-feats) %>% 
+  rename(feats = feats_new)
+
+
+
+#computing the probabilities and surprisal of each morph tag value per lemma
+
+lookup <- conllu_split %>% 
+  filter(!is.na(feat)) %>% 
+  group_by(lemma, upos, feat, feat_value) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  group_by(lemma, upos,feat) %>% 
   mutate(sum = sum(n)) %>% 
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
+  mutate(surprisal = log(1/prop)) %>% 
+  dplyr::select(lemma, upos, feat, feat_value, surprisal)
+
+lookup_not_split <- conllu %>% 
+  filter(!is.na(feats)) %>% 
   group_by(lemma, upos, feats) %>% 
-  mutate(n_alt = n()) 
+  summarise(n = n(), .groups = "drop") %>% 
+  group_by(lemma, upos) %>% 
+  mutate(sum = sum(n)) %>% 
+  ungroup() %>% 
+  mutate(prop = n/sum) %>% 
+  mutate(surprisal = log(1/prop)) %>% 
+  dplyr::select(lemma, upos, feats, surprisal_feats_not_split = surprisal)
 
-test %>% 
-  group_by(lemma, upos, feats) %>% 
-  slice_max(prop ) %>% View()
-  
+token_surprisal_df <- conllu_split %>% 
+  dplyr::select(id, token, lemma, feat, feat_value, upos) %>% 
+  left_join(lookup, by = join_by(lemma, feat, feat_value, upos)) %>% 
+  group_by(id) %>% 
+  mutate(sum_surprisal = sum(surprisal)) 
 
+token_surprisal_df <- conllu %>% 
+  dplyr::select(id, token, lemma, feats, upos) %>% 
+  left_join(lookup_not_split, by = join_by(lemma, feats, upos)) %>% 
+  full_join(token_surprisal_df )
 
+token_surprisal_df %>% 
+  filter(!is.na(sum_surprisal)) %>% 
+  filter(!is.na(surprisal_feats_not_split)) %>% 
+  .[1:1000] %>% 
+  ggplot(mapping = aes(x = sum_surprisal, y = surprisal_feats_not_split)) +
+  geom_point(alpha = 0.7, shape = 21, fill = "#32a852", color = "#32a852") +
+  theme_classic() +
+  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
+                   label.y.npc="top", label.x.npc = "left", alpha = 0.8) +
+  geom_smooth(method='lm', formula = 'y ~ x')
 
 
 
