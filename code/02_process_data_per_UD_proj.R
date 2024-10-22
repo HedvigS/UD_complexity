@@ -102,11 +102,11 @@ lookup <- conllu_split %>%
   filter(!is.na(feat)) %>% 
   group_by(lemma, upos, feat, feat_value) %>% 
   summarise(n = n(), .groups = "drop") %>% 
-  group_by(lemma, upos,feat) %>% 
+  group_by(lemma, upos, feat) %>% 
   mutate(sum = sum(n)) %>% 
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
-  mutate(surprisal = log(1/prop)) %>% 
+  mutate(surprisal = log10(1/prop)) %>%
   dplyr::select(lemma, upos, feat, feat_value, surprisal)
 
 lookup_not_split <- conllu %>% 
@@ -117,7 +117,7 @@ lookup_not_split <- conllu %>%
   mutate(sum = sum(n)) %>% 
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
-  mutate(surprisal = log(1/prop)) %>% 
+  mutate(surprisal = log10(1/prop)) %>% 
   dplyr::select(lemma, upos, feats, surprisal_feats_not_split = surprisal)
 
 token_surprisal_df <- conllu_split %>% 
@@ -132,17 +132,20 @@ token_surprisal_df <- conllu %>%
   full_join(token_surprisal_df )
 
 token_surprisal_df %>% 
+  distinct(id, sum_surprisal, surprisal_feats_not_split) %>% 
   filter(!is.na(sum_surprisal)) %>% 
   filter(!is.na(surprisal_feats_not_split)) %>% 
-  .[1:1000] %>% 
   ggplot(mapping = aes(x = sum_surprisal, y = surprisal_feats_not_split)) +
-  geom_point(alpha = 0.7, shape = 21, fill = "#32a852", color = "#32a852") +
+  geom_point(alpha = 0.2, shape = 21, fill = "#32a852", color = "#32a852") +
   theme_classic() +
-  ggpubr::stat_cor(method = "pearson", p.digits = 2, geom = "label", color = "blue",
-                   label.y.npc="top", label.x.npc = "left", alpha = 0.8) +
-  geom_smooth(method='lm', formula = 'y ~ x')
+  ylim(c(0,50)) +
+  xlim(c(0,50))
 
 
+token_surprisal_df %>% 
+  filter(!is.na(sum_surprisal)) %>% 
+  filter(!is.na(surprisal_feats_not_split)) %>% 
+  filter(sum_surprisal < surprisal_feats_not_split) %>% View()
 
 
 
