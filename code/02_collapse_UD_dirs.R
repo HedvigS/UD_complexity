@@ -55,13 +55,9 @@ for(i in 1:nrow(UD_dirs)){
                                      dep_rel, deps, misc))
   
   }
-  
-  dir <- paste0("output/processed_data/", UD_version, "/", UD_dir_spec[1,1])
-  if(!dir.exists(dir)){
-    dir.create(dir)
-  }
-  
+
   df %>% 
-    write_tsv(file = paste0(dir, "/", basename(dir), ".tsv"))
+    write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
+                            UD_dir_spec[1,1], ".tsv"))
   
 }
