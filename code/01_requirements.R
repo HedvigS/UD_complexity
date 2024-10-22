@@ -54,7 +54,12 @@ if(!dir.exists("output/processed_data/")){
 dir <- paste0("output/processed_data/", UD_version)
 if(!dir.exists(dir)){
                 dir.create(dir)
-              }
+}
+
+dir <- paste0("output/TTR/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
               
               
 #if(!file.exists("../data/google_pop.tsv")){
