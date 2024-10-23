@@ -13,13 +13,24 @@ for(i in 1:length(fns)){
 
   #reading in
 conllu <- read_tsv(fn, show_col_types = F) %>% 
-  tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
   dplyr::filter(!is.na(token)) %>% 
+  dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
 #  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
   dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
   dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
   dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
   dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
+
+if(all(!is.na(conllu$doc_id))){
+conllu$doc_id <- stringr::str_pad(as.numeric(conllu$doc_id), width = 3, pad = "0", side = "left")
+}
+conllu$paragraph_id <- stringr::str_pad(as.numeric(conllu$paragraph_id), width = 3, pad = "0", side = "left")
+conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left")
+
+conllu <- conllu %>% 
+tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) 
+  
+
 
 #some simple counts: count number of types, tokens, lemmas and sentences
 n_tokens_per_sentence_df <- conllu %>% 
@@ -29,7 +40,7 @@ n_tokens_per_sentence_df <- conllu %>%
 ## TTR
 n_tokens <- sum(n_tokens_per_sentence_df$n_tokens)
 n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
-n_lemmas /  n_tokens 
+cat(paste0("The type(lemma)-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n"))
 
 conllu %>% 
   group_by(lemma, upos) %>% 
@@ -37,7 +48,7 @@ conllu %>%
   write_tsv(file = paste0("output/TTR/", basename(fn), "TTR.tsv"))
 
 n_unique_lemma_per_sentence <- conllu %>% 
-  dplyr::filter(!is.na(lemma)) %>% 
+  dplyr::filter(is.na(lemma)) %>% 
   distinct(sentence_id, lemma) %>%
   group_by(sentence_id) %>% 
   summarise(n_lemma = n(), .groups = "drop")
@@ -82,71 +93,76 @@ conllu_split <- conllu_split %>%
   full_join(df, relationship = "many-to-many", by = join_by(id)) %>% 
   dplyr::select(-feat, -feat_value) %>% 
   dplyr::rename(feat = new_feat, feat_value = new_feat_value) %>% 
+  dplyr::distinct(id, token, lemma, feat, feat_value, upos) %>% 
   dplyr::mutate(feat = ifelse(is.na(feat) & is.na(feat_value), "unassigned", feat)) %>% 
-  dplyr::mutate(feat_value = ifelse(feat == "unassigned" & is.na(feat_value), "unassigned", feat_value))
+  dplyr::mutate(feat_value = ifelse(feat == "unassigned" & is.na(feat_value), "unassigned", feat_value)) 
+
 
 conllu <- conllu_split %>% 
   arrange(feat, feat_value) %>% 
   mutate(feats_combo = paste0(feat, "=", feat_value)) %>% 
   group_by(id) %>% 
   summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
-  full_join(conllu) %>% 
+  full_join(conllu, by = "id") %>% 
   dplyr::select(-feats) %>% 
-  rename(feats = feats_new)
-
-
-
+  rename(feats = feats_new) %>% 
+  dplyr::distinct(id, token, lemma, feats, upos) 
+  
 #computing the probabilities and surprisal of each morph tag value per lemma
 
+#prop for each morph feat
 lookup <- conllu_split %>% 
-  filter(!is.na(feat)) %>% 
   group_by(lemma, upos, feat, feat_value) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   group_by(lemma, upos, feat) %>% 
   mutate(sum = sum(n)) %>% 
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
-  mutate(surprisal = log10(1/prop)) %>%
-  dplyr::select(lemma, upos, feat, feat_value, surprisal)
+  mutate(surprisal = log2(1/prop)) %>%
+  dplyr::select(lemma, upos, feat, feat_value, n, prop, surprisal)
 
+#adding in probs for the combined string of morph feats
 lookup_not_split <- conllu %>% 
-  filter(!is.na(feats)) %>% 
   group_by(lemma, upos, feats) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   group_by(lemma, upos) %>% 
   mutate(sum = sum(n)) %>% 
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
-  mutate(surprisal = log10(1/prop)) %>% 
-  dplyr::select(lemma, upos, feats, surprisal_feats_not_split = surprisal)
+  mutate(surprisal = log2(1/prop)) %>% 
+  dplyr::select(lemma, upos, feats, surprisal_per_morph_full_string = surprisal)
 
 token_surprisal_df <- conllu_split %>% 
-  dplyr::select(id, token, lemma, feat, feat_value, upos) %>% 
+  dplyr::distinct(id, token, lemma, feat, feat_value, upos) %>% 
   left_join(lookup, by = join_by(lemma, feat, feat_value, upos)) %>% 
+ # dplyr::distinct(id, token, lemma, feat, feat_value, upos, surprisal) %>% 
   group_by(id) %>% 
-  mutate(sum_surprisal = sum(surprisal)) 
+  summarise(sum_surprisal_per_morph_feat = sum(surprisal)) 
 
 token_surprisal_df <- conllu %>% 
-  dplyr::select(id, token, lemma, feats, upos) %>% 
+  distinct(id, token, lemma, feats, upos) %>% 
   left_join(lookup_not_split, by = join_by(lemma, feats, upos)) %>% 
-  full_join(token_surprisal_df )
+  full_join(token_surprisal_df, by = join_by(id))
 
 token_surprisal_df %>% 
-  distinct(id, sum_surprisal, surprisal_feats_not_split) %>% 
-  filter(!is.na(sum_surprisal)) %>% 
-  filter(!is.na(surprisal_feats_not_split)) %>% 
-  ggplot(mapping = aes(x = sum_surprisal, y = surprisal_feats_not_split)) +
+  sample_n(100) %>% 
+  ggplot(mapping = aes(x = sum_surprisal_per_morph_feat, y = surprisal_per_morph_full_string)) +
   geom_point(alpha = 0.2, shape = 21, fill = "#32a852", color = "#32a852") +
   theme_classic() +
   ylim(c(0,50)) +
-  xlim(c(0,50))
+  xlim(c(0,50)) +
+  coord_fixed() +
+  facet_wrap(~upos, nrow = 3)
 
 
 token_surprisal_df %>% 
-  filter(!is.na(sum_surprisal)) %>% 
-  filter(!is.na(surprisal_feats_not_split)) %>% 
-  filter(sum_surprisal < surprisal_feats_not_split) %>% View()
+  filter(!is.na(sum_surprisal_per_morph_feat)) %>% 
+  filter(!is.na(surprisal_per_morph_full_string)) %>% 
+  filter(sum_surprisal_per_morph_feat < surprisal_per_morph_full_string) %>% View()
 
+
+conllu %>% 
+  filter(str_detect(id, "NA_000_15-0000.dev_")) %>% write_tsv("test.tsv")
 
 
 n_feats_per_sentence_df <- conllu_split %>% 
