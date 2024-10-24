@@ -5,7 +5,7 @@ fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern =
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 238
+# i <- 260
   fn <- fns[i]
 
     cat(paste0("I'm on ", basename(fn), ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
@@ -21,11 +21,13 @@ n_tokens_per_sentence_df <- conllu %>%
 
 ## TTR
 n_tokens <- sum(n_tokens_per_sentence_df$n_tokens)
+n_types <- conllu$token %>% unique() %>%  na.omit() %>% length()
 n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
-cat(paste0("The type(lemma)-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n"))
+cat(paste0("The lemma-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n"))
+cat(paste0("The type-token-ratio is ", round(n_types /  n_tokens, 4) , ".\n"))
 
 conllu %>% 
-  group_by(lemma, upos) %>% 
+  group_by(token, lemma, upos) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   write_tsv(file = paste0("output/TTR/", basename(fn), "TTR.tsv"))
 
@@ -35,7 +37,6 @@ n_unique_lemma_per_sentence <- conllu %>%
   group_by(sentence_id) %>% 
   summarise(n_lemma = n(), .groups = "drop")
   
-
 ########## SORT OUT TAGGING
 
 # There are inconsistencies in coding of different UD-projects. It is not the case that every token of the same part-of-speech (upos) are tagged for the same information. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
@@ -110,6 +111,10 @@ lookup <- conllu_split %>%
   mutate(surprisal = log2(1/prop)) %>%
   dplyr::select(lemma, upos, feat, feat_value, n, prop, surprisal)
 
+lookup %>% 
+  write_tsv(file = paste0("output/count_lookup_per_feat_per_lemma/count_lookup_per_feat_per_lemma", basename(fn), ".tsv"),na = "", quote = "all")
+
+
 #adding in probs for the combined string of morph feats
 lookup_not_split <- conllu %>% 
   group_by(lemma, upos, feats) %>% 
@@ -119,7 +124,11 @@ lookup_not_split <- conllu %>%
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
   mutate(surprisal = log2(1/prop)) %>% 
-  dplyr::select(lemma, upos, feats, surprisal_per_morph_full_string = surprisal)
+  dplyr::select(lemma, upos, feats,n, prop, surprisal_per_morph_full_string = surprisal)
+
+lookup %>% 
+  write_tsv(file = paste0("output/count_lookup_per_featstring_per_lemma//count_lookup_per_featstring_per_lemma", basename(fn), ".tsv"),na = "", quote = "all")
+
 
 token_surprisal_df <- conllu_split %>% 
   dplyr::distinct(id, token, lemma, feat, feat_value, upos) %>% 
@@ -134,10 +143,61 @@ token_surprisal_df <- conllu %>%
   full_join(token_surprisal_df, by = join_by(id))
 
 token_surprisal_df %>% 
-  write_tsv(file = paste0("output/suprisal/surprisal",  basename(fn), ".tsv"), na = "", quote = "all")
+  write_tsv(file = paste0("output/suprisal_per_lemma/surprisal_per_lemma",  basename(fn), ".tsv"), na = "", quote = "all")
 
-###
+###suprisal per upos
 
+#computing the probabilities and surprisal of each morph tag value per upos
+
+#prop for each morph feat
+lookup <- conllu_split %>% 
+  group_by(upos, feat, feat_value) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  group_by(upos, feat) %>% 
+  mutate(sum = sum(n)) %>% 
+  ungroup() %>% 
+  mutate(prop = n/sum) %>% 
+  mutate(surprisal = log2(1/prop)) %>%
+  dplyr::select(upos, feat, feat_value, n, prop, surprisal)
+
+#lookup %>% 
+#  filter(upos == "PRON") %>% View()
+
+lookup %>% 
+  write_tsv(file = paste0("output/count_lookup_per_feat_per_UPOS/count_lookup_per_feat_per_upos", basename(fn), ".tsv"),na = "", quote = "all")
+
+#adding in probs for the combined string of morph feats
+lookup_not_split <- conllu %>% 
+  group_by(upos, feats) %>% 
+  summarise(n = n(), .groups = "drop") %>% 
+  group_by(upos) %>% 
+  mutate(sum = sum(n)) %>% 
+  ungroup() %>% 
+  mutate(prop = n/sum) %>% 
+  mutate(surprisal = log2(1/prop)) %>% 
+  dplyr::select(upos, feats, n, prop, surprisal_per_morph_full_string = surprisal)
+
+lookup %>% 
+  write_tsv(file = paste0("output/count_lookup_per_featstring_per_UPOS/count_lookup_per_featstring_per_upos", basename(fn), ".tsv"),na = "", quote = "all")
+
+
+token_surprisal_df <- conllu_split %>% 
+  dplyr::distinct(id, token, feat, feat_value, upos) %>% 
+  left_join(lookup, by = join_by(feat, feat_value, upos)) %>% 
+  # dplyr::distinct(id, token, lemma, feat, feat_value, upos, surprisal) %>% 
+  group_by(id) %>% 
+  summarise(sum_surprisal_per_morph_feat = sum(surprisal)) 
+
+token_surprisal_df <- conllu %>% 
+  distinct(id, token, feats, upos) %>% 
+  left_join(lookup_not_split, by = join_by(feats, upos)) %>% 
+  full_join(token_surprisal_df, by = join_by(id))
+
+token_surprisal_df %>% 
+  write_tsv(file = paste0("output/suprisal_per_lemma/surprisal_per_token",  basename(fn), ".tsv"), na = "", quote = "all")
+
+
+#counts
 
 n_feats_per_sentence_df <- conllu_split %>% 
   group_by(sentence_id) %>% 
