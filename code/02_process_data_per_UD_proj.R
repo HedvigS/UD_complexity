@@ -2,7 +2,6 @@ source("01_requirements.R")
 
 fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern = ".tsv", all.files = T, full.names = T)
                   
-
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
@@ -59,7 +58,7 @@ for(i in 1:length(upos_vec)){
 #  i <- 1
   
 wide <-  conllu_split %>% 
-  filter(upos == upos_vec[i]) %>%
+  filter(upos == upos_vec[i]) %>% 
   reshape2::dcast(id ~ feat, value.var = "feat_value") 
   
 wide[is.na(wide)] <- "unassigned"
@@ -67,16 +66,18 @@ wide[is.na(wide)] <- "unassigned"
 df <- wide %>% 
   melt(id.vars = "id") %>% 
   filter(variable != "NA") %>% 
+  dplyr::mutate(across(everything(), as.character)) %>% 
   rename(new_feat = variable, new_feat_value = value) %>% 
   full_join(df, by = join_by(id, new_feat, new_feat_value))
   
 }
 
+
 conllu_split <- conllu_split %>% 
   full_join(df, relationship = "many-to-many", by = join_by(id)) %>% 
   dplyr::select(-feat, -feat_value) %>% 
   dplyr::rename(feat = new_feat, feat_value = new_feat_value) %>% 
-  dplyr::distinct(id, token, lemma, feat, feat_value, upos) %>% 
+  dplyr::distinct(id, sentence_id, token, lemma, feat, feat_value, upos) %>% 
   dplyr::mutate(feat = ifelse(is.na(feat) & is.na(feat_value), "unassigned", feat)) %>% 
   dplyr::mutate(feat_value = ifelse(feat == "unassigned" & is.na(feat_value), "unassigned", feat_value)) 
 
@@ -89,8 +90,13 @@ conllu <- conllu_split %>%
   full_join(conllu, by = "id") %>% 
   dplyr::select(-feats) %>% 
   rename(feats = feats_new) %>% 
-  dplyr::distinct(id, token, lemma, feats, upos) 
+  dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos) 
   
+####
+####
+####
+
+
 #computing the probabilities and surprisal of each morph tag value per lemma
 
 #prop for each morph feat
@@ -128,24 +134,9 @@ token_surprisal_df <- conllu %>%
   full_join(token_surprisal_df, by = join_by(id))
 
 token_surprisal_df %>% 
-  sample_n(100) %>% 
-  ggplot(mapping = aes(x = sum_surprisal_per_morph_feat, y = surprisal_per_morph_full_string)) +
-  geom_point(alpha = 0.2, shape = 21, fill = "#32a852", color = "#32a852") +
-  theme_classic() +
-  ylim(c(0,50)) +
-  xlim(c(0,50)) +
-  coord_fixed() +
-  facet_wrap(~upos, nrow = 3)
+  write_tsv(file = paste0("output/suprisal/surprisal",  basename(fn), ".tsv"), na = "", quote = "all")
 
-
-token_surprisal_df %>% 
-  filter(!is.na(sum_surprisal_per_morph_feat)) %>% 
-  filter(!is.na(surprisal_per_morph_full_string)) %>% 
-  filter(sum_surprisal_per_morph_feat < surprisal_per_morph_full_string) %>% View()
-
-
-conllu %>% 
-  filter(str_detect(id, "NA_000_15-0000.dev_")) %>% write_tsv("test.tsv")
+###
 
 
 n_feats_per_sentence_df <- conllu_split %>% 
@@ -153,19 +144,20 @@ n_feats_per_sentence_df <- conllu_split %>%
   summarise(feats_n = n(), .groups = "drop") 
 
 n_feats_per_token_df <- conllu_split %>% 
-  group_by(sentence_id, token_id) %>% 
+  group_by(sentence_id, id) %>% 
   summarise(feats_n = n(), .groups = "drop") %>% 
   group_by(sentence_id) %>% 
   summarise(feats_per_token = paste0(feats_n, collapse = ";"),
             mean_feats_per_token = mean(feats_n)) 
 
 df <- n_tokens_per_sentence_df  %>% 
-  full_join(n_unique_per_sentence_lemma_df,by = join_by(sentence_id)) %>% 
+  full_join(n_unique_lemma_per_sentence, by = join_by(sentence_id)) %>% 
   full_join(n_feats_per_sentence_df, by = join_by(sentence_id)) %>% 
   full_join(n_feats_per_token_df , by = join_by(sentence_id)) %>% 
   dplyr::mutate(feats_ratio_sentence = feats_n / n_tokens) %>% 
   dplyr::mutate(fn = fn)
 
-df %>% write_tsv(file = paste0("output/UD_conllu/", basename(fn), "_summarised.tsv"))
+df %>% write_tsv(file = paste0("output/counts/count", basename(fn), "_summarised.tsv"), na = "", quote = "all")
 
 }
+
