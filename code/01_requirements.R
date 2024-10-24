@@ -43,16 +43,52 @@ if(!dir.exists("output")){
   dir.create("output")
 }
 
-if(!dir.exists("output/suprisal")){
-  dir.create("output/suprisal")
+dir <- "output/count_lookup_per_feat_per_lemma"
+if(!dir.exists(dir)){
+  dir.create(dir)
 }
 
-if(!dir.exists("output/counts")){
-  dir.create("output/counts")
+dir <- "output/count_lookup_per_featstring_per_lemma"
+if(!dir.exists(dir)){
+  dir.create(dir)
 }
 
-if(!dir.exists("output/processed_data/")){
-  dir.create("output/processed_data/")
+dir <- "output/count_lookup_per_feat_per_UPOS"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+dir <- "output/count_lookup_per_featstring_per_UPOS"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+
+dir <- "output/pronoun_freqs"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+
+dir <- "output/suprisal_per_lemma"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+dir <- "output/suprisal_per_UPOS"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+
+dir <- "output/counts"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+dir <- "output/processed_data/"
+if(!dir.exists(dir)){
+  dir.create(dir)
 }
 
 dir <- paste0("output/processed_data/", UD_version)
