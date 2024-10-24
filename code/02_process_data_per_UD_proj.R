@@ -12,24 +12,7 @@ for(i in 1:length(fns)){
     cat(paste0("I'm on ", basename(fn), ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
 
   #reading in
-conllu <- read_tsv(fn, show_col_types = F) %>% 
-  dplyr::filter(!is.na(token)) %>% 
-  dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
-#  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
-  dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
-  dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
-  dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
-  dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
-
-if(all(!is.na(conllu$doc_id))){
-conllu$doc_id <- stringr::str_pad(as.numeric(conllu$doc_id), width = 3, pad = "0", side = "left")
-}
-conllu$paragraph_id <- stringr::str_pad(as.numeric(conllu$paragraph_id), width = 3, pad = "0", side = "left")
-conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left")
-
-conllu <- conllu %>% 
-tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) 
-  
+conllu <- read_tsv(fn, show_col_types = F) 
 
 
 #some simple counts: count number of types, tokens, lemmas and sentences
