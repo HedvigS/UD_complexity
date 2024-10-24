@@ -26,6 +26,7 @@ for(i in 1:nrow(UD_dirs)){
   
   ######
   df <- data.frame(
+    "id"  = as.character(),
     "doc_id"        = as.character(),
     "paragraph_id"   = as.character(),
     "sentence_id"    = as.character(),
@@ -64,10 +65,11 @@ for(i in 1:nrow(UD_dirs)){
     suppressWarnings(conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left"))
     
     conllu <- conllu %>% 
-      tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) 
+      tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
+      dplyr::mutate(across(everything(), as.character)) 
   
     df <- df %>% 
-      full_join(conllu, by = join_by(doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
+      full_join(conllu, by = join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
                                      dep_rel, deps, misc))
   
   }
