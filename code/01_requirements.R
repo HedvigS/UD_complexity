@@ -43,8 +43,12 @@ if(!dir.exists("output")){
   dir.create("output")
 }
 
-if(!dir.exists("output/sum_dfs")){
-  dir.create("output/sum_dfs")
+if(!dir.exists("output/suprisal")){
+  dir.create("output/suprisal")
+}
+
+if(!dir.exists("output/counts")){
+  dir.create("output/counts")
 }
 
 if(!dir.exists("output/processed_data/")){
