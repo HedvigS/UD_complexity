@@ -37,7 +37,13 @@ remotes::install_github("SimonGreenhill/rcldf", dependencies = F)
 p <- "rgrambank"
 if(!(p %in% rownames(installed.packages()))){
   remotes::install_github("HedvigS/rgrambank", dependencies = F)
-  }
+}
+
+
+p <- "SH.misc"
+if(!(p %in% rownames(installed.packages()))){
+  remotes::install_github("HedvigS/SH.misc", dependencies = F)
+}
 
 if(!dir.exists("output")){
   dir.create("output")
