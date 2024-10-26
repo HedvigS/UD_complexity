@@ -100,6 +100,12 @@ dir <- paste0("output/TTR/")
 if(!dir.exists(dir)){
   dir.create(dir)
 }
+
+dir <- paste0("output/suprisal_per_token_average_sentence/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
               
               
 #if(!file.exists("../data/google_pop.tsv")){
