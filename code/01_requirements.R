@@ -70,12 +70,6 @@ if(!dir.exists(dir)){
 }
 
 
-dir <- "output/pronoun_freqs"
-if(!dir.exists(dir)){
-  dir.create(dir)
-}
-
-
 dir <- "output/suprisal_per_lemma"
 if(!dir.exists(dir)){
   dir.create(dir)
