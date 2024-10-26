@@ -31,6 +31,19 @@ conllu %>%
   summarise(n = n(), .groups = "drop") %>% 
   write_tsv(file = paste0("output/TTR/", basename(fn), "TTR.tsv"))
 
+conllu %>% 
+  group_by(token) %>% 
+  mutate(n = n()) %>% 
+  mutate(prop = n/nrow(conllu)) %>% 
+  mutate(surprisal = log2(1/prop)) %>%
+  group_by(sentence_id ) %>%
+  summarise(suprisal = sum(surprisal), 
+            n_token = n()) %>% 
+  write_tsv(file = paste0("output/suprisal_per_token_average_sentence/suprisal_per_token_average_sentence", basename(fn),
+                          ".tsv"))
+
+
+
 n_unique_lemma_per_sentence <- conllu %>% 
   dplyr::filter(is.na(lemma)) %>% 
   distinct(sentence_id, lemma) %>%
