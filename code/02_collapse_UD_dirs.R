@@ -76,6 +76,6 @@ for(i in 1:nrow(UD_dirs)){
 
   df %>% 
     write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
-                            UD_dir_spec[1,1], ".tsv"), quote = "all")
+                            UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")
   
 }
