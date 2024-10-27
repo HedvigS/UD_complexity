@@ -49,36 +49,51 @@ if(!dir.exists("output")){
   dir.create("output")
 }
 
-dir <- "output/count_lookup_per_feat_per_lemma"
+dir <- "output/surprisal_per_feat_per_lemma_lookup"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-dir <- "output/count_lookup_per_featstring_per_lemma"
+dir <- "output/surprisal_per_featstring_per_lemma_lookup"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-dir <- "output/count_lookup_per_feat_per_UPOS"
+dir <- "output/surprisal_per_feat_per_UPOS_lookup"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-dir <- "output/count_lookup_per_featstring_per_UPOS"
+dir <- "output/surprisal_per_featstring_per_UPOS_lookup"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
 
-dir <- "output/suprisal_per_lemma"
+
+dir <- "output/surprisal_per_feat_per_lemma"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-dir <- "output/suprisal_per_UPOS"
+dir <- "output/surprisal_per_featstring_per_lemma"
 if(!dir.exists(dir)){
   dir.create(dir)
 }
+
+dir <- "output/surprisal_per_feat_per_UPOS"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+dir <- "output/surprisal_per_featstring_per_UPOS"
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+
+
+
 
 
 dir <- "output/counts"
@@ -101,7 +116,13 @@ if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-dir <- paste0("output/suprisal_per_token_average_sentence/")
+dir <- paste0("output/surprisal_per_token/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
+
+dir <- paste0("output/surprisal_per_token_sum_sentence/")
 if(!dir.exists(dir)){
   dir.create(dir)
 }
