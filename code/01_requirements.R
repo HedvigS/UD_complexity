@@ -19,6 +19,7 @@ library(viridis)
 library(forcats)
 library(ggridges)
 
+set.seed(72000)
 
 UD_version <- "ud-treebanks-v2.14"
 
@@ -149,3 +150,4 @@ UD_feats_df <- data.frame(
 )
   
 
+basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray") 
