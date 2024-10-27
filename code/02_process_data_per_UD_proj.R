@@ -1,5 +1,7 @@
 source("01_requirements.R")
 
+control.compute=list(save.memory=T)
+
 fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern = ".tsv", all.files = T, full.names = T)
                   
 #looping through one tsv at a time
