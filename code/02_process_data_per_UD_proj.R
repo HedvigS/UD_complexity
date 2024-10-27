@@ -6,6 +6,8 @@ fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern =
                   
 #looping through one tsv at a time
 
+fns <- fns[87:179]
+
 for(i in 1:length(fns)){
 # i <- 1
   fn <- fns[i]
@@ -13,6 +15,12 @@ for(i in 1:length(fns)){
 
     cat(paste0("I'm on ", dir, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
 
+    
+  if(file.exists(paste0("output/surprisal_per_feat_per_UPOS/surprisal_per_feat_per_UPOS_",  dir, ".tsv"))){
+    cat(paste0("Already exists, moving on.\n"))
+    
+  }else{
+    
   #reading in
 conllu <- read_tsv(fn, show_col_types = F) 
 
@@ -237,4 +245,4 @@ token_surprisal_df %>%
   write_tsv(file = paste0("output/surprisal_per_feat_per_UPOS/surprisal_per_feat_per_UPOS_",  dir, ".tsv"), na = "", quote = "all")
 
 }
-
+}
