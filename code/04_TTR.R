@@ -22,7 +22,7 @@ stacked <- stacked %>%
 
 basemap +
   geom_jitter(data = stacked, stat = "identity", 
-              position = position_jitter(width = 2, height = 2 #jittering the points to prevent overplotting
+              position = position_jitter(width = 2, height = 2, seed = 198 #jittering the points to prevent overplotting
               ),
               aes(x=Longitude, 
                   y=Latitude,
@@ -31,8 +31,8 @@ basemap +
               alpha = 0.8, 
               stroke = 0.4, 
               color = "grey44") +
-  scale_fill_viridis_c(direction = -1) +
+  scale_fill_viridis_c(direction = -1, end = 0.9) +
   ggtitle("Type-Token-Ratio per UD treebank v2.14")
 
 
-ggsave("output/plots/map_TT_per_UD_treebank.png", height = 5, width = 7)
+ggsave("output/plots/map_TTR_per_UD_treebank.png", height = 5, width = 7)
