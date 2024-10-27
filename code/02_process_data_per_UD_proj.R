@@ -6,8 +6,6 @@ fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern =
                   
 #looping through one tsv at a time
 
-fns <- fns[87:179]
-
 for(i in 1:length(fns)){
 # i <- 1
   fn <- fns[i]
@@ -39,7 +37,7 @@ cat(paste0("The type-token-ratio is ", round(n_types /  n_tokens, 4) , ".\n"))
 
 data.frame(TTR = n_types /  n_tokens, 
            TTR_lemma = n_lemmas / n_tokens, 
-           fn = dir) %>% 
+           dir = dir) %>% 
   write_tsv(file = paste0("output/TTR/", dir, "_TTR_sum.tsv"))
   
 conllu %>% 
