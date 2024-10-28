@@ -19,6 +19,10 @@ stacked <- stacked %>%
   distinct() %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
 
+stacked %>% 
+  write_tsv("output/summaries/TTR.tsv")
+
+
 
 basemap +
   geom_jitter(data = stacked, stat = "identity", 
