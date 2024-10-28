@@ -128,6 +128,10 @@ if(!dir.exists(dir)){
   dir.create(dir)
 }
 
+dir <- paste0("output/summaries/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
               
               
 #if(!file.exists("../data/google_pop.tsv")){
