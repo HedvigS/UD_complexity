@@ -32,6 +32,9 @@ joined <- df_all %>%
   distinct() %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
 
+joined %>% 
+  write_tsv("output/summaries/mean_sum_surprisal_morph_split.tsv")
+
 basemap +
   geom_jitter(data = joined, stat = "identity", 
               position = position_jitter(width = 2, height = 2, seed = 198 #jittering the points to prevent overplotting
