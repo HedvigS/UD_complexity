@@ -41,6 +41,9 @@ joined <- df_all %>%
   distinct(dir, n_sentences, sum_tokens, mean_feats_per_token, glottocode, Longitude, Latitude) %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
 
+joined %>% 
+  write_tsv("output/summaries/counts.tsv")
+
 basemap +
   geom_jitter(data = joined, stat = "identity", 
              position = position_jitter(width = 2, height = 2, seed = 198 #jittering the points to prevent overplotting
@@ -74,3 +77,5 @@ basemap +
 
 ggsave("output/plots/map_mean_feats_per_token_per_treebank.png", height = 5, width = 7)
 
+
+  
