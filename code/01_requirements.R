@@ -1,3 +1,7 @@
+
+#set cut-off for inclusion. number of tokens minially
+minimum_tokens = 2000
+
 ### loading 
 
 library(utf8) 
