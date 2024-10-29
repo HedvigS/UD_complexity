@@ -7,7 +7,7 @@ fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern =
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 1
+# i <- 4
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -95,10 +95,13 @@ df %>% write_tsv(file = paste0("output/counts/counts_", dir, "_summarised.tsv"),
 #split for morph tags
 conllu_split <- conllu %>%
   dplyr::mutate(feats = str_split(feats, "\\|")) %>% 
-  tidyr::unnest(cols = c(feats))  %>% 
-  tidyr::separate(feats, sep = "=", into = c("feat", "feat_value"), remove = F) 
-
-
+  tidyr::unnest(cols = c(feats))  %>%
+  tidyr::separate(feats, sep = "=", into = c("feat", "feat_value"), remove = F)  %>% 
+  mutate(feat = ifelse(feat %in% UD_feats_df$feat, feat, NA)) %>% 
+  mutate(feat_value = ifelse(feat %in% UD_feats_df$feat, feat_value, NA)) %>% 
+  mutate(feats = ifelse(feat %in% UD_feats_df$feat, feats, NA))  %>% 
+  distinct()
+  
 upos_vec <- conllu$upos %>% unique() 
 
 #empty df to join to in the for-loop
@@ -108,7 +111,7 @@ df <- data.frame(id = as.character(),
 
 for(i in 1:length(upos_vec)){
   
-#  i <- 1
+#  i <- 7
   
 wide <-  conllu_split %>% 
   filter(upos == upos_vec[i]) %>% 

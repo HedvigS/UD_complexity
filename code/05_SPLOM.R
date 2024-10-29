@@ -3,8 +3,8 @@ source("01_requirements.R")
 gb_complexity <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   rename(glottocode = Language_ID)
 
-pop <- read_tsv("../data/linguameta.tsv") %>% 
-  mutate(estimated_number_of_speakers_log = log10(estimated_number_of_speakers+1))
+pop <- read_tsv("output/processed_data/google_pop.tsv") %>% 
+  mutate(estimated_number_of_speakers_log = log10(Pop+1))
 
 UD <- read_tsv("output/summaries/counts.tsv") %>% 
   full_join(read_tsv("output/summaries/mean_sum_surprisal_morph_split.tsv")) %>% 
