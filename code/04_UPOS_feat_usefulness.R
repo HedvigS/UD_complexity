@@ -23,11 +23,9 @@ basemap +
 
 ggsave("output/plots/map_usefulness_ADJ_polar.png")
 
-  
-
 
 Noun_num_df <- summed %>% 
-  filter(upos =="NOUN") %>% 
+  filter(upos =="VERB") %>% 
   filter(feat =="Number") 
 
 
@@ -44,6 +42,9 @@ basemap +
               color = "grey44") +
   scale_fill_viridis_c(direction = -1) +
   theme(legend.position = "bottom") +
-  ggtitle("Usefulness of NOUN number marking, UD treebank v2.14")
+  ggtitle("Usefulness of VERB number marking, UD treebank v2.14")
 
-ggsave("output/plots/map_usefulness_noun_number.png")
+ggsave("output/plots/map_usefulness_verb_number.png",height = 5, width = 7)
+
+
+
