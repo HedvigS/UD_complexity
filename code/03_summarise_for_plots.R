@@ -1,11 +1,12 @@
 source("01_requirements.R")
 #this script takes the output from 02_process_data_per_UD_proj and greates summaries to be plotted
 
-Glottolog <- read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
+Glottolog <- read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>%
   dplyr::select(glottocode = Glottocode, Longitude, Latitude, Family_ID, Language_level_ID, Name) %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+  filter(!str_detect(glottocodes, ";")) %>% 
   distinct(dir,  glottocode) 
 
 ##basic counts
@@ -40,7 +41,7 @@ for(i in 1:length(fns)){
 }
 
 joined <- df_all %>% 
-  left_join(UD_langs, relationship = "many-to-many", by = "dir") %>% 
+  inner_join(UD_langs, by = "dir") %>% 
   left_join(Glottolog, by = "glottocode") %>% 
   distinct(dir, n_sentences, sum_tokens, mean_feats_per_token, glottocode, Longitude, Latitude) %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
@@ -54,7 +55,7 @@ joined %>%
 fns <- list.files("output/surprisal_per_feat_per_lemma/",  full.names = T)
 
 df_all <- data.frame(dir = as.character(), 
-                     mean_sum_surprisal_morph_split = as.numeric())
+                     mean_sum_surprisal_morph_split_per_lemma = as.numeric())
 
 for(i in 1:length(fns)){
   
@@ -64,21 +65,59 @@ for(i in 1:length(fns)){
   
   df <- read_tsv(fn, show_col_types = F)
   
-  df_spec <- data.frame( mean_sum_surprisal_morph_split=  df$sum_surprisal_morph_split %>% mean(), 
+  df_spec <- data.frame( mean_sum_surprisal_morph_split_per_lemma=  df$sum_surprisal_morph_split %>% mean(), 
                          dir = dir)
   
-  df_all <- full_join(df_spec, df_all, by = join_by(mean_sum_surprisal_morph_split, dir))
+  df_all <- full_join(df_spec, df_all, by = join_by(mean_sum_surprisal_morph_split_per_lemma, dir))
   
 }
 
 joined <- df_all %>% 
-  left_join(UD_langs) %>% 
+  inner_join(UD_langs) %>% 
   left_join(Glottolog) %>% 
   distinct() %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
 
 joined %>% 
-  write_tsv("output/summaries/mean_sum_surprisal_morph_split.tsv")
+  write_tsv("output/summaries/mean_sum_surprisal_per_lemma_morph_split.tsv")
+
+
+
+#SURPRISAL PER FEAT PER LEMMA (I.E. NOT FEATSTRING BUT SPLIT)
+
+fns <- list.files("output/surprisal_per_feat_per_UPOS/",  full.names = T)
+
+df_all <- data.frame(dir = as.character(), 
+                     mean_sum_surprisal_morph_split_per_UPOS = as.numeric())
+
+for(i in 1:length(fns)){
+  
+  #  i <- 1
+  fn <- fns[i]
+  dir <- fn %>% basename() %>% str_replace_all(".tsv", "") %>% str_replace_all("surprisal_per_feat_per_UPOS_", "") 
+  
+  df <- read_tsv(fn, show_col_types = F)
+  
+  df_spec <- data.frame( mean_sum_surprisal_morph_split_per_UPOS=  df$sum_surprisal_morph_split %>% mean(), 
+                         dir = dir)
+  
+  df_all <- full_join(df_spec, df_all, by = join_by(mean_sum_surprisal_morph_split_per_UPOS, dir))
+  
+}
+
+joined <- df_all %>% 
+  inner_join(UD_langs) %>% 
+  left_join(Glottolog) %>% 
+  distinct() %>% 
+  dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
+
+joined %>% 
+  write_tsv("output/summaries/mean_sum_surprisal_per_UPOS_morph_split.tsv")
+
+
+
+
+
 
 
 #TTR
@@ -87,7 +126,7 @@ fns <- list.files("output/TTR/", pattern = "sum.tsv", full.names = T)
 stacked <- SH.misc::stack_tsvs(fns = fns, verbose = F) 
 
 stacked <- stacked %>% 
-  left_join(UD_langs) %>% 
+  inner_join(UD_langs) %>% 
   left_join(Glottolog) %>% 
   distinct() %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude))  #shifting the longlat 
@@ -114,7 +153,7 @@ summed <- stacked %>%
   mutate(prop = n/sum) %>% 
   group_by(dir, upos, feat) %>% 
   slice_max(prop) %>% 
-  left_join(UD_langs, relationship = "many-to-many", by = "dir") %>% 
+  inner_join(UD_langs, relationship = "many-to-many", by = "dir") %>% 
   left_join(Glottolog, relationship = "many-to-many", by ="glottocode")
 
 summed %>% 
