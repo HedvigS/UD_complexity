@@ -27,6 +27,7 @@ library(rgrambank)
 
 
 set.seed(72000)
+seed <- 72000
 
 UD_version <- "ud-treebanks-v2.14"
 
