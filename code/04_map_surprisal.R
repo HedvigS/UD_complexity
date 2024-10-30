@@ -9,7 +9,7 @@ data <- read_tsv("output/summaries/mean_sum_surprisal_morph_split.tsv", show_col
 
 basemap +
   geom_jitter(data = data, stat = "identity", 
-              position = position_jitter(width = 2, height = 2, seed = 198 #jittering the points to prevent overplotting
+              position = position_jitter(width = 2, height = 2, seed = seed #jittering the points to prevent overplotting
               ),
               aes(x=Longitude, 
                   y=Latitude,
@@ -18,7 +18,8 @@ basemap +
               alpha = 0.8, 
               stroke = 0.4, 
               color = "grey44") +
-  scale_fill_viridis_c(direction = -1, end = 0.9) +
+  scale_fill_viridis_c(direction = -1, end = 0.9)+
+  theme(legend.position = "bottom") +
   ggtitle("Mean surprisal per token of split morph tags given lemma per UD treebank v2.14")
 
 
