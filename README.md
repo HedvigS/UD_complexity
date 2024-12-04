@@ -1,4 +1,4 @@
-R-code project for exploring linguistic complexity with UD.
+R-code project for exploring informational load of morphology in different langauges using Universal Depedencies.
 
 # Data
 ## Universal Dependencies
