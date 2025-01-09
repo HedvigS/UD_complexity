@@ -1,0 +1,55 @@
+\documentclass[a4paper]{article}
+
+
+% Unicode
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{
+	unicode,
+%	colorlinks,
+%	breaklinks,
+%	urlcolor=cyan, 
+%	linkcolor=blue, 
+	pdfauthor={Author One, Author Two, Author Three},
+	pdftitle={A simple article template},
+	pdfsubject={A simple article template},
+	pdfkeywords={article, template, simple},
+	pdfproducer={LaTeX},
+	pdfcreator={pdflatex}
+}
+
+\usepackage{natbib}
+% Theorem, Lemma, etc
+
+\usepackage{graphicx, color}
+\graphicspath{{latex/fig/}}
+
+% Author info
+\title{Using annotated corpora to explore information load of morphology}
+\author{Hedvig Skirgård$^1$ \& Stephen Mann$^1$}
+
+\date{
+	$^1$Department of Linguistic and Cultural Evolution, Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany\\%
+%	\today
+}
+
+\begin{document}
+	\maketitle
+	
+	\begin{abstract}
+    The emergence of annotated corpora collections in many different languages opens up new venues for research in linguistic typology which take into account more nuances of language use. In this paper, we explore using the morphology annotations in the Universal Dependencies datasets to calculate how much information they carry. We propose an approach founded in information theory which focusses on how surprising a certain morphological annotation is given the token's lemma and part-of-speech. This metric is sensitive to how the morphological annotations are distributed in the data. For example, if the tokens of certain lemma has the value IMP for ASPECT 95\% of the time and otherwise PERF, then ASPECT is less informative than if the distribution was 50\%/50\%. We also discuss possible modifications to the approach (generalising over part-of-speech or other categories) and short-comings (reliability of morphological annotation, null-marking, conditional probabilities etc). 
+		\noindent\textbf{Keywords:} morphology, Universal Dependencies, corpora, information theory
+	\end{abstract}
+
+
+\section{Introduction}
+\subsection{``Linguistic complexity''}
+
+
+\citet{ccoltekin2023complexity}
+
+\bibliographystyle{unified_edit_HS_SFM}
+\bibliography{bib.bib}
+
+	
+\end{document}
