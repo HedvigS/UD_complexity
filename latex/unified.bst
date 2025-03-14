@@ -870,21 +870,6 @@ FUNCTION {format.in.ed.booktitle}
     }
   if$
 }
-FUNCTION {format.in.ed.booktitle_inproceedings}
-{ format.booktitle duplicate$ empty$ 'skip$
-    {
-      editor "editor" format.names.ed duplicate$ empty$ 'pop$
-        {
-          " " *
-          get.bbl.editor
-          "(" swap$ * "), " *
-          * swap$
-          * }
-      if$
-      "Talk given at " swap$ *
-    }
-  if$
-}
 FUNCTION {format.thesis.type}
 { type duplicate$ empty$
     'pop$
@@ -1114,7 +1099,7 @@ FUNCTION {inproceedings}
   format.title "title" output.check
   new.block
   crossref missing$
-    { format.in.ed.booktitle_inproceedings "booktitle" output.check
+    { format.in.ed.booktitle "booktitle" output.check
       format.bvolume output
       format.number.series output
       add.comma
@@ -1203,8 +1188,9 @@ FUNCTION {phdthesis}
   format.btitle
   "title" output.check
   new.block
+  address "address" bibinfo.check output
+  add.colon
   school "school" bibinfo.warn output
-  new.block
   bbl.phdthesis format.thesis.type output.nonnull
   format.doi output
   new.block
