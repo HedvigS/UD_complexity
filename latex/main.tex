@@ -8,7 +8,7 @@
 % check the degree of multivalyes. UD says: "It is possible to declare that a feature has two or more values for a given word: Case=Acc,Dat. The interpretation is that the word may have one of these values but we cannot decide between them. Such multivalues should be used sparingly. They should not be used if the value list would cover the whole value space, or the subspace valid for the given language. That would mean that we cannot tell anything about this feature for the given word, and then it is preferable to just leave the feature out." 
 % discuss: "Not mentioning a feature in the data implies the empty value, which means that the feature is either irrelevant for this part of speech, or its value cannot be determined for this word form due to language-specific reasons." https://universaldependencies.org/u/overview/morphology.html
 
-
+% should we try subset on  Parallel Universal Dependencies (PUD) tre
 
 % Unicode
 %\usepackage[utf8]{inputenc}
@@ -83,7 +83,7 @@ We can compare languages in terms of how much specific information their grammar
 Informational distinctiveness in grammar is one of the concepts that is covered by the term ``language complexity''. In this paper we give a brief overview of research on ``language complexity'' and where this study is situated.
 
 
-\section{Background}
+\section{Background}\label{sec:background}
 \subsection{Language complexity''}
 %Measuring information
 Language complexity has fascinated linguists and other scholars for a long time. There are many theories, primarily relating language complexity to contact languages \citep{mcwhorter_200} and population size and/or proportion of non-native speakers (inter alia \citet{wray2007consequences, dahl2004growth, lupyan2010language, bentz2013languages, bentz2015adaptive, raviv2019larger, koplenig2019language, shcherbakova2023societies}). Broadly one can characterise the field of research as being concerned with how and under what conditions languages acquire more complexity than would seem necessary for pure information transmission and how such complexity can be lost.
@@ -156,13 +156,13 @@ In this paper, we are primarily interested in the pragmatics of information tran
 \section{Study outline}
 The aim of this study is to quantify the information in morphology annotations in corpora as a way of assessing how much information is being encoded. This can be understood as decreasing the ease of production for the sender, and thereby increasing one facet of language complexity.
 
-Many corpora collections, such as the Universal Dependencies datasets v2.14 \citep{UD_2.14} which is used here, contain information on the morphology of individual words. Table \ref{tab:turkish_example} is an example of a sentence in Turkish where words are marked for case, number, person, aspect and more grammatical categories.
+Many corpora collections, such as the Universal Dependencies datasets v2.14 \citep{UD_2.14} which is used here, contain information on the morphology of individual words. Table \ref{tab:turkish_example} is an example of a sentence in Turkish where words are marked for case, number, person, aspect and more grammatical categories \citep{kuzgun_2020_UD_turkish_penn}.
 For example, the word ``horses'' in English would typically be tagged for the grammatical meaning ``plural'' being encoded morphologically.
 In this study, we are not only interested in how many morphological features on average a token in a given language has - but also how informative those features are given their lemma\footnote{For this paper, we focussed on the relative frequencies of morphological features given the lemma, but it's also possible to condition on part-of-speech.}. 
 
 \begin{table}[h]
     \centering
-    \caption{Sentence 15-0000 from Universal Dependencies dataset Turkish-Penn. upos : Universal Part-of-Speech, lemma = base form, token = specific word, feats = morphological features} %note table captions go above the table
+    \caption{Sentence 15-0000 from Universal Dependencies dataset Turkish-Penn \citep{kuzgun_2020_UD_turkish_penn}. upos : Universal Part-of-Speech, lemma = base form, token = specific word, feats = morphological features} %note table captions go above the table
     \label{tab:turkish_example}   
     \begin{tabular}{p{1.5cm}p{2cm}p{2cm}p{6cm}}
 \toprule
@@ -193,7 +193,7 @@ For example, in the Turkish-Penn dataset of Universal Dependencies 2.14 there ar
 Were we only to know that a token has the lemma ``kanun'', we would have a good chance (90\%) to guess correctly if we said it was in the singular form.
 It is possible to argue that the category of number for this lemma is not very informative, it's most often the same.
 If we were to see an instance of a token with the lemma ``kanun'' with plural marking, we ought to be a bit more surprised.
-Conversely, tokens for the lemma ``fiyat'' (Eng: \textit{price}) has a 55\%/45\% chance of being plural vs. singular (plural = 237, singular = 196). Were we to only know that a token was of this lemma, we'd have a harder time guessing it's number category. The number morphology for ``fiyat'' is more informative than that for ``kanun''.
+Conversely, tokens for the lemma ``fiyat'' (Eng: \textit{price}) has a 55\%/45\% chance of being plural vs. singular (plural = 237, singular = 196). Were we to only know that a token was of this lemma, we'd have a harder time guessing its number category. The number morphology for ``fiyat'' is more informative than that for ``kanun''.
 This is is at the core of our metric in this paper, how informative is the morphology?
 
 
@@ -205,7 +205,60 @@ This is is at the core of our metric in this paper, how informative is the morph
 
 This was for example done with the Grambank informativity metric used in \cite{grambank_release} and \citet{shcherbakova2023societies}. Given different distinctions covered in the Grambank questionnaire, say for example inclusive / exclusive or masculine / feminine pronouns, you tally up 
 
-[STE WRITES ABOUT \citet{ccoltekin2023complexity} HERE]
+A study involving a measure somewhat similar to our own is \citet{ccoltekin2023complexity}.
+Çöltekin \& Rama's goal is to determine the extent to which different measures of complexity latch on to the same underlying properties of a language.
+They analyse eight measures, from a simple count of the type/token ratio to the far more involved assessment of how accurately a machine learning model can predict an inﬂected word from its lemma and morphological features.
+The measure most relevant for our purposes is \textbf{morphological feature entropy}, which captures how evenly spread morphological features are throughout the corpus.
+Intuitively, this `even-spreadedness' connects to complexity in the following way.
+If there are many different features that have roughly similar frequency, it would be difficult to predict from a lemma alone what its features are.
+On the other hand if a few well-represented features dominate the corpus, a given lemma's features are likely to be more predictable.
+Predictability is intuitively connected to complexity, as discussed in section \ref{sec:background}.
+
+The canonical mathematical way to measure this `even-spreadedness' is entropy.
+Defined as $\Sigma p \log{\frac{1}{p}}$ for a list of probabilities $p$, entropy is large when probabilities are more evenly distributed and small when a few probabilities are much greater than the others.
+Thus entropy captures something like the average amount of uncertainty among a set of items.
+In the present context uncertainty is intuitively connected to unpredictability hence complexity.
+Çöltekin \& Rama thus define a measure of the entropy of all morphological features in a dataset to capture on aspect of a language's complexity.
+Their method of calculating this value is as follows:
+\begin{enumerate}
+\item For a given dataset, randomly sample a fixed number of tokens
+\item Remove punctuation (upos=`PUNCT') and unanalysable (upos=`X')
+\item Remove tokens that have no morphological features
+\item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
+\item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
+\item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column)
+\item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
+\item Run steps 2-7 multiple times for different samples of the same size and take the mean entropy.
+\end{enumerate}
+
+\noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
+The total entropy for this sample is approximately 3.15 bits.
+In their study \citet{ccoltekin2023complexity} would sample something like 1000 tokens at a time, generating an entropy measure each time and then taking the average.
+This average is then an estimate of the `overall' entropy measure for the dataset.
+
+\begin{table}[h]
+    \centering
+    \caption{Components of the measure of morphological feature entropy as defined by \citet{ccoltekin2023complexity} for the sample of tokens in Table \ref{tab:turkish_example}. The total feature count is 17, and each feature's Frequency is its Count divided by this total (rounded to three significant figures). The entropy of this sample is approximately 3.15 bits.} %note table captions go above the table
+    \label{tab:mfh}   
+    \begin{tabular}{p{5cm}p{3cm}p{3cm}}
+\toprule
+	\textbf{Morphological feature}	&	\textbf{Count}	&	\textbf{Frequency (p)}	\\
+    \midrule
+	Case=Loc&1&0.0588       \\    \midrule
+	Number=Sing&4&0.235    \\    \midrule
+        Person=3&4&0.235		   \\    \midrule
+	Case=Nom&1&0.0588	       \\    \midrule
+	Case=Acc&1&0.0588		      \\    \midrule
+        Aspect=Perf&1&0.0588      \\    \midrule
+        Mood=Ind&1&0.0588		   \\    \midrule
+        Polarity=Pos&1&0.0588		\\    \midrule
+	Tense=Past&1&0.0588	     \\    \midrule
+	VerbDorm=Fin&1&0.0588	    \\    \midrule
+	Voice=Cau&1&0.0588      	\\ \bottomrule
+
+    \end{tabular}
+\end{table}
+
 
 \subsection{Detailed technical procedure}
 
@@ -216,14 +269,14 @@ No method is perfect. We note the shortcomings of our study here.
 
 \subsubsection{Comparability}
 In comparative studies, it is desirable to compare like with like. There are several comparability challenges in this study. 
-Datasets can for example vary in the fine-grained analysis of morphology. 
+Datasets can for example vary in the \textbf{level of analysis of morphology}. 
 Some datasets can have contain a lot of different morphological features and some very few despite the underlying languages being similar. 
-This is due to the design choices of the specific contributosr of datasets. 
+This is due to the design choices of the specific contributors of datasets. 
 In order to address this, we only consider morphological features that belong to the so called ``Universal'' feature set of the UD-project \citep{ud_2_feat_website}: Gender, Animacy, NounClass, Number, Case, Definite, Deixis, DeixisRef, Degree, VerbForm, Mood, Tense, Aspect, Voice, Evident, Polarity, Person, Polite and Clusivity.
 
-Another comparability issue is related to genre. 
+Another comparability issue is related to \textbf{genre}. The datasets of UD can be of very different genres. For example. Beja-NSC is based on linguistic fieldworker Martine Vanhove's corpus which features many stories. Czech-Poetry on the other hand contains, as the name suggests, random samples of Czech 19th-century poetry. Ukrainian-ID consists of, as many datasets in UD do, a blend of fiction, news, opinion articles, Wikipedia, legal documents, letters, posts and comments. We may expect that genre effects structure and lexicon of the datasets, with poems exhibiting more experimental word order and legal documents more technical jargon. 
 
-Comparability of genre across UD-treebanks
+
 
 Accuracy and comparability of tokenization, UPOS, lemma and morphology feature tagging
 %ud_2_feat_website
