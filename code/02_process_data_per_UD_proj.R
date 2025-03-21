@@ -7,7 +7,7 @@ fns <- list.files(path = paste0("output/processed_data/", UD_version), pattern =
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 4
+# i <- 253
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -94,19 +94,24 @@ df %>% write_tsv(file = paste0("output/counts/counts_", dir, "_summarised.tsv"),
 
 #split for morph tags
 conllu_split <- conllu %>%
-  dplyr::mutate(feats = str_split(feats, "\\|")) %>% 
-  tidyr::unnest(cols = c(feats))  %>%
-  tidyr::separate(feats, sep = "=", into = c("feat", "feat_value"), remove = F)  %>% 
-  mutate(feat = ifelse(feat %in% UD_feats_df$feat, feat, NA)) %>% 
-  mutate(feat_value = ifelse(feat %in% UD_feats_df$feat, feat_value, NA)) %>% 
-  mutate(feats = ifelse(feat %in% UD_feats_df$feat, feats, NA))  %>% 
+  dplyr::mutate(feats_split = str_split(feats, "\\|")) %>% 
+  tidyr::unnest(cols = c(feats_split))  %>%
+  tidyr::separate(feats_split, sep = "=", into = c("feat_name", "feat_value"), remove = T)  %>% 
+  mutate(feat_name = ifelse(feat_name %in% bad_UD_morph_feat_names, NA, feat_name)) %>% 
+  mutate(feats_combo = ifelse(!is.na(feat_name), paste0(feat_name, "=", feat_value), NA)) %>% 
+  group_by(id, sentence_id, token, lemma, upos) %>% 
+  summarise(feats_trimmed = paste0(unique(na.exclude(feats_combo)), collapse = "|"), .groups = "keep") %>% 
+  mutate(feats_trimmed = ifelse(feats_trimmed == "", NA, feats_trimmed)) %>% 
+  dplyr::mutate(feats_split = str_split(feats_trimmed, "\\|")) %>% 
+  tidyr::unnest(cols = c(feats_split))  %>%
+  tidyr::separate(feats_split, sep = "=", into = c("feat_name", "feat_value"), remove = T)  
   distinct()
   
 upos_vec <- conllu$upos %>% unique() 
 
 #empty df to join to in the for-loop
 df <- data.frame(id = as.character(), 
-                 new_feat = as.character(),
+                 new_feat_name = as.character(),
                  new_feat_value = as.character())
 
 for(i in 1:length(upos_vec)){
@@ -115,7 +120,7 @@ for(i in 1:length(upos_vec)){
   
 wide <-  conllu_split %>% 
   filter(upos == upos_vec[i]) %>% 
-  reshape2::dcast(id ~ feat, value.var = "feat_value") 
+  reshape2::dcast(id ~ feat_name, value.var = "feat_value") 
   
 wide[is.na(wide)] <- "unassigned"
   
@@ -123,19 +128,18 @@ df <- wide %>%
   melt(id.vars = "id") %>% 
   filter(variable != "NA") %>% 
   dplyr::mutate(across(everything(), as.character)) %>% 
-  rename(new_feat = variable, new_feat_value = value) %>% 
-  full_join(df, by = join_by(id, new_feat, new_feat_value))
+  rename(new_feat_name = variable, new_feat_value = value) %>% 
+  full_join(df, by = join_by(id, new_feat_name, new_feat_value))
   
 }
 
-
 conllu_split <- conllu_split %>% 
   full_join(df, relationship = "many-to-many", by = join_by(id)) %>% 
-  dplyr::select(-feat, -feat_value) %>% 
-  dplyr::rename(feat = new_feat, feat_value = new_feat_value) %>% 
-  dplyr::distinct(id, sentence_id, token, lemma, feat, feat_value, upos) %>% 
-  dplyr::mutate(feat = ifelse(is.na(feat) & is.na(feat_value), "unassigned", feat)) %>% 
-  dplyr::mutate(feat_value = ifelse(feat == "unassigned" & is.na(feat_value), "unassigned", feat_value)) 
+  dplyr::select(-feat_name, -feat_value) %>% 
+  dplyr::rename(feat_name = new_feat_name, feat_value = new_feat_value) %>% 
+  dplyr::distinct(id, sentence_id, token, lemma, feat_name, feat_value, upos) %>% 
+  dplyr::mutate(feat_name = ifelse(is.na(feat_name) & is.na(feat_value), "unassigned", feat_name)) %>% 
+  dplyr::mutate(feat_value = ifelse(feat_name == "unassigned" & is.na(feat_value), "unassigned", feat_value)) 
 
 
 conllu <- conllu_split %>% 
