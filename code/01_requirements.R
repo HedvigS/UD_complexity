@@ -158,8 +158,10 @@ if(!dir.exists("output/plots")){
 UD_feats_df <- data.frame(
   feat = c("PronType", "NumType", "Poss", "Reflex", "Abbr", "Typo", "Foreign", "ExtPos", "Gender", "Animacy", "NounClass", "Number", "Case", "Definite", "Deixis", "DeixisRef", "Degree", "VerbForm", "Mood", "Tense", "Aspect", "Voice", "Evident", "Polarity", "Person", "Polite", "Clusivity"),
   type = c("Lexical", "Lexical",  "Lexical",  "Lexical",  "Other", "Other", "Other", "Other",  "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal")
-  
 )
+
+bad_UD_morph_feat_names <-  c("Abbr", "Typo", "Foreign")
+
   
 
 basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray") 
