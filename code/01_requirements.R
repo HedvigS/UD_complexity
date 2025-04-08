@@ -4,26 +4,54 @@ minimum_tokens = 2000
 
 ### loading 
 
-library(utf8) 
-library(Rcpp)
-library(plyr)
-library(data.table)
-library(dplyr)
-library(readr)
-library(tidyr)
-library(stringr)
-library(ggplot2)
-library(ggpubr)
-library(psych)
-library(udpipe)
-library(reshape2)
-library(tibble)
-library(purrr)
-library(viridis)
-library(forcats)
-library(ggridges)
-library(rcldf)
-library(rgrambank)
+pkgs <- c(
+  "utf8" ,
+  "Rcpp",
+  "plyr",
+  "data.table",
+  "dplyr",
+  "readr",
+  "tidyr",
+  "stringr",
+  "ggplot2",
+  "ggpubr",
+  "psych",
+  "remotes",
+  "udpipe",
+  "reshape2",
+  "archive", #for rcldf
+  "bib2df", #for rcldf
+  "logger",#for rcldf
+  "csvwr",#for rcldf
+  "logger",#for rcldf
+  "urltools",#for rcldf
+  "caper", #for SH.misc
+  "tibble",
+  "purrr",
+  "viridis",
+  "forcats",
+  "ggridges")
+
+
+#packages we should load and other set-up
+
+if(!"groundhog" %in% installed.packages()){
+  install.packages("groundhog")
+}
+
+library(groundhog)
+
+groundhog_date <- "2025-01-17"
+
+groundhog_dir <- paste0("groundhog_libraries_", groundhog_date)
+
+if(!dir.exists(groundhog_dir)){
+  dir.create(groundhog_dir)
+}
+groundhog::set.groundhog.folder(groundhog_dir)
+
+groundhog::groundhog.library(pkg = pkgs ,
+                             date = groundhog_date)
 
 
 set.seed(72000)
@@ -32,27 +60,27 @@ seed <- 72000
 UD_version <- "ud-treebanks-v2.14"
 
 
-
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
 
-library(remotes)
 p <- "rcldf"
 if(!(p %in% rownames(installed.packages()))){
-remotes::install_github("SimonGreenhill/rcldf", dependencies = F)
+remotes::install_github("SimonGreenhill/rcldf", dependencies = F, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443")
 }
+library(rcldf)
 
 p <- "rgrambank"
 if(!(p %in% rownames(installed.packages()))){
-  remotes::install_github("HedvigS/rgrambank", dependencies = F)
+  remotes::install_github("HedvigS/rgrambank", dependencies = F, ref = "94b3cb2caae4744e0f574b3dd8b5d3c8af40d1d2")
 }
-
+library(rgrambank)
 
 p <- "SH.misc"
 if(!(p %in% rownames(installed.packages()))){
-  remotes::install_github("HedvigS/SH.misc", dependencies = F)
+  remotes::install_github("HedvigS/SH.misc", dependencies = F, ref = "dc530b1cdc1ae4dbe9b29d695c153a6c50247a6e")
 }
+library(SH.misc)
 
 if(!dir.exists("output")){
   dir.create("output")
