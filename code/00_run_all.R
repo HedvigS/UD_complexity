@@ -5,6 +5,9 @@ source("02_get_grambank_data.R")
 source("02_google_pop.R")
 
 source("02_collapse_UD_dirs.R")
+
+agg_level <- "upos" #lemma token
+core_features_only <- T
 source("02_process_data_per_UD_proj.R")
 
 source("03_summarise_for_plots.R")
