@@ -15,3 +15,9 @@ code/output/sum_dfs/*_sum_df.tsv
 /code/output_unfiltered
 notes 20240301.txt
 /code/output_old
+
+# Python
+*.venv*
+
+# VSCode
+*.code-workspace
