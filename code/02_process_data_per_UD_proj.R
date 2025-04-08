@@ -20,7 +20,7 @@ for(i in 1:length(fns)){
   }else{
     
   #reading in
-conllu <- read_tsv(fn, show_col_types = F) 
+conllu <- read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) 
 
 ## COUNTS
 #some simple counts: count number of types, tokens, lemmas and sentences
@@ -42,7 +42,7 @@ data.frame(TTR = n_types /  n_tokens,
   
 conllu %>% 
   group_by(token, lemma, upos) %>% 
-  summarise(n = n(), .groups = "drop") %>%
+  summarise(n = n(), .groups = "drop") %>% 
   write_tsv(file = paste0("output/TTR/", dir, "_TTR_full.tsv"))
 
 surprisal_all_tokens_lookup <- conllu %>% 
