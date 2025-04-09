@@ -92,7 +92,7 @@ for(i in 1:length(agg_level_vec)){
 #  i <- 7
   
 wide <-  conllu_split %>% 
-  filter(upos == agg_level_vec[i]) %>% 
+  filter(!!sym(agg_level) == agg_level_vec[i]) %>% 
   reshape2::dcast(id ~ feat_cat, value.var = "feat_value") 
   
 wide[is.na(wide)] <- "unassigned"
