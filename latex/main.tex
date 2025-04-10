@@ -8,7 +8,8 @@
 
 
 %analysis to do
-% get other surpissal stats like min and max, let's just do a ridgeplots
+% let's just do a ridgeplots
+
 
 % check the degree of multivalues. UD says: "It is possible to declare that a feature has two or more values for a given word: Case=Acc,Dat. The interpretation is that the word may have one of these values but we cannot decide between them. Such multivalues should be used sparingly. They should not be used if the value list would cover the whole value space, or the subspace valid for the given language. That would mean that we cannot tell anything about this feature for the given word, and then it is preferable to just leave the feature out." 
 
@@ -194,7 +195,7 @@ ADJ	&	karmaşık	&	karmaşık	&\\    \midrule
 CCONJ	&	ve	&	ve	&		\\    \midrule
 ADJ	&	çetrefil	&	çetrefilli	&		\\    \midrule
 	NOUN	&	dil	&	dil	&	Case=Nom|Number=Sing|Person=3	\\    \midrule
-	NOUN	&	kavga	&	kavgayı	&	Case=Acc|Number=Sing|Person=3|	\\    \midrule
+	NOUN	&	kavga	&	kavgayı	&	Case=Acc|Number=Sing|Person=3	\\    \midrule
 	VERB	&	bulan	&	bulandırdı	&	Aspect=Perf|Mood=Ind|Number=Sing| Person=3|Polarity=Pos|Tense=Past| VerbForm=Fin|Voice=Cau	\\\midrule
    \multicolumn{4}{p{11cm}}{Translation: \textit{The complex and complicated language in the massive new law has muddied the fight.}}\\    \bottomrule
 
@@ -242,7 +243,7 @@ Their method of calculating this value is as follows:
 \item Remove tokens that have no morphological features
 \item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
 \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
-\item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column)
+\item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
 \item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
 \item Run steps 2-7 multiple times for different samples of the same size and take the mean entropy.
 \end{enumerate}
@@ -281,16 +282,17 @@ This average is then an estimate of the `overall' entropy measure for the datase
 Like Çöltekin \& Rama, we use surprisal as the basis of our measure of complexity.
 However, instead of entropy, we define a measure of \textbf{mean surprisal per token} as follows:
 \begin{enumerate}
-\item Use all tokens of a given dataset
+\item Combine the files of each UD-dataset (e.g. dev, test and train) to one table with one token per row
 \item Remove punctuation (upos=`PUNCT') and unanalysable tokens (upos=`X')
-\item Determine the full set of morphological feature categories per lemma (e.g. for the lemma `sebuah' in Table \ref{tab:unassigned_ex} this would be Definite, Number and PronType)
-\item Assign dummy values to unassigned morphological categories for each token, based on its lemma (e.g. for the token `sebuah' in Table \ref{tab:unassigned_ex} we insert the dummy feature Number=unassigned)
-\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})
+\item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
+\item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
+\item Assign a dummy value to unassigned morphological categories for each token. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
+\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``ἀόρατος'' in the Ancient Greek PTNK-dataset PTNK is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
 \item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
 \item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
 \item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
 \item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including dummy-assigned features)
-\item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
+% \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
 \end{enumerate}
 
 
@@ -346,20 +348,20 @@ ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
 \end{tabular}
 \end{table}
 
-Our approach differs in several ways from Çöltekin \& Rama.
+Our approach differs in several ways from that of Çöltekin \& Rama.
 First, we do \textit{not} omit tokens that have no morphological features.
 Instead, we introduce a dummy feature value `unassigned' for those tokens that do not have an assigned value for each morphological feature associated with that token's lemma.
 For example, the determiner token `para' in the dataset described by Table \ref{tab:unassigned_ex} has no morphological feature corresponding to the category Definite.
 Supposing another token of the same lemma does have a feature value for Definite in this dataset, we would add the dummy feature `Definite=unassigned' to this token.
-In this way we ensure that we are including unmarked tokens in our calculation of surprisal.
+In this way we ensure that we include unmarked tokens in our calculation of surprisal.
 After all, if 99\% of tokens of a given lemma have no Definite marking and 1\% of them have Definite=Ind, possession of a Definite marker should count as very surprising.
 Without the dummy assignment this fact would be lost: the 1\% of Definite=Ind tokens would all get a frequency of 1 (because that's the only value for that feature across that lemma) and a surprisal of zero (because $\log{\frac{1}{1}}=\log{1}=0$).
 
 A second key difference with Çöltekin \& Rama is as follows.
 Instead of calculating the average surprisal of features across the entire sample of tokens, we split features into their component category/value pairs, and calculate the sum of the surprisals of feature values for a given token.
 This produces what might be thought of as `the surprisal of the token': the amount of information a token carries by virtue of its morphological feature markings or lack thereof.
-Once we have a measure of surprisal per token, we average this across the entire dataset to obtain mean surprisal per token.
-This can be thought of as `the surprisal of the language': how surprising tokens of this language tend to be.
+Once we have a measure of surprisal per token, we can average this across the entire dataset to obtain mean surprisal per token.
+This indicates `the surprisal of the language': how surprising tokens of this language tend to be.
 If there are very many morphological features whose values are all somewhat evenly represented among the tokens of the dataset, the mean surprisal will be high.
 If on the other hand each lemma has only a few features, or if a small number of feature values are much more likely than others, mean surprisal will be small.
 
@@ -369,7 +371,9 @@ By contrast our measure calculates a sum of surprisals, each of which is defined
 Only then do we calculate a mean value by summing across the entire dataset.
 The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
 
-
+Finally, a variant of our procedure aggregates features at the level of UPOS rather than lemma.
+For this alternative measure tokens receive many more unassigned feature values: all those categories that occur on any token of the same UPOS, which will generally be a longer list than just those that occur on tokens of the same lemma.
+Counts and frequencies are likewise determined per UPOS.
 
 
 
