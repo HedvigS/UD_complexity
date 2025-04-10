@@ -243,6 +243,6 @@ token_surprisal_df_feat_string <- conllu %>%
 
 token_surprisal_df_feat_string %>% 
   mutate(dir = dir) %>% 
-  write_tsv(file = paste0(directory, "/surprisal_per_featstring/surprisal_per_feat_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
+  write_tsv(file = paste0(directory, "/surprisal_per_featstring/surprisal_per_featstring_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
 }
 }
