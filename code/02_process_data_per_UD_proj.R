@@ -42,14 +42,15 @@ if(!dir.exists(dir)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 2
+# i <- 1
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
     cat(paste0("I'm on ", dir, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
     
   #reading in
-conllu <- read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) 
+conllu <- read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) %>% 
+  mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
 
 ########## SORT OUT TAGGING
 
@@ -85,8 +86,6 @@ df <- data.frame(id = as.character(),
                  new_feat_value = as.character())
 
 for(i in 1:length(agg_level_vec)){
-  
-#  i <- 7
   
 wide <-  conllu_split %>% 
   filter(!!sym(agg_level) == agg_level_vec[i]) %>% 
@@ -149,7 +148,7 @@ conllu %>%
 
 surprisal_all_tokens_lookup <- conllu %>% 
   group_by(token) %>% 
-  summarise(n = n(), .groups = "drop") %>% 
+  summarise(n = n(), .groups = "drop") %>%
   mutate(prop = n/nrow(conllu)) %>% 
   mutate(surprisal = log2(1/prop))
 
