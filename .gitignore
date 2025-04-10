@@ -10,6 +10,7 @@ code/output/sum_dfs/*_sum_df.tsv
 *.Rproj
 /code/output/processed_data
 /code/output
+/code/output_test
 /data/ud-treebanks-v2.14
 /data/ud-documentation-v2.14
 /code/output_unfiltered
