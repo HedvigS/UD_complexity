@@ -48,7 +48,9 @@ groundhog_dir <- paste0("groundhog_libraries_", groundhog_date)
 
 if(!dir.exists(groundhog_dir)){
   print(paste0("groundhog directory ", groundhog_dir, " does not exist, creating it now"))
+  print(paste0("current working directory: ",getwd()))
   dir.create(groundhog_dir)
+  print(paste0("groundhog directory ", groundhog_dir, " created"))
 }
 groundhog::set.groundhog.folder(groundhog_dir)
 
