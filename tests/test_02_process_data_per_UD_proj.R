@@ -6,20 +6,24 @@ if (!requireNamespace("testthat", quietly = TRUE)) {
 # Load the library
 library("testthat")
 
+# Load the requirements and change the working directory
 # Change working directory because the script to be tested expects that
 # If the current working directory is "UD_complexity", set it to "code"
 if (basename(getwd()) == "UD_complexity") {
+  source("tests/requirements_tests.R")
   setwd("code")
 } else if (basename(getwd()) == "tests") {
+  source("requirements_tests.R")
   setwd("../code")
 } else if (basename(getwd()) == "code") {
+  source("../tests/requirements_tests.R")
   # Do nothing, already in the correct directory
 } else {
   stop("Unexpected working directory. Please run the script from 'UD_complexity' or 'tests' directory.")
 }
 
 # Load the function to be tested
-source("01_requirements.R")
+# source("01_requirements.R")
 source("02_process_data_per_UD_proj.R")
 
 # Set some global variables
