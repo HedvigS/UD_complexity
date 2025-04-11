@@ -1,7 +1,11 @@
 name: R-CMD-check
 on: 
-  - push
-  - pull_request
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   R-CMD-check:
@@ -15,12 +19,7 @@ jobs:
       - run: Rscript -e "print('R installed successfully')"
 
       - name: Install dependencies
-        run: Rscript -e "install.packages(c('testthat'))"
-        run: Rscript -e "install.packages(c('dplyr'))"
-        run: Rscript -e "install.packages(c('tidyr'))"
-        run: Rscript -e "install.packages(c('readr'))"
-        run: Rscript -e "install.packages(c('stringr'))"
-        run: Rscript -e "install.packages(c('reshape2'))"
+        run: Rscript -e "install.packages(c('testthat','dplyr','tidyr','readr','stringr','reshape2'))"
 
       - name: Run Tests
         run: Rscript -e "library(testthat); test_dir('tests')"
