@@ -39,7 +39,8 @@ DIR_TTR <- "output_test/TTR/"
 
 # Create test data.
 # First define the filepath for the TSV file that will serve as test data input for the function.
-fpath_out_test <- paste0("output_test/processed_data/", UD_version, "/test_01.tsv")
+directory_out_test <- paste0("output_test/processed_data/", UD_version, "/")
+fpath_out_test <- paste0(directory_out_test, "test_01.tsv")
 
 # Now define a dataframe with headers:
 # "id"	"doc_id"	"paragraph_id"	"sentence_id"	"sentence"	"token_id"	"token"	"lemma"	"upos"	"xpos"	"feats"	"head_token_id"	"dep_rel"	"deps"	"misc"
@@ -61,6 +62,11 @@ test_data <- data.frame(
   misc = rep("test misc string",11), # leave misc column as test string for now
   stringsAsFactors = FALSE
 )
+
+# Create the directory if required
+if (!dir.exists(directory_out_test)) {
+  dir.create(directory_out_test, recursive = TRUE)
+}
 
 # Write the test data to a TSV file
 write.table(test_data, fpath_out_test, sep = "\t", row.names = FALSE, quote = FALSE)
