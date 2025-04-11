@@ -16,6 +16,11 @@ jobs:
 
       - name: Install dependencies
         run: Rscript -e "install.packages(c('testthat'))"
+        run: Rscript -e "install.packages(c('dplyr'))"
+        run: Rscript -e "install.packages(c('tidyr'))"
+        run: Rscript -e "install.packages(c('readr'))"
+        run: Rscript -e "install.packages(c('stringr'))"
+        run: Rscript -e "install.packages(c('reshape2'))"
 
       - name: Run Tests
         run: Rscript -e "library(testthat); test_dir('tests')"
