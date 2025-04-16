@@ -24,7 +24,7 @@ if (basename(getwd()) == "UD_complexity") {
 
 # Load the function to be tested
 # source("01_requirements.R")
-source("02_process_data_per_UD_proj.R")
+source("03_process_data_per_UD_proj.R")
 
 # Set some global variables
 # Directories for test data output
