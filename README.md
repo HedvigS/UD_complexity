@@ -2,7 +2,10 @@ R-code project for exploring informational load of morphology in different langa
 
 # Data
 ## Universal Dependencies
-Fetch the treebanks files for ud-treebanks-v2.14: <https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502>. place these in data/ud-treebanks-v2.14/. The directories have names like "UD_Abaza-ATB" and "UD_English-EWT" and inside there should be files that end with.conllu.
+To run the scripts in this repository you will need to download the raw data from [version 2.14 of the Universal Dependencies database](https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502/allzip).
+The downloaded file must be unzipped twice: unzipping the initial file produces three further compressed files, of which you should unzip `ud-treebanks-v2.14.tgz`.
+This in turn produces 283 directories, one for each treebank, with names like "UD_Abaza-ATB" and "UD_English-EWT".
+All of these should be copied into `UD_complexity/data/ud-treebanks-v2.14/`.
 
 ## Language populations
 Google NLP-reserach team: <https://raw.githubusercontent.com/google-research/url-nlp/refs/heads/main/linguameta/linguameta.tsv>

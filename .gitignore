@@ -22,3 +22,6 @@ notes 20240301.txt
 
 # VSCode
 *.code-workspace
+
+# Sandbox
+sandbox/
