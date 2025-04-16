@@ -94,10 +94,12 @@ if(!dir.exists("output")){
   dir.create("output")
 }
 
-dir <- paste0("output/processed_data/", UD_version)
+dir <- paste0("../data/UD_zip_files")
 if(!dir.exists(dir)){
-                dir.create(dir)
+  dir.create(dir)
 }
+
+
 
 print("Creating basemap for EEZ")
 basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray") 
