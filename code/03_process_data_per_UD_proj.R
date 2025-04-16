@@ -76,39 +76,27 @@ conllu_split <- conllu %>%
   dplyr::mutate(feats_split = str_split(feats_trimmed, "\\|")) %>% 
   tidyr::unnest(cols = c(feats_split))  %>%
   tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T) %>%  
-  distinct()
-  
-agg_level_vec <- conllu[[agg_level]] %>% unique() #define the unique set of items in the relevant agg_level, e.g. "ADJ", "NOUN" etc for UPOS.
+  dplyr::select(-feats_trimmed) %>% 
+  distinct() %>% 
+  ungroup()
 
-#empty df to join to in the for-loop
-df <- data.frame(id = as.character(), 
-                 new_feat_cat = as.character(),
-                 new_feat_value = as.character())
+# алгара_VERB should hae verb form = unassigned
+# ADJ should ahve unassigned = unassigned
+  
+lemmas_feat_cat_df <- conllu_split %>% 
+  dplyr::select(all_of(agg_level), feat_cat_new = feat_cat) %>% 
+  distinct() %>% 
+  filter(!is.na(feat_cat_new))
 
-for(i in 1:length(agg_level_vec)){
-  
-wide <-  conllu_split %>% 
-  filter(!!sym(agg_level) == agg_level_vec[i]) %>% 
-  reshape2::dcast(id ~ feat_cat, value.var = "feat_value") 
-  
-wide[is.na(wide)] <- "unassigned"
-  
-df <- wide %>% 
-  melt(id.vars = "id") %>% 
-  filter(variable != "NA") %>% 
-  dplyr::mutate(across(everything(), as.character)) %>% 
-  rename(new_feat_cat = variable, new_feat_value = value) %>% 
-  full_join(df, by = join_by(id, new_feat_cat, new_feat_value))
-  
-}
-
-conllu_split <- conllu_split %>% 
-  full_join(df, relationship = "many-to-many", by = join_by(id)) %>% 
+conllu_split_dummys_inserted <- conllu_split %>% 
+  left_join(lemmas_feat_cat_df, relationship = "many-to-many", by = agg_level) %>% 
+  mutate(feat_value_new = ifelse(feat_cat_new == feat_cat, feat_value, "unassigned")) %>% 
+  mutate(feat_value_new = ifelse(is.na(feat_value_new), "unassigned", feat_value_new)) %>% 
+  mutate(feat_cat_new = ifelse(is.na(feat_cat_new), "unassigned", feat_cat_new)) %>% 
   dplyr::select(-feat_cat, -feat_value) %>% 
-  dplyr::rename(feat_cat = new_feat_cat, feat_value = new_feat_value) %>% 
-  dplyr::distinct(id, sentence_id, token, lemma, feat_cat, feat_value, upos) %>% 
-  dplyr::mutate(feat_cat = ifelse(is.na(feat_cat) & is.na(feat_value), "unassigned", feat_cat)) %>% 
-  dplyr::mutate(feat_value = ifelse(feat_cat == "unassigned" & is.na(feat_value), "unassigned", feat_value)) 
+  dplyr::rename(feat_cat = feat_cat_new, feat_value = feat_value_new) 
+
+conllu_split  <- conllu_split_dummys_inserted 
 
 #for some computations, we need the original format with one row per token. here we render that back again
 conllu <- conllu_split %>% 
