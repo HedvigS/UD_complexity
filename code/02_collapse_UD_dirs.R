@@ -53,6 +53,7 @@ for(i in 1:nrow(UD_dirs)){
       dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
       #  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
+      dplyr::filter(upos != "X")  %>%
       dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
       dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
       dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
