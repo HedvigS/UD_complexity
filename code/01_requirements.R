@@ -99,7 +99,10 @@ if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-
+  dir <- paste0("output/plots/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
 
 print("Creating basemap for EEZ")
 basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray") 
