@@ -89,28 +89,27 @@ conllu_split <- conllu %>%
 # all tokens with lemma Iанхара_VERB should have polarity = unassigned
 # All tokens with UPOS ADJ should have unassigned = unassigned
   
-lemmas_feat_cat_df <- conllu_split %>% 
-  dplyr::select(all_of(agg_level), feat_cat_new = feat_cat) %>% 
-  distinct() %>% 
-  filter(!is.na(feat_cat_new))
+agg_level_feat_cat_df_distinct <- conllu_split %>% 
+  dplyr::select(all_of(agg_level), feat_cat) %>% 
+  filter(!is.na(feat_cat)) %>% 
+  distinct() 
+
+token_info <- conllu_split %>%
+  distinct(id, sentence_id, token, lemma, upos)
+
+expanded <- token_info %>%
+  left_join(agg_level_feat_cat_df_distinct , by = agg_level, relationship = "many-to-many")  # brings in only feat_cats attested for this agg_level
+
+# Step 4: join back with original data to recover existing feat_value values
+conllu_split_dummys_inserted  <- expanded %>%
+  left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "feat_cat")) %>%
+  mutate(feat_value = coalesce(feat_value, "unassigned")) %>% 
+  mutate(feat_cat = ifelse(is.na(feat_cat), "unassigned", feat_cat))
 
 ####################################
-# TODO: this is assigning features to tokens that already have them.
-# e.g. token TEST_01_001 has feat_cat "Gender" and feat_value "Fem",
-# but this line is adding a new line for TEST_01_001 with feat_cat "Gender" and feat_value "unassigned" 
-conllu_split_dummys_inserted <- conllu_split %>% 
-  left_join(lemmas_feat_cat_df, relationship = "many-to-many", by = agg_level) %>% 
-  mutate(feat_value_new = ifelse(feat_cat_new == feat_cat, feat_value, "unassigned")) %>% 
-  mutate(feat_value_new = ifelse(is.na(feat_value_new), "unassigned", feat_value_new)) %>% 
-  mutate(feat_cat_new = ifelse(is.na(feat_cat_new), "unassigned", feat_cat_new)) %>% 
-  dplyr::select(-feat_cat, -feat_value) %>% 
-  dplyr::rename(feat_cat = feat_cat_new, feat_value = feat_value_new) 
-####################################
-
-conllu_split  <- conllu_split_dummys_inserted 
 
 #for some computations, we need the original format with one row per token. here we render that back again
-conllu <- conllu_split %>% 
+conllu <- conllu_split_dummys_inserted  %>% 
   mutate(feats_combo = paste0(feat_cat, "=", feat_value)) %>% 
   group_by(id) %>% 
   summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
@@ -195,7 +194,7 @@ df %>%
 #computing the probabilities and surprisal of each morph tag value per lemma
 
 #prop for each morph feat
-lookup <- conllu_split %>% 
+lookup <- conllu_split_dummys_inserted  %>% 
   group_by(.data[[agg_level]], feat_cat, feat_value) %>% 
   summarise(n = n(), .groups = "drop") %>% 
   group_by(.data[[agg_level]], feat_cat) %>% 
@@ -209,7 +208,7 @@ lookup %>%
   mutate(dir = dir) %>% 
   write_tsv(file = paste0(directory, "/surprisal_per_feat_lookup/surprisal_per_feat_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
-token_surprisal_df <- conllu_split %>% 
+token_surprisal_df <- conllu_split_dummys_inserted  %>% 
   dplyr::distinct(id, token, lemma, feat_cat, feat_value, upos) %>% 
   left_join(lookup, by = c(agg_level, "feat_cat", "feat_value")) %>%
   group_by(id) %>% 
