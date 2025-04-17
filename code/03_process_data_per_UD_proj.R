@@ -1,3 +1,8 @@
+
+#directory = "output"
+#agg_level = "upos" 
+#core_features = "core_features_only"
+
 process_data_per_UD_proj <- function(directory = "output",
          agg_level = "upos", #lemma token
          core_features = "core_features_only"
@@ -70,7 +75,7 @@ conllu_split <- conllu %>%
     }
   } %>%
   mutate(feats_combo = ifelse(!is.na(feat_cat), paste0(feat_cat, "=", feat_value), NA)) %>% #stick feat_cat and feat_value back together, unless the feat_cat was in that previously mentioned irrelevant category
-  group_by(id, sentence_id, token, lemma, upos) %>% #ironically, we now need to get back to the previous state of feature strings (several features) and then split it again
+  group_by(id, sentence_id, token, lemma, upos) %>% #ironically, we now need to get back to the previous state of feature strings (several features) and then split it again to get everything to line up. Can also be done in two dfs and joins, but this works as well.
   summarise(feats_trimmed = paste0(unique(na.exclude(feats_combo)), collapse = "|"), .groups = "keep") %>% 
   mutate(feats_trimmed = ifelse(feats_trimmed == "", NA, feats_trimmed)) %>% 
   dplyr::mutate(feats_split = str_split(feats_trimmed, "\\|")) %>% 
@@ -80,8 +85,9 @@ conllu_split <- conllu %>%
   distinct() %>% 
   ungroup()
 
-# алгара_VERB should hae verb form = unassigned
-# ADJ should ahve unassigned = unassigned
+# for stepping through Abaza for agg_level upos and core-features
+# all tokens with lemma Iанхара_VERB should have polarity = unassigned
+# All tokens with UPOS ADJ should have unassigned = unassigned
   
 lemmas_feat_cat_df <- conllu_split %>% 
   dplyr::select(all_of(agg_level), feat_cat_new = feat_cat) %>% 
