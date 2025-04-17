@@ -42,24 +42,44 @@ DIR_TTR <- "output_test/TTR/"
 directory_out_test <- paste0("output_test/processed_data/", UD_version, "/")
 fpath_out_test <- paste0(directory_out_test, "test_01.tsv")
 
-# Now define a dataframe with headers:
-# "id"	"doc_id"	"paragraph_id"	"sentence_id"	"sentence"	"token_id"	"token"	"lemma"	"upos"	"xpos"	"feats"	"head_token_id"	"dep_rel"	"deps"	"misc"
+# # Now define a dataframe with headers:
+# # "id"	"doc_id"	"paragraph_id"	"sentence_id"	"sentence"	"token_id"	"token"	"lemma"	"upos"	"xpos"	"feats"	"head_token_id"	"dep_rel"	"deps"	"misc"
+# test_data <- data.frame(
+#   id = c("TEST_01_001", "TEST_01_002", "TEST_01_003", "TEST_01_004", "TEST_02_001", "TEST_02_002", "TEST_02_003", "TEST_02_004", "TEST_03_001", "TEST_03_002", "TEST_03_003"),
+#   doc_id = rep("", 11), # leave doc_id column empty for now
+#   paragraph_id = rep("000", 11), # don't need a real paragraph ID
+#   sentence_id = c(rep("TEST_01",4), rep("TEST_02",4), rep("TEST_03",3)),
+#   sentence = c(rep("01 This is a test.",4), rep("02 This is a test.",4), rep("03 This is a test.",3)),
+#   token_id = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3),
+#   token = c("ēkal","x","mār","Aššur-dan","ēkal","Aššur-naṣir-apli","šar","kiššati","marks","mark","marks"),
+#   lemma = c("ēkallu","x","māru","Aššur-dan_II","ēkallu","Aššur-naṣir-apli_II","šarru","kiššatu","mark","mark","mark"),
+#   upos = c("NOUN","PROPN","NOUN","PROPN","NOUN","PROPN","NOUN","NOUN","VERB","VERB","NOUN"),
+#   xpos = c("N","u","N","RN","N","RN","N","N","V","V","N"),
+#   feats = c("Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Masc|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Masc|NounBase=Bound|Number=Sing", "Case=Gen|Gender=Fem|NounBase=Free|Number=Sing", "Person=3|Number=Plural", "Person=2", "Number=Plural"),
+#   head_token_id = c("0","1","2","3","0","1","2","3","0","0","0"),
+#   dep_rel = c("root", "nmod:poss", "appos", "nmod:poss", "root", "nmod:poss", "appos", "nmod:poss", "TEST","TEST", "TEST"),
+#   deps = rep("", 11), # leave deps column empty for now
+#   misc = rep("test misc string",11), # leave misc column as test string for now
+#   stringsAsFactors = FALSE
+# )
+
+# Simpler test for now: 3 tokens
 test_data <- data.frame(
-  id = c("TEST_01_001", "TEST_01_002", "TEST_01_003", "TEST_01_004", "TEST_02_001", "TEST_02_002", "TEST_02_003", "TEST_02_004", "TEST_03_001", "TEST_03_002", "TEST_03_003"),
-  doc_id = rep("", 11), # leave doc_id column empty for now
-  paragraph_id = rep("000", 11), # don't need a real paragraph ID
-  sentence_id = c(rep("TEST_01",4), rep("TEST_02",4), rep("TEST_03",3)),
-  sentence = c(rep("01 This is a test.",4), rep("02 This is a test.",4), rep("03 This is a test.",3)),
-  token_id = c(1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3),
-  token = c("ēkal","x","mār","Aššur-dan","ēkal","Aššur-naṣir-apli","šar","kiššati","marks","mark","marks"),
-  lemma = c("ēkallu","x","māru","Aššur-dan_II","ēkallu","Aššur-naṣir-apli_II","šarru","kiššatu","mark","mark","mark"),
-  upos = c("NOUN","PROPN","NOUN","PROPN","NOUN","PROPN","NOUN","NOUN","VERB","VERB","NOUN"),
-  xpos = c("N","u","N","RN","N","RN","N","N","V","V","N"),
-  feats = c("Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Masc|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Masc|NounBase=Bound|Number=Sing", "Case=Gen|Gender=Fem|NounBase=Free|Number=Sing", "Person=3|Number=Plural", "Person=2", "Number=Plural"),
-  head_token_id = c("0","1","2","3","0","1","2","3","0","0","0"),
-  dep_rel = c("root", "nmod:poss", "appos", "nmod:poss", "root", "nmod:poss", "appos", "nmod:poss", "TEST","TEST", "TEST"),
-  deps = rep("", 11), # leave deps column empty for now
-  misc = rep("test misc string",11), # leave misc column as test string for now
+  id = c("TEST_01_001", "TEST_01_002", "TEST_01_003"),
+  doc_id = rep("", 3), # leave doc_id column empty for now
+  paragraph_id = rep("000", 3), # don't need a real paragraph ID
+  sentence_id = rep("TEST_01",3),
+  sentence = rep("01 This is a test.",3),
+  token_id = c(1, 2, 3),
+  token = c("t_one","t_two","t_two_suffix"),
+  lemma = c("t_one","t_two","t_two"),
+  upos = c("NOUN","VERB","VERB"),
+  xpos = c("N","V","V"),
+  feats = c("Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Fem"),
+  head_token_id = c("0","1","2"),
+  dep_rel = rep("TEST",3),
+  deps = rep("", 3), # leave deps column empty for now
+  misc = rep("test misc string",3), # leave misc column as test string for now
   stringsAsFactors = FALSE
 )
 
@@ -89,6 +109,14 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
   expect_true(file.exists(file.path(DIR_S_TOKEN_SUM, "surprisal_per_token_sum_sentence_test_01.tsv"))) 
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_sum.tsv")))
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_full.tsv")))
+  
+  # Get surprisal_per_token_test_01.tsv
+  tsv_data <- read.table(file.path(DIR_S_TOKEN, "surprisal_per_token_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The surprisal column should be 0, 1, 1
+  expect_true(all(tsv_data$surprisal == c(0, 1, 1)))
+  
+  # print(tsv_data$surprisal) # debug
   
   ############## FUTURE ###############
   # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
