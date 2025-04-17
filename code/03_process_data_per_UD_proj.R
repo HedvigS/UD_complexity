@@ -94,6 +94,10 @@ lemmas_feat_cat_df <- conllu_split %>%
   distinct() %>% 
   filter(!is.na(feat_cat_new))
 
+####################################
+# TODO: this is assigning features to tokens that already have them.
+# e.g. token TEST_01_001 has feat_cat "Gender" and feat_value "Fem",
+# but this line is adding a new line for TEST_01_001 with feat_cat "Gender" and feat_value "unassigned" 
 conllu_split_dummys_inserted <- conllu_split %>% 
   left_join(lemmas_feat_cat_df, relationship = "many-to-many", by = agg_level) %>% 
   mutate(feat_value_new = ifelse(feat_cat_new == feat_cat, feat_value, "unassigned")) %>% 
@@ -101,6 +105,7 @@ conllu_split_dummys_inserted <- conllu_split %>%
   mutate(feat_cat_new = ifelse(is.na(feat_cat_new), "unassigned", feat_cat_new)) %>% 
   dplyr::select(-feat_cat, -feat_value) %>% 
   dplyr::rename(feat_cat = feat_cat_new, feat_value = feat_value_new) 
+####################################
 
 conllu_split  <- conllu_split_dummys_inserted 
 

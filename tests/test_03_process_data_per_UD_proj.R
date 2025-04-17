@@ -28,13 +28,32 @@ source("03_process_data_per_UD_proj.R")
 
 # Set some global variables
 # Directories for test data output
+
+# DIR_COUNTS: summary values per sentence
 DIR_COUNTS <- "output_test/counts/"
+
+# DIR_S_FEAT: counts, proportions and sum of surprisals for individual feature values
 DIR_S_FEAT <- "output_test/surprisal_per_feat/"
+
+# DIR_S_FEAT_LOOKUP: counts, proportions and surprisals for individual feature values
 DIR_S_FEAT_LOOKUP <- "output_test/surprisal_per_feat_lookup/"
+
+# DIR_S_FEATSTRING: counts, proportions and surprisals for full feature strings for each token 
+# (where the counts and proportions are determined per agg_level, either UPOS, lemma or token)
 DIR_S_FEATSTRING <- "output_test/surprisal_per_featstring/"
+
+# DIR_S_FEATSTRING_LOOKUP: counts, proportions and surprisals per feature string, per agg_level (UPOS, lemma or token)
 DIR_S_FEATSTRING_LOOKUP <- "output_test/surprisal_per_featstring_lookup/"
+
+# DIR_S_TOKEN: counts, proportions and surprisals for each token regardless of morphological features. 
+# Ignores UPOS, so "marks" (English verb) and "marks" (English plural noun) 
+# would be counted as two instances of the same token.
 DIR_S_TOKEN <- "output_test/surprisal_per_token/"
+
+# DIR_S_TOKEN_SUM: The surprisals from surprisal_per_token summed at the level of "sentence_id"
 DIR_S_TOKEN_SUM <- "output_test/surprisal_per_token_sum_sentence/"
+
+# DIR_TTR: Type-Token Ratios of individual tokens.
 DIR_TTR <- "output_test/TTR/"
 
 # Create test data.
@@ -111,12 +130,15 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_full.tsv")))
   
   # Get surprisal_per_token_test_01.tsv
-  tsv_data <- read.table(file.path(DIR_S_TOKEN, "surprisal_per_token_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_upos_core_features_only_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
   
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
   # The surprisal column should be 0, 1, 1
-  expect_true(all(tsv_data$surprisal == c(0, 1, 1)))
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(0, 1, 1)))
   
-  # print(tsv_data$surprisal) # debug
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
   ############## FUTURE ###############
   # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
