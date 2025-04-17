@@ -82,23 +82,23 @@ fpath_out_test <- paste0(directory_out_test, "test_01.tsv")
 #   stringsAsFactors = FALSE
 # )
 
-# Simpler test for now: 3 tokens
+# Simpler test for now: 5 tokens
 test_data <- data.frame(
-  id = c("TEST_01_001", "TEST_01_002", "TEST_01_003"),
-  doc_id = rep("", 3), # leave doc_id column empty for now
-  paragraph_id = rep("000", 3), # don't need a real paragraph ID
-  sentence_id = rep("TEST_01",3),
-  sentence = rep("01 This is a test.",3),
-  token_id = c(1, 2, 3),
-  token = c("t_one","t_two","t_two_suffix"),
-  lemma = c("t_one","t_two","t_two"),
-  upos = c("NOUN","VERB","VERB"),
-  xpos = c("N","V","V"),
-  feats = c("Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Masc", "Gender=Fem"),
-  head_token_id = c("0","1","2"),
-  dep_rel = rep("TEST",3),
-  deps = rep("", 3), # leave deps column empty for now
-  misc = rep("test misc string",3), # leave misc column as test string for now
+  id = c("TEST_N01", "TEST_N02", "TEST_V01", "TEST_V02", "TEST_V03"),
+  doc_id = rep("", 5), # leave doc_id column empty for now
+  paragraph_id = rep("000", 5), # don't need a real paragraph ID
+  sentence_id = c("TEST_01","TEST_01", "TEST_01", "TEST_02", "TEST_02"),
+  sentence = c(rep("01 This is a test.",3), rep("02 This is a test.",2)),
+  token_id = c(1, 2, 3, 4, 5),
+  token = c("t_n_one","t_n_two", "t_v_one","t_v_one_suffix", "t_v_two"),
+  lemma = c("t_n_one","t_n_two","t_v_one","t_v_one", "t_v_two"),
+  upos = c("NOUN","NOUN","VERB","VERB", "VERB"),
+  xpos = c("N","N","V","V", "V"),
+  feats = c("Gender=Fem|NounBase=Bound|Number=Sing", "Gender=Fem|NounBase=Bound|Number=Sing|FakeFeat=BlahBlah", "Gender=Masc|Number=Sing", "Gender=Fem|Number=Sing", ""),
+  head_token_id = c("0","1","2","0", "1"),
+  dep_rel = rep("TEST",5),
+  deps = rep("", 5), # leave deps column empty for now
+  misc = rep("test misc string",5), # leave misc column as test string for now
   stringsAsFactors = FALSE
 )
 
@@ -129,22 +129,25 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_sum.tsv")))
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_full.tsv")))
   
-  # Get surprisal_per_token_test_01.tsv
+  # Get sum of surprisals per token
   tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_upos_core_features_only_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
   
   # The table should have a column called sum_surprisal_morph_split
   expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
 
-  # The surprisal column should be 0, 1, 1
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(0, 1, 1)))
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    0, # The first noun has three features, all are identical to the second noun.
+    0, # The second noun has four features, three are identical to the second noun and one is not a core feature.
+    2.17, # Surprisal of 1/3 plus surprisal of 2/3, rounded
+    2.17,  # Surprisal of 1/3 plus surprisal of 2/3, rounded
+    3.17 # Surprisal of 1/3 plus surprisal of 1/3, rounded
+  )))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
-  
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_lemma_core_features_only_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_upos_core_features_only_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
   
 })
 
@@ -160,11 +163,25 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, core only",{
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_lemma_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_lemma_core_features_only_test_01.tsv")))
   
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_lemma_core_features_only_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_lemma_core_features_only_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
+  # Get sum of surprisals per token
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_lemma_core_features_only_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    0, # The first noun has three features, all are identical to the second noun.
+    0, # The second noun has four features, three are identical to the second noun and one is not a core feature.
+    1, # Only differs from the other token of the same lemma in one feature
+    1, # Only differs from the other token of the same lemma in one feature
+    0  # No other tokens of the same lemma, so no surprisal
+  )))
+  
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
 })
 
@@ -180,11 +197,25 @@ test_that("Test process_data_per_UD_proj: test data, per token, core only",{
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_token_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_token_core_features_only_test_01.tsv")))
   
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_token_core_features_only_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_token_core_features_only_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
+  # Get sum of surprisals per token
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_token_core_features_only_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    0, # No other identical tokens, so no surprisal
+    0, # No other identical tokens, so no surprisal
+    0, # No other identical tokens, so no surprisal
+    0, # No other identical tokens, so no surprisal
+    0  # No other identical tokens, so no surprisal
+  )))
+  
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
 })
 
@@ -200,13 +231,58 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, all_features",{
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_upos_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_upos_all_features_test_01.tsv")))
   
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_upos_all_features_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_upos_all_features_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
+  # Get sum of surprisals per token
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_upos_all_features_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    1, # The first noun has four features, three are identical to the second noun and one is different.
+    1, # The second noun has four features, three are identical to the second noun and one is different
+    2.17, # Surprisal of 1/3 plus surprisal of 2/3, rounded
+    2.17,  # Surprisal of 1/3 plus surprisal of 2/3, rounded
+    3.17 # Surprisal of 1/3 plus surprisal of 1/3, rounded
+  )))
+  
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
 })
+
+###########################################################
+# For the last two test cases we will define new test data.
+test_data <- data.frame(
+  id = c("TEST_N01", "TEST_N02", "TEST_V01", "TEST_V02", "TEST_V03", "TEST_V04"),
+  doc_id = rep("", 6), # leave doc_id column empty for now
+  paragraph_id = rep("000", 6), # don't need a real paragraph ID
+  sentence_id = c("TEST_01","TEST_01", "TEST_01", "TEST_02", "TEST_02", "TEST_02"),
+  sentence = c(rep("01 This is a test.",3), rep("02 This is a test.",3)),
+  token_id = c(1, 2, 3, 4, 5, 6),
+  token = c("t_n_one","t_n_two", "t_v_one","t_v_one", "t_v_one_suffix", "t_v_two"), # two tokens are now identical
+  lemma = c("t_n_one","t_n_one","t_v_one","t_v_one", "t_v_one", "t_v_two"),
+  upos = c("NOUN","NOUN","VERB","VERB", "VERB", "VERB"),
+  xpos = c("N","N","V","V", "V", "V"),
+  feats = c(
+    "Gender=Fem|NounBase=Bound|Number=Sing", # 1st noun
+    "Gender=Fem|NounBase=Bound|Number=Sing|FakeFeat=BlahBlah", # 2nd noun, same lemma as 1st noun
+    "Gender=Masc|Number=Sing|FakeFeat=BlahBlah", # 1st verb, same lemma as 2nd and 3rd verbs, same token as 2nd verb
+    "Gender=Fem|Number=Sing", # 2nd verb, same lemma as 1st and 3rd verbs, same token as 1st verb
+    "", # 3rd verb, same lemma as 1st and 2nd verbs
+    "" # 4th verb
+  ),
+  head_token_id = c("0","1","2", "0", "1", "2"),
+  dep_rel = rep("TEST",6),
+  deps = rep("", 6), # leave deps column empty for now
+  misc = rep("test misc string",6), # leave misc column as test string for now
+  stringsAsFactors = FALSE
+)
+
+# Write the new test data to the TSV file
+write.table(test_data, fpath_out_test, sep = "\t", row.names = FALSE, quote = FALSE)
 
 # Test case 5: lemma, all_features
 test_that("Test process_data_per_UD_proj: test data, per lemma, all_features",{
@@ -220,11 +296,26 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, all_features",{
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_lemma_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_lemma_all_features_test_01.tsv")))
   
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_lemma_all_features_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_lemma_all_features_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
+  # Get sum of surprisals per token
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_lemma_all_features_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    1, # The first noun has four features, three are identical to the second noun and one is different.
+    1, # The second noun has four features, three are identical to the second noun and one is different
+    3.75, # Surprisal of 1/3 plus surprisal of 2/3 plus 1/3, rounded
+    2.75, # Surprisal of 1/3 plus surprisal of 2/3 plus 2/3, rounded
+    3.75, # Surprisal of 1/3 plus surprisal of 1/3 plus 2/3, rounded
+    0     # No other tokens of the same lemma, so no surprisal
+  )))
+  
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
 })
 
@@ -240,11 +331,26 @@ test_that("Test process_data_per_UD_proj: test data, per token, all_features",{
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_token_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_token_all_features_test_01.tsv")))
   
-  ############## FUTURE ###############
-  # In future we can do more sophisticated tests e.g. check specific values in the TSV files.
-  # # Get the counts data using DIR_COUNTS and counts_agg_level_token_all_features_test_01_summarised.tsv
-  # tsv_data <- read.table(file.path(DIR_COUNTS, "counts_agg_level_token_all_features_test_01_summarised.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
-  #####################################
+  # Get sum of surprisals per token
+  tsv_data <- read.table(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_token_all_features_test_01.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+  
+  # The table should have a column called sum_surprisal_morph_split
+  expect_true("sum_surprisal_morph_split" %in% colnames(tsv_data))
+
+  # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
+  tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+    0, # No other identical tokens, so no surprisal
+    0, # No other identical tokens, so no surprisal
+    2, # Another token with 2 features different
+    2, # Another token with 2 features different
+    0, # No other tokens of the same lemma, so no surprisal
+    0  # No other tokens of the same lemma, so no surprisal
+  )))
+  
+  # print(tsv_data$sum_surprisal_morph_split) # debug
   
 })
   
