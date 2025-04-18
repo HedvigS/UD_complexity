@@ -573,3 +573,6 @@ Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-test.conllu	telu1262	telu1
 Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-train.conllu	telu1262	telu1262					
 Ud-treebanks-v2.14	UD_Tswana-Popapolelo	tn_popapolelo-ud-test.conllu	tswa1253	tswa1253					
 Ud-treebanks-v2.14	UD_Vietnamese-TueCL	vi_tuecl-ud-test.conllu	viet1252	viet1252					
+Ud-treebanks-v2.14	UD_Abkhaz-AbNC	ab_abnc-ud-test.conllu	abkh1244	abkh1244					
+Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	az_tuecl-ud-test.conllu	nort2697	nort2697;sout2697					
+Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246					
