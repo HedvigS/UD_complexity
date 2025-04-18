@@ -35,12 +35,13 @@ output_dirs <- c(
 "surprisal_per_feat_lookup",
 "surprisal_per_featstring_lookup",
 "surprisal_per_feat", 
-"surprisal_per_featstring")
+"surprisal_per_featstring", 
+"summarised")
 
-for(dir in output_dirs ){
-dir <- paste0(directory, "/", dir)
-if(!dir.exists(dir)){
-  dir.create(dir)
+for(dir_spec in output_dirs ){
+dir_spec <- paste0(directory, "/", dir_spec)
+if(!dir.exists(dir_spec)){
+  dir.create(dir_spec)
 }
 }
                   
@@ -51,7 +52,7 @@ for(i in 1:length(fns)){
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
-    cat(paste0("I'm on ", dir, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
+    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
     
   #reading in
 conllu <- read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) %>% 
@@ -85,6 +86,11 @@ conllu_split <- conllu %>%
   distinct() %>% 
   ungroup()
 
+n_feats_per_token_df  <- conllu_split %>% 
+  group_by(id) %>% 
+  mutate(feats_n = n()) %>% 
+  mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n))
+
 # for stepping through Abaza for agg_level upos and core-features
 # all tokens with lemma Iанхара_VERB should have polarity = unassigned
 # All tokens with UPOS ADJ should have unassigned = unassigned
@@ -100,7 +106,6 @@ token_info <- conllu_split %>%
 expanded <- token_info %>%
   left_join(agg_level_feat_cat_df_distinct , by = agg_level, relationship = "many-to-many")  # brings in only feat_cats attested for this agg_level
 
-# Step 4: join back with original data to recover existing feat_value values
 conllu_split_dummys_inserted  <- expanded %>%
   left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "feat_cat")) %>%
   mutate(feat_value = coalesce(feat_value, "unassigned")) %>% 
@@ -111,6 +116,7 @@ conllu_split_dummys_inserted  <- expanded %>%
 #for some computations, we need the original format with one row per token. here we render that back again
 conllu <- conllu_split_dummys_inserted  %>% 
   mutate(feats_combo = paste0(feat_cat, "=", feat_value)) %>% 
+  arrange(feat_cat) %>% 
   group_by(id) %>% 
   summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
   full_join(conllu, by = "id") %>% 
@@ -127,7 +133,7 @@ n_tokens_per_sentence_df <- conllu %>%
   summarise(n_tokens = n(), .groups = "drop")
 
 ## TTR
-n_tokens <- sum(n_tokens_per_sentence_df$n_tokens)
+n_tokens <- conllu %>% nrow()
 n_types <- conllu$token %>% unique() %>%  na.omit() %>% length()
 n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
 cat(paste0("The lemma-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n"))
@@ -150,14 +156,8 @@ surprisal_all_tokens_lookup <- conllu %>%
   mutate(prop = n/nrow(conllu)) %>% 
   mutate(surprisal = log2(1/prop))
 
-conllu %>% 
-  left_join(surprisal_all_tokens_lookup, by = "token") %>% 
-  group_by(sentence_id ) %>%
-  summarise(surprisal = sum(surprisal), 
-            n_token = n()) %>% 
-  mutate(dir = dir) %>% 
-  write_tsv(file = paste0(directory, "/surprisal_per_token_sum_sentence/surprisal_per_token_sum_sentence_", dir,
-                          ".tsv"))
+surprisal_token <- conllu %>% 
+  left_join(surprisal_all_tokens_lookup, by = "token") 
 
 conllu %>% 
   left_join(surprisal_all_tokens_lookup, by = "token") %>%
@@ -170,25 +170,6 @@ n_unique_lemma_per_sentence <- conllu %>%
   distinct(sentence_id, lemma) %>%
   group_by(sentence_id) %>% 
   summarise(n_lemma = n(), .groups = "drop")
-
-#counts
-
-n_feats_per_token_df  <- conllu %>% 
-  mutate(feats_n = str_count(feats, "=")) %>% 
-  mutate(feats_n = ifelse(is.na(feats), 0, feats_n)) %>% 
-  group_by(sentence_id) %>% 
-  summarise(feats_per_token = paste0(feats_n, collapse = ";"), 
-            n_tokens = n(), 
-            feats_n = sum(feats_n)) 
-
-df <- n_feats_per_token_df  %>% 
-  full_join(n_unique_lemma_per_sentence, by = join_by(sentence_id)) %>% 
-  dplyr::mutate(feats_ratio_sentence = feats_n / n_tokens) %>% 
-  dplyr::mutate(dir = dir)
-
-df %>% 
-  mutate(dir = dir) %>% 
-  write_tsv(file = paste0(directory, "/counts/counts_agg_level_",agg_level, "_", core_features, "_", dir, "_summarised.tsv"), na = "", quote = "all")
 
 ########## custom metrics
 #computing the probabilities and surprisal of each morph tag value per lemma
@@ -227,7 +208,7 @@ lookup_not_split <- conllu %>%
   ungroup() %>% 
   mutate(prop = n/sum) %>% 
   mutate(surprisal = log2(1/prop)) %>% 
-  dplyr::select(all_of(agg_level), feats,n, prop, surprisal_per_morph_full_string = surprisal)
+  dplyr::select(all_of(agg_level), feats,n, prop, surprisal_per_morph_featstring = surprisal)
 
 lookup_not_split %>% 
   mutate(dir = dir) %>% 
@@ -240,5 +221,21 @@ token_surprisal_df_feat_string <- conllu %>%
 token_surprisal_df_feat_string %>% 
   mutate(dir = dir) %>% 
   write_tsv(file = paste0(directory, "/surprisal_per_featstring/surprisal_per_featstring_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
+
+
+data.frame(dir = dir, 
+           agg_level = agg_level, 
+           core_features = core_features,
+           n_types = n_types, 
+           n_tokens = n_tokens, 
+           n_sentences = conllu$sentence_id %>% unique() %>% length(), 
+           n_feat_cats = conllu_split_dummys_inserted %>% unique() %>% length(),
+           TTR = n_types /  n_tokens, 
+           LTR = n_lemmas / n_tokens, 
+           n_feats_per_token_mean = n_feats_per_token_df$feats_n %>% mean(),
+           suprisal_token_mean = surprisal_token$surprisal %>% mean(), 
+           sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
+           surprisal_per_morph_featstring_mean = token_surprisal_df_feat_string$surprisal_per_morph_featstring  %>% mean()) %>%
+  write_tsv(file = paste0(directory, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
 }
 }
