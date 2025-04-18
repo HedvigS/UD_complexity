@@ -54,6 +54,7 @@ for(i in 1:nrow(UD_dirs)){
       #  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
       dplyr::filter(upos != "X")  %>%
+      dplyr::filter(upos != "SYM")  %>%
       dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
       dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
       dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
