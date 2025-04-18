@@ -31,7 +31,6 @@ output_dirs <- c(
 "TTR",
 "surprisal_per_token_sum_sentence",
 "surprisal_per_token",
-"counts",
 "surprisal_per_feat_lookup",
 "surprisal_per_featstring_lookup",
 "surprisal_per_feat", 
