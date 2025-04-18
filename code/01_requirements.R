@@ -15,6 +15,7 @@ pkgs <- c(
   "stringr",
   "ggplot2",
   "ggpubr",
+  "GGally",
   "psych",
   "remotes",
   "udpipe",
