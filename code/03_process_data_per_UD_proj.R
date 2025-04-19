@@ -47,7 +47,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 1
+# i <- 14
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -228,7 +228,7 @@ data.frame(dir = dir,
            n_types = n_types, 
            n_tokens = n_tokens, 
            n_sentences = conllu$sentence_id %>% unique() %>% length(), 
-           n_feat_cats = conllu_split_dummys_inserted %>% unique() %>% length(),
+           n_feat_cats = conllu_split_dummys_inserted$feat_cat %>% unique() %>% length(),
            TTR = n_types /  n_tokens, 
            LTR = n_lemmas / n_tokens, 
            n_feats_per_token_mean = n_feats_per_token_df$feats_n %>% mean(),
