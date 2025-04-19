@@ -15,4 +15,4 @@ process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features
 process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "all_features")
 
 source("03_stack_summaries.R")
-
+source("04_plot_SPLOM.R")
