@@ -12,11 +12,5 @@ process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_feature
 process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features = "all_features")
 process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "all_features")
 
-#source("03_summarise_for_plots.R")
+source("03_stack_summaries.R")
 
-#source("04_maps_counts.R")
-#source("04_map_surprisal.R")
-#source("04_map_TTR.R")
-#source("04_UPOS_feat_usefulness.R")
-
-#
