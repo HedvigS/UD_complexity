@@ -17,7 +17,6 @@ pkgs <- c(
   "ggpubr",
   "GGally",
   "randomcoloR",
-  "psych",
   "remotes",
   "udpipe",
   "reshape2",
