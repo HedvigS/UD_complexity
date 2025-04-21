@@ -86,7 +86,7 @@ conllu_split <- conllu %>%
   distinct() %>% 
   ungroup()
 
-n_feat_cats = conllu_split$feat_cat %>% unique() %>% length()
+n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique() %>% length()
 
 n_feats_per_token_df  <- conllu_split %>% 
   group_by(id) %>% 
