@@ -34,8 +34,8 @@ df_for_plot <- df %>%
                 "n_sentences" ,
                 "TTR",
                 "LTR"   ,
-            #    "n_feat_cats_all_features",                                    
-            #     "n_feat_cats_core_features_only",                               
+                "n_feat_cats_all_features",                                    
+                 "n_feat_cats_core_features_only",                               
                 "n_feats_per_token_mean_all_features",                         
                 "n_feats_per_token_mean_core_features_only"
             ) 
