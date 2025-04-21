@@ -16,7 +16,7 @@ metrics_df_2_ways <- all %>%
   dplyr::select(dir, core_features,
 "n_feats_per_token_mean", "n_feat_cats" ) %>% 
   reshape2::melt(id.vars = c("dir", "core_features")) %>%
-  unite(variable, core_features, col = "variable") %>% 
+  unite(variable, core_features, col = "variable", remove = T) %>% 
   distinct() %>% 
   reshape2::dcast(dir ~ variable, value.var = "value")
 
