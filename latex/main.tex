@@ -7,9 +7,9 @@
 \usepackage[small]{dgruyter}
 
 
-%analysis to do
-% let's just do a ridgeplots
-
+%to do
+% Hedvig: ridgeplots
+% Hedvig: why are there 283 directories but 02_collapse_UD_dirs.R only loops over 281 of them.
 
 % check the degree of multivalues. UD says: "It is possible to declare that a feature has two or more values for a given word: Case=Acc,Dat. The interpretation is that the word may have one of these values but we cannot decide between them. Such multivalues should be used sparingly. They should not be used if the value list would cover the whole value space, or the subspace valid for the given language. That would mean that we cannot tell anything about this feature for the given word, and then it is preferable to just leave the feature out." 
 
@@ -18,8 +18,11 @@
 % genres
 % should we try subset on  Parallel Universal Dependencies (PUD) tre
 
-% Unicode
-%\usepackage[utf8]{inputenc}
+%\usepackage{fontspec}
+
+% Define a Cyrillic-friendly font
+\newfontfamily\cyrillicfont{Times New Roman}
+
 \usepackage{hyperref}
 \hypersetup{
 	unicode,
@@ -145,8 +148,8 @@ shared types & the total number of population-wide shared types & simulations on
 These different measurements can be loosely associated with four broader facets of language complexity:
 
 \begin{itemize}
-\item easy of learning as a child's first language(s)
-\item easy of learning as additional language when adult
+\item ease of learning as a child's first language(s)
+\item ease of learning as additional language when adult
 \item ease of production for sender (a.k.a encoding complexity)
 \item ease of processing/comprehension for receiver (a.k.a decoding complexity)
 \end{itemize}
@@ -180,11 +183,11 @@ In this study, we are not only interested in how many morphological features on 
 
 \begin{table}[h]
     \centering
-    \caption{Sentence 15-0000 from Universal Dependencies dataset Turkish-Penn \citep{kuzgun_2020_UD_turkish_penn}. upos : Universal Part-of-Speech, lemma = base form, token = specific word, feats = morphological features} %note table captions go above the table
+    \caption{Sentence 15-0000 from Universal Dependencies dataset Turkish-Penn \citep{kuzgun_2020_UD_turkish_penn}. UPOS : Universal Part-of-Speech, lemma = base form, token = specific word, feats = morphological features} %note table captions go above the table
     \label{tab:turkish_example}   
     \begin{tabular}{p{1.5cm}p{2cm}p{2cm}p{6cm}}
 \toprule
-	\textbf{upos}	&	\textbf{lemma}	&	\textbf{token}	&	\textbf{feats}	\\
+	\textbf{UPOS}	&	\textbf{lemma}	&	\textbf{token}	&	\textbf{feats}	\\
     \midrule
 	ADJ	&	devasa	&	Devasa	&	\\    \midrule
 	ADJ	&	ölçek	&	ölçekli	&\\    \midrule
@@ -239,7 +242,7 @@ Thus entropy captures something like the average amount of uncertainty among a s
 Their method of calculating this value is as follows:
 \begin{enumerate}
 \item For a given dataset, randomly sample a fixed number of tokens
-\item Remove punctuation (upos=`PUNCT') and unanalysable tokens (upos=`X')
+\item Remove punctuation (UPOS=`PUNCT'), symbols (UPOS=`SYM') and unanalysable tokens (UPOS=`X')
 \item Remove tokens that have no morphological features
 \item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
 \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
@@ -278,15 +281,16 @@ This average is then an estimate of the `overall' entropy measure for the datase
 
 
 \subsection{Detailed technical procedure}
-
+\label{detailed_procedure}
 Like Çöltekin \& Rama, we use surprisal as the basis of our measure of complexity.
 However, instead of entropy, we define a measure of \textbf{mean surprisal per token} as follows:
 \begin{enumerate}
 \item Combine the files of each UD-dataset (e.g. dev, test and train) to one table with one token per row
-\item Remove punctuation (upos=`PUNCT') and unanalysable tokens (upos=`X')
+\item Remove punctuation (UPOS=`PUNCT'), symbols (UPOS=`SYM') and unanalysable tokens (UPOS=`X')
+\item Define lemmas as a combination of lemma + UPOS\footnote{This is done so that lemmas that are spelled the same but belong to different UPOS can be distinguish, for example the noun ``mark'' and the verb ``mark'' in English are defined as having the lemmas ``mark\_NOUN'' and ``mark\_VERB'' as opposed to both potentially being assigned to the same lemma - ``mark''.} 
 \item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
 \item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
-\item Assign a dummy value to unassigned morphological categories for each token. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
+\item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
 \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``ἀόρατος'' in the Ancient Greek PTNK-dataset PTNK is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
 \item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
 \item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
@@ -305,7 +309,7 @@ However, instead of entropy, we define a measure of \textbf{mean surprisal per t
 
 % UD\_Indonesian-PUD
 %id	&
-upos&lemma	&token	&feats & unassigned feats	\\ 
+UPOS&lemma	&token	&feats & unassigned feats	\\ 
 \midrule
 DET & buah & sebuah 
 & Definite=Ind|PronType=Art
@@ -330,7 +334,7 @@ ADJ & akhir	&terakhir&	Degree=Sup& NumType\\\bottomrule
 \toprule
 
 %id	&
-upos&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
+UPOS&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
 
 DET & buah & sebuah & Definite& Ind & 6 & 0.3\\
 DET & buah & sebuah & Number& unassigned & 1 & 0.05\\
@@ -372,41 +376,175 @@ Only then do we calculate a mean value by summing across the entire dataset.
 The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
 
 Finally, a variant of our procedure aggregates features at the level of UPOS rather than lemma.
-For this alternative measure tokens receive many more unassigned feature values: all those categories that occur on any token of the same UPOS, which will generally be a longer list than just those that occur on tokens of the same lemma.
-Counts and frequencies are likewise determined per UPOS.
+When we aggregate over UPOS rather than lemma, tokens receive many more ``dummy'' unassigned feature values: all those categories that occur on any token of the same UPOS, which will generally be a longer list than just those that occur on tokens of the same lemma.
+To control for variability in morphological feature annotation across dataset, we calculate once using all morphological feature categories used in each dataset and once using only the ``core'' features as defined by the UD project. For more on this, see section \ref{caveat_comparability}.
+This procedure gives us four metrics:
 
+\begin{enumerate}
+    \item surprisal of morphological features per token (aggregation level = lemma, all features)
+    \begin{enumerate}
+  \renewcommand{\labelenumi}{\alph{enumi})}
+  \item aggregation level = lemma, all features
+  \item aggregation level = lemma, only core features
+  \item aggregation level = UPOS, all features
+  \item aggregation level = UPOS, only core features
+\end{enumerate}
+\end{enumerate}
 
+\subsection{Additional metrics}
+In addition to the metrics defined above, we also calculate a few other related metrics - many which are commonly reported in similar studies.\footnote{All of the metrics and statistics mentioned are calculated after we excluding tokens with certain UPOS (PUNCT \& X), features (Abbr, Typo \& Foreign) and define lemmas distinctly per UPOS, see step 3 in section \ref{detailed_procedure}.}. Some of the metrics and statistics depend on wether the aggregation level is lemma or UPOS and whether all features noted for a dataset and considered or only the ``core'' features previously defined.
+\begin{enumerate}
+  \setcounter{enumi}{4}  % This will start the list at 5
+  \item Type-Token-Ratio (TTR): the number of unique tokens divided by the total number of tokens
+  \item Lemma-Token-Ratio (LTR): the number of unique lemmas divided by the total number of tokens
+  \item Mean number of morphological features per token \footnote{This metric is calculated before dummy features are inserted, so aggregation level is irrelevant.}
+      \begin{enumerate}
+  \renewcommand{\labelenumi}{\alph{enumi})}
+  \item all features
+  \item only core features
+ \end{enumerate}
+  \item Mean surprisal of morphological features when concatenated as a string, e.g. ``Number=Plur|PronType=Ind'' instead of split per feature (see more in section \ref{caveat_conditional_order})   
+    \begin{enumerate}
+    \renewcommand{\labelenumi}{\alph{enumi})}
+  \item aggregation level = lemma, all features
+  \item aggregation level = lemma, only core features
+  \item aggregation level = UPOS, all features
+  \item aggregation level = UPOS, only core features
+ \end{enumerate}
+   \item Mean token surprisal: mean surprisal per token given all tokens, regardless of UPOS/lemma or morphological features
+\end{enumerate}
 
+We also report some simple statistics of each dataset, namely:
 
+\begin{enumerate}
+  \setcounter{enumi}{9}  % This will start the list at 5
+  \item Number of tokens
+  \item Number of sentences
+  \item Number of lemmas
+  \item Number of unique features
+      \begin{enumerate}
+    \renewcommand{\labelenumi}{\alph{enumi})}
+ \item  all features
+  \item only core features
+ \end{enumerate}
+ \end{enumerate}
 
 \subsection{Caveats}
 No method is perfect. We note the shortcomings of our study here. 
 
 \subsubsection{Comparability}
+\label{caveat_comparability}
 In comparative studies, it is desirable to compare like with like. There are several comparability challenges in this study. 
-Datasets can for example vary in the \textbf{level of analysis of morphology}. 
+
+\paragraph{Variation in morphological annotation}
+Datasets can vary in many aspects, one of them being the \textbf{level of analysis of morphology}. 
 Some datasets can have contain a lot of different morphological features and some very few despite the underlying languages being similar. 
-This is due to the design choices of the specific contributors of datasets. 
-In order to address this, we only consider morphological features that belong to the so called ``Universal'' feature set of the UD-project \citep{ud_2_feat_website}: Gender, Animacy, NounClass, Number, Case, Definite, Deixis, DeixisRef, Degree, VerbForm, Mood, Tense, Aspect, Voice, Evident, Polarity, Person, Polite and Clusivity.
+This is due to the design choices of the specific contributors of each datasets and such variation is expected in a project of this type.
+Varying levels of annotation or annotation schemes makes the dataset less comparable.
+We address this by calculating our metrics once for all features specified in a given dataset and once for the ``universal'' morphological features only. The UD-documentation guidelines specify a subset of the morphological features as ``universal'' \citep{ud_2_feat_website}. The UD-documentation writes that these are described in a standardised manner, with some flexibility. However, ``[t]his does not mean that they occur in all languages. It means that they have been attested in more than one language and they are considered linguistically important. UD treebanks may use additional features and values if they are properly documented.''. This set of morphological features are defined centrally within the UD-project, as opposed to defined locally for each UD-dataset. They are: PronType, NumType, Poss, Reflex, Abbr, Typo, Foreign\footnote{We exclude the features Abbr, Typo \& Foreign from all our analysis as they do not carry the kind of information we are after.}, ExtPos, Gender, Animacy, NounClass, Number, Case, Definite, Deixis, DeixisRef, Degree, VerbForm, Mood, Tense, Aspect, Voice, Evident, Polarity, Person, Polite and Clusivity.
+As these are more standardised across UD-datasets, with some flexibility\footnote{For example, the UD guidelines note that while gender is commonly associated with nouns, there is nothing in the central guidelines that prevent the feature from also appearing on adjectives and verbs.}, we expect these features to be more comparable across datasets than other features. 
+We use the term ``core'' in this paper for this class of morphological features so as to not confuse it with other senses of the term ``universal''.
 
-Another comparability issue is related to \textbf{genre}. The datasets of UD can be of very different genres. For example. Beja-NSC is based on linguistic fieldworker Martine Vanhove's corpus which features many stories. Czech-Poetry on the other hand contains, as the name suggests, random samples of Czech 19th-century poetry. Ukrainian-ID consists of, as many datasets in UD do, a blend of fiction, news, opinion articles, Wikipedia, legal documents, letters, posts and comments. We may expect that genre effects structure and lexicon of the datasets, with poems exhibiting more experimental word order and legal documents more technical jargon. 
+\paragraph{Variation in Universal Part-Of-Speech annotation (UPOS)}
+The UD datasets use a specific set of Universal Part-Of-Speech categories (UPOS):
+
+\begin{itemize}
+    \item ADJ: adjective
+    \item ADP: adposition
+    \item ADV: adverb
+    \item AUX: auxiliary
+    \item CCONJ: coordinating conjunction
+    \item DET: determiner
+    \item INTJ: interjection
+    \item NOUN: noun
+    \item NUM: numeral
+    \item PART: particle
+    \item PRON: pronoun
+    \item PROPN: proper noun
+    \item PUNCT: punctuation
+    \item SCONJ: subordinating conjunction
+    \item SYM: symbol
+    \item VERB: verb
+    \item X: other
+\end{itemize}
+
+These are defined centrally across datasets, but as with morphological features there is also language specific variation in how they are defined and applied. 
+Parts-Of-Speech/word classes famously vary across languages in terms of which exists, how they behave, how they subdivide further and more parameters. Some languages do not have an identifiable class of adjectives, with such meanings instead being expressed with nouns or verbs. Some languages have a fluid boundary between nouns and verbs. There is a substantial literature in linguistic theory and typology that deals with the definition of parts-of-speech/word classes across languages (c.f. \citet{kira_keira}).
+For this project, we are naturally dependent on how the UD-central team have defined these labels and how the contributors of each dataset have then further specified them.
+For example, in the UD-dataset Abaza-ATB [glottocode = abaz1241, ISO 639-3 abq] there are tokens which are marked as having UPOS VERB but which have very different morphological features. To illustrate this, let's consider the token \cyrillicfont{цIитI} in Table \ref{tab:Abaza_sent_10} and \cyrillicfont{йазкIкIыта} in Table \ref{tab:Abaza_sent_11} which are both marked as UPOS VERB. The first token, \cyrillicfont{цIитI}, is annotated for features often associated with finite verbs such as tense. The token \cyrillicfont{йазкIкIыта} is likewise also tagged as UPOS VERB, but the morphological features are quite different. The morphological features of \cyrillicfont{йазкIкIыта} are all related to the gender, person and number of the arguments of the verb (io = indirect object, abs = absolutive). The two tokens do not share any features, \cyrillicfont{цIитI} is not marked for gender/person/number of the arguments and \cyrillicfont{йазкIкIыта} is not marked for tense or VerbForm.
+Based on studying these annotations alone, we may reach the conclusion that there are at least two categories of tokens which are both included under the heading VERB and that have a different morphological behaviour.
+This is not unexpected and is likely to occur for many datasets in UD, to different degrees.
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{p{3cm}|p{8cm}}
+    Abaza     & {\cyrillicfont{щарда \underline{цIитI} ари агIаншижьтара}} \\
+    Russian    & {\cyrillicfont{С тех пор прошло много времени }}\\
+    English & A lot of time has passed since then\\
+    Morphological features & Tense=Pres|VerbForm=Fin \\
+    \end{tabular}
+    \caption{Sentence 10 from UD-dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word is listed.}
+    \label{tab:Abaza_sent_10}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \begin{tabular}{p{3cm}|p{8cm}}
+    Abaza     & {\cyrillicfont{апхъа азаман уагIахъата адунай йыквыз шабгаз \underline{йазкIкIыта} зджьара йбзазун }}\\
+    Russian    &{\cyrillicfont{В то время люди, которые находились на свете, собравшись, жили где-то }}\\
+    English & At that time, the people who were in the world, having gathered, lived somewhere\\
+    Morphological features & Gender[io]=Neut|Number[abs]=Plur|Number[io]=Sing| Person[abs]=3|Person[io]=3 \\
+    \end{tabular}
+    \caption{Sentence 11 from UD-dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word is listed.}
+    \label{tab:Abaza_sent_11}
+\end{table}
+
+The UD annotation guidelines states that a verb ``is a member of the syntactic class of words that typically signal events and actions, can constitute a minimal predicate in a clause, and govern the number and types of other constituents which may occur in the clause''. They go on to note that the UPOS-label VERB is not applied to auxiliary verbs. The documentation further specifies that, depending on language-specific analysis, (i) participles may be tagged as VERB or ADJ, (ii) gerunds and infinitives may be analysed as VERB or NOUN and that (ii) converbs (transgressives) or adverbial participles may be classed as VERB or ADV.
+This standardised definition therefore still leaves a lot of flexibility, as is desirable and expected in a project of this kind.
+Given the structure of the language at hand and the specific decisions of the contributors, this can mean that the Parts-Of-Speech-topology differs a lot between datasets. 
+For the study at hand, this means that when the imputation of dummy-features is dependent in the annotation of other tokens of the same UPOS, the Abaza tokens above would receive a lot of dummy-features. \cyrillicfont{цIитI} (table \ref{tab:Abaza_sent_10}) will receive the features Gender[io]=unassigned, Number[abs]= unassigned etc.
+This is one of the reasons why we compute the metrics with the aggregation level set to UPOS and to lemma.
+
+\paragraph{Variation in genre}
+Another comparability issue is related to \textbf{genre}. 
+The datasets of UD can be of very different genres. 
+For example. Beja-NSC is based on linguistic fieldworker Martine Vanhove's corpus which features transcribed spoken stories, whereas the UD dataset Czech-Poetry contains, as the name suggests, samples of Czech 19th-century poetry. Ukrainian-ID consists of, as many datasets in UD do, a blend of fiction, news, opinion articles, Wikipedia, legal documents, letters, posts and comments. 
+We may expect that genre effects structure and lexicon of the datasets, with poems exhibiting more experimental word order and legal documents more technical jargon. 
+We present the metrics as they are calculated over each dataset in UD. Future studies could delve more into the differences between datasets as it relates to the genre of the content.
+Some of the UD datasets are more comparable in genre than others, in particular those that stem from the \hyperlink{http://universaldependencies.org/conll17/}{Conference on Computational Natural Language Learning 2017 shared task on Multilingual Parsing from Raw Text to
+Universal Dependencies}.
+These datasets all contain the same text from news and wikipedia, translated into different languages and are referred to as the Parallel Universal Dependencies (PUD) treebanks.
+We mark out the PUD-datasets specifically in visualisations as they represent highly comparable data in terms of genre.
 
 
 
-Accuracy and comparability of tokenization, UPOS, lemma and morphology feature tagging
-%ud_2_feat_website
 
-\subsubsection{Additional information}
+\paragraph{Phonological realisation of morphological features}
+
+\subsubsection{Additional informational facets of morphological features}
+\label{caveat_conditional_order}
 Conditional probabilities (if Case=Nom, then Animacy=Anim more likely)
 Ignoring order of elements
 
-\subsubsection{Phonological realisation of morphological features}
-Morph feats aren't attached to phonological content (or lack thereof)
 
 
 
 
 \section{Results}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{latex/graphics/SPLOM_custom_metrics.png}
+    \caption{SPLOM of custom metrics}
+    \label{fig:SPLOM_custom_metrics}
+\end{figure}
+
+\begin{figure}
+    \centering
+        \includegraphics[width=0.5\linewidth]{latex/graphics/SPLOM_other_metrics.png}
+    \caption{SPLOM additional metrics}
+    \label{fig:SPLOM_other_metrics}
+\end{figure}
 
 \section{Discussion}
 
