@@ -1,5 +1,5 @@
 
-#directory = "output"
+#directory = "output_test"
 #agg_level = "upos" 
 #core_features = "core_features_only"
 
@@ -48,7 +48,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 14
+# i <- 1
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -91,7 +91,8 @@ n_feat_cats = conllu_split$feat_cat %>% unique() %>% length()
 n_feats_per_token_df  <- conllu_split %>% 
   group_by(id) %>% 
   mutate(feats_n = n()) %>% 
-  mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n))
+  mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n)) %>% 
+  distinct(id, feats_n)
 
 # for stepping through Abaza for agg_level upos and core-features
 # all tokens with lemma Iанхара_VERB should have polarity = unassigned
