@@ -3,6 +3,7 @@
 #agg_level = "upos" 
 #core_features = "core_features_only"
 
+
 process_data_per_UD_proj <- function(directory = "output",
          agg_level = "upos", #lemma token
          core_features = "core_features_only"
@@ -84,6 +85,8 @@ conllu_split <- conllu %>%
   dplyr::select(-feats_trimmed) %>% 
   distinct() %>% 
   ungroup()
+
+n_feat_cats = conllu_split$feat_cat %>% unique() %>% length()
 
 n_feats_per_token_df  <- conllu_split %>% 
   group_by(id) %>% 
@@ -228,7 +231,7 @@ data.frame(dir = dir,
            n_types = n_types, 
            n_tokens = n_tokens, 
            n_sentences = conllu$sentence_id %>% unique() %>% length(), 
-           n_feat_cats = conllu_split_dummys_inserted$feat_cat %>% unique() %>% length(),
+           n_feat_cats = n_feat_cats,
            TTR = n_types /  n_tokens, 
            LTR = n_lemmas / n_tokens, 
            n_feats_per_token_mean = n_feats_per_token_df$feats_n %>% mean(),
