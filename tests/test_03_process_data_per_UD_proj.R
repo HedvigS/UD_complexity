@@ -29,8 +29,8 @@ source("03_process_data_per_UD_proj.R")
 # Set some global variables
 # Directories for test data output
 
-# DIR_COUNTS: summary values per sentence
-DIR_COUNTS <- "output_test/counts/"
+# DIR_SUMMARISED: Summary statistics e.g. "n_types"	"n_tokens"	"n_sentences"	"n_feat_cats"	"TTR"	"LTR"	"n_feats_per_token_mean"	"suprisal_token_mean"	"sum_surprisal_morph_split_mean"	"surprisal_per_morph_featstring_mean"
+DIR_SUMMARISED <- "output_test/summarised/"
 
 # DIR_S_FEAT: counts, proportions and sum of surprisals for individual feature values
 DIR_S_FEAT <- "output_test/surprisal_per_feat/"
@@ -50,11 +50,17 @@ DIR_S_FEATSTRING_LOOKUP <- "output_test/surprisal_per_featstring_lookup/"
 # would be counted as two instances of the same token.
 DIR_S_TOKEN <- "output_test/surprisal_per_token/"
 
-# DIR_S_TOKEN_SUM: The surprisals from surprisal_per_token summed at the level of "sentence_id"
-DIR_S_TOKEN_SUM <- "output_test/surprisal_per_token_sum_sentence/"
-
 # DIR_TTR: Type-Token Ratios of individual tokens.
 DIR_TTR <- "output_test/TTR/"
+
+# Delete the directories if they exist
+# This is to ensure that the test data is always fresh and not affected by previous runs.
+dir.remove <- c(DIR_SUMMARISED, DIR_S_FEAT, DIR_S_FEAT_LOOKUP, DIR_S_FEATSTRING, DIR_S_FEATSTRING_LOOKUP, DIR_S_TOKEN, DIR_TTR)
+for (dir in dir.remove) {
+  if (dir.exists(dir)) {
+    unlink(dir, recursive = TRUE)
+  }
+}
 
 # Create test data.
 # First define the filepath for the TSV file that will serve as test data input for the function.
@@ -114,18 +120,20 @@ write.table(test_data, fpath_out_test, sep = "\t", row.names = FALSE, quote = FA
 test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "upos",core_features = "core_features_only")
   
-  # Check TSV data exists in 8 different directories.
+  # TODO: Check /summarised/
+
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_upos_core_features_only_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_upos_core_features_only.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_upos_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_upos_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_upos_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING_LOOKUP, "surprisal_per_featstring_lookup_agg_level_upos_core_features_only_test_01.tsv")))
 
+  # Check 3 further directories
   # The following should be created by any run of the function, regardless of parameters.
   # We check them here and not in any subsequent tests.
   expect_true(file.exists(file.path(DIR_S_TOKEN, "surprisal_per_token_test_01.tsv")))
-  expect_true(file.exists(file.path(DIR_S_TOKEN_SUM, "surprisal_per_token_sum_sentence_test_01.tsv"))) 
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_sum.tsv")))
   expect_true(file.exists(file.path(DIR_TTR, "test_01_TTR_full.tsv")))
   
@@ -138,16 +146,78 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Set test_data_result vector
+  test_data_result = c(
     0, # The first noun has three features, all are identical to the second noun.
     0, # The second noun has four features, three are identical to the second noun and one is not a core feature.
     2.17, # Surprisal of 1/3 plus surprisal of 2/3, rounded
     2.17,  # Surprisal of 1/3 plus surprisal of 2/3, rounded
     3.17 # Surprisal of 1/3 plus surprisal of 1/3, rounded
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_upos_core_features_only.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were five tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 5)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are only two core feature categories in the data (Gender and Number).
+  expect_true(tsv_data_summarised$n_feat_cats == 2)
+
+  # TTR: there were five tokens and five types, so TTR = 1.
+  expect_true(tsv_data_summarised$TTR == 1)
+
+  # LTR: there were five tokens and four lemmas, so LTR = 4/5.
+  expect_true(round(tsv_data_summarised$LTR, 2) == round(4/5, 2))
+
+  # n_feats_per_token_mean: there were 2 core features in the first noun, 2 in the second noun, 2 in the first verb and 2 in the second verb.
+  # So the mean is (2 + 2 + 2 + 2) / 5 = 8/5.
+  expect_true(round(tsv_data_summarised$n_feats_per_token_mean, 2) == round(8/5, 2))
+
+  # suprisal_token_mean: there are five distinct tokens that each appear once, so the mean is just log2(5).
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round(log2(5), 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: Two featstrings are the same when non-core features are removed (i.e. those of the first two nouns).
+  # Aggregated over UPOS, so it's 0, 0, 1/3, 1/3, 1/3.
+  result = log2(3)*3/5
+  expect_true(round(tsv_data_summarised$surprisal_per_morph_featstring_mean, 2) == round(result, 2))
   
 })
 
@@ -155,9 +225,9 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, core only",{
 test_that("Test process_data_per_UD_proj: test data, per lemma, core only",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "lemma",core_features = "core_features_only")
   
-  # Check TSV data exists in 8 different directories.
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_lemma_core_features_only_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_lemma_core_features_only.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_lemma_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_lemma_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_lemma_core_features_only_test_01.tsv")))
@@ -172,16 +242,78 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, core only",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Set the expected result
+  test_data_result <- c(
     0, # The first noun has three features, all are identical to the second noun.
     0, # The second noun has four features, three are identical to the second noun and one is not a core feature.
     1, # Only differs from the other token of the same lemma in one feature
     1, # Only differs from the other token of the same lemma in one feature
     0  # No other tokens of the same lemma, so no surprisal
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_lemma_core_features_only.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were five tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 5)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are only two core feature categories in the data (Gender and Number).
+  expect_true(tsv_data_summarised$n_feat_cats == 2)
+
+  # TTR: there were five tokens and five types, so TTR = 1.
+  expect_true(tsv_data_summarised$TTR == 1)
+
+  # LTR: there were five tokens and four lemmas, so LTR = 4/5.
+  expect_true(round(tsv_data_summarised$LTR, 2) == round(4/5, 2))
+
+  # n_feats_per_token_mean: there were 2 core features in the first noun, 2 in the second noun, 2 in the first verb and 2 in the second verb.
+  # So the mean is (2 + 2 + 2 + 2) / 5 = 8/5.
+  expect_true(round(tsv_data_summarised$n_feats_per_token_mean, 2) == round(8/5, 2))
+
+  # suprisal_token_mean: there are five distinct tokens that each appear once, so the mean is just log2(5).
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round(log2(5), 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: Two featstrings are the same when non-core features are removed (i.e. those of the first two nouns).
+  # Aggregated over lemma, so it's 0, 0, 1/2, 1/2, 0.
+  # So (0 + 0 + log2(2) + log2(2) + 0)/5 = (1+1)/5 = 2/5.
+  expect_true(round(tsv_data_summarised$surprisal_per_morph_featstring_mean, 2) == round(2/5, 2))
   
 })
 
@@ -189,9 +321,9 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, core only",{
 test_that("Test process_data_per_UD_proj: test data, per token, core only",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "token",core_features = "core_features_only")
   
-  # Check TSV data exists in 8 different directories.
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_token_core_features_only_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_token_core_features_only.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_token_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_token_core_features_only_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_token_core_features_only_test_01.tsv")))
@@ -206,16 +338,76 @@ test_that("Test process_data_per_UD_proj: test data, per token, core only",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Set expected data
+  test_data_result <- c(
     0, # No other identical tokens, so no surprisal
     0, # No other identical tokens, so no surprisal
     0, # No other identical tokens, so no surprisal
     0, # No other identical tokens, so no surprisal
     0  # No other identical tokens, so no surprisal
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_token_core_features_only.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were five tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 5)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are only two core feature categories in the data (Gender and Number).
+  expect_true(tsv_data_summarised$n_feat_cats == 2)
+
+  # TTR: there were five tokens and five types, so TTR = 1.
+  expect_true(tsv_data_summarised$TTR == 1)
+
+  # LTR: there were five tokens and four lemmas, so LTR = 4/5.
+  expect_true(round(tsv_data_summarised$LTR, 2) == round(4/5, 2))
+
+  # n_feats_per_token_mean: there were 2 core features in the first noun, 2 in the second noun, 2 in the first verb and 2 in the second verb.
+  # So the mean is (2 + 2 + 2 + 2) / 5 = 8/5.
+  expect_true(round(tsv_data_summarised$n_feats_per_token_mean, 2) == round(8/5, 2))
+
+  # suprisal_token_mean: there are five distinct tokens that each appear once, so the mean is just log2(5).
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round(log2(5), 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: All tokens are different so the surprisal is zero.
+  expect_true(tsv_data_summarised$surprisal_per_morph_featstring_mean == 0)
   
 })
 
@@ -223,9 +415,9 @@ test_that("Test process_data_per_UD_proj: test data, per token, core only",{
 test_that("Test process_data_per_UD_proj: test data, per UPOS, all_features",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "upos",core_features = "all_features")
   
-  # Check TSV data exists in 8 different directories.
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_upos_all_features_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_upos_all_features.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_upos_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_upos_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_upos_all_features_test_01.tsv")))
@@ -240,16 +432,78 @@ test_that("Test process_data_per_UD_proj: test data, per UPOS, all_features",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Set expected data
+  test_data_result <- c(
     1, # The first noun has four features, three are identical to the second noun and one is different.
     1, # The second noun has four features, three are identical to the second noun and one is different
     2.17, # Surprisal of 1/3 plus surprisal of 2/3, rounded
     2.17,  # Surprisal of 1/3 plus surprisal of 2/3, rounded
     3.17 # Surprisal of 1/3 plus surprisal of 1/3, rounded
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_upos_all_features.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were five tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 5)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are four feature categories in the data (Gender, NounBase, Number and FakeFeat).
+  expect_true(tsv_data_summarised$n_feat_cats == 4)
+
+  # TTR: there were five tokens and five types, so TTR = 1.
+  expect_true(tsv_data_summarised$TTR == 1)
+
+  # LTR: there were five tokens and four lemmas, so LTR = 4/5.
+  expect_true(round(tsv_data_summarised$LTR, 2) == round(4/5, 2))
+
+  # n_feats_per_token_mean: there were 3 features in the first noun, 4 in the second noun, 2 in the first verb and 2 in the second verb.
+  # So the mean is (3 + 4 + 2 + 2) / 5 = 11/5.
+  expect_true(round(tsv_data_summarised$n_feats_per_token_mean, 2) == round(11/5, 2))
+
+  # suprisal_token_mean: there are five distinct tokens that each appear once, so the mean is just log2(5).
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round(log2(5), 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: All featstrings are different, so we have 1/2 for both nouns and 1/3 for each verb.
+  # Aggregated over UPOS, so it's 1/2, 1/2, 1/3, 1/3, 1/3.
+  result = ((log2(2)*2)+(log2(3)*3))/5
+  expect_true(round(tsv_data_summarised$surprisal_per_morph_featstring_mean, 2) == round(result, 2))
   
 })
 
@@ -288,9 +542,9 @@ write.table(test_data, fpath_out_test, sep = "\t", row.names = FALSE, quote = FA
 test_that("Test process_data_per_UD_proj: test data, per lemma, all_features",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "lemma",core_features = "all_features")
   
-  # Check TSV data exists in 8 different directories.
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_lemma_all_features_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_lemma_all_features.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_lemma_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_lemma_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_lemma_all_features_test_01.tsv")))
@@ -305,17 +559,81 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, all_features",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Set expected results
+  test_data_result <- c(
     1, # The first noun has four features, three are identical to the second noun and one is different.
     1, # The second noun has four features, three are identical to the second noun and one is different
     3.75, # Surprisal of 1/3 plus surprisal of 2/3 plus 1/3, rounded
     2.75, # Surprisal of 1/3 plus surprisal of 2/3 plus 2/3, rounded
     3.75, # Surprisal of 1/3 plus surprisal of 1/3 plus 2/3, rounded
     0     # No other tokens of the same lemma, so no surprisal
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_lemma_all_features.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were six tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 6)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are four feature categories in the data (Gender, NounBase, Number and FakeFeat).
+  expect_true(tsv_data_summarised$n_feat_cats == 4)
+
+  # TTR: there were six tokens and five types, so TTR = 5/6.
+  expect_true(round(tsv_data_summarised$TTR, 2) == round(5/6, 2))
+
+  # LTR: there were six tokens and three lemmas, so LTR = 3/6.
+  expect_true(tsv_data_summarised$LTR == 3/6)
+
+  # n_feats_per_token_mean: there were 3 features in the first noun, 4 in the second noun, 3 in the first verb and 2 in the second verb.
+  # So the mean is (3 + 4 + 3 + 2 + 0 + 0) / 6 = 12/6 = 2.
+  expect_true(tsv_data_summarised$n_feats_per_token_mean == 2)
+
+  # suprisal_token_mean: there are six tokens and two of them are the same.
+  # So we have 1/6, 1/6, 2/6, 2/6, 1/6, 1/6.
+  # The surprisal sum is log2(6)*4 + log2(3)*2, and the average is this divided by 6.
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round((log2(6)*4 + log2(3)*2)/6, 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: All featstrings are different except 5 and 6.
+  # But we aggregate by lemma, so it's 1/2, 1/2, 1/3, 1/3, 1/3, 0.
+  result = ((log2(2)*2)+(log2(3)*3))/6
+  expect_true(round(tsv_data_summarised$surprisal_per_morph_featstring_mean, 2) == round(result, 2))
   
 })
 
@@ -323,9 +641,9 @@ test_that("Test process_data_per_UD_proj: test data, per lemma, all_features",{
 test_that("Test process_data_per_UD_proj: test data, per token, all_features",{
   process_data_per_UD_proj(directory = "output_test",agg_level = "token",core_features = "all_features")
   
-  # Check TSV data exists in 8 different directories.
+  # Check TSV data exists in 5 different directories.
   # Assert the data exists with testthat.
-  expect_true(file.exists(file.path(DIR_COUNTS, "counts_agg_level_token_all_features_test_01_summarised.tsv")))
+  expect_true(file.exists(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_token_all_features.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT, "surprisal_per_feat_per_agg_level_token_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEAT_LOOKUP, "surprisal_per_feat_lookup_agg_level_token_all_features_test_01.tsv")))
   expect_true(file.exists(file.path(DIR_S_FEATSTRING, "surprisal_per_featstring_per_agg_level_token_all_features_test_01.tsv")))
@@ -340,17 +658,81 @@ test_that("Test process_data_per_UD_proj: test data, per token, all_features",{
   # Round tsv_data$sum_surprisal_morph_split to 2 decimal places for comparison
   tsv_data$sum_surprisal_morph_split <- round(tsv_data$sum_surprisal_morph_split, 2)
 
-  # The surprisal column should be as described here:
-  expect_true(all(tsv_data$sum_surprisal_morph_split == c(
+  # Get expected data
+  test_data_result <- c(
     0, # No other identical tokens, so no surprisal
     0, # No other identical tokens, so no surprisal
     2, # Another token with 2 features different
     2, # Another token with 2 features different
     0, # No other tokens of the same lemma, so no surprisal
     0  # No other tokens of the same lemma, so no surprisal
-  )))
+  )
+
+  # The surprisal column should be as described here:
+  expect_true(all(tsv_data$sum_surprisal_morph_split == test_data_result))
   
   # print(tsv_data$sum_surprisal_morph_split) # debug
+
+  # Get summarised data
+  tsv_data_summarised <- read.table(file.path(DIR_SUMMARISED, "test_01_summarised_agg_level_token_all_features.tsv"), sep = "\t", header = TRUE, stringsAsFactors = FALSE)
+
+  # The columns to check are:
+  # "n_types": number of types in the whole dataset
+  # "n_tokens": number of tokens in the whole dataset
+  # "n_sentences": number of sentences in the whole dataset
+  # "n_feat_cats": number of feature categories in the whole dataset
+  # "TTR": type-token ratio
+  # "LTR": lemma-token ratio
+  # "n_feats_per_token_mean": mean features per token
+  # "suprisal_token_mean" mean surprisal per token, ignoring features
+  # "sum_surprisal_morph_split_mean": mean token summed surprisal of individual features
+  # "surprisal_per_morph_featstring_mean": mean token surprisal of full feature string
+  expect_true("n_types" %in% colnames(tsv_data_summarised))
+  expect_true("n_tokens" %in% colnames(tsv_data_summarised))
+  expect_true("n_sentences" %in% colnames(tsv_data_summarised))
+  expect_true("n_feat_cats" %in% colnames(tsv_data_summarised))
+  expect_true("TTR" %in% colnames(tsv_data_summarised))
+  expect_true("LTR" %in% colnames(tsv_data_summarised))
+  expect_true("n_feats_per_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("suprisal_token_mean" %in% colnames(tsv_data_summarised))
+  expect_true("sum_surprisal_morph_split_mean" %in% colnames(tsv_data_summarised))
+  expect_true("surprisal_per_morph_featstring_mean" %in% colnames(tsv_data_summarised))
+
+  # Now check the values.
+  # n_types: there were five distinct tokens in the data.
+  expect_true(tsv_data_summarised$n_types == 5)
+  
+  # n_tokens: there were six tokens in the data.
+  expect_true(tsv_data_summarised$n_tokens == 6)
+
+  # n_sentences: there were two sentences in the data.
+  expect_true(tsv_data_summarised$n_sentences == 2)
+
+  # n_feat_cats: there are four feature categories in the data (Gender, NounBase, Number and FakeFeat).
+  expect_true(tsv_data_summarised$n_feat_cats == 4)
+
+  # TTR: there were six tokens and five types, so TTR = 5/6.
+  expect_true(round(tsv_data_summarised$TTR, 2) == round(5/6, 2))
+
+  # LTR: there were six tokens and three lemmas, so LTR = 3/6.
+  expect_true(tsv_data_summarised$LTR == 3/6)
+
+  # n_feats_per_token_mean: there were 3 features in the first noun, 4 in the second noun, 3 in the first verb and 2 in the second verb.
+  # So the mean is (3 + 4 + 3 + 2 + 0 + 0) / 6 = 12/6 = 2.
+  expect_true(tsv_data_summarised$n_feats_per_token_mean == 2)
+
+  # suprisal_token_mean: there are six tokens and two of them are the same.
+  # So we have 1/6, 1/6, 2/6, 2/6, 1/6, 1/6.
+  # The surprisal sum is log2(6)*4 + log2(3)*2, and the average is this divided by 6.
+  expect_true(round(tsv_data_summarised$suprisal_token_mean, 2) == round((log2(6)*4 + log2(3)*2)/6, 2))
+
+  # sum_surprisal_morph_split_mean: the mean of test_data_result.
+  expect_true(round(tsv_data_summarised$sum_surprisal_morph_split_mean, 2) == round(mean(test_data_result), 2))
+
+  # surprisal_per_morph_featstring_mean: All featstrings are different except 5 and 6.
+  # But we aggregate by token, so it's 0, 0, 1/2, 1/2, 0, 0.
+  result = (log2(2)*2)/6
+  expect_true(round(tsv_data_summarised$surprisal_per_morph_featstring_mean, 2) == round(result, 2))
   
 })
   
