@@ -16,7 +16,7 @@ Google NLP-reserach team: <https://raw.githubusercontent.com/google-research/url
 
 ## Output folder details
 
-+ `processed_data`: Data processed by steps earlier than `02_process_data_per_UD_proj.R`, and used by that script to generate further output files.
++ `processed_data`: Data processed by steps earlier than `03_process_data_per_UD_proj.R`, and used by that script to generate further output files.
 + `summarised`: Summary data at the level of the whole dataset (e.g. number of types, number of tokens, ratios and surprisals)
 + `surprisal_per_feat`: counts, proportions and sum of surprisals for individual feature values
 + `surprisal_per_feat_lookup`: counts, proportions and surprisals for individual feature values
