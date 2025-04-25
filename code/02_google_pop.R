@@ -5,7 +5,7 @@ if(!file.exists("output/processed_data/google_pop.tsv")){
 Glottolog <-read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Glottocode)
   
-google_pop_stats <- read_tsv("https://github.com/google-research/url-nlp/raw/2bb52571b91601092df2e821969f6a974424666d/linguameta/linguameta.tsv", show_col_types = F) %>% 
+google_pop_stats <- read_tsv("https://github.com/google-research/url-nlp/raw/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2/linguameta/linguameta.tsv", show_col_types = F) %>% 
   dplyr::select(glottocode, Pop = estimated_number_of_speakers) %>% 
   filter(!is.na(glottocode)) %>% 
   filter(!is.na(Pop))
