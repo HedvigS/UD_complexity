@@ -30,7 +30,6 @@ bad_UD_morph_feat_cats <-  c("Abbr", "Typo", "Foreign")
 #set up the output dirs
 output_dirs <- c(
 "TTR",
-"surprisal_per_token_sum_sentence",
 "surprisal_per_token",
 "surprisal_per_feat_lookup",
 "surprisal_per_featstring_lookup",
