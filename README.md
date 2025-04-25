@@ -74,7 +74,7 @@ For detail on the calculation of the metrics, please see the script `code/03_pro
  These check the calculation of key values for test data defined within the test script.
 
 
-## Output folder details
+# Output folder details
 
 + `processed_data`: Data processed by steps earlier than `03_process_data_per_UD_proj.R`, and used by that script to generate further output files.
 + `summarised`: Summary data at the level of the whole dataset (e.g. number of types, number of tokens, ratios and surprisals)
