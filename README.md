@@ -23,8 +23,9 @@ The project relies on external data. These can be fetched from online sources ei
  * `google-research/url-nlp` https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2
  * `UD v2.14` https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502#show-files
     - The downloaded UD file lindat from  must be unzipped twice: unzipping the initial file produces three further compressed files, of which you should unzip `ud-treebanks-v2.14.tgz`. This in turn produces 283 directories, one for each treebank, with names like "UD_Abaza-ATB" and "UD_English-EWT". All of these should be copied into `data/ud-treebanks-v2.14/`.
+    
+    Please note that the Glottolog, Grambank and google-research/url-nlp's data is further wrangled in the scripts above (ValueTable and LanguageTable are combined, dialects are merged etc). Therefore, we recommend executing the scripts for fetching and wrangling.
  
-
 ## Overview of scripts
 All scripts are found in the directory `code`, which should also be set as the working directory for executing the code.
 
