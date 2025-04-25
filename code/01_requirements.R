@@ -12,6 +12,7 @@ pkgs <- c(
   "dplyr",
   "readr",
   "tidyr",
+  "fs",
   "stringr",
   "ggplot2",
   "ggpubr",
