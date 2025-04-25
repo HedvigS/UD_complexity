@@ -1,5 +1,10 @@
 source("01_requirements.R")
 
+dir <- paste0("output/processed_data/", UD_version)
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
 fns <- list.files(path = paste0("../data/", UD_version), 
                   pattern = "conllu", 
                   full.names = T, 

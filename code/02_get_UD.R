@@ -1,18 +1,14 @@
 source("01_requirements.R")
 
+dir <- paste0("../data/UD_zip_files")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
 if(!file.exists("../data/ud-treebanks-v2.14/UD_Abkhaz-AbNC/ab_abnc-ud-test.txt")){
 
 options(timeout = 300) 
 
-  dir <- paste0("../data/UD_zip_files")
-  if(!dir.exists(dir)){
-    dir.create(dir)
-  }
-  
-  dir <- paste0("output/processed_data/", UD_version)
-  if(!dir.exists(dir)){
-    dir.create(dir)
-  }
   
 SH.misc::get_zenodo_dir(url = "https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502/allzip", 
                         exdir= "../data/UD_zip_files/",drop_dir_level = F)
