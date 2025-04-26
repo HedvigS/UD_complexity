@@ -1,13 +1,23 @@
 coloured_SPLOM <- function(df = df, 
-                           pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).  
+                           pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")). 
+                           col_pairs_to_constraint = "None",
+                           col_pairs_constraint = "None",
                            hist_label_size  = 3, #font size of the text at the diagonal 
-                           text_cor_size = 7, 
+                           text_cor_size = 7,
                            text_strip_size = 12, 
                            hist_bins = 30, 
-                           alpha_point = 0.6){
-
-#  df = df_for_plot
-n <- (length(names(df)) * (length(names(df)) - 1)) / 2
+                        
+                           alpha_point = 0.3){
+  
+  
+  if(all(col_pairs_constraint != "None")){
+  df_without_id_vars <- df %>% 
+  dplyr::select(-all_of(col_pairs_constraint))
+  }else{
+    df_without_id_vars <- df 
+  }
+  
+n <- (length(names(df_without_id_vars)) * (length(names(df_without_id_vars)) - 1)) / 2
   
 if(all(pair_colors == "default")){
 # Generate a large number of distinct colors (one for each unique pair of variables)
@@ -22,7 +32,7 @@ if(n != length(pair_colors)){
 pair_colors_map <- list()
 
 # Assign colors to each variable combination in the lower triangle
-var_names <- names(df)
+var_names <- names(df_without_id_vars)
 index <- 1
 for (i in 1:(length(var_names) - 1)) {
   for (j in (i + 1):length(var_names)) {
@@ -31,10 +41,29 @@ for (i in 1:(length(var_names) - 1)) {
     index <- index + 1
   }
 }
+
 # Custom lower triangle function to use unique colors
 custom_lower <- function(data, mapping, pair_colors_map, ...){
+
   var1 <- as_label(mapping$x)
   var2 <- as_label(mapping$y)
+
+  if(var1 %in% col_pairs_to_constraint & 
+     var2 %in% col_pairs_to_constraint){
+
+    data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>% 
+      distinct()
+  
+  }else{
+    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
+    
+  }
+    
+  # Select only the relevant variables
+  data_reduced <- dplyr::select(data, all_of(c(var1, var2)))
+  
+  # Keep only complete cases (no NAs) and distinct rows
+  data_reduced <- data_reduced[complete.cases(data_reduced), ]
   
   # Create a unique pair identifier (ignoring (x, y) vs (y, x))
   pair_key <- paste(sort(c(var1, var2)), collapse = "_")
@@ -42,7 +71,7 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
   # Get the background color for the pair
   bg_color <- pair_colors_map[[pair_key]]
   
-  ggplot(data, mapping) +
+  ggplot(data_reduced, mapping) +
     geom_point(alpha = alpha_point) +
     theme_minimal() +
     theme(
@@ -55,14 +84,29 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
 
 # Custom upper triangle function with correlation text and color control
 custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...){
-  x <- eval_data_col(data, mapping$x)
-  y <- eval_data_col(data, mapping$y)
+  var1 <- as_label(mapping$x)
+  var2 <- as_label(mapping$y)
+  
+  if(var1 %in% col_pairs_to_constraint & 
+     var2 %in% col_pairs_to_constraint){
+    
+    data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>% 
+      distinct()
+    
+  }else{
+    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
+    
+  }
+  
+  # Keep only complete cases (no NAs) and distinct rows
+  data_reduced <- data_reduced[complete.cases(data_reduced), ]
+  
+  x <- data_reduced[[var1]]
+  y <- data_reduced[[var2]]
+  
   ct <- cor.test(x, y, method = method)
   r <- ct$estimate
   p <- ct$p.value
-  
-  var1 <- as_label(mapping$x)
-  var2 <- as_label(mapping$y)
   
   # Create a unique pair identifier (ignoring (x, y) vs (y, x))
   pair_key <- paste(sort(c(var1, var2)), collapse = "_")
@@ -73,20 +117,40 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
   # Set text color based on correlation strength and significance
   if (p < 0.05) {
     color_scale <- scales::col_bin(
-      palette = c("grey40", "#FF9333", "darkred"),
+      palette = c("grey40", "#DC8F3D", "darkred"),
       bins = c(0, 0.5, 0.8, 1),
       domain = c(0, 1)
     )
+    
     text_color <- color_scale(abs(r))
+    
+    fontface <- if(r > 0.5|r<0.5){"bold"}else{"plain"}
+    
   } else {
     text_color <- "grey60"
+    fontface <- "plain"
   }
   
   label <- paste0(round(r, 2),ifelse(p < 0.05, "*", ""))
+   sublabel <- paste0(               "(n=", nrow(data_reduced), ")")
+  
+  # Position of the text
+  x_center <- 0.5
+  y_center <- 0.5
+  
+  # Smaller padding values
+  pad_x <- 0.4
+  pad_y <- 0.3
   
   ggplot() +
-    annotate("text", x = 0.5, y = 0.5,
-             label = label, size = text_cor_size, color = text_color) +
+    geom_rect(aes(xmin = x_center - pad_x, xmax = x_center + pad_x,
+                  ymin = y_center - pad_y, ymax = y_center + pad_y),
+              fill = "white", color = NA, alpha = 0.8) +
+    annotate("text", x = x_center, y = y_center+0.1,
+             label = label, size = text_cor_size, color = text_color, fontface = fontface) +
+    annotate("text", x = x_center, y = y_center - 0.1,
+             label = sublabel, size = text_cor_size - 1, color = "grey20") +
+    xlim(0, 1) + ylim(0, 1) +
     theme_void() +
     theme(
       panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
@@ -94,24 +158,34 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
     )
 }
 
-
-custom_diag <- function(data, mapping, ...){
+custom_diag <- function(data, mapping){
   var <- as_label(mapping$x)
   
-  # Compute the histogram data
-  hist_data <- hist(data[[var]], plot = FALSE)
+  # Select the relevant variable
+  if(var %in% col_pairs_to_constraint){
+    
+    data_reduced <- dplyr::select(df, all_of(c(var, col_pairs_constraint))) %>% 
+      distinct()
+    
+  }else{
+    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var)))
+    
+  }
   
-  # Get the mid-point for the x-axis (centered)
+  
+  
+  data_reduced <- data_reduced[complete.cases(data_reduced), , drop = FALSE]
+  x_data <- data_reduced[[var]]
+  
+  hist_data <- hist(x_data, plot = FALSE)
   x_center <- mean(hist_data$mids)
+  y_center <- max(hist_data$counts) 
   
-  # Get the midpoint for the y-axis (centered)
-  y_center <- max(hist_data$counts) / 2
-
-
-  ggplot(data, mapping) +
-    geom_histogram(fill = "grey80", color = "gray", bins = hist_bins) +
+  ggplot(data_reduced, aes(x = .data[[var]])) +
+    geom_histogram(fill = "grey80", color = "gray", bins = 30) +
     annotate("text", x = x_center, y = y_center, 
-             label = var, size =  hist_label_size , color = "black", hjust = 0.5, vjust = 0.8, fontface = "bold") +
+             label = var, size = hist_label_size, color = "black", 
+             hjust = 0.5, vjust = 1.2, fontface = "bold") +
     theme_minimal() +
     theme(
       panel.grid = element_blank(),
@@ -120,7 +194,7 @@ custom_diag <- function(data, mapping, ...){
 }
 
 
-ggpairs(df,
+ggpairs(  df_without_id_vars,
         lower = list(continuous = function(data, mapping, ...) custom_lower(data, mapping, pair_colors_map, ...)),
         upper = list(continuous = function(data, mapping, ...) custom_upper(data, mapping, pair_colors_map, ...)),
         diag = list(continuous = custom_diag)) +
