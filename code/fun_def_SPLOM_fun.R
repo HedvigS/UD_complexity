@@ -1,10 +1,21 @@
-coloured_SPLOM <- function(df = df, pair_colors = "default",   hist_label_size  = 3){
+coloured_SPLOM <- function(df = df, 
+                           pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).  
+                           hist_label_size  = 3, #font size of the text at the diagonal 
+                           text_cor_size = 7, 
+                           text_strip_size = 12, 
+                           hist_bins = 30, 
+                           alpha_point = 0.6){
 
 #  df = df_for_plot
-if(all(pair_colors == "default")){
 n <- (length(names(df)) * (length(names(df)) - 1)) / 2
+  
+if(all(pair_colors == "default")){
 # Generate a large number of distinct colors (one for each unique pair of variables)
 pair_colors <- randomcoloR::distinctColorPalette(k  = n)
+}
+
+if(n != length(pair_colors)){
+  stop("pair_colors is not the right length. The length of pair_colors is ", length(pair_colors), " it should be ", n, ".")
 }
   
 # Create a named list to store unique colors for each pair
@@ -32,7 +43,7 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
   bg_color <- pair_colors_map[[pair_key]]
   
   ggplot(data, mapping) +
-    geom_point(alpha = 0.6) +
+    geom_point(alpha = alpha_point) +
     theme_minimal() +
     theme(
       panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
@@ -75,7 +86,7 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
   
   ggplot() +
     annotate("text", x = 0.5, y = 0.5,
-             label = label, size = 7.5, color = text_color) +
+             label = label, size = text_cor_size, color = text_color) +
     theme_void() +
     theme(
       panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
@@ -98,7 +109,7 @@ custom_diag <- function(data, mapping, ...){
 
 
   ggplot(data, mapping) +
-    geom_histogram(fill = "grey80", color = "gray", bins = 30) +
+    geom_histogram(fill = "grey80", color = "gray", bins = hist_bins) +
     annotate("text", x = x_center, y = y_center, 
              label = var, size =  hist_label_size , color = "black", hjust = 0.5, vjust = 0.8, fontface = "bold") +
     theme_minimal() +
@@ -112,7 +123,8 @@ custom_diag <- function(data, mapping, ...){
 ggpairs(df,
         lower = list(continuous = function(data, mapping, ...) custom_lower(data, mapping, pair_colors_map, ...)),
         upper = list(continuous = function(data, mapping, ...) custom_upper(data, mapping, pair_colors_map, ...)),
-        diag = list(continuous = custom_diag))
+        diag = list(continuous = custom_diag)) +
+  theme(strip.text = element_text(size = text_strip_size))
 
 }
 
