@@ -11,7 +11,11 @@ if(!file.exists("output/processed_data/grambank/cldf/codes.csv")){
   
 grambank <- rcldf::cldf("output/processed_data/grambank/", load_bib = F)
 
-theo_scores <- rgrambank::make_theo_scores(ValueTable = grambank$tables$ValueTable %>% rgrambank::reduce_ValueTable_to_unique_glottocodes(merge_dialects = T, method = "combine_random",  LanguageTable = grambank$tables$LanguageTable), 
+ValueTable <- grambank$tables$ValueTable %>% rgrambank::reduce_ValueTable_to_unique_glottocodes(merge_dialects = T, method = "combine_random",  LanguageTable = grambank$tables$LanguageTable) %>% 
+  dplyr::select(-Language_ID) %>% 
+  dplyr::rename(Language_ID = Glottocode)
+
+theo_scores <- rgrambank::make_theo_scores(ValueTable = ValueTable, 
                                            ParameterTable = grambank$tables$ParameterTable)
 
 theo_scores %>% 
