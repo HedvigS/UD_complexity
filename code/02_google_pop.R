@@ -28,9 +28,9 @@ df <- google_pop_stats %>%
   filter(!is.na(Longitude))
 
 basemap +
-  geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, size = Pop, color = log10(Pop))) +
+  geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, size = Pop, color = log10(Pop +1))) +
 #  theme(plot.margin = unit(c(0,0,0,0), "cm")) +
-  ggtitle("Speaker population per language from Google's LinguaMeta-project \n(github.com/google-research/url-nlp), ref = 2bb5257")
+  ggtitle("Speaker population per language from Google's LinguaMeta-project \n(github.com/google-research/url-nlp")
 
 ggsave("output/plots/google_pop_map.png", height = 10, width = 12)
 }
