@@ -81,7 +81,7 @@ library(rcldf)
 p <- "rgrambank"
 if(!(p %in% rownames(installed.packages()))){
   print("rgrambank not installed, installing from github now")
-  remotes::install_github("HedvigS/rgrambank", dependencies = F, ref = "94b3cb2caae4744e0f574b3dd8b5d3c8af40d1d2")
+  remotes::install_github("HedvigS/rgrambank", dependencies = F, ref = "7e7a59fa1c0a99b33d743b5376c2c8441517943c")
 }
 library(rgrambank)
 
@@ -106,4 +106,4 @@ if(!dir.exists(dir)){
 }
 
 print("Creating basemap for EEZ")
-basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray") 
+basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray", xlim = c(-30, 180)) 
