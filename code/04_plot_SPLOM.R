@@ -119,7 +119,8 @@ colors <- create_colour_vector(base_colours, n_variables)
 # colors <-  c("#CBF1B5", "#E6ADC8", "#8A41A4", "#5C65DF", "#E276D7", "#69B9DE", "#6271B8", "#559EE8", "#A8BFEF", "#61E66C", "#5CE896", "#EDE9A9", "#E581B4", "#5BE939", "#E9B2A8", "#7E34E2", "#D2F62E", "#9BCF89", "#B08CE6", "#B4ECDF", "#B1AE8A", "#E0EC7F", "#A39C9D", "#94EDC0", "#E0EDCE", "#C7AFE5", "#44A96B", "#93605C", "#53725B", "#BCB5CA", "#7BB79F", "#959747", "#E547DA", "#ECD5EC", "#B0EA56", "#50748D", "#59DDDA", "#E68992", "#A177AA", "#E3C763", "#4FEAC5", "#E0A967", "#CE4086", "#7CB633", "#E2CAA0", "#E85158", "#E0EEF1", "#E48449", "#B55DE3", "#89DCEA", "#E7A1E5", "#EDDED2", "#B6D3E2", "#A0E981", "#E6DF41")
 
 p <-  df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 6, pair_colors = colors)
+  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 6#, pair_colors = colors
+                 )
 
 ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -148,7 +149,7 @@ p <-df_for_plot %>%
                  pair_colors = colors, 
                  text_cor_size = 5, 
                  text_strip_size = 10,
-                 col_pairs_to_constraint = c("Fusion", "Informativity", "Pop\n (Google)", "Pop\n(Google)\nlog10"), 
+                 col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", "Informativity\n(Grambank v1.0)", "Pop\n (Google)", "Pop\n(Google)\nlog10"), 
                  col_pairs_constraint = "glottocode")
 
 ggsave("output/plots/SPLOM_metrics_external.png", height = 30, width = 30, units = "cm", plot = p)
