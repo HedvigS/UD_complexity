@@ -117,8 +117,8 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
   # Set text color based on correlation strength and significance
   if (p < 0.05) {
     color_scale <- scales::col_bin(
-      palette = c("grey40", "#DC8F3D", "darkred"),
-      bins = c(0, 0.5, 0.8, 1),
+      palette = c("grey40", "darkred"),
+      bins = c(0, 0.7, 1),
       domain = c(0, 1)
     )
     
