@@ -15,19 +15,21 @@ df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>
 
 basemap +
   geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, color = sum_surprisal_morph_split_mean_upos_all_features),
-              size = 2.5, alpha = 0.8) +
-                scale_color_viridis() +
-  ggtitle("Surprisal feat, agg_level = UPOS, all features")
+              size = 2, alpha = 0.9, width = 3, height=3) +
+  scale_color_viridis(end =0.9) +
+  ggtitle("Surprisal feat, agg_level = UPOS, all features") +
+  theme( plot.margin = unit(c(0, 0, 0, 0), "cm") )
 
-ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features.png", height = 10, width = 12)
+ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features.png",  height = 5, width = 7)
 
 basemap +
   geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, color = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
-                size = 2.5, alpha = 0.8) +
-  scale_color_viridis() +
-  ggtitle("Surprisal featstring, agg_level = lemma, core features only")
+              size = 2, alpha = 0.9, width = 3, height=3) +
+  scale_color_viridis(end =0.9) +
+  ggtitle("Surprisal featstring, agg_level = lemma, core features only")+
+  theme( plot.margin = unit(c(0, 0, 0, 0), "cm") )
 
-ggsave("output/plots/surprisal_per_morph_featstring_mean_lemma_core_features_only.png", height = 10, width = 12)
+ggsave("output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only.png",  height = 5, width = 7)
 
 ########################### PUD ################################
 df_PUD  <- df %>% 
@@ -36,17 +38,19 @@ df_PUD  <- df %>%
 
 basemap +
   geom_jitter(data = df_PUD, mapping = aes(x = Longitude, y = Latitude, color = sum_surprisal_morph_split_mean_upos_all_features),
-              size = 2.5, alpha = 0.8) +
-  scale_color_viridis() +
-  ggtitle("Surprisal feat, agg_level = UPOS, all features (PUD)")
+              size = 2, alpha = 0.9, width = 3, height=3) +
+  scale_color_viridis(end =0.9) +
+  ggtitle("Surprisal feat, agg_level = UPOS, all features (PUD)")+
+  theme( plot.margin = unit(c(0, 0, 0, 0), "cm") )
 
-ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features_PUD.png", height = 10, width = 12)
+ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features_PUD.png", height = 5, width = 7)
 
 basemap +
   geom_jitter(data = df_PUD, mapping = aes(x = Longitude, y = Latitude, color = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
-              size = 2.5, alpha = 0.8) +
-  scale_color_viridis() +
-  ggtitle("Surprisal featstring, agg_level = lemma, core features only (PUD)")
+              size = 2, alpha = 0.9, width = 3, height=3) +
+  scale_color_viridis(end =0.9) +
+  ggtitle("Surprisal featstring, agg_level = lemma, core features only (PUD)")+
+  theme( plot.margin = unit(c(0, 0, 0, 0), "cm") )
 
-ggsave("output/plots/surprisal_per_morph_featstring_mean_lemma_core_features_only_PUD.png", height = 10, width = 12)
+ggsave("output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only_PUD.png",  height = 5, width = 7)
 
