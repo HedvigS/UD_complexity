@@ -62,37 +62,24 @@ df_for_plot <- df %>%
                 "Surprisal featstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
                 "Surprisal featstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
 
+sum_surprisal_morph_split_mean_upos_all_features_col <- "#2be375"
+surprisal_per_morph_featstring_mean_lemma_core_features_only_col <- "#357dc4"
+TTR_col <- "#9234eb"
 
-# colors <-  c("#E55679", "#5FE3B6", "#D447A0", "#B1E586", "#D8A8DE", "#E5E145", "#63E580",
-#              "#74E1DA", "#889C8B", "#94E949", "#E58F8F", "#DC8F3D", "#7295CF",
-#              "#C6E5E9", "#699D55", "#64BFDB", "#E489D4", "#8E7CE0",
-#              "#7045D9", "#9A6E7E", "#E2E0C7", "#D6AF87",
-#              "#D03AE7", "#BABFE5", "#D567DD",
-#              "#C0E7B5", "#E7C3D1",
-#              "#D9D377")
-
-
-
-# Make the triangle from the base colours.
-base_colours <- c("#DC8F3D", "#5FE3B6", "#E55679", "#64BFDB", "#7045D9")
-
-# Set the number of variables
-n_variables <- 8
-
-# Create the colour vector
-colors <- create_colour_vector(base_colours, n_variables)
-
-# Should be:
-# colors <-  c("#DC8F3D", "#5FE3B6", "#E55679", "#64BFDB", "#7045D9", "#DC8F3D", "#5FE3B6", 
-#                         "#E55679", "#64BFDB", "#7045D9", "#DC8F3D", "#5FE3B6", "#E55679", 
-#                                    "#7045D9", "#DC8F3D", "#5FE3B6", "#E55679", "#64BFDB", 
-#                                               "#5FE3B6", "#E55679", "#64BFDB", "#7045D9", 
-#                                                          "#64BFDB", "#7045D9", "#DC8F3D", 
-#                                                                     "#DC8F3D", "#5FE3B6", 
-#                                                                                "#E55679")
+pal <- c("#A7E1A1" , #1
+         "#5bafe3",   #2
+         sum_surprisal_morph_split_mean_upos_all_features_col, #3
+         "#90D8D7", #4
+         "#86e397" , #5
+         surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
+         "#35c43f", #7
+         "grey40" #8
+         )
 
 p <- df_for_plot %>% 
-    coloured_SPLOM(pair_colors = colors, text_cor_size = 5, text_strip_size = 10, hist_label_size = 2.5)
+    coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, 
+                   hist_label_size = 3, herringbone = T,pair_colors = pal
+                   )
 
 ggsave("output/plots/SPLOM_custom_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -110,17 +97,29 @@ df_for_plot <- df %>%
                 "Feats per token(n)(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only"
             ) 
 
-# Set the number of variables
-n_variables <- 11
+pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
+         surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
+         "#E278B1", #3
+         "#BA4FE1", #4
+         "#cf2d27" , #5
+         TTR_col, #6
+         "#ed268d", #7
+         "#c735e8", #8
+         "#f723bb", #9
+         "#cf2757", #10
+         "grey40" #11
+)
 
-# Create the colour vector
-colors <- create_colour_vector(base_colours, n_variables)
-
-# colors <-  c("#CBF1B5", "#E6ADC8", "#8A41A4", "#5C65DF", "#E276D7", "#69B9DE", "#6271B8", "#559EE8", "#A8BFEF", "#61E66C", "#5CE896", "#EDE9A9", "#E581B4", "#5BE939", "#E9B2A8", "#7E34E2", "#D2F62E", "#9BCF89", "#B08CE6", "#B4ECDF", "#B1AE8A", "#E0EC7F", "#A39C9D", "#94EDC0", "#E0EDCE", "#C7AFE5", "#44A96B", "#93605C", "#53725B", "#BCB5CA", "#7BB79F", "#959747", "#E547DA", "#ECD5EC", "#B0EA56", "#50748D", "#59DDDA", "#E68992", "#A177AA", "#E3C763", "#4FEAC5", "#E0A967", "#CE4086", "#7CB633", "#E2CAA0", "#E85158", "#E0EEF1", "#E48449", "#B55DE3", "#89DCEA", "#E7A1E5", "#EDDED2", "#B6D3E2", "#A0E981", "#E6DF41")
 
 p <-  df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 6#, pair_colors = colors
+  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 6, pair_colors = pal, herringbone = T
                  )
+
+
+df_for_plot %>% 
+  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 6, herringbone = T
+  )
+
 
 ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -136,21 +135,28 @@ df_for_plot <- df %>%
   mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
   distinct()
 
-# Set the number of variables
-n_variables <- 7
+pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
+         surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
+         TTR_col, #3
+         "#DBAC5E", #4
+         "#f5dd02", #5
+         "#f57f31", #6
+         "grey40"
+         )
 
-# Create the colour vector
-colors <- create_colour_vector(base_colours, n_variables)
-
-# colors <-  c("#E55679", "#5FE3B6", "#D447A0", "#B1E586", "#D8A8DE", "#E5E145", "#63E580", "#74E1DA", "#889C8B", "#94E949", "#E58F8F", "#DC8F3D", "#7295CF", "#C6E5E9", "#699D55", "#64BFDB", "#E489D4", "#8E7CE0", "#7045D9", "#9A6E7E", "#E2E0C7")
-
-p <-df_for_plot %>% 
+p <- df_for_plot %>% 
   coloured_SPLOM(hist_label_size = 3,
-                 pair_colors = colors, 
+                 pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 10,
-                 col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", "Informativity\n(Grambank v1.0)", "Pop\n (Google)", "Pop\n(Google)\nlog10"), 
+                 herringbone = T,
+                 col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", 
+                                             "Informativity\n(Grambank v1.0)", 
+                                             "Pop\n (Google)", 
+                                             "Pop\n(Google)\nlog10"
+                                             ), 
                  col_pairs_constraint = "glottocode")
+
 
 ggsave("output/plots/SPLOM_metrics_external.png", height = 30, width = 30, units = "cm", plot = p)
 
