@@ -6,8 +6,8 @@ coloured_SPLOM <- function(df = df,
                            text_cor_size = 7,
                            text_strip_size = 12, 
                            hist_bins = 30, 
-                        
-                           alpha_point = 0.3){
+                           herringbone = FALSE,
+                           alpha_point = 0.8){
   
   
   if(all(col_pairs_constraint != "None")){
@@ -23,6 +23,22 @@ if(all(pair_colors == "default")){
 # Generate a large number of distinct colors (one for each unique pair of variables)
 pair_colors <- randomcoloR::distinctColorPalette(k  = n)
 }
+
+if(herringbone == TRUE){
+  
+n_herring <- length(names(df_without_id_vars))
+pair_colors_herring <- c()
+
+for(i in 1:n_herring){
+  spec <- rep(x = pair_colors[i], n_herring-i)
+  pair_colors_herring <- c(pair_colors_herring, spec)
+}
+
+pair_colors_hist <- pair_colors
+names(pair_colors_hist) <- names(df_without_id_vars)
+pair_colors <- pair_colors_herring
+}
+
 
 if(n != length(pair_colors)){
   stop("pair_colors is not the right length. The length of pair_colors is ", length(pair_colors), " it should be ", n, ".")
@@ -72,7 +88,7 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
   bg_color <- pair_colors_map[[pair_key]]
   
   ggplot(data_reduced, mapping) +
-    geom_point(alpha = alpha_point) +
+    geom_point(alpha = alpha_point, fill = bg_color,  shape = 21) +
     theme_minimal() +
     theme(
       panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
@@ -160,19 +176,21 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
 
 custom_diag <- function(data, mapping){
   var <- as_label(mapping$x)
+
+  if(herringbone == TRUE){
+    hist_col <- pair_colors_hist[[var]]
+  }else{
+    hist_col <- "gray"
+  }
   
   # Select the relevant variable
   if(var %in% col_pairs_to_constraint){
     
     data_reduced <- dplyr::select(df, all_of(c(var, col_pairs_constraint))) %>% 
       distinct()
-    
   }else{
     data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var)))
-    
   }
-  
-  
   
   data_reduced <- data_reduced[complete.cases(data_reduced), , drop = FALSE]
   x_data <- data_reduced[[var]]
@@ -182,7 +200,7 @@ custom_diag <- function(data, mapping){
   y_center <- max(hist_data$counts) 
   
   ggplot(data_reduced, aes(x = .data[[var]])) +
-    geom_histogram(fill = "grey80", color = "gray", bins = 30) +
+    geom_histogram(fill = hist_col, color = hist_col, bins = 30, alpha = 0.6) +
     annotate("text", x = x_center, y = y_center, 
              label = var, size = hist_label_size, color = "black", 
              hjust = 0.5, vjust = 1.2, fontface = "bold") +
