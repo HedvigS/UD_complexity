@@ -134,7 +134,7 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
   if (p < 0.05) {
     color_scale <- scales::col_bin(
       palette = c("grey40", "darkred"),
-      bins = c(0, 0.7, 1),
+      bins = c(0, 0.6, 1),
       domain = c(0, 1)
     )
     
