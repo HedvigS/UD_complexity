@@ -11,12 +11,21 @@ if(!file.exists("output/processed_data/grambank/cldf/codes.csv")){
   
 grambank <- rcldf::cldf("output/processed_data/grambank/", load_bib = F)
 
-ValueTable <- grambank$tables$ValueTable %>% rgrambank::reduce_ValueTable_to_unique_glottocodes(merge_dialects = T, method = "combine_random",  LanguageTable = grambank$tables$LanguageTable) %>% 
+ValueTable <- grambank$tables$ValueTable 
+LanguageTable <- grambank$tables$LanguageTable
+ParameterTable <- grambank$tables$ParameterTable
+
+ValueTable_binary <- rgrambank::make_binary_ValueTable(ValueTable = ValueTable, keep_multistate = FALSE, keep_raw_binary = TRUE)
+ParameterTable_binary <- rgrambank::make_binary_ParameterTable(ParameterTable = ParameterTable,
+                                                               keep_multi_state_features = FALSE,
+                                                               keep_raw_binary = TRUE)
+
+ValueTable_binary_reduced <- rgrambank::reduce_ValueTable_to_unique_glottocodes(ValueTable = ValueTable_binary, LanguageTable = LanguageTable, merge_dialects = TRUE, method = "combine_random") %>% 
   dplyr::select(-Language_ID) %>% 
   dplyr::rename(Language_ID = Glottocode)
 
-theo_scores <- rgrambank::make_theo_scores(ValueTable = ValueTable, 
-                                           ParameterTable = grambank$tables$ParameterTable)
+theo_scores <- rgrambank::make_theo_scores(ValueTable = ValueTable_binary_reduced, 
+                                           ParameterTable = ParameterTable, Fusion_option = "count_one_and_half")
 
 theo_scores %>% 
   write_tsv("output/processed_data/grambank_theo_scores.tsv")
