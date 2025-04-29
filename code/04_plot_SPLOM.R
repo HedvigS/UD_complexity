@@ -4,6 +4,7 @@ source("fun_def_SPLOM_fun.R")
 ##################################
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+  filter(is.na(multilingual_exclude)) %>% 
   dplyr::select(dir, glottocode)
 
 df_external <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
@@ -11,7 +12,7 @@ df_external <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_c
   full_join(read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
 
 df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
-  left_join(UD_langs, by = "dir") %>% 
+  inner_join(UD_langs, by = "dir") %>% 
   left_join(df_external, by = "glottocode") %>% 
   filter(n_feat_cats_all_features != 0) %>% 
   filter(n_feat_cats_core_features_only != 0) %>% 

@@ -1,13 +1,14 @@
 source(file = "01_requirements.R")
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+  filter(is.na(multilingual_exclude)) %>% 
   dplyr::select(dir, glottocode)
 
 Glottolog <-read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Glottocode)
 
 df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
-  left_join(UD_langs, by = "dir") %>% 
+  inner_join(UD_langs, by = "dir") %>% 
   left_join(Glottolog, by = "glottocode") %>% 
   filter(n_feat_cats_all_features != 0) %>% 
   filter(n_feat_cats_core_features_only != 0) %>% 
