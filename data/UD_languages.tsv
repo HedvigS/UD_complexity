@@ -1,578 +1,577 @@
-treebank dir	dir	conllu	glottocode	glottocodes	conllu_code	conllu_code_n	ISO-639-1	ISO639-3_individual	ISO 639-3_macrolanguage
-Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-dev.conllu	afri1274	afri1274	af	2	af	afr	
-Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-test.conllu	afri1274	afri1274	af	2	af	afr	
-Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-train.conllu	afri1274	afri1274	af	2	af	afr	
-Ud-treebanks-v2.14	UD_Albanian-TSA	sq_tsa-ud-test.conllu	gheg1238	gheg1238	sq	2	sq	sqi	
-Ud-treebanks-v2.14	UD_Amharic-ATT	am_att-ud-test.conllu	amha1245	amha1245	am	2	am	amh	
-Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-dev.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-train.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-dev.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-train.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Arabic-PUD	ar_pud-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara
-Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-dev.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-test.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-train.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-dev.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-test.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-train.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye
-Ud-treebanks-v2.14	UD_Bambara-CRB	bm_crb-ud-test.conllu	bamb1269	bamb1269	bm	2	bm	bam	
-Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-dev.conllu	basq1248	basq1248	eu	2	eu	eus	
-Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-test.conllu	basq1248	basq1248	eu	2	eu	eus	
-Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-train.conllu	basq1248	basq1248	eu	2	eu	eus	
-Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-dev.conllu	bela1254	bela1254	be	2	be	bel	
-Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-test.conllu	bela1254	bela1254	be	2	be	bel	
-Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-train.conllu	bela1254	bela1254	be	2	be	bel	
-Ud-treebanks-v2.14	UD_Bengali-BRU	bn_bru-ud-test.conllu	beng1280	beng1280	bn	2	bn	ben	
-Ud-treebanks-v2.14	UD_Breton-KEB	br_keb-ud-test.conllu	bret1244	bret1244	br	2	br	bre	
-Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-dev.conllu	bulg1262	bulg1262	bg	2	bg	bul	
-Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-test.conllu	bulg1262	bulg1262	bg	2	bg	bul	
-Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-train.conllu	bulg1262	bulg1262	bg	2	bg	bul	
-Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-dev.conllu	stan1289	stan1289	ca	2	ca	cat	
-Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-test.conllu	stan1289	stan1289	ca	2	ca	cat	
-Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-train.conllu	stan1289	stan1289	ca	2	ca	cat	
-Ud-treebanks-v2.14	UD_Chinese-Beginner	zh_beginner-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-CFL	zh_cfl-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-dev.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-train.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-dev.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-train.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-HK	zh_hk-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-PatentChar	zh_patentchar-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Chinese-PUD	zh_pud-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho
-Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-dev.conllu	croa1245	croa1245	hr	2	hr	hrv	
-Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-test.conllu	croa1245	croa1245	hr	2	hr	hrv	
-Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-train.conllu	croa1245	croa1245	hr	2	hr	hrv	
-Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-Poetry	cs_poetry-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Czech-PUD	cs_pud-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces	
-Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-dev.conllu	dani1285	dani1285	da	2	da	dan	
-Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-test.conllu	dani1285	dani1285	da	2	da	dan	
-Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-train.conllu	dani1285	dani1285	da	2	da	dan	
-Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-dev.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-test.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-train.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-dev.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-test.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-train.conllu	dutc1256	dutc1256	nl	2	nl	nld	
-Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GENTLE	en_gentle-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-dev.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-train.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-Pronouns	en_pronouns-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_English-PUD	en_pud-ud-test.conllu	stan1293	stan1293	en	2	en	eng	
-Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-dev.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-test.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-train.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-dev.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-test.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-train.conllu	esto1258	esto1258	et	2	et	ekk; vro	est
-Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-dev.conllu	faro1244	faro1244	fo	2	fo	fao	
-Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-test.conllu	faro1244	faro1244	fo	2	fo	fao	
-Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-train.conllu	faro1244	faro1244	fo	2	fo	fao	
-Ud-treebanks-v2.14	UD_Faroese-OFT	fo_oft-ud-test.conllu	faro1244	faro1244	fo	2	fo	fao	
-Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-dev.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-train.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-OOD	fi_ood-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-PUD	fi_pud-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-dev.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-train.conllu	finn1318	finn1318	fi	2	fi	fin	
-Ud-treebanks-v2.14	UD_French-FQB	fr_fqb-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-PUD	fr_pud-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra	
-Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-dev.conllu	gali1258	gali1258	gl	2	gl	glg	
-Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-test.conllu	gali1258	gali1258	gl	2	gl	glg	
-Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-train.conllu	gali1258	gali1258	gl	2	gl	glg	
-Ud-treebanks-v2.14	UD_Galician-TreeGal	gl_treegal-ud-test.conllu	gali1258	gali1258	gl	2	gl	glg	
-Ud-treebanks-v2.14	UD_Galician-TreeGal	gl_treegal-ud-train.conllu	gali1258	gali1258	gl	2	gl	glg	
-Ud-treebanks-v2.14	UD_Georgian-GLC	ka_glc-ud-test.conllu	nucl1302	nucl1302	ka	2	ka	kat	
-Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-dev.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-test.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-train.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-dev.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-test.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-train.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-LIT	de_lit-ud-test.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_German-PUD	de_pud-ud-test.conllu	stan1295	stan1295	de	2	de	deu	
-Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-dev.conllu	mode1248	mode1248	el	2	el	ell	
-Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-test.conllu	mode1248	mode1248	el	2	el	ell	
-Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-train.conllu	mode1248	mode1248	el	2	el	ell	
-Ud-treebanks-v2.14	UD_Greek-GUD	el_gud-ud-test.conllu	mode1248	mode1248	el	2	el	ell	
-Ud-treebanks-v2.14	UD_Greek-GUD	el_gud-ud-train.conllu	mode1248	mode1248	el	2	el	ell	
-Ud-treebanks-v2.14	UD_Guarani-OldTuDeT	gn_oldtudet-ud-test.conllu	oldp1258	oldp1258	gn	2	gn	gnw; gug; gui; gun; nhd	grn
-Ud-treebanks-v2.14	UD_Haitian_Creole-Autogramm	ht_autogramm-ud-test.conllu	hait1244	hait1244	ht	2	ht	hat	
-Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-dev.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-test.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-train.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-dev.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-test.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-train.conllu	hebr1245	hebr1245	he	2	he	heb	
-Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-dev.conllu	hind1269	hind1269	hi	2	hi	hin	
-Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-test.conllu	hind1269	hind1269	hi	2	hi	hin	
-Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-train.conllu	hind1269	hind1269	hi	2	hi	hin	
-Ud-treebanks-v2.14	UD_Hindi-PUD	hi_pud-ud-test.conllu	hind1269	hind1269	hi	2	hi	hin	
-Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-dev.conllu	hung1274	hung1274	hu	2	hu	hun	
-Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-test.conllu	hung1274	hung1274	hu	2	hu	hun	
-Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-train.conllu	hung1274	hung1274	hu	2	hu	hun	
-Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-dev.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-test.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-train.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-dev.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-test.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-train.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-dev.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-test.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-train.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Icelandic-PUD	is_pud-ud-test.conllu	icel1247	icel1247	is	2	is	isl	
-Ud-treebanks-v2.14	UD_Indonesian-CSUI	id_csui-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Indonesian-CSUI	id_csui-ud-train.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-dev.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-train.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Indonesian-PUD	id_pud-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa
-Ud-treebanks-v2.14	UD_Irish-Cadhan	ga_cadhan-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-dev.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-train.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-dev.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-train.conllu	iris1253	iris1253	ga	2	ga	gle	
-Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ParlaMint	it_parlamint-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ParlaMint	it_parlamint-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-PUD	it_pud-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-Valico	it_valico-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-dev.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-test.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-train.conllu	ital1282	ital1282	it	2	it	ita	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-PUD	ja_pud-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Japanese-PUDLUW	ja_pudluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn	
-Ud-treebanks-v2.14	UD_Javanese-CSUI	jv_csui-ud-test.conllu	java1254	java1254	jv	2	jv	jav	
-Ud-treebanks-v2.14	UD_Kazakh-KTB	kk_ktb-ud-test.conllu	kaza1248	kaza1248	kk	2	kk	kaz	
-Ud-treebanks-v2.14	UD_Kazakh-KTB	kk_ktb-ud-train.conllu	kaza1248	kaza1248	kk	2	kk	kaz	
-Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-dev.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-train.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-dev.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-train.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Korean-PUD	ko_pud-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor	
-Ud-treebanks-v2.14	UD_Kyrgyz-KTMU	ky_ktmu-ud-test.conllu	kirg1245	kirg1245	ky	2	ky	kir	
-Ud-treebanks-v2.14	UD_Kyrgyz-KTMU	ky_ktmu-ud-train.conllu	kirg1245	kirg1245	ky	2	ky	kir	
-Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-dev.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-test.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-train.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-dev.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-test.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-train.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-Perseus	la_perseus-ud-test.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-Perseus	la_perseus-ud-train.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-dev.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-test.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-train.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-dev.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-test.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-train.conllu	lati1261	lati1261	la	2	la	lat	
-Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-dev.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav
-Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-test.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav
-Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-train.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav
-Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-dev.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-test.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-train.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-dev.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-test.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-train.conllu	lith1251	lith1251	lt	2	lt	lit	
-Ud-treebanks-v2.14	UD_Macedonian-MTB	mk_mtb-ud-test.conllu	mace1250	mace1250	mk	2	mk	mkd	
-Ud-treebanks-v2.14	UD_Malayalam-UFAL	ml_ufal-ud-test.conllu	mala1464	mala1464	ml	2	ml	mal	
-Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-dev.conllu	malt1254	malt1254	mt	2	mt	mlt	
-Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-test.conllu	malt1254	malt1254	mt	2	mt	mlt	
-Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-train.conllu	malt1254	malt1254	mt	2	mt	mlt	
-Ud-treebanks-v2.14	UD_Manx-Cadhan	gv_cadhan-ud-test.conllu	manx1243	manx1243	gv	2	gv	glv	
-Ud-treebanks-v2.14	UD_Manx-Cadhan	gv_cadhan-ud-train.conllu	manx1243	manx1243	gv	2	gv	glv	
-Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-dev.conllu	mara1378	mara1378	mr	2	mr	mar	
-Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-test.conllu	mara1378	mara1378	mr	2	mr	mar	
-Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-train.conllu	mara1378	mara1378	mr	2	mr	mar	
-Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-dev.conllu	norw1259	norw1259	no	2	no	nob	nor
-Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-test.conllu	norw1259	norw1259	no	2	no	nob	nor
-Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-train.conllu	norw1259	norw1259	no	2	no	nob	nor
-Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-dev.conllu	norw1262	norw1262	no	2	no	nno	nor
-Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-test.conllu	norw1262	norw1262	no	2	no	nno	nor
-Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-train.conllu	norw1262	norw1262	no	2	no	nno	nor
-Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-dev.conllu	chur1257	chur1257	cu	2	cu	chu	
-Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-test.conllu	chur1257	chur1257	cu	2	cu	chu	
-Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-train.conllu	chur1257	chur1257	cu	2	cu	chu	
-Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-dev.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-test.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-train.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-dev.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-test.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-train.conllu	west2369	west2369	fa	2	fa	pes; prs	fas
-Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-dev.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-train.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-dev.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-train.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Polish-PUD	pl_pud-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol	
-Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-dev.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-train.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-dev.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-train.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-dev.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-train.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-dev.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-train.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-dev.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-train.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Portuguese-PUD	pt_pud-ud-test.conllu	port1283	port1283	pt	2	pt	por	
-Ud-treebanks-v2.14	UD_Romanian-ArT	ro_art-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron	
-Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-PUD	ru_pud-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus	
-Ud-treebanks-v2.14	UD_Sanskrit-UFAL	sa_ufal-ud-test.conllu	sans1269	sans1269	sa	2	sa	san	
-Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-test.conllu	sans1269	sans1269;vedi1234	sa	2	sa	san	
-Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-train.conllu	sans1269	sans1269;vedi1234	sa	2	sa	san	
-Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-dev.conllu	scot1245	scot1245	gd	2	gd	gla	
-Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-test.conllu	scot1245	scot1245	gd	2	gd	gla	
-Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-train.conllu	scot1245	scot1245	gd	2	gd	gla	
-Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-dev.conllu	shto1241	shto1241	sr	2	sr	srp	
-Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-test.conllu	shto1241	shto1241	sr	2	sr	srp	
-Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-train.conllu	shto1241	shto1241	sr	2	sr	srp	
-Ud-treebanks-v2.14	UD_Sinhala-STB	si_stb-ud-test.conllu	sinh1246	sinh1246	si	2	si	sin	
-Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-dev.conllu	slov1269	slov1269	sk	2	sk	slk	
-Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-test.conllu	slov1269	slov1269	sk	2	sk	slk	
-Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-train.conllu	slov1269	slov1269	sk	2	sk	slk	
-Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-dev.conllu	slov1268	slov1268	sl	2	sl	slv	
-Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-test.conllu	slov1268	slov1268	sl	2	sl	slv	
-Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-train.conllu	slov1268	slov1268	sl	2	sl	slv	
-Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-test.conllu	slov1268	slov1268	sl	2	sl	slv	
-Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-train.conllu	slov1268	slov1268	sl	2	sl	slv	
-Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-dev.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-test.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-train.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-dev.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-test.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-train.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Spanish-PUD	es_pud-ud-test.conllu	stan1288	stan1288	es	2	es	spa	
-Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-dev.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-train.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-PUD	sv_pud-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-dev.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-train.conllu	swed1254	swed1254	sv	2	sv	swe	
-Ud-treebanks-v2.14	UD_Tagalog-TRG	tl_trg-ud-test.conllu	taga1270	taga1270	tl	2	tl	tgl	
-Ud-treebanks-v2.14	UD_Tagalog-Ugnayan	tl_ugnayan-ud-test.conllu	taga1270	taga1270	tl	2	tl	tgl	
-Ud-treebanks-v2.14	UD_Tamil-MWTT	ta_mwtt-ud-test.conllu	tami1289	tami1289	ta	2	ta	tam	
-Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-dev.conllu	tami1289	tami1289	ta	2	ta	tam	
-Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-test.conllu	tami1289	tami1289	ta	2	ta	tam	
-Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-train.conllu	tami1289	tami1289	ta	2	ta	tam	
-Ud-treebanks-v2.14	UD_Tatar-NMCTT	tt_nmctt-ud-test.conllu	tata1255	tata1255	tt	2	tt	tat	
-Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-dev.conllu	telu1262	telu1262	te	2	te	tel	
-Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-test.conllu	telu1262	telu1262	te	2	te	tel	
-Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-train.conllu	telu1262	telu1262	te	2	te	tel	
-Ud-treebanks-v2.14	UD_Thai-PUD	th_pud-ud-test.conllu	thai1261	thai1261	th	2	th	tha	
-Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-GB	tr_gb-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-PUD	tr_pud-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur	
-Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-dev.conllu	ukra1253	ukra1253	uk	2	uk	ukr	
-Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-test.conllu	ukra1253	ukra1253	uk	2	uk	ukr	
-Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-train.conllu	ukra1253	ukra1253	uk	2	uk	ukr	
-Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-dev.conllu	urdu1245	urdu1245	ur	2	ur	urd	
-Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-test.conllu	urdu1245	urdu1245	ur	2	ur	urd	
-Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-train.conllu	urdu1245	urdu1245	ur	2	ur	urd	
-Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-dev.conllu	uigh1240	uigh1240	ug	2	ug	uig	
-Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-test.conllu	uigh1240	uigh1240	ug	2	ug	uig	
-Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-train.conllu	uigh1240	uigh1240	ug	2	ug	uig	
-Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-dev.conllu	viet1252	viet1252	vi	2	vi	vie	
-Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-test.conllu	viet1252	viet1252	vi	2	vi	vie	
-Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-train.conllu	viet1252	viet1252	vi	2	vi	vie	
-Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-dev.conllu	wels1247	wels1247	cy	2	cy	cym	
-Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-test.conllu	wels1247	wels1247	cy	2	cy	cym	
-Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-train.conllu	wels1247	wels1247	cy	2	cy	cym	
-Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-dev.conllu	nucl1347	nucl1347	wo	2	wo	wol	
-Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-test.conllu	nucl1347	nucl1347	wo	2	wo	wol	
-Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-train.conllu	nucl1347	nucl1347	wo	2	wo	wol	
-Ud-treebanks-v2.14	UD_Yoruba-YTB	yo_ytb-ud-test.conllu	yoru1245	yoru1245	yo	2	yo	yor	
-Ud-treebanks-v2.14	UD_Abaza-ATB	abq_atb-ud-test.conllu	abaz1241	abaz1241	abq	3		abq	
-Ud-treebanks-v2.14	UD_Akkadian-PISANDUB	akk_pisandub-ud-test.conllu	akka1240	akka1240	akk	3		akk	
-Ud-treebanks-v2.14	UD_Akkadian-RIAO	akk_riao-ud-test.conllu	akka1240	akka1240	akk	3		akk	
-Ud-treebanks-v2.14	UD_Akuntsu-TuDeT	aqz_tudet-ud-test.conllu	akun1241	akun1241	aqz	3		aqz	
-Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-dev.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-test.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-train.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-dev.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-test.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-train.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-dev.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-test.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-train.conllu	anci1242	anci1242	grc	3		grc	
-Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-dev.conllu	anci1244	anci1244	hbo	3		hbo	
-Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-test.conllu	anci1244	anci1244	hbo	3		hbo	
-Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-train.conllu	anci1244	anci1244	hbo	3		hbo	
-Ud-treebanks-v2.14	UD_Apurina-UFPA	apu_ufpa-ud-test.conllu	apur1254	apur1254	apu	3		apu	
-Ud-treebanks-v2.14	UD_Assyrian-AS	aii_as-ud-test.conllu	assy1241	assy1241	aii	3		aii	
-Ud-treebanks-v2.14	UD_Beja-NSC	bej_nsc-ud-test.conllu	beja1238	beja1238	bej	3		bej	
-Ud-treebanks-v2.14	UD_Bhojpuri-BHTB	bho_bhtb-ud-test.conllu	bhoj1244	bhoj1244	bho	3		bho	
-Ud-treebanks-v2.14	UD_Bororo-BDT	bor_bdt-ud-test.conllu	boro1282	boro1282	bor	3		bor	
-Ud-treebanks-v2.14	UD_Buryat-BDT	bxr_bdt-ud-test.conllu	russ1264	russ1264	bxr	3		bxr	
-Ud-treebanks-v2.14	UD_Buryat-BDT	bxr_bdt-ud-train.conllu	russ1264	russ1264	bxr	3		bxr	
-Ud-treebanks-v2.14	UD_Cantonese-HK	yue_hk-ud-test.conllu	cant1236	cant1236	yue	3		yue	
-Ud-treebanks-v2.14	UD_Cebuano-GJA	ceb_gja-ud-test.conllu	cebu1242	cebu1242	ceb	3		ceb	
-Ud-treebanks-v2.14	UD_Chukchi-HSE	ckt_hse-ud-test.conllu	chuk1273	chuk1273	ckt	3		ckt	
-Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-test.conllu	clas1256	clas1256	xcl	3		xcl	
-Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-dev.conllu	lite1248	lite1248	lzh	3		lzh	
-Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-test.conllu	lite1248	lite1248	lzh	3		lzh	
-Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-train.conllu	lite1248	lite1248	lzh	3		lzh	
-Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-dev.conllu	copt1239	copt1239	cop	3		cop	
-Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-test.conllu	copt1239	copt1239	cop	3		cop	
-Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-train.conllu	copt1239	copt1239	cop	3		cop	
-Ud-treebanks-v2.14	UD_Erzya-JR	myv_jr-ud-test.conllu	erzy1239	erzy1239	myv	3		myv	
-Ud-treebanks-v2.14	UD_Erzya-JR	myv_jr-ud-train.conllu	erzy1239	erzy1239	myv	3		myv	
-Ud-treebanks-v2.14	UD_Frisian_Dutch-Fame	qfn_fame-ud-test.conllu	mode1264	mode1264;dutc1256	qfn	3		qfn	
-Ud-treebanks-v2.14	UD_Gheg-GPS	aln_gps-ud-test.conllu	gheg1238	gheg1238	aln	3		aln	
-Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-dev.conllu	goth1244	goth1244	got	3		got	
-Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-test.conllu	goth1244	goth1244	got	3		got	
-Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-train.conllu	goth1244	goth1244	got	3		got	
-Ud-treebanks-v2.14	UD_Guajajara-TuDeT	gub_tudet-ud-test.conllu	guaj1255	guaj1255	gub	3		gub	
-Ud-treebanks-v2.14	UD_Highland_Puebla_Nahuatl-ITML	azz_itml-ud-test.conllu	high1278	high1278	azz	3		azz	
-Ud-treebanks-v2.14	UD_Hittite-HitTB	hit_hittb-ud-test.conllu	hitt1242	hitt1242	hit	3		hit	
-Ud-treebanks-v2.14	UD_Kaapor-TuDeT	urb_tudet-ud-test.conllu	urub1250	urub1250	urb	3		urb	
-Ud-treebanks-v2.14	UD_Kangri-KDTB	xnr_kdtb-ud-test.conllu	kang1280	kang1280	xnr	3		xnr	
-Ud-treebanks-v2.14	UD_Karelian-KKPP	krl_kkpp-ud-test.conllu	kare1335	kare1335	krl	3		krl	
-Ud-treebanks-v2.14	UD_Karo-TuDeT	arr_tudet-ud-test.conllu	karo1305	karo1305	arr	3		arr	
-Ud-treebanks-v2.14	UD_Khunsari-AHA	kfm_aha-ud-test.conllu	khun1255	khun1255	kfm	3		kfm	
-Ud-treebanks-v2.14	UD_Kiche-IU	quc_iu-ud-test.conllu	kich1262	kich1262	quc	3		quc	
-Ud-treebanks-v2.14	UD_Komi_Permyak-UH	koi_uh-ud-test.conllu	komi1269	komi1269	koi	3		koi	
-Ud-treebanks-v2.14	UD_Komi_Permyak-UH	koi_uh-ud-train.conllu	komi1269	komi1269	koi	3		koi	
-Ud-treebanks-v2.14	UD_Komi_Zyrian-IKDP	kpv_ikdp-ud-test.conllu	komi1268	komi1268	kpv	3		kpv	
-Ud-treebanks-v2.14	UD_Komi_Zyrian-Lattice	kpv_lattice-ud-test.conllu	komi1268	komi1268	kpv	3		kpv	
-Ud-treebanks-v2.14	UD_Komi_Zyrian-Lattice	kpv_lattice-ud-train.conllu	komi1268	komi1268	kpv	3		kpv	
-Ud-treebanks-v2.14	UD_Kurmanji-MG	kmr_mg-ud-test.conllu	nort2641	nort2641	kmr	3		kmr	
-Ud-treebanks-v2.14	UD_Kurmanji-MG	kmr_mg-ud-train.conllu	nort2641	nort2641	kmr	3		kmr	
-Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-test.conllu	ligu1248	ligu1248	lij	3		lij	
-Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-train.conllu	ligu1248	ligu1248	lij	3		lij	
-Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-test.conllu	livv1243	livv1243	olo	3		olo	
-Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-train.conllu	livv1243	livv1243	olo	3		olo	
-Ud-treebanks-v2.14	UD_Low_Saxon-LSDC	nds_lsdc-ud-test.conllu	nort2628	bran1235;nort2628;west2356;meck1239;nort2627;lowe1387;east2290	nds	3		nds	
-Ud-treebanks-v2.14	UD_Madi-Jarawara	jaa_jarawara-ud-test.conllu	jama1261	jama1261	jaa	3		jaa	
-Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-dev.conllu	alge1239	alge1239;stan1290	qaf	3		qaf	
-Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-test.conllu	alge1239	alge1239;stan1290	qaf	3		qaf	
-Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-train.conllu	alge1239	alge1239;stan1290	qaf	3		qaf	
-Ud-treebanks-v2.14	UD_Makurap-TuDeT	mpu_tudet-ud-test.conllu	maku1278	maku1278	mpu	3		mpu	
-Ud-treebanks-v2.14	UD_Mbya_Guarani-Dooley	gun_dooley-ud-test.conllu	mbya1239	mbya1239	gun	3		gun	
-Ud-treebanks-v2.14	UD_Mbya_Guarani-Thomas	gun_thomas-ud-test.conllu	mbya1239	mbya1239	gun	3		gun	
-Ud-treebanks-v2.14	UD_Middle_French-PROFITEROLE	frm_profiterole-ud-test.conllu	midd1316	midd1316	frm	3		frm	
-Ud-treebanks-v2.14	UD_Moksha-JR	mdf_jr-ud-test.conllu	moks1248	moks1248	mdf	3		mdf	
-Ud-treebanks-v2.14	UD_Moksha-JR	mdf_jr-ud-train.conllu	moks1248	moks1248	mdf	3		mdf	
-Ud-treebanks-v2.14	UD_Munduruku-TuDeT	myu_tudet-ud-test.conllu	mund1330	mund1330	myu	3		myu	
-Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-dev.conllu	nige1257	nige1257	pcm	3		pcm	
-Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-test.conllu	nige1257	nige1257	pcm	3		pcm	
-Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-train.conllu	nige1257	nige1257	pcm	3		pcm	
-Ud-treebanks-v2.14	UD_Nayini-AHA	nyq_aha-ud-test.conllu	nayi1242	nayi1242	nyq	3		nyq	
-Ud-treebanks-v2.14	UD_Neapolitan-RB	nap_rb-ud-test.conllu	napo1241	napo1241	nap	3		nap	
-Ud-treebanks-v2.14	UD_Nheengatu-CompLin	yrl_complin-ud-test.conllu	nhen1239	nhen1239	yrl	3		yrl	
-Ud-treebanks-v2.14	UD_North_Sami-Giella	sme_giella-ud-test.conllu	nort2671	nort2671	sme	3		sme	
-Ud-treebanks-v2.14	UD_North_Sami-Giella	sme_giella-ud-train.conllu	nort2671	nort2671	sme	3		sme	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-test.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-train.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-test.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-train.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-test.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-train.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-test.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-train.conllu	oldr1238	oldr1238	orv	3		orv	
-Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-dev.conllu	oldf1239	oldf1239	fro	3		fro	
-Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-test.conllu	oldf1239	oldf1239	fro	3		fro	
-Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-train.conllu	oldf1239	oldf1239	fro	3		fro	
-Ud-treebanks-v2.14	UD_Old_Irish-DipSGG	sga_dipsgg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga	
-Ud-treebanks-v2.14	UD_Old_Irish-DipWBG	sga_dipwbg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga	
-Ud-treebanks-v2.14	UD_Old_Turkish-Tonqq	otk_tonqq-ud-test.conllu	oldu1238	oldu1238	otk	3		otk	
-Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-dev.conllu	poma1238	poma1238	qpm	3		qpm	
-Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-test.conllu	poma1238	poma1238	qpm	3		qpm	
-Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-train.conllu	poma1238	poma1238	qpm	3		qpm	
-Ud-treebanks-v2.14	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-test.conllu	skol1241	skol1241	sms	3		sms	
-Ud-treebanks-v2.14	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-train.conllu	skol1241	skol1241	sms	3		sms	
-Ud-treebanks-v2.14	UD_Soi-AHA	soj_aha-ud-test.conllu	soii1239	soii1239	soj	3		soj	
-Ud-treebanks-v2.14	UD_South_Levantine_Arabic-MADAR	ajp_madar-ud-test.conllu	sout3123	sout3123	ajp	3		ajp	
-Ud-treebanks-v2.14	UD_Swedish_Sign_Language-SSLC	swl_sslc-ud-test.conllu	swed1236	swed1236	swl	3		swl	
-Ud-treebanks-v2.14	UD_Swiss_German-UZH	gsw_uzh-ud-test.conllu	swis1247	swis1247	gsw	3		gsw	
-Ud-treebanks-v2.14	UD_Teko-TuDeT	eme_tudet-ud-test.conllu	emer1243	emer1243	eme	3		eme	
-Ud-treebanks-v2.14	UD_Tupinamba-TuDeT	tpn_tudet-ud-test.conllu	tupi1273	tupi1273	tpn	3		tpn	
-Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-dev.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd	
-Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-test.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd	
-Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-train.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd	
-Ud-treebanks-v2.14	UD_Umbrian-IKUVINA	xum_ikuvina-ud-test.conllu	umbr1253	umbr1253	xum	3		xum	
-Ud-treebanks-v2.14	UD_Upper_Sorbian-UFAL	hsb_ufal-ud-test.conllu	uppe1395	uppe1395	hsb	3		hsb	
-Ud-treebanks-v2.14	UD_Upper_Sorbian-UFAL	hsb_ufal-ud-train.conllu	uppe1395	uppe1395	hsb	3		hsb	
-Ud-treebanks-v2.14	UD_Veps-VWT	vep_vwt-ud-test.conllu	veps1250	veps1250	vep	3		vep	
-Ud-treebanks-v2.14	UD_Warlpiri-UFAL	wbp_ufal-ud-test.conllu	warl1254	warl1254	wbp	3		wbp	
-Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-dev.conllu	homs1234	homs1234	hyw	3		hyw	
-Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-test.conllu	homs1234	homs1234	hyw	3		hyw	
-Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-train.conllu	homs1234	homs1234	hyw	3		hyw	
-Ud-treebanks-v2.14	UD_Western_Sierra_Puebla_Nahuatl-ITML	nhi_itml-ud-test.conllu	zaca1241	zaca1241	nhi	3		nhi	
-Ud-treebanks-v2.14	UD_Xavante-XDT	xav_xdt-ud-test.conllu	xava1240	xava1240	xav	3		xav	
-Ud-treebanks-v2.14	UD_Xibe-XDT	sjo_xdt-ud-test.conllu	xibe1242	xibe1242	sjo	3		sjo	
-Ud-treebanks-v2.14	UD_Yakut-YKTDT	sah_yktdt-ud-test.conllu	yaku1245	yaku1245	sah	3		sah	
-Ud-treebanks-v2.14	UD_Yupik-SLI	ess_sli-ud-test.conllu	cent2128	cent2128	ess	3		ess	
-Ud-treebanks-v2.14	UD_Zaar-Autogramm	say_autogramm-ud-test.conllu	zaar1253	zaar1253	say	3		say	
-Ud-treebanks-v2.14	UD_Abkhaz-AbNC	UD_Abkhaz-AbNCab_abnc-ud-test.conllu	abkh1244	abkh1244	abk				
-Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	UD_Azerbaijani-TueCLaz_tuecl-ud-test.conllu	nort2697	nort2697;sout2697					
-Ud-treebanks-v2.14	UD_Bavarian-MaiBaam	bar_maibaam-ud-test.conllu	bava1246	bava1246					
-Ud-treebanks-v2.14	UD_Cappadocian-TueCL	cpg_tuecl-ud-test.conllu	capp1239	capp1239	cpg				
-Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-dev.conllu	clas1256	clas1256					
-Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-train.conllu	clas1256	clas1256					
-Ud-treebanks-v2.14	UD_Classical_Chinese-TueCL	lzh_tuecl-ud-test.conllu	lite1248	lite1248					
-Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246					
-Ud-treebanks-v2.14	UD_English-CTeTex	en_ctetex-ud-test.conllu	stan1293	stan1293					
-Ud-treebanks-v2.14	UD_Galician-PUD	gl_pud-ud-test.conllu	gali1258	gali1258					
-Ud-treebanks-v2.14	UD_Gujarati-GujTB	gu_gujtb-ud-test.conllu	guja1252	guja1252	guj				
-Ud-treebanks-v2.14	UD_Hausa-NorthernAutogramm	ha_northernautogramm-ud-test.conllu	haus1257	haus1257					
-Ud-treebanks-v2.14	UD_Hausa-SouthernAutogramm	ha_southernautogramm-ud-test.conllu	haus1257	haus1257					
-Ud-treebanks-v2.14	UD_Kyrgyz-TueCL	ky_tuecl-ud-test.conllu	kirg1245	kirg1245					
-Ud-treebanks-v2.14	UD_Latgalian-Cairo	ltg_cairo-ud-test.conllu	east2282	east2282					
-Ud-treebanks-v2.14	UD_Latin-CIRCSE	la_circse-ud-test.conllu	lati1261	lati1261					
-Ud-treebanks-v2.14	UD_Latvian-Cairo	lv_cairo-ud-test.conllu	latv1249	latv1249					
-Ud-treebanks-v2.14	UD_Low_Saxon-LSDC	nds_lsdc-ud-train.conllu	nort2628	bran1235;nort2628;west2356;meck1239;nort2627;lowe1387;east2290					
-Ud-treebanks-v2.14	UD_Luxembourgish-LuxBank	lb_luxbank-ud-test.conllu	luxe1243	luxe1243					
-Ud-treebanks-v2.14	UD_Old_Turkish-Clausal	otk_clausal-ud-test.conllu	oldt1247	oldt1247	otk				
-Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	ota_boun-ud-test.conllu	otto1234	otto1234					
-Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	UD_Ottoman_Turkish-BOUNota_boun-ud-train.conllu	otto1234	otto1234					
-Ud-treebanks-v2.14	UD_Ottoman_Turkish-DUDU	ota_dudu-ud-test.conllu	otto1234	otto1234					
-Ud-treebanks-v2.14	UD_Paumari-TueCL	pad_tuecl-ud-test.conllu	paum1247	paum1247					
-Ud-treebanks-v2.14	UD_Romanian-TueCL	ro_tuecl-ud-test.conllu	roma1327	roma1327					
-Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-dev.conllu	sans1269	sans1269;vedi1234					
-Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-dev.conllu	slov1268	slov1268					
-Ud-treebanks-v2.14	UD_Spanish-COSER	es_coser-ud-test.conllu	stan1288	stan1288					
-Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-test.conllu	telu1262	telu1262					
-Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-train.conllu	telu1262	telu1262					
-Ud-treebanks-v2.14	UD_Tswana-Popapolelo	tn_popapolelo-ud-test.conllu	tswa1253	tswa1253					
-Ud-treebanks-v2.14	UD_Vietnamese-TueCL	vi_tuecl-ud-test.conllu	viet1252	viet1252					
-Ud-treebanks-v2.14	UD_Abkhaz-AbNC	ab_abnc-ud-test.conllu	abkh1244	abkh1244					
-Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	az_tuecl-ud-test.conllu	nort2697	nort2697;sout2697					
-Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246					
+treebank dir	dir	conllu	glottocode	glottocodes	conllu_code	conllu_code_n	ISO-639-1	ISO639-3_individual	ISO 639-3_macrolanguage	multilingual_exclude
+Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-dev.conllu	afri1274	afri1274	af	2	af	afr		
+Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-test.conllu	afri1274	afri1274	af	2	af	afr		
+Ud-treebanks-v2.14	UD_Afrikaans-AfriBooms	af_afribooms-ud-train.conllu	afri1274	afri1274	af	2	af	afr		
+Ud-treebanks-v2.14	UD_Albanian-TSA	sq_tsa-ud-test.conllu	gheg1238	gheg1238	sq	2	sq	sqi		
+Ud-treebanks-v2.14	UD_Amharic-ATT	am_att-ud-test.conllu	amha1245	amha1245	am	2	am	amh		
+Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-dev.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-NYUAD	ar_nyuad-ud-train.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-dev.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-PADT	ar_padt-ud-train.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Arabic-PUD	ar_pud-ud-test.conllu	stan1318	stan1318	ar	2	ar	aao; abh; abv; acm; acq; acw; acx; acy; adf; aeb; aec; afb; apc; apd; arb; arq; ars; ary; arz; auz; avl; ayh; ayl; ayn; ayp; pga; shu; ssh; 	ara	
+Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-dev.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-test.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Armenian-ArmTDP	hy_armtdp-ud-train.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-dev.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-test.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Armenian-BSUT	hy_bsut-ud-train.conllu	nucl1235	nucl1235	hy	2	hy	hye; hyw	hye	
+Ud-treebanks-v2.14	UD_Bambara-CRB	bm_crb-ud-test.conllu	bamb1269	bamb1269	bm	2	bm	bam		
+Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-dev.conllu	basq1248	basq1248	eu	2	eu	eus		
+Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-test.conllu	basq1248	basq1248	eu	2	eu	eus		
+Ud-treebanks-v2.14	UD_Basque-BDT	eu_bdt-ud-train.conllu	basq1248	basq1248	eu	2	eu	eus		
+Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-dev.conllu	bela1254	bela1254	be	2	be	bel		
+Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-test.conllu	bela1254	bela1254	be	2	be	bel		
+Ud-treebanks-v2.14	UD_Belarusian-HSE	be_hse-ud-train.conllu	bela1254	bela1254	be	2	be	bel		
+Ud-treebanks-v2.14	UD_Bengali-BRU	bn_bru-ud-test.conllu	beng1280	beng1280	bn	2	bn	ben		
+Ud-treebanks-v2.14	UD_Breton-KEB	br_keb-ud-test.conllu	bret1244	bret1244	br	2	br	bre		
+Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-dev.conllu	bulg1262	bulg1262	bg	2	bg	bul		
+Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-test.conllu	bulg1262	bulg1262	bg	2	bg	bul		
+Ud-treebanks-v2.14	UD_Bulgarian-BTB	bg_btb-ud-train.conllu	bulg1262	bulg1262	bg	2	bg	bul		
+Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-dev.conllu	stan1289	stan1289	ca	2	ca	cat		
+Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-test.conllu	stan1289	stan1289	ca	2	ca	cat		
+Ud-treebanks-v2.14	UD_Catalan-AnCora	ca_ancora-ud-train.conllu	stan1289	stan1289	ca	2	ca	cat		
+Ud-treebanks-v2.14	UD_Chinese-Beginner	zh_beginner-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-CFL	zh_cfl-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-dev.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSD	zh_gsd-ud-train.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-dev.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-GSDSimp	zh_gsdsimp-ud-train.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-HK	zh_hk-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-PatentChar	zh_patentchar-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Chinese-PUD	zh_pud-ud-test.conllu	mand1415	mand1415	zh	2	zh	zch; zeh; zgb; zgm; zgn; zhd; zhn; zlj; zln; zlq; zqe; zyb; zyg; zyj; zyn	zho	
+Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-dev.conllu	croa1245	croa1245	hr	2	hr	hrv		
+Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-test.conllu	croa1245	croa1245	hr	2	hr	hrv		
+Ud-treebanks-v2.14	UD_Croatian-SET	hr_set-ud-train.conllu	croa1245	croa1245	hr	2	hr	hrv		
+Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-CAC	cs_cac-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-CLTT	cs_cltt-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-FicTree	cs_fictree-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-dev.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-PDT	cs_pdt-ud-train.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-Poetry	cs_poetry-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Czech-PUD	cs_pud-ud-test.conllu	czec1258	czec1258	cs	2	cs	ces		
+Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-dev.conllu	dani1285	dani1285	da	2	da	dan		
+Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-test.conllu	dani1285	dani1285	da	2	da	dan		
+Ud-treebanks-v2.14	UD_Danish-DDT	da_ddt-ud-train.conllu	dani1285	dani1285	da	2	da	dan		
+Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-dev.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-test.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_Dutch-Alpino	nl_alpino-ud-train.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-dev.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-test.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_Dutch-LassySmall	nl_lassysmall-ud-train.conllu	dutc1256	dutc1256	nl	2	nl	nld		
+Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-Atis	en_atis-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ESLSpok	en_eslspok-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-EWT	en_ewt-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GENTLE	en_gentle-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUM	en_gum-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-GUMReddit	en_gumreddit-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-LinES	en_lines-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-dev.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-ParTUT	en_partut-ud-train.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-Pronouns	en_pronouns-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_English-PUD	en_pud-ud-test.conllu	stan1293	stan1293	en	2	en	eng		
+Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-dev.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-test.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Estonian-EDT	et_edt-ud-train.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-dev.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-test.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Estonian-EWT	et_ewt-ud-train.conllu	esto1258	esto1258	et	2	et	ekk; vro	est	
+Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-dev.conllu	faro1244	faro1244	fo	2	fo	fao		
+Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-test.conllu	faro1244	faro1244	fo	2	fo	fao		
+Ud-treebanks-v2.14	UD_Faroese-FarPaHC	fo_farpahc-ud-train.conllu	faro1244	faro1244	fo	2	fo	fao		
+Ud-treebanks-v2.14	UD_Faroese-OFT	fo_oft-ud-test.conllu	faro1244	faro1244	fo	2	fo	fao		
+Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-dev.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-FTB	fi_ftb-ud-train.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-OOD	fi_ood-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-PUD	fi_pud-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-dev.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-test.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_Finnish-TDT	fi_tdt-ud-train.conllu	finn1318	finn1318	fi	2	fi	fin		
+Ud-treebanks-v2.14	UD_French-FQB	fr_fqb-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-GSD	fr_gsd-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParisStories	fr_parisstories-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-ParTUT	fr_partut-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-PUD	fr_pud-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Rhapsodie	fr_rhapsodie-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-dev.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-test.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_French-Sequoia	fr_sequoia-ud-train.conllu	stan1290	stan1290	fr	2	fr	fra		
+Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-dev.conllu	gali1258	gali1258	gl	2	gl	glg		
+Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-test.conllu	gali1258	gali1258	gl	2	gl	glg		
+Ud-treebanks-v2.14	UD_Galician-CTG	gl_ctg-ud-train.conllu	gali1258	gali1258	gl	2	gl	glg		
+Ud-treebanks-v2.14	UD_Galician-TreeGal	gl_treegal-ud-test.conllu	gali1258	gali1258	gl	2	gl	glg		
+Ud-treebanks-v2.14	UD_Galician-TreeGal	gl_treegal-ud-train.conllu	gali1258	gali1258	gl	2	gl	glg		
+Ud-treebanks-v2.14	UD_Georgian-GLC	ka_glc-ud-test.conllu	nucl1302	nucl1302	ka	2	ka	kat		
+Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-dev.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-test.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-GSD	de_gsd-ud-train.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-dev.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-test.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-HDT	de_hdt-ud-train.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-LIT	de_lit-ud-test.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_German-PUD	de_pud-ud-test.conllu	stan1295	stan1295	de	2	de	deu		
+Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-dev.conllu	mode1248	mode1248	el	2	el	ell		
+Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-test.conllu	mode1248	mode1248	el	2	el	ell		
+Ud-treebanks-v2.14	UD_Greek-GDT	el_gdt-ud-train.conllu	mode1248	mode1248	el	2	el	ell		
+Ud-treebanks-v2.14	UD_Greek-GUD	el_gud-ud-test.conllu	mode1248	mode1248	el	2	el	ell		
+Ud-treebanks-v2.14	UD_Greek-GUD	el_gud-ud-train.conllu	mode1248	mode1248	el	2	el	ell		
+Ud-treebanks-v2.14	UD_Guarani-OldTuDeT	gn_oldtudet-ud-test.conllu	oldp1258	oldp1258	gn	2	gn	gnw; gug; gui; gun; nhd	grn	
+Ud-treebanks-v2.14	UD_Haitian_Creole-Autogramm	ht_autogramm-ud-test.conllu	hait1244	hait1244	ht	2	ht	hat		
+Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-dev.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-test.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hebrew-HTB	he_htb-ud-train.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-dev.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-test.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hebrew-IAHLTwiki	he_iahltwiki-ud-train.conllu	hebr1245	hebr1245	he	2	he	heb		
+Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-dev.conllu	hind1269	hind1269	hi	2	hi	hin		
+Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-test.conllu	hind1269	hind1269	hi	2	hi	hin		
+Ud-treebanks-v2.14	UD_Hindi-HDTB	hi_hdtb-ud-train.conllu	hind1269	hind1269	hi	2	hi	hin		
+Ud-treebanks-v2.14	UD_Hindi-PUD	hi_pud-ud-test.conllu	hind1269	hind1269	hi	2	hi	hin		
+Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-dev.conllu	hung1274	hung1274	hu	2	hu	hun		
+Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-test.conllu	hung1274	hung1274	hu	2	hu	hun		
+Ud-treebanks-v2.14	UD_Hungarian-Szeged	hu_szeged-ud-train.conllu	hung1274	hung1274	hu	2	hu	hun		
+Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-dev.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-test.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-GC	is_gc-ud-train.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-dev.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-test.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-IcePaHC	is_icepahc-ud-train.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-dev.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-test.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-Modern	is_modern-ud-train.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Icelandic-PUD	is_pud-ud-test.conllu	icel1247	icel1247	is	2	is	isl		
+Ud-treebanks-v2.14	UD_Indonesian-CSUI	id_csui-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Indonesian-CSUI	id_csui-ud-train.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-dev.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Indonesian-GSD	id_gsd-ud-train.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Indonesian-PUD	id_pud-ud-test.conllu	indo1316	indo1316	id	2	id	ind	msa	
+Ud-treebanks-v2.14	UD_Irish-Cadhan	ga_cadhan-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-dev.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-IDT	ga_idt-ud-train.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-dev.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-test.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Irish-TwittIrish	ga_twittirish-ud-train.conllu	iris1253	iris1253	ga	2	ga	gle		
+Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ISDT	it_isdt-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-MarkIT	it_markit-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-Old	it_old-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ParlaMint	it_parlamint-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ParlaMint	it_parlamint-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-ParTUT	it_partut-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-PoSTWITA	it_postwita-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-PUD	it_pud-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-TWITTIRO	it_twittiro-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-Valico	it_valico-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-dev.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-test.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Italian-VIT	it_vit-ud-train.conllu	ital1282	ital1282	it	2	it	ita		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJ	ja_bccwj-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-BCCWJLUW	ja_bccwjluw-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSD	ja_gsd-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-dev.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-GSDLUW	ja_gsdluw-ud-train.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-PUD	ja_pud-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Japanese-PUDLUW	ja_pudluw-ud-test.conllu	nucl1643	nucl1643	ja	2	ja	jpn		
+Ud-treebanks-v2.14	UD_Javanese-CSUI	jv_csui-ud-test.conllu	java1254	java1254	jv	2	jv	jav		
+Ud-treebanks-v2.14	UD_Kazakh-KTB	kk_ktb-ud-test.conllu	kaza1248	kaza1248	kk	2	kk	kaz		
+Ud-treebanks-v2.14	UD_Kazakh-KTB	kk_ktb-ud-train.conllu	kaza1248	kaza1248	kk	2	kk	kaz		
+Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-dev.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-GSD	ko_gsd-ud-train.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-dev.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-Kaist	ko_kaist-ud-train.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Korean-PUD	ko_pud-ud-test.conllu	kore1280	kore1280	ko	2	ko	kor		
+Ud-treebanks-v2.14	UD_Kyrgyz-KTMU	ky_ktmu-ud-test.conllu	kirg1245	kirg1245	ky	2	ky	kir		
+Ud-treebanks-v2.14	UD_Kyrgyz-KTMU	ky_ktmu-ud-train.conllu	kirg1245	kirg1245	ky	2	ky	kir		
+Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-dev.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-test.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-ITTB	la_ittb-ud-train.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-dev.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-test.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-LLCT	la_llct-ud-train.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-Perseus	la_perseus-ud-test.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-Perseus	la_perseus-ud-train.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-dev.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-test.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-PROIEL	la_proiel-ud-train.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-dev.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-test.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latin-UDante	la_udante-ud-train.conllu	lati1261	lati1261	la	2	la	lat		
+Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-dev.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav	
+Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-test.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav	
+Ud-treebanks-v2.14	UD_Latvian-LVTB	lv_lvtb-ud-train.conllu	latv1249	latv1249	lv	2	lv	ltg; lvs	lav	
+Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-dev.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-test.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Lithuanian-ALKSNIS	lt_alksnis-ud-train.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-dev.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-test.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Lithuanian-HSE	lt_hse-ud-train.conllu	lith1251	lith1251	lt	2	lt	lit		
+Ud-treebanks-v2.14	UD_Macedonian-MTB	mk_mtb-ud-test.conllu	mace1250	mace1250	mk	2	mk	mkd		
+Ud-treebanks-v2.14	UD_Malayalam-UFAL	ml_ufal-ud-test.conllu	mala1464	mala1464	ml	2	ml	mal		
+Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-dev.conllu	malt1254	malt1254	mt	2	mt	mlt		
+Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-test.conllu	malt1254	malt1254	mt	2	mt	mlt		
+Ud-treebanks-v2.14	UD_Maltese-MUDT	mt_mudt-ud-train.conllu	malt1254	malt1254	mt	2	mt	mlt		
+Ud-treebanks-v2.14	UD_Manx-Cadhan	gv_cadhan-ud-test.conllu	manx1243	manx1243	gv	2	gv	glv		
+Ud-treebanks-v2.14	UD_Manx-Cadhan	gv_cadhan-ud-train.conllu	manx1243	manx1243	gv	2	gv	glv		
+Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-dev.conllu	mara1378	mara1378	mr	2	mr	mar		
+Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-test.conllu	mara1378	mara1378	mr	2	mr	mar		
+Ud-treebanks-v2.14	UD_Marathi-UFAL	mr_ufal-ud-train.conllu	mara1378	mara1378	mr	2	mr	mar		
+Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-dev.conllu	norw1259	norw1259	no	2	no	nob	nor	
+Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-test.conllu	norw1259	norw1259	no	2	no	nob	nor	
+Ud-treebanks-v2.14	UD_Norwegian-Bokmaal	no_bokmaal-ud-train.conllu	norw1259	norw1259	no	2	no	nob	nor	
+Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-dev.conllu	norw1262	norw1262	no	2	no	nno	nor	
+Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-test.conllu	norw1262	norw1262	no	2	no	nno	nor	
+Ud-treebanks-v2.14	UD_Norwegian-Nynorsk	no_nynorsk-ud-train.conllu	norw1262	norw1262	no	2	no	nno	nor	
+Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-dev.conllu	chur1257	chur1257	cu	2	cu	chu		
+Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-test.conllu	chur1257	chur1257	cu	2	cu	chu		
+Ud-treebanks-v2.14	UD_Old_Church_Slavonic-PROIEL	cu_proiel-ud-train.conllu	chur1257	chur1257	cu	2	cu	chu		
+Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-dev.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-test.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Persian-PerDT	fa_perdt-ud-train.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-dev.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-test.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Persian-Seraji	fa_seraji-ud-train.conllu	west2369	west2369	fa	2	fa	pes; prs	fas	
+Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-dev.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-LFG	pl_lfg-ud-train.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-dev.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-PDB	pl_pdb-ud-train.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Polish-PUD	pl_pud-ud-test.conllu	poli1260	poli1260	pl	2	pl	pol		
+Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-dev.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-Bosque	pt_bosque-ud-train.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-dev.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-CINTIL	pt_cintil-ud-train.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-dev.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-GSD	pt_gsd-ud-train.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-dev.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-PetroGold	pt_petrogold-ud-train.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-dev.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-Porttinari	pt_porttinari-ud-train.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Portuguese-PUD	pt_pud-ud-test.conllu	port1283	port1283	pt	2	pt	por		
+Ud-treebanks-v2.14	UD_Romanian-ArT	ro_art-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-Nonstandard	ro_nonstandard-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-RRT	ro_rrt-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-dev.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-test.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Romanian-SiMoNERo	ro_simonero-ud-train.conllu	roma1327	roma1327	ro	2	ro	ron		
+Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-GSD	ru_gsd-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Poetry	ru_poetry-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-PUD	ru_pud-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-SynTagRus	ru_syntagrus-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-dev.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-test.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Russian-Taiga	ru_taiga-ud-train.conllu	russ1263	russ1263	ru	2	ru	rus		
+Ud-treebanks-v2.14	UD_Sanskrit-UFAL	sa_ufal-ud-test.conllu	sans1269	sans1269	sa	2	sa	san		
+Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-test.conllu	sans1269	sans1269;vedi1234	sa	2	sa	san		
+Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-train.conllu	sans1269	sans1269;vedi1234	sa	2	sa	san		
+Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-dev.conllu	scot1245	scot1245	gd	2	gd	gla		
+Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-test.conllu	scot1245	scot1245	gd	2	gd	gla		
+Ud-treebanks-v2.14	UD_Scottish_Gaelic-ARCOSG	gd_arcosg-ud-train.conllu	scot1245	scot1245	gd	2	gd	gla		
+Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-dev.conllu	shto1241	shto1241	sr	2	sr	srp		
+Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-test.conllu	shto1241	shto1241	sr	2	sr	srp		
+Ud-treebanks-v2.14	UD_Serbian-SET	sr_set-ud-train.conllu	shto1241	shto1241	sr	2	sr	srp		
+Ud-treebanks-v2.14	UD_Sinhala-STB	si_stb-ud-test.conllu	sinh1246	sinh1246	si	2	si	sin		
+Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-dev.conllu	slov1269	slov1269	sk	2	sk	slk		
+Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-test.conllu	slov1269	slov1269	sk	2	sk	slk		
+Ud-treebanks-v2.14	UD_Slovak-SNK	sk_snk-ud-train.conllu	slov1269	slov1269	sk	2	sk	slk		
+Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-dev.conllu	slov1268	slov1268	sl	2	sl	slv		
+Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-test.conllu	slov1268	slov1268	sl	2	sl	slv		
+Ud-treebanks-v2.14	UD_Slovenian-SSJ	sl_ssj-ud-train.conllu	slov1268	slov1268	sl	2	sl	slv		
+Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-test.conllu	slov1268	slov1268	sl	2	sl	slv		
+Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-train.conllu	slov1268	slov1268	sl	2	sl	slv		
+Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-dev.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-test.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-AnCora	es_ancora-ud-train.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-dev.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-test.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-GSD	es_gsd-ud-train.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Spanish-PUD	es_pud-ud-test.conllu	stan1288	stan1288	es	2	es	spa		
+Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-dev.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-LinES	sv_lines-ud-train.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-PUD	sv_pud-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-dev.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-test.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Swedish-Talbanken	sv_talbanken-ud-train.conllu	swed1254	swed1254	sv	2	sv	swe		
+Ud-treebanks-v2.14	UD_Tagalog-TRG	tl_trg-ud-test.conllu	taga1270	taga1270	tl	2	tl	tgl		
+Ud-treebanks-v2.14	UD_Tagalog-Ugnayan	tl_ugnayan-ud-test.conllu	taga1270	taga1270	tl	2	tl	tgl		
+Ud-treebanks-v2.14	UD_Tamil-MWTT	ta_mwtt-ud-test.conllu	tami1289	tami1289	ta	2	ta	tam		
+Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-dev.conllu	tami1289	tami1289	ta	2	ta	tam		
+Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-test.conllu	tami1289	tami1289	ta	2	ta	tam		
+Ud-treebanks-v2.14	UD_Tamil-TTB	ta_ttb-ud-train.conllu	tami1289	tami1289	ta	2	ta	tam		
+Ud-treebanks-v2.14	UD_Tatar-NMCTT	tt_nmctt-ud-test.conllu	tata1255	tata1255	tt	2	tt	tat		
+Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-dev.conllu	telu1262	telu1262	te	2	te	tel		
+Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-test.conllu	telu1262	telu1262	te	2	te	tel		
+Ud-treebanks-v2.14	UD_Telugu-MTG	te_mtg-ud-train.conllu	telu1262	telu1262	te	2	te	tel		
+Ud-treebanks-v2.14	UD_Thai-PUD	th_pud-ud-test.conllu	thai1261	thai1261	th	2	th	tha		
+Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Atis	tr_atis-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-BOUN	tr_boun-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-FrameNet	tr_framenet-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-GB	tr_gb-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-IMST	tr_imst-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Kenet	tr_kenet-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Penn	tr_penn-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-PUD	tr_pud-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-dev.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-test.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Turkish-Tourism	tr_tourism-ud-train.conllu	nucl1301	nucl1301	tr	2	tr	tur		
+Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-dev.conllu	ukra1253	ukra1253	uk	2	uk	ukr		
+Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-test.conllu	ukra1253	ukra1253	uk	2	uk	ukr		
+Ud-treebanks-v2.14	UD_Ukrainian-IU	uk_iu-ud-train.conllu	ukra1253	ukra1253	uk	2	uk	ukr		
+Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-dev.conllu	urdu1245	urdu1245	ur	2	ur	urd		
+Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-test.conllu	urdu1245	urdu1245	ur	2	ur	urd		
+Ud-treebanks-v2.14	UD_Urdu-UDTB	ur_udtb-ud-train.conllu	urdu1245	urdu1245	ur	2	ur	urd		
+Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-dev.conllu	uigh1240	uigh1240	ug	2	ug	uig		
+Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-test.conllu	uigh1240	uigh1240	ug	2	ug	uig		
+Ud-treebanks-v2.14	UD_Uyghur-UDT	ug_udt-ud-train.conllu	uigh1240	uigh1240	ug	2	ug	uig		
+Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-dev.conllu	viet1252	viet1252	vi	2	vi	vie		
+Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-test.conllu	viet1252	viet1252	vi	2	vi	vie		
+Ud-treebanks-v2.14	UD_Vietnamese-VTB	vi_vtb-ud-train.conllu	viet1252	viet1252	vi	2	vi	vie		
+Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-dev.conllu	wels1247	wels1247	cy	2	cy	cym		
+Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-test.conllu	wels1247	wels1247	cy	2	cy	cym		
+Ud-treebanks-v2.14	UD_Welsh-CCG	cy_ccg-ud-train.conllu	wels1247	wels1247	cy	2	cy	cym		
+Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-dev.conllu	nucl1347	nucl1347	wo	2	wo	wol		
+Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-test.conllu	nucl1347	nucl1347	wo	2	wo	wol		
+Ud-treebanks-v2.14	UD_Wolof-WTB	wo_wtb-ud-train.conllu	nucl1347	nucl1347	wo	2	wo	wol		
+Ud-treebanks-v2.14	UD_Yoruba-YTB	yo_ytb-ud-test.conllu	yoru1245	yoru1245	yo	2	yo	yor		
+Ud-treebanks-v2.14	UD_Abaza-ATB	abq_atb-ud-test.conllu	abaz1241	abaz1241	abq	3		abq		
+Ud-treebanks-v2.14	UD_Akkadian-PISANDUB	akk_pisandub-ud-test.conllu	akka1240	akka1240	akk	3		akk		
+Ud-treebanks-v2.14	UD_Akkadian-RIAO	akk_riao-ud-test.conllu	akka1240	akka1240	akk	3		akk		
+Ud-treebanks-v2.14	UD_Akuntsu-TuDeT	aqz_tudet-ud-test.conllu	akun1241	akun1241	aqz	3		aqz		
+Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-dev.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-test.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-Perseus	grc_perseus-ud-train.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-dev.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-test.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PROIEL	grc_proiel-ud-train.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-dev.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-test.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Greek-PTNK	grc_ptnk-ud-train.conllu	anci1242	anci1242	grc	3		grc		
+Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-dev.conllu	anci1244	anci1244	hbo	3		hbo		
+Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-test.conllu	anci1244	anci1244	hbo	3		hbo		
+Ud-treebanks-v2.14	UD_Ancient_Hebrew-PTNK	hbo_ptnk-ud-train.conllu	anci1244	anci1244	hbo	3		hbo		
+Ud-treebanks-v2.14	UD_Apurina-UFPA	apu_ufpa-ud-test.conllu	apur1254	apur1254	apu	3		apu		
+Ud-treebanks-v2.14	UD_Assyrian-AS	aii_as-ud-test.conllu	assy1241	assy1241	aii	3		aii		
+Ud-treebanks-v2.14	UD_Beja-NSC	bej_nsc-ud-test.conllu	beja1238	beja1238	bej	3		bej		
+Ud-treebanks-v2.14	UD_Bhojpuri-BHTB	bho_bhtb-ud-test.conllu	bhoj1244	bhoj1244	bho	3		bho		
+Ud-treebanks-v2.14	UD_Bororo-BDT	bor_bdt-ud-test.conllu	boro1282	boro1282	bor	3		bor		
+Ud-treebanks-v2.14	UD_Buryat-BDT	bxr_bdt-ud-test.conllu	russ1264	russ1264	bxr	3		bxr		
+Ud-treebanks-v2.14	UD_Buryat-BDT	bxr_bdt-ud-train.conllu	russ1264	russ1264	bxr	3		bxr		
+Ud-treebanks-v2.14	UD_Cantonese-HK	yue_hk-ud-test.conllu	cant1236	cant1236	yue	3		yue		
+Ud-treebanks-v2.14	UD_Cebuano-GJA	ceb_gja-ud-test.conllu	cebu1242	cebu1242	ceb	3		ceb		
+Ud-treebanks-v2.14	UD_Chukchi-HSE	ckt_hse-ud-test.conllu	chuk1273	chuk1273	ckt	3		ckt		
+Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-test.conllu	clas1256	clas1256	xcl	3		xcl		
+Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-dev.conllu	lite1248	lite1248	lzh	3		lzh		
+Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-test.conllu	lite1248	lite1248	lzh	3		lzh		
+Ud-treebanks-v2.14	UD_Classical_Chinese-Kyoto	lzh_kyoto-ud-train.conllu	lite1248	lite1248	lzh	3		lzh		
+Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-dev.conllu	copt1239	copt1239	cop	3		cop		
+Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-test.conllu	copt1239	copt1239	cop	3		cop		
+Ud-treebanks-v2.14	UD_Coptic-Scriptorium	cop_scriptorium-ud-train.conllu	copt1239	copt1239	cop	3		cop		
+Ud-treebanks-v2.14	UD_Erzya-JR	myv_jr-ud-test.conllu	erzy1239	erzy1239	myv	3		myv		
+Ud-treebanks-v2.14	UD_Erzya-JR	myv_jr-ud-train.conllu	erzy1239	erzy1239	myv	3		myv		
+Ud-treebanks-v2.14	UD_Frisian_Dutch-Fame	qfn_fame-ud-test.conllu	mode1264	mode1264;dutc1256	qfn	3		qfn		yes
+Ud-treebanks-v2.14	UD_Gheg-GPS	aln_gps-ud-test.conllu	gheg1238	gheg1238	aln	3		aln		
+Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-dev.conllu	goth1244	goth1244	got	3		got		
+Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-test.conllu	goth1244	goth1244	got	3		got		
+Ud-treebanks-v2.14	UD_Gothic-PROIEL	got_proiel-ud-train.conllu	goth1244	goth1244	got	3		got		
+Ud-treebanks-v2.14	UD_Guajajara-TuDeT	gub_tudet-ud-test.conllu	guaj1255	guaj1255	gub	3		gub		
+Ud-treebanks-v2.14	UD_Highland_Puebla_Nahuatl-ITML	azz_itml-ud-test.conllu	high1278	high1278	azz	3		azz		
+Ud-treebanks-v2.14	UD_Hittite-HitTB	hit_hittb-ud-test.conllu	hitt1242	hitt1242	hit	3		hit		
+Ud-treebanks-v2.14	UD_Kaapor-TuDeT	urb_tudet-ud-test.conllu	urub1250	urub1250	urb	3		urb		
+Ud-treebanks-v2.14	UD_Kangri-KDTB	xnr_kdtb-ud-test.conllu	kang1280	kang1280	xnr	3		xnr		
+Ud-treebanks-v2.14	UD_Karelian-KKPP	krl_kkpp-ud-test.conllu	kare1335	kare1335	krl	3		krl		
+Ud-treebanks-v2.14	UD_Karo-TuDeT	arr_tudet-ud-test.conllu	karo1305	karo1305	arr	3		arr		
+Ud-treebanks-v2.14	UD_Khunsari-AHA	kfm_aha-ud-test.conllu	khun1255	khun1255	kfm	3		kfm		
+Ud-treebanks-v2.14	UD_Kiche-IU	quc_iu-ud-test.conllu	kich1262	kich1262	quc	3		quc		
+Ud-treebanks-v2.14	UD_Komi_Permyak-UH	koi_uh-ud-test.conllu	komi1269	komi1269	koi	3		koi		
+Ud-treebanks-v2.14	UD_Komi_Permyak-UH	koi_uh-ud-train.conllu	komi1269	komi1269	koi	3		koi		
+Ud-treebanks-v2.14	UD_Komi_Zyrian-IKDP	kpv_ikdp-ud-test.conllu	komi1268	komi1268	kpv	3		kpv		
+Ud-treebanks-v2.14	UD_Komi_Zyrian-Lattice	kpv_lattice-ud-test.conllu	komi1268	komi1268	kpv	3		kpv		
+Ud-treebanks-v2.14	UD_Komi_Zyrian-Lattice	kpv_lattice-ud-train.conllu	komi1268	komi1268	kpv	3		kpv		
+Ud-treebanks-v2.14	UD_Kurmanji-MG	kmr_mg-ud-test.conllu	nort2641	nort2641	kmr	3		kmr		
+Ud-treebanks-v2.14	UD_Kurmanji-MG	kmr_mg-ud-train.conllu	nort2641	nort2641	kmr	3		kmr		
+Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-test.conllu	ligu1248	ligu1248	lij	3		lij		
+Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-train.conllu	ligu1248	ligu1248	lij	3		lij		
+Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-test.conllu	livv1243	livv1243	olo	3		olo		
+Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-train.conllu	livv1243	livv1243	olo	3		olo		
+Ud-treebanks-v2.14	UD_Low_Saxon-LSDC	nds_lsdc-ud-test.conllu	nort2628	bran1235;nort2628;west2356;meck1239;nort2627;lowe1387;east2290	nds	3		nds		
+Ud-treebanks-v2.14	UD_Madi-Jarawara	jaa_jarawara-ud-test.conllu	jama1261	jama1261	jaa	3		jaa		
+Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-dev.conllu	alge1239	alge1239;stan1290	qaf	3		qaf		yes
+Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-test.conllu	alge1239	alge1239;stan1290	qaf	3		qaf		yes
+Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-train.conllu	alge1239	alge1239;stan1290	qaf	3		qaf		yes
+Ud-treebanks-v2.14	UD_Makurap-TuDeT	mpu_tudet-ud-test.conllu	maku1278	maku1278	mpu	3		mpu		
+Ud-treebanks-v2.14	UD_Mbya_Guarani-Dooley	gun_dooley-ud-test.conllu	mbya1239	mbya1239	gun	3		gun		
+Ud-treebanks-v2.14	UD_Mbya_Guarani-Thomas	gun_thomas-ud-test.conllu	mbya1239	mbya1239	gun	3		gun		
+Ud-treebanks-v2.14	UD_Middle_French-PROFITEROLE	frm_profiterole-ud-test.conllu	midd1316	midd1316	frm	3		frm		
+Ud-treebanks-v2.14	UD_Moksha-JR	mdf_jr-ud-test.conllu	moks1248	moks1248	mdf	3		mdf		
+Ud-treebanks-v2.14	UD_Moksha-JR	mdf_jr-ud-train.conllu	moks1248	moks1248	mdf	3		mdf		
+Ud-treebanks-v2.14	UD_Munduruku-TuDeT	myu_tudet-ud-test.conllu	mund1330	mund1330	myu	3		myu		
+Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-dev.conllu	nige1257	nige1257	pcm	3		pcm		
+Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-test.conllu	nige1257	nige1257	pcm	3		pcm		
+Ud-treebanks-v2.14	UD_Naija-NSC	pcm_nsc-ud-train.conllu	nige1257	nige1257	pcm	3		pcm		
+Ud-treebanks-v2.14	UD_Nayini-AHA	nyq_aha-ud-test.conllu	nayi1242	nayi1242	nyq	3		nyq		
+Ud-treebanks-v2.14	UD_Neapolitan-RB	nap_rb-ud-test.conllu	napo1241	napo1241	nap	3		nap		
+Ud-treebanks-v2.14	UD_Nheengatu-CompLin	yrl_complin-ud-test.conllu	nhen1239	nhen1239	yrl	3		yrl		
+Ud-treebanks-v2.14	UD_North_Sami-Giella	sme_giella-ud-test.conllu	nort2671	nort2671	sme	3		sme		
+Ud-treebanks-v2.14	UD_North_Sami-Giella	sme_giella-ud-train.conllu	nort2671	nort2671	sme	3		sme		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-test.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Birchbark	orv_birchbark-ud-train.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-test.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-RNC	orv_rnc-ud-train.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-test.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-Ruthenian	orv_ruthenian-ud-train.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-dev.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-test.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_East_Slavic-TOROT	orv_torot-ud-train.conllu	oldr1238	oldr1238	orv	3		orv		
+Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-dev.conllu	oldf1239	oldf1239	fro	3		fro		
+Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-test.conllu	oldf1239	oldf1239	fro	3		fro		
+Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-train.conllu	oldf1239	oldf1239	fro	3		fro		
+Ud-treebanks-v2.14	UD_Old_Irish-DipSGG	sga_dipsgg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga		
+Ud-treebanks-v2.14	UD_Old_Irish-DipWBG	sga_dipwbg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga		
+Ud-treebanks-v2.14	UD_Old_Turkish-Tonqq	otk_tonqq-ud-test.conllu	oldu1238	oldu1238	otk	3		otk		
+Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-dev.conllu	poma1238	poma1238	qpm	3		qpm		
+Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-test.conllu	poma1238	poma1238	qpm	3		qpm		
+Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-train.conllu	poma1238	poma1238	qpm	3		qpm		
+Ud-treebanks-v2.14	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-test.conllu	skol1241	skol1241	sms	3		sms		
+Ud-treebanks-v2.14	UD_Skolt_Sami-Giellagas	sms_giellagas-ud-train.conllu	skol1241	skol1241	sms	3		sms		
+Ud-treebanks-v2.14	UD_Soi-AHA	soj_aha-ud-test.conllu	soii1239	soii1239	soj	3		soj		
+Ud-treebanks-v2.14	UD_South_Levantine_Arabic-MADAR	ajp_madar-ud-test.conllu	sout3123	sout3123	ajp	3		ajp		
+Ud-treebanks-v2.14	UD_Swedish_Sign_Language-SSLC	swl_sslc-ud-test.conllu	swed1236	swed1236	swl	3		swl		
+Ud-treebanks-v2.14	UD_Swiss_German-UZH	gsw_uzh-ud-test.conllu	swis1247	swis1247	gsw	3		gsw		
+Ud-treebanks-v2.14	UD_Teko-TuDeT	eme_tudet-ud-test.conllu	emer1243	emer1243	eme	3		eme		
+Ud-treebanks-v2.14	UD_Tupinamba-TuDeT	tpn_tudet-ud-test.conllu	tupi1273	tupi1273	tpn	3		tpn		
+Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-dev.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd		yes
+Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-test.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd		yes
+Ud-treebanks-v2.14	UD_Turkish_German-SAGT	qtd_sagt-ud-train.conllu	nucl1301	nucl1301;stan1295	qtd	3		qtd		yes
+Ud-treebanks-v2.14	UD_Umbrian-IKUVINA	xum_ikuvina-ud-test.conllu	umbr1253	umbr1253	xum	3		xum		
+Ud-treebanks-v2.14	UD_Upper_Sorbian-UFAL	hsb_ufal-ud-test.conllu	uppe1395	uppe1395	hsb	3		hsb		
+Ud-treebanks-v2.14	UD_Upper_Sorbian-UFAL	hsb_ufal-ud-train.conllu	uppe1395	uppe1395	hsb	3		hsb		
+Ud-treebanks-v2.14	UD_Veps-VWT	vep_vwt-ud-test.conllu	veps1250	veps1250	vep	3		vep		
+Ud-treebanks-v2.14	UD_Warlpiri-UFAL	wbp_ufal-ud-test.conllu	warl1254	warl1254	wbp	3		wbp		
+Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-dev.conllu	homs1234	homs1234	hyw	3		hyw		
+Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-test.conllu	homs1234	homs1234	hyw	3		hyw		
+Ud-treebanks-v2.14	UD_Western_Armenian-ArmTDP	hyw_armtdp-ud-train.conllu	homs1234	homs1234	hyw	3		hyw		
+Ud-treebanks-v2.14	UD_Western_Sierra_Puebla_Nahuatl-ITML	nhi_itml-ud-test.conllu	zaca1241	zaca1241	nhi	3		nhi		
+Ud-treebanks-v2.14	UD_Xavante-XDT	xav_xdt-ud-test.conllu	xava1240	xava1240	xav	3		xav		
+Ud-treebanks-v2.14	UD_Xibe-XDT	sjo_xdt-ud-test.conllu	xibe1242	xibe1242	sjo	3		sjo		
+Ud-treebanks-v2.14	UD_Yakut-YKTDT	sah_yktdt-ud-test.conllu	yaku1245	yaku1245	sah	3		sah		
+Ud-treebanks-v2.14	UD_Yupik-SLI	ess_sli-ud-test.conllu	cent2128	cent2128	ess	3		ess		
+Ud-treebanks-v2.14	UD_Zaar-Autogramm	say_autogramm-ud-test.conllu	zaar1253	zaar1253	say	3		say		
+Ud-treebanks-v2.14	UD_Abkhaz-AbNC	UD_Abkhaz-AbNCab_abnc-ud-test.conllu	abkh1244	abkh1244	abk					
+Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	UD_Azerbaijani-TueCLaz_tuecl-ud-test.conllu	nort2697	nort2697;sout2697						
+Ud-treebanks-v2.14	UD_Bavarian-MaiBaam	bar_maibaam-ud-test.conllu	bava1246	bava1246						
+Ud-treebanks-v2.14	UD_Cappadocian-TueCL	cpg_tuecl-ud-test.conllu	capp1239	capp1239	cpg					
+Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-dev.conllu	clas1256	clas1256						
+Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-train.conllu	clas1256	clas1256						
+Ud-treebanks-v2.14	UD_Classical_Chinese-TueCL	lzh_tuecl-ud-test.conllu	lite1248	lite1248						
+Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246						
+Ud-treebanks-v2.14	UD_English-CTeTex	en_ctetex-ud-test.conllu	stan1293	stan1293						
+Ud-treebanks-v2.14	UD_Galician-PUD	gl_pud-ud-test.conllu	gali1258	gali1258						
+Ud-treebanks-v2.14	UD_Gujarati-GujTB	gu_gujtb-ud-test.conllu	guja1252	guja1252	guj					
+Ud-treebanks-v2.14	UD_Hausa-NorthernAutogramm	ha_northernautogramm-ud-test.conllu	haus1257	haus1257						
+Ud-treebanks-v2.14	UD_Hausa-SouthernAutogramm	ha_southernautogramm-ud-test.conllu	haus1257	haus1257						
+Ud-treebanks-v2.14	UD_Kyrgyz-TueCL	ky_tuecl-ud-test.conllu	kirg1245	kirg1245						
+Ud-treebanks-v2.14	UD_Latgalian-Cairo	ltg_cairo-ud-test.conllu	east2282	east2282						
+Ud-treebanks-v2.14	UD_Latin-CIRCSE	la_circse-ud-test.conllu	lati1261	lati1261						
+Ud-treebanks-v2.14	UD_Latvian-Cairo	lv_cairo-ud-test.conllu	latv1249	latv1249						
+Ud-treebanks-v2.14	UD_Luxembourgish-LuxBank	lb_luxbank-ud-test.conllu	luxe1243	luxe1243						
+Ud-treebanks-v2.14	UD_Old_Turkish-Clausal	otk_clausal-ud-test.conllu	oldt1247	oldt1247	otk					
+Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	ota_boun-ud-test.conllu	otto1234	otto1234						
+Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	UD_Ottoman_Turkish-BOUNota_boun-ud-train.conllu	otto1234	otto1234						
+Ud-treebanks-v2.14	UD_Ottoman_Turkish-DUDU	ota_dudu-ud-test.conllu	otto1234	otto1234						
+Ud-treebanks-v2.14	UD_Paumari-TueCL	pad_tuecl-ud-test.conllu	paum1247	paum1247						
+Ud-treebanks-v2.14	UD_Romanian-TueCL	ro_tuecl-ud-test.conllu	roma1327	roma1327						
+Ud-treebanks-v2.14	UD_Sanskrit-Vedic	sa_vedic-ud-dev.conllu	sans1269	sans1269;vedi1234						
+Ud-treebanks-v2.14	UD_Slovenian-SST	sl_sst-ud-dev.conllu	slov1268	slov1268						
+Ud-treebanks-v2.14	UD_Spanish-COSER	es_coser-ud-test.conllu	stan1288	stan1288						
+Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-test.conllu	telu1262	telu1262						
+Ud-treebanks-v2.14	UD_Telugu_English-TECT	qte_tect-ud-train.conllu	telu1262	telu1262						
+Ud-treebanks-v2.14	UD_Tswana-Popapolelo	tn_popapolelo-ud-test.conllu	tswa1253	tswa1253						
+Ud-treebanks-v2.14	UD_Vietnamese-TueCL	vi_tuecl-ud-test.conllu	viet1252	viet1252						
+Ud-treebanks-v2.14	UD_Abkhaz-AbNC	ab_abnc-ud-test.conllu	abkh1244	abkh1244						
+Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	az_tuecl-ud-test.conllu	nort2697	nort2697;sout2697						
+Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246						
