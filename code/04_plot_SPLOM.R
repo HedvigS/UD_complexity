@@ -179,7 +179,7 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          "#ed268d", #7
          "#c735e8", #8
          "#f723bb", #9
-         "#cf2757", #10
+       #  "#cf2757", #10
          "#c387f5", #11
          "grey40" #12
 )
