@@ -5,7 +5,7 @@ source("fun_def_SPLOM_fun.R")
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   filter(is.na(multilingual_exclude)) %>% 
-  dplyr::select(dir, glottocode)
+  distinct(dir, glottocode)
 
 df_external <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   rename(glottocode = Language_ID) %>% 
@@ -84,12 +84,6 @@ p <-  df_for_plot %>%
   coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 6, pair_colors = pal, herringbone = T
                  )
 
-
-df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.5, text_cor_size = 5, text_strip_size = 7, herringbone = T
-  )
-
-
 ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
@@ -155,7 +149,7 @@ pal <- c("#A7E1A1" , #1
 )
 
 p <- df_for_plot %>% 
-  coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10, hist_label_size = 2.5, herringbone = T)
+  coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10, hist_label_size = 2.5, herringbone = T, hist_bins = 7)
 
 ggsave("output/plots/SPLOM_custom_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -191,7 +185,7 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
 )
 
 p <-  df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, pair_colors = pal, herringbone = T)
+  coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, pair_colors = pal, herringbone = T, hist_bins = 7)
 
 ggsave("output/plots/SPLOM_other_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -226,7 +220,7 @@ p <-df_for_plot %>%
                                              "Informativity\n(Grambank v1.0)", 
                                              "Pop\n (Google)", 
                                              "Pop\n(Google)\nlog10"), 
-                 col_pairs_constraint = "glottocode", herringbone = T)
+                 col_pairs_constraint = "glottocode", herringbone = T, hist_bins = 7)
 
 ggsave("output/plots/SPLOM_metrics_external_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
