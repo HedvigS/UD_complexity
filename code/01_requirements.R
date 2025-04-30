@@ -11,8 +11,8 @@ pkgs <- c(
   "data.table",
   "dplyr",
   "readr",
+  "reader",
   "tidyr",
-  "fs",
   "stringr",
   "ggplot2",
   "ggpubr",
@@ -106,4 +106,4 @@ if(!dir.exists(dir)){
 }
 
 print("Creating basemap for EEZ")
-basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white", colour_border_eez = "lightgray", xlim = c(-30, 180)) 
+basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white",colour_land = "white", colour_border_eez = "lightgray", xlim = c(-25, 150), ylim = c(-40, 75)) 
