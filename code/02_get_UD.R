@@ -1,5 +1,10 @@
 source("01_requirements.R")
 
+dir <- paste0("../data/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
 dir <- paste0("../data/UD_zip_files")
 if(!dir.exists(dir)){
   dir.create(dir)
