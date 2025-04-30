@@ -200,7 +200,7 @@ custom_diag <- function(data, mapping){
   y_center <- max(hist_data$counts) 
   
   ggplot(data_reduced, aes(x = .data[[var]])) +
-    geom_histogram(fill = hist_col, color = hist_col, bins = 30, alpha = 0.6) +
+    geom_histogram(fill = hist_col, color = hist_col, bins =  hist_bins, alpha = 0.6) +
     annotate("text", x = x_center, y = y_center, 
              label = var, size = hist_label_size, color = "black", 
              hjust = 0.5, vjust = 1.2, fontface = "bold") +
