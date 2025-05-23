@@ -26,12 +26,12 @@
 %	breaklinks,
 %	urlcolor=cyan, 
 %	linkcolor=blue, 
-	pdfauthor={Author One, Author Two, Author Three},
-	pdftitle={A simple article template},
-	pdfsubject={A simple article template},
-	pdfkeywords={article, template, simple},
-	pdfproducer={LaTeX},
-	pdfcreator={pdflatex}
+%	pdfauthor={Author One, Author Two, Author Three},
+%	pdftitle={A simple article template},
+%	pdfsubject={A simple article template},
+%	pdfkeywords={article, template, simple},
+%	pdfproducer={LaTeX},
+%	pdfcreator={pdflatex}
 }
 
 \usepackage{booktabs}
@@ -47,24 +47,28 @@
 
 \begin{document}
 
-%  \articletype{...}
+%TC:ignore
 
-  \author*[1]{Hedvig Skirgård}
-  \author[1]{Stephen Francis Mann}
+%  \articletype{...}
+ \author*[1]{ANON}
+%  \author*[1]{Hedvig Skirgård}
+%  \author[1]{Stephen Francis Mann}
 %  \runningauthor{...}
-  \affil[1]{Department of Linguistic and Cultural Evolution, Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany}
+ \affil[1]{ANON}
+ % \affil[1]{Department of Linguistic and Cultural Evolution, Max Planck Institute for Evolutionary Anthropology, Leipzig, Germany}
 %  \affil[2]{...}
   \title{Using annotated cross-linguistic corpora to explore morphological information}
 %  \runningtitle{...}
 %  \subtitle{...}
   \abstract{
-  The emergence of annotated corpora collections in many different languages opens up new avenues for research in linguistic typology, enabling researchers to take into account more nuances of language use than previous databases.
-    In this paper, we use the morphology annotations in the Universal Dependencies datasets (UD) to quantify the information carried by morphological features.
+  The emergence of annotated corpora collections in many different languages opens up new avenues for research in linguistic typology, enabling researchers to take into account more nuances of language use than previous resources.
+    In this paper, we use the morphological feature annotations in the Universal Dependencies datasets (UD) to quantify the information carried by morphology.
+    Morphological information is one of many metrics covered by the term ``linguistic complexity''.
     We propose an approach founded in information theory which focusses on how surprising a certain morphological annotation is given a token's lemma.
-    Token-level informational quantities are aggregated to a dataset-level average, which serves as a proxy for a language's morphological complexity.
+    Token-level informational quantities are aggregated to a dataset-level average, which serves as a proxy for a language's morphological information load.
     We find that languages vary in how much information is encoded in morphology and that the variation correlates moderately with measurements of fusion, another metric that has been used to quantify ``linguistic complexity''.
-    We argue that measurements such as the one presented in this paper make it possible to test more specific hypotheses of ``linguistic complexity''; for example, claims about the informational load distribution of different parts of language and even non-linguistic domains.
-    We also discuss possible modifications to the approach (generalising over part-of-speech or other categories instead of lemma) and shortcomings (reliability of morphological annotation, null-marking, conditional probabilities, and more).  
+    We argue that measurements such as the one presented in this paper make it possible to test more specific hypotheses of ``linguistic complexity''; for example, how differences in communication styles can impact grammar.
+    We also investigate variants of the basic approach (e.g. generalising over part-of-speech instead of lemma) and shortcomings (comparability of datasets, conditional probabilities, and more).  
   }
   \keywords{morphology, Universal Dependencies, corpora, information theory, surprisal}
 %  \classification[PACS]{...}
@@ -81,42 +85,50 @@
 %  \DOI{...}
 
 \maketitle
+
+%TC:endignore
 	
 \newpage
 \section{Introduction}
 Do some languages necessarily encode more information than others?
-All languages can express all concepts, albeit in different ways and perhaps at varying length. 
-There may not be a word for the German expression ``schadenfreude'' (approximately: the feeling of experiencing joy from others misfortune) in all languages, but we can approximate the meaning (though it may take us several words or even several clauses). 
+All languages can express all concepts, albeit in different ways and at varying lengths. 
+There may not be a word for the German expression ``schadenfreude'' in all languages, but the meaning can be approximated with several words or clauses. 
 Grammar is the set of rules of a language that determine how to put units together, and what has to be specified: ``grammar [...] determines those aspects of each experience that must be expressed'' \citep[132]{boas1938language}. 
 Languages differ in their grammar, which means they also differ in what ``must be expressed''. 
 For example, some languages have pronoun systems with a distinction between inclusive and exclusive ``we'' (e.g. S\={a}moan l\={a}tou / m\={a}tou). 
-While the English language does not have such a grammatical distinction in its pronoun system, the information can be expressed optionally (e.g. ``we, you and I, are going''); the utterance can be left ambiguous between including the hearer or not without being ungrammatical.
+While the English language does not have such a grammatical distinction in its pronoun system, the information can be expressed optionally (e.g. ``we, you and I, are going'') or can be left ambiguous without being ungrammatical.
 In S\={a}moan, the distinction is made every time ``we'' is expressed, and the grammar of S\={a}moan therefore entails a higher degree of information specificity in this particular regard.
-There is other information that English grammar specifies which S\={a}moan does not, such as masculine / feminine gender on 3rd person pronouns.
+There is other information that English grammar specifies which S\={a}moan does not, such as masculine/feminine gender on 3rd person pronouns.
 
 We can compare languages in terms of how much information is specified obligatorily in grammar. 
-In this paper we use cross-linguistic corpora to quantify this kind of information, specifically morphological information, and compare quantities across languages.
-While grammatical descriptions document the grammatical rules of a given language, corpora have the advantage of providing information about the frequency of different features in actual usage (cf. \citet{levshina_gradient}, Saussure's \textit{langue} and \textit{parôle} \citet{Saussure1916}).
-For example, it is possible that a particular grammatical distinction exists in a language such that there are two alternatives, but 90\% of the time speakers just use one alternative. 
-In an information-theoretic sense, such a distinction is less informative than one with balanced frequencies: it is easier to predict that a high-frequency alternative will occur, so its occurrence is less informative.
+In this paper we use cross-linguistic corpora to quantify this kind of morphological information and compare values across languages.
+While grammatical descriptions document the rules of a given language, corpora have the advantage of providing information about the frequency of different features in actual usage (cf. \citet{levshina_gradient}, Saussure's \textit{langue} and \textit{parôle} \citet{Saussure1916}).
+%%% SFM word chopping
+% For example, it is possible that a particular grammatical distinction exists in a language such that there are two alternatives, but 90\% of the time speakers just use one alternative. 
+% In an information-theoretic sense, such a distinction is less informative than one with balanced frequencies: it is easier to predict that a high-frequency alternative will occur, so its occurrence is less informative.
+%%% SFM end word chopping
+Informational distinctiveness in grammar -- both in rules and usage -- is one of the concepts that can be described as measuring ``language complexity''.
+Before presenting our approach, we give a brief overview of research on ``language complexity'' and where this study is situated in this landscape.
 
-Informational distinctiveness in grammar is one of the concepts that can be described as measuring ``language complexity''.
-Before presenting technical details of our approach, we give a brief overview of research on ``language complexity'' and where this study is situated in this landscape.
-
-\section{Background: defining language complexity}\label{sec:background}
+ \section{Background: defining language complexity}\label{sec:background}
 % \subsection{``Language complexity''}
 %Measuring information
-Language complexity has fascinated linguists and scholars of other fields such as psychology and anthropology for a long time. 
-There are many theories regarding this concept and its relation to the social circumstances of language communities. 
-Research has primarily focussed on relating language complexity to contact languages \citep{mcwhorter_2003} and population size and/or proportion of non-native speakers (inter alia \citet{wray2007consequences, dahl2004growth, lupyan2010language, bentz2013languages, bentz2015adaptive, raviv2019larger, koplenig2019language, shcherbakova2023societies}).
 
-Broadly, one can characterise the field of research as being concerned with how and under what conditions languages acquire more complexity than would seem `necessary' for pure information transmission, and how such complexity can be lost. In particular, most research is concerned with different aspects of `morphological complexity'.
+Language complexity is a highly multifaceted concept, with many theories relating its varied aspects with the social circumstances of language communities.
+%%% SFM word chopping
+% Language complexity has fascinated linguists and scholars of other fields such as psychology and anthropology for a long time. 
+% There are many theories regarding this concept and its relation to the social circumstances of language communities. 
+%%% SFM end word chopping
+Research to date has focussed on relating language complexity to contact languages \citep{mcwhorter_2003} and population size and/or proportion of non-native speakers (inter alia \citet{wray2007consequences, dahl2004growth, lupyan2010language, bentz2013languages, bentz2015adaptive, raviv2019larger, koplenig2019language, shcherbakova2023societies}).
+Broadly, one can characterise the field of research as being concerned with how and under what conditions languages acquire more complexity than would seem `necessary' for pure information transmission, and how such complexity can be lost. 
+%%% SFM word chopping
+% In particular, most research is concerned with different aspects of `morphological complexity'.
+%%% SFM end word chopping
 
 Language complexity can be operationalised into many different specific measurements. 
-Some of these measurements correlate and are possibly tracking the same or similar phenomena \citep{bentz2016comparison, bentz2023complexity, ccoltekin2023complexity}. 
-However, as they are employed for diverse purposes, they can also differ considerably (cf. \citet{lupyan2024cautionary}).
+Some of these measurements correlate and may track the same or similar phenomena \citep{bentz2016comparison, bentz2023complexity, ccoltekin2023complexity}, though divergence is possible \citep{lupyan2024cautionary}.
 Table \ref{tab:complex_metrics} gives an overview of several different ways of measuring language complexity. 
-The table combines measurements based on typological surveys of grammatical descriptions (i.e. WALS, Grambank etc) with those derived from cross-linguistic corpora, experiments or simulation studies.
+The table combines measurements based on typological surveys of grammatical descriptions (e.g. WALS; Grambank) with those derived from corpora, experiments, and simulation studies.
 
 \begin{table}[h]
     \centering
@@ -148,7 +160,11 @@ shared types & the total number of population-wide shared types &  \citet{spike2
     \label{tab:complex_metrics}
 \end{table}
 
-It is possible that these different measurements map onto different broader characteristics related to `language complexity'. We propose that many of these measurements can be grouped into four broader categories which have different implications for specific research questions:
+We think these measures can be grouped into four broader categories relating to the nebulous notion of `linguistic complexity' (Fig \ref{fig:metrics_diagram}):
+%%% SFM word chopping
+% It is possible that these different measurements map onto different broader characteristics related to `language complexity'.
+% We propose that many of these measurements can be grouped into four broader categories which have different implications for specific research questions:
+%%% SFM end word chopping
 
 \begin{itemize}
 \item ease of learning the language as (one of) a child's first language(s)
@@ -158,10 +174,10 @@ It is possible that these different measurements map onto different broader char
 \end{itemize}
 \FloatBarrier
 
-These four larger facets of language complexity are typically not directly measured, but are instead estimated using proxy measurements, derived from typological grammar surveys, corpora, experiments and simulations. 
-Fig \ref{fig:metrics_diagram} illustrates speculative connections between different groups of measurements and these four categories. 
-The intention here is not to provide an exhaustive or definite account of this ontology, but merely to illustrate the plethora of ``language complexity'' studies (cf. \citet{bentz2023complexity}) and suggest some possible lines along which they can be organised.
-Depending on the particular research question being evaluated, it is desirable to specify what facet of `language complexity' is being evaluated and how it is operationalised into specific measurement(s). %(``does a large proportion of second language learners reduce complexity?'', ``is language complexity primarily shaped by production or perception?'', ``do more modular networks create more complexity?'' etc), it is desirable to specify what facet of ``language complexity'' is being evaluated and how it is operationalised into specific measurement(s).
+These four categories are not usually measured directly, instead being estimated with proxy measurements derived from typological grammar surveys, corpora, experiments and simulations. 
+Fig \ref{fig:metrics_diagram} illustrates speculative connections between measurements and the four broader categories. 
+The intention here is not to provide an exhaustive or definite account of these relationships, but to illustrate the plethora of ``language complexity'' studies (cf. \citet{bentz2023complexity}) and suggest lines along which they may be organised.
+Depending on the particular research question being evaluated, it is desirable to specify what aspect of `language complexity' is being evaluated and how it is operationalised into specific measurement(s). %(``does a large proportion of second language learners reduce complexity?'', ``is language complexity primarily shaped by production or perception?'', ``do more modular networks create more complexity?'' etc), it is desirable to specify what facet of ``language complexity'' is being evaluated and how it is operationalised into specific measurement(s).
 
 \begin{figure}[ht]
     \centering
@@ -171,31 +187,40 @@ Depending on the particular research question being evaluated, it is desirable t
 \end{figure}
 \FloatBarrier
 
-We want to explore how systematic pragmatic habits, over time and over language communities, can impact the structure of the language - changing the very grammar. 
-In particular, we are interested in informational distinctiveness, and the other side of the coin - ambiguity.
-Is it the case that communities that tend to share a lot of common ground tend to create less informative utterances because the grammar of their languages makes fewer demands on informational distinctiveness?
-Scholars such as \citet{wray2007consequences} have suggested that communities with a lot of shared common ground develop less complex - specifically less compositional - languages due to constraints related to acquisition, conversational efficiency and processing. 
-This proposal has been tested in studies like \citet{lupyan2010language} and \citet{shcherbakova2023societies}, with contrasting results (possibly due to different samples, operationalisation of ``complexity'' and/or control for spatial and phylogenetic autocorrelation).
-We seek to explore the effect of pragmatic constraints on grammar, but contrary to \citet{wray2007consequences} consider informational distinctiveness instead of compositionality. 
-American anthropologist Edward Hall's has suggested that cultures of the world can be meaningfully understood on a dimension of ``high'' to ``low''-context communication styles \citep{hall1976beyond}.
-The high-context communicational style involves assuming a large degree of shared ground and context between interlocutors, whereas low-context involves presupposes  little shared information. 
-These pragmatic premises has consequences for the linguistic message. \citep[79]{hall1976beyond} writes: 
-\begin{quote}
-A high-context (HC) communication or message is one in which most of the
-information is either in the physical context or internalized in the person,
-while very little is in the coded, explicit, transmitted part of the message.
-A low-context (LC) communication is just the opposite; i.e., the mass of the
-information is vested in the explicit code.
-\end{quote}
-It is possible that communities that use HC messages more often end up with not only overall less information in their utterances (cf. ``leveraging context'' in \citet[29-31]{levinson2024dark}) - but perhaps also less information specified in the grammar of their languages.
-The second prediction follows on from the Linguistic Niche Hypothesis framework (LNH) \citep{dale_lupyan_2012} which proposes that the social context of learning and usage of a language may impact its structure.
-Hall's theory also connects the predominant communication style of a culture to the social heterogeneity, which can be compared to the connection between proportion of strangers/second-language speakers and various facets of ``complexity'' explored in the linguistics literature.
-Hall's theory of HC and LC communication has been widely applied and popular in Intercultural Business and Technical Communication \citep{meyer2016culture}.
-However, it has also been critiqued for not being empirically supported \citep{cardon2008critique}.
-We are interested in exploring how systematic corpus based cross-linguistic comparison can contribute to the testing of the strength of Hall's framework of cultural differences in communication styles as interpreted via LNH (i.e. having an effect no only on messages but on grammar).
-To that end, in this paper we define metrics of informational distinctiveness of grammar (specifically morphological features) based on datasets of the UD project. 
+The present study lays the ground for a wider investigation of how systematic pragmatic habits, over time and over language communities, can impact the structure of the language.
+%%% SFM word chopping
+% In particular, we are interested in informational distinctiveness, and the other side of the coin - ambiguity.
+%%% SFM end word chopping
+Several studies have sought to link sociocultural and demographic features with the various facets of linguistic complexity \citep{wray2007consequences,lupyan2010language,shcherbakova2023societies,levinson2024dark,dale_lupyan_2012}.
+We are interested in exploring how systematic corpus-based cross-linguistic comparison can contribute to testing the strength of various hypotheses of this kind, especially those relating to pragmatics \citep{hall1976beyond,cardon2008critique,meyer2016culture}.
+To that end, in this paper we define metrics of informational distinctiveness of morphological features based on datasets of the UD project. 
 
-\citet{hall1976beyond}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%% SFM WORD CHOPPING %%%%%%%%%
+
+% Is it the case that communities that tend to share a lot of common ground tend to create less informative utterances because the grammar of their languages makes fewer demands on informational distinctiveness?
+% Scholars such as \citet{wray2007consequences} have suggested that communities with a lot of shared common ground develop less complex - specifically less compositional - languages due to constraints related to acquisition, conversational efficiency and processing. 
+% This proposal has been tested in studies like \citet{lupyan2010language} and \citet{shcherbakova2023societies}, with contrasting results (possibly due to different samples, operationalisation of ``complexity'' and/or control for spatial and phylogenetic autocorrelation).
+% We seek to explore the effect of pragmatic constraints on grammar, but contrary to \citet{wray2007consequences} consider informational distinctiveness instead of compositionality. 
+% American anthropologist Edward Hall's has suggested that cultures of the world can be meaningfully understood on a dimension of ``high'' to ``low''-context communication styles \citep{hall1976beyond}.
+% The high-context communicational style involves assuming a large degree of shared ground and context between interlocutors, whereas low-context involves presupposing  little shared information. 
+% These pragmatic premises have consequences for the linguistic message. \citep[79]{hall1976beyond} writes: 
+% \begin{quote}
+% A high-context (HC) communication or message is one in which most of the information is either in the physical context or internalized in the person, while very little is in the coded, explicit, transmitted part of the message.
+% A low-context (LC) communication is just the opposite; i.e., the mass of the information is vested in the explicit code.
+% \end{quote}
+% It is possible that communities that use HC messages more often end up with not only overall less information in their utterances (cf. ``leveraging context'' in \citet[29-31]{levinson2024dark}) - but perhaps also less information specified in the grammar of their languages.
+% The second prediction follows on from the Linguistic Niche Hypothesis framework (LNH) \citep{dale_lupyan_2012} which proposes that the social context of learning and usage of a language may impact its structure.
+% Hall's theory also connects the predominant communication style of a culture to the social heterogeneity, which can be compared to the connection between proportion of strangers/second-language speakers and various facets of ``complexity'' explored in the linguistics literature.
+% Hall's theory of HC and LC communication has been widely applied and popular in Intercultural Business and Technical Communication \citep{meyer2016culture}.
+% However, it has also been critiqued for not being empirically supported \citep{cardon2008critique}.
+% We are interested in exploring how systematic corpus based cross-linguistic comparison can contribute to testing the strength of Hall's framework of cultural differences in communication styles as interpreted via LNH.
+% To that end, in this paper we define metrics of informational distinctiveness of grammar (specifically morphological features) based on datasets of the UD project. 
+
+%%%%%%% END SFM WORD CHOPPING %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\citet{hall1976beyond}
 % We are interested in variation in informational load of morphology as found in language use. 
 % It is well-known that languages vary with regards to morphemes being phonologically bound to each other and how they form extensive paradigms. 
 % We are interested not only in the existence of these informational structures but how they are utilised. 
@@ -210,7 +235,7 @@ To that end, in this paper we define metrics of informational distinctiveness of
 
 \FloatBarrier
 \section{Study outline}
-The aim of this study is to quantify the information in morphology annotations in corpora as a way of assessing how much information languages typically encode.
+We aim to quantify the information in morphology annotations in corpora as a way of assessing how much information languages typically encode.
 On this definition, an increase in morphological information can be understood as decreasing the ease of production for the sender, and thereby increasing one facet of `language complexity'.
 
 Many corpora collections, such as the Universal Dependencies datasets v2.14 \citep{UD_2.14} which are used here, contain information on the morphology of individual words. 
@@ -258,73 +283,84 @@ This intuition lies behind the information-theoretic measures defined in this pa
 We provide a quantitative answer to the question: how informative is the morphology of a particular language?
 
 \subsection{Data}
-We use Universal Dependencies (UD) v2.14 \citep{UD_2.14}, Grambank v1.0 \citep{grambank_release, grambank_dataset_zenodo_v1} and Glottolog v5.0 \citep{glottolog5.0}. In additional, we also include population size data from Google's research team \citep{ritchie-etal-2024-linguameta-unified}.
+We use Universal Dependencies (UD) v2.14 \citep{UD_2.14}, Grambank v1.0 \citep{grambank_release, grambank_dataset_zenodo_v1} and Glottolog v5.0 \citep{glottolog5.0}.
+We also include population size data from Google's research team \citep{ritchie-etal-2024-linguameta-unified}.
 We omit 22 UD datasets which lack any morphological feature annotations, as well as three multilingual datasets which would obscure language-specific metrics.
 
 \subsection{Similar studies}
-There are a few studies that describe metrics of complexity similar to our study. 
-\cite{grambank_release} and \citet{shcherbakova2023societies} both use measurements based on typological data from the Grambank dataset: Fusion (out of all Grambank features that target bound morphology, what proportion are answered positively? and Informativity (out of all Grambank features which target if a grammatical distinction is made, how many are answered yes?\footnote{Unfortunately, the term ``informativity'' is found in the literature with at least two senses: how many grammatical distinctions a grammar makes possible \citep{shcherbakova2023societies, grambank_release} and the average contextual unpredictability \citet{cohen2008phone}. These two senses are distinct. When we refer to the Grambank informativity metric, we refer to the first one.}\footnote{For more details on these metrics, please see \citet{grambank_release} and \citet{R-rgrambank}}.). These metrics differ from the study at hand in that they describe the possibilities that the grammar of a certain language contains (as found in grammatical descriptions) rather than language usage (such as can be measured in corpora). 
+% There are a few studies that describe metrics of complexity similar to our study. 
+\cite{grambank_release} and \citet{shcherbakova2023societies} both use measurements based on typological data from the Grambank dataset: Fusion (out of all Grambank features that target bound morphology, what proportion are answered positively?) and Informativity (out of all Grambank features which target if a grammatical distinction is made, how many are answered yes?\footnote{Unfortunately, the term ``informativity'' is found in the literature with at least two senses: how many grammatical distinctions a grammar makes possible \citep{shcherbakova2023societies, grambank_release} and the average contextual unpredictability \citep{cohen2008phone}. These two senses are distinct. When we refer to the Grambank informativity metric, we refer to the first one.}$^{,}$\footnote{For more details on these metrics, please see \citet{grambank_release} and \citet{R-rgrambank}.}). These metrics differ from the study at hand in that they describe the possibilities that the grammar of a certain language contains (as found in grammatical descriptions) rather than language usage (such as can be measured in corpora). 
 We include these two metrics in our results section for comparison with the measures defined here. 
-We use the R-package rgrambank to derive the Grambank metrics \citep{R-rgrambank}.\footnote{The calculation of Fusion and Informativity from raw Grambank data is somewhat involved. We combine dialects into languages, and if two dialects under the same language have different values for the same feature, we choose one at random. 
-We remove languages with more than 25\% missing data across the features used to calculate each metric. 
-We do this using the functions from the package rgrambank \citep{R-rgrambank}. 
-This data wrangling procedure differs slightly from \citet{grambank_release} and \citet{shcherbakova2023societies}, but the difference is negligible. 
-See example scripts accompanying the R-package rgrambank for illustration of procedure and differences. Unlike \cite{shcherbakova2023societies}, but like \cite{grambank_release} we use the version of the Grambank metric Fusion which awards features that cover bound morphology and other morphology half a Fusion-point.} 
+We use the R-package rgrambank to derive the Grambank metrics \citep{R-rgrambank}; see appendix \ref{sec:appendix_rgrambank} for details.
+%%% SFM word chopping: moved to appendix
+% \footnote{The calculation of Fusion and Informativity from raw Grambank data is somewhat involved. We combine dialects into languages, and if two dialects under the same language have different values for the same feature, we choose one at random. 
+% We remove languages with more than 25\% missing data across the features used to calculate each metric. 
+% We do this using the functions from the package rgrambank \citep{R-rgrambank}. 
+% This data wrangling procedure differs slightly from \citet{grambank_release} and \citet{shcherbakova2023societies}, but the difference is negligible. 
+% See example scripts accompanying the R-package rgrambank for illustration of procedure and differences. Unlike \cite{shcherbakova2023societies}, but like \cite{grambank_release} we use the version of the Grambank metric Fusion which awards features that cover bound morphology and other morphology half a Fusion-point.} 
+%% SFM end word chopping
 
-A recent study from \citet{ccoltekin2023complexity} also uses an information-theoretic approach to investigate corpus data from UD. 
-Due to similarities with our own approach, we will describe this metric in more detail here.
+A recent study from \citet{ccoltekin2023complexity} also uses information theory to investigate corpus data from UD. 
+Due to similarities with our own approach, we describe this metric in more detail in appendix \ref{sec:appendix_ccoltekin}.
 Çöltekin \& Rama's goal is to determine the extent to which different measures of complexity latch onto the same underlying properties of a language. 
 They analyse eight measures, from a simple count of the type/token ratio to the far more involved assessment of how accurately a machine learning model can predict an inflected word from its lemma and morphological features.
 The measure most relevant for our purposes is \textbf{morphological feature entropy}, which captures how evenly spread morphological features are throughout a corpus.
 This `even-spreadedness' connects to complexity in the manner outlined above: if there are many different features that have roughly similar frequency, it would be difficult to predict from a lemma alone what its features are; on the other hand if a few well-represented features dominate the corpus, a given lemma's features are likely to be more predictable.
-Since predictability is intuitively connected to complexity, the evenness of spread of morphological features in a corpus can indicate the complexity of a language.
+Since predictability is intuitively connected to complexity, the even-spreadedness of morphological features in a corpus can indicate the complexity of a language.
 This metric of Çöltekin \& Rama has since been used in further studies, such as \citet{bentz2023complexity}.
 
-The canonical mathematical way to measure this `even-spreadedness' is entropy.
-Defined as $\Sigma p \log{\frac{1}{p}}$ for probabilities $p$ of a given distribution, entropy is large when probabilities are more evenly distributed and small when a few probabilities are much greater than the others.
-Thus entropy captures something like the average amount of uncertainty among a set of items.
-Çöltekin \& Rama thus define a measure of the entropy of all morphological features in a dataset to capture one aspect of a language's complexity.
-Their method of calculating this value is as follows:\footnote{This procedure describes the code which can be found at \url{https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py}, specifically the method \texttt{get\_mfh}.} %We are grateful to Çöltekin \& Rama for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}:
-\begin{enumerate}
-\item For a given dataset, randomly sample a fixed number of tokens
-\item Remove punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')
-\item Remove tokens that have no morphological features
-\item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
-\item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
-\item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
-\item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
-\item Run steps 2-7 multiple times for different samples of the same size and take the mean entropy.
-\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% SFM: Below moved to appendix %%%%%%%
 
-\noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
-The total entropy for this sample is approximately 3.15 bits.
-In their study \citet{ccoltekin2023complexity} would sample something like 1000 tokens at a time, generating an entropy measure each time and then taking the average.
-This average is then an estimate of the `overall' entropy measure for the dataset.
+% The canonical mathematical way to measure this `even-spreadedness' is entropy.
+% Defined as $\Sigma p \log{\frac{1}{p}}$ for probabilities $p$ of a given distribution, entropy is large when probabilities are more evenly distributed and small when a few probabilities are much greater than the others.
+% Thus entropy captures something like the average amount of uncertainty among a set of items.
+% Çöltekin \& Rama thus define a measure of the entropy of all morphological features in a dataset to capture one aspect of a language's complexity.
+% Their method of calculating this value is as follows:\footnote{This procedure describes the code which can be found at \url{https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py}, specifically the method \texttt{get\_mfh}.} %We are grateful to Çöltekin \& Rama for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}:
+% \begin{enumerate}
+% \item For a given dataset, randomly sample a fixed number of tokens
+% \item Remove punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')
+% \item Remove tokens that have no morphological features
+% \item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
+% \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
+% \item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
+% \item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
+% \item Run steps 2-7 multiple times for different samples of the same size and take the mean entropy.
+% \end{enumerate}
 
-\begin{table}[h]
-    \centering
-    \caption{Components of the measure of morphological feature entropy as defined by \citet{ccoltekin2023complexity} for the sample of tokens in Table \ref{tab:turkish_example}. The total feature count is 17, and each feature's Frequency is its Count divided by this total (rounded to three significant figures). The entropy of this sample is 3.15 bits (also to three significant figures).} %note table captions go above the table
-    \label{tab:mfh}   
-    \begin{tabular}{p{5cm}p{3cm}p{3cm}}
-\toprule
-	\textbf{Morphological feature}	&	\textbf{Count}	&	\textbf{Frequency (p)}	\\
-    \midrule
-	Case=Loc&1&0.0588       \\    \midrule
-	Number=Sing&4&0.235    \\    \midrule
-        Person=3&4&0.235		   \\    \midrule
-	Case=Nom&1&0.0588	       \\    \midrule
-	Case=Acc&1&0.0588		      \\    \midrule
-        Aspect=Perf&1&0.0588      \\    \midrule
-        Mood=Ind&1&0.0588		   \\    \midrule
-        Polarity=Pos&1&0.0588		\\    \midrule
-	Tense=Past&1&0.0588	     \\    \midrule
-	VerbForm=Fin&1&0.0588	    \\    \midrule
-	Voice=Cau&1&0.0588      	\\ \bottomrule
+% \noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
+% The total entropy for this sample is approximately 3.15 bits.
+% In their study \citet{ccoltekin2023complexity} would sample something like 1000 tokens at a time, generating an entropy measure each time and then taking the average.
+% This average is then an estimate of the `overall' entropy measure for the dataset.
 
-    \end{tabular}
-\end{table}
+% \begin{table}[h]
+%     \centering
+%     \caption{Components of the measure of morphological feature entropy as defined by \citet{ccoltekin2023complexity} for the sample of tokens in Table \ref{tab:turkish_example}. The total feature count is 17, and each feature's Frequency is its Count divided by this total (rounded to three significant figures). The entropy of this sample is 3.15 bits (also to three significant figures).} %note table captions go above the table
+%     \label{tab:mfh}   
+%     \begin{tabular}{p{5cm}p{3cm}p{3cm}}
+% \toprule
+% 	\textbf{Morphological feature}	&	\textbf{Count}	&	\textbf{Frequency (p)}	\\
+%     \midrule
+% 	Case=Loc&1&0.0588       \\    \midrule
+% 	Number=Sing&4&0.235    \\    \midrule
+%         Person=3&4&0.235		   \\    \midrule
+% 	Case=Nom&1&0.0588	       \\    \midrule
+% 	Case=Acc&1&0.0588		      \\    \midrule
+%         Aspect=Perf&1&0.0588      \\    \midrule
+%         Mood=Ind&1&0.0588		   \\    \midrule
+%         Polarity=Pos&1&0.0588		\\    \midrule
+% 	Tense=Past&1&0.0588	     \\    \midrule
+% 	VerbForm=Fin&1&0.0588	    \\    \midrule
+% 	Voice=Cau&1&0.0588      	\\ \bottomrule
 
-A not dissimilar measure was previously defined by \citet{SPROAT14.47}.
+%     \end{tabular}
+% \end{table}
+
+
+%%%%% SFM: Above moved to appendix %%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A similar measure was previously defined by \citet{SPROAT14.47}.
 Their focus is on the popular question of which language is the most efficient, which they interpret as packing the most information into the shortest space.
 They discuss different methods of quantifying both `information' and `space' in order to obtain ratios $\frac{\text{information}}{\text{space}}$ for different languages.
 One of their measures of information weights words by the \textbf{surprisal} of their morphological features.
@@ -333,92 +369,104 @@ The surprisal of an event is a function of its probability: it is the logarithm 
 They use customised feature annotations rather than Universal Dependencies datasets, and they report results for only eight languages and fewer than 1,000 sentences per language.
 Their work can therefore be seen as a step towards the kind of measure defined by \citet{ccoltekin2023complexity} as well as our own; however, their relatively small sample size suggests that quantitative comparison with our results would not be particularly enlightening.
 
-\subsection{Detailed technical procedure}
+\subsection{Overview of our metrics}
 \label{detailed_procedure}
 Çöltekin \& Rama use entropy as their measure.
 Technically entropy is itself the average surprisal of all events in an entire distribution.
-Each row in Table \ref{tab:mfh} therefore has its own surprisal, and it is the average of these that constitutes the entropy.
-
+%%% SFM word chopping
+% Each row in Table \ref{tab:mfh} therefore has its own surprisal, and it is the average of these that constitutes the entropy.
+%%% End SFM word chopping
 Our metric also uses surprisal as the basis of a measure of complexity.
 However, instead of entropy, we define measures of \textbf{mean surprisal per token}.
 As noted above, calculating the morphological surprisal of a token requires calculating the probabilities of its morphological features.
 Whereas \citet{ccoltekin2023complexity} calculate frequencies on a sample-by-sample basis, and \citet{SPROAT14.47} estimate frequencies in an unknown manner, we calculate frequencies across the entire corpus for each UD dataset.
-The full procedure of our basic metric is as follows:
-\begin{enumerate}
-\item Combine the files of each UD dataset (e.g. dev, test and train) to one table with one token per row
-\item Remove punctuation (UPOS=`PUNCT'), symbols (UPOS=`SYM') and unanalysable tokens (UPOS=`X')
-\item Define lemmas as a combination of lemma + UPOS, so that lemmas that are spelled the same but belong to different UPOS can be distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English are defined as having the lemmas ``mark\_NOUN'' and ``mark\_VERB'' as opposed to both potentially being assigned to the same lemma ``mark''.
-\item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
-\item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
-\item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
-\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\Timesfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
-\item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
-\item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
-\item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
-\item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including dummy-assigned features)
+The full procedure of our basic metric can be found in appendix \ref{sec:appendix_ours}.
 
-% \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
-\end{enumerate}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% SFM below moved to appendix %%%
 
-\begin{table}[h]
-    \centering
-    \caption{Four tokens from the treebank UD\_Indonesian-PUD. The token `sebuah' has no feature value for Number, but in this illustrative example we imagine that other tokens of the same lemma do have this feature. We therefore include it as an unassigned feature; likewise for `para' and the feature Definite. Of the adjectives, neither `baru' nor `terakhir' have a value for the feature NumType; we continue to imagine that there is at least one lemma for each of these tokens that does have a value for this feature, therefore both are given it as an unassigned feature. In fact the token `baru' has no feature values of its own; thus it takes all features possessed by any other token of the lemma `baru' as unassigned.} %note table captions go above the table
-    \label{tab:unassigned_ex}   
-    \begin{tabular}{p{1cm}p{1.4cm}p{1.5cm}p{3.5cm}p{2.5cm}}
-\toprule
+% The full procedure of our basic metric is as follows:
+% \begin{enumerate}
+% \item Combine the files of each UD dataset (e.g. dev, test and train) to one table with one token per row
+% \item Remove punctuation (UPOS=`PUNCT'), symbols (UPOS=`SYM') and unanalysable tokens (UPOS=`X')
+% \item Define lemmas as a combination of lemma + UPOS, so that lemmas that are spelled the same but belong to different UPOS can be distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English are defined as having the lemmas ``mark\_NOUN'' and ``mark\_VERB'' as opposed to both potentially being assigned to the same lemma ``mark''.
+% \item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
+% \item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
+% \item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
+% \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\Timesfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
+% \item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
+% \item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
+% \item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
+% \item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including dummy-assigned features)
 
-% UD\_Indonesian-PUD
-%id	&
-UPOS&lemma	&token	&feats & unassigned feats	\\ 
-\midrule
-DET & buah & sebuah 
-& Definite=Ind|PronType=Art
-& Number
-\\\midrule
-DET & para	& para	&Number=Plur|PronType=Ind & Definite
-\\\midrule
-ADJ&baru	&baru&
-& Degree \newline
-NumType 
-\\\midrule
-ADJ & akhir	&terakhir&	Degree=Sup& NumType\\\bottomrule
-\end{tabular}
-\end{table}
+% % \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
+% \end{enumerate}
 
-% OUR APPROACH, FEATURES SPLIT
-\begin{table}[h]
-    \centering
-    \caption{Four tokens from the treebank UD\_Indonesian-PUD. For illustrative purposes we imagine this dataset contains 20 occurrences of the lemma `buah', 10 of `para', 5 of `baru' and 12 of `akhir'. The Count and Frequency columns, whose values in this table are also illustrative and not real, answer the question: `how often does this lemma have this value for this feature?'. The frequencies are used to calculate the surprisal of a particular token. For example, the surprisal of the token `sebuah' is $\log{\frac{1}{0.3}}+\log{\frac{1}{0.05}}+\log{\frac{1}{0.5}} = 7.06\text{ bits}$ (to three significant figures).} %note table captions go above the table
-    \label{tab:unassigned_ex_SPLIT}   
-    \begin{tabular}{p{0.7cm}p{1cm}p{1.4cm}p{1.3cm}p{1.5cm}p{1.4cm}p{1.6cm}}
-\toprule
+% \begin{table}[h]
+%     \centering
+%     \caption{Four tokens from the treebank UD\_Indonesian-PUD. The token `sebuah' has no feature value for Number, but in this illustrative example we imagine that other tokens of the same lemma do have this feature. We therefore include it as an unassigned feature; likewise for `para' and the feature Definite. Of the adjectives, neither `baru' nor `terakhir' have a value for the feature NumType; we continue to imagine that there is at least one lemma for each of these tokens that does have a value for this feature, therefore both are given it as an unassigned feature. In fact the token `baru' has no feature values of its own; thus it takes all features possessed by any other token of the lemma `baru' as unassigned.} %note table captions go above the table
+%     \label{tab:unassigned_ex}   
+%     \begin{tabular}{p{1cm}p{1.4cm}p{1.5cm}p{3.5cm}p{2.5cm}}
+% \toprule
 
-%id	&
-UPOS&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
+% % UD\_Indonesian-PUD
+% %id	&
+% UPOS&lemma	&token	&feats & unassigned feats	\\ 
+% \midrule
+% DET & buah & sebuah 
+% & Definite=Ind|PronType=Art
+% & Number
+% \\\midrule
+% DET & para	& para	&Number=Plur|PronType=Ind & Definite
+% \\\midrule
+% ADJ&baru	&baru&
+% & Degree \newline
+% NumType 
+% \\\midrule
+% ADJ & akhir	&terakhir&	Degree=Sup& NumType\\\bottomrule
+% \end{tabular}
+% \end{table}
 
-DET & buah & sebuah & Definite& Ind & 6 & 0.3\\
-DET & buah & sebuah & Number& unassigned & 1 & 0.05\\
-DET & buah & sebuah & PronType& Art & 10 & 0.5
-\\\midrule
-DET & para	& para	&Definite & unassigned & 1 & 0.1\\
-DET & para	& para	&Number & Plur & 4 & 0.4\\
-DET & para	& para	&PronType & Ind & 6 & 0.6
-\\\midrule
-ADJ&baru	&baru& Degree&unassigned & 4 & 0.8\\
-ADJ&baru	&baru& NumType&unassigned & 1 & 0.2 \\\midrule
-ADJ & akhir	&terakhir&	Degree& Sup & 3 & 0.25\\
-ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
-\bottomrule
-\end{tabular}
-\end{table}
+% % OUR APPROACH, FEATURES SPLIT
+% \begin{table}[h]
+%     \centering
+%     \caption{Four tokens from the treebank UD\_Indonesian-PUD. For illustrative purposes we imagine this dataset contains 20 occurrences of the lemma `buah', 10 of `para', 5 of `baru' and 12 of `akhir'. The Count and Frequency columns, whose values in this table are also illustrative and not real, answer the question: `how often does this lemma have this value for this feature?'. The frequencies are used to calculate the surprisal of a particular token. For example, the surprisal of the token `sebuah' is $\log{\frac{1}{0.3}}+\log{\frac{1}{0.05}}+\log{\frac{1}{0.5}} = 7.06\text{ bits}$ (to three significant figures).} %note table captions go above the table
+%     \label{tab:unassigned_ex_SPLIT}   
+%     \begin{tabular}{p{0.7cm}p{1cm}p{1.4cm}p{1.3cm}p{1.5cm}p{1.4cm}p{1.6cm}}
+% \toprule
+
+% %id	&
+% UPOS&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
+
+% DET & buah & sebuah & Definite& Ind & 6 & 0.3\\
+% DET & buah & sebuah & Number& unassigned & 1 & 0.05\\
+% DET & buah & sebuah & PronType& Art & 10 & 0.5
+% \\\midrule
+% DET & para	& para	&Definite & unassigned & 1 & 0.1\\
+% DET & para	& para	&Number & Plur & 4 & 0.4\\
+% DET & para	& para	&PronType & Ind & 6 & 0.6
+% \\\midrule
+% ADJ&baru	&baru& Degree&unassigned & 4 & 0.8\\
+% ADJ&baru	&baru& NumType&unassigned & 1 & 0.2 \\\midrule
+% ADJ & akhir	&terakhir&	Degree& Sup & 3 & 0.25\\
+% ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+
+%%% SFM above moved to appendix %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Our approach differs in several ways from that of Çöltekin \& Rama.
-First, we do \textit{not} omit tokens that have no morphological features.
+First, we do not omit tokens that have no morphological features.
 Instead, we introduce a dummy feature value `unassigned' for those tokens that do not have an assigned value for each morphological feature associated with that token's lemma.
-For example, the determiner token `para' in the dataset described by Table \ref{tab:unassigned_ex} has no morphological feature corresponding to the category Definite.
-Supposing another token of the same lemma does have a feature value for Definite in this dataset, we would add the dummy feature `Definite=unassigned' to this token.
+%%% SFM word chopping
+% For example, the determiner token `para' in the dataset described by Table \ref{tab:unassigned_ex} has no morphological feature corresponding to the category Definite.
+% Supposing another token of the same lemma does have a feature value for Definite in this dataset, we would add the dummy feature `Definite=unassigned' to this token.
+%%% SFM end word chopping
 In this way we ensure that we include unmarked tokens in our calculation of surprisal.
-After all, if 99\% of tokens of a given lemma have no Definite marking and 1\% of them have Definite=Ind, possession of a Definite marker should count as very surprising.
+This is important: if (say) 99\% of tokens of a given lemma have no Definite marking and 1\% of them have Definite=Ind, possession of a Definite marker should count as very surprising.
 Without the dummy assignment this fact would be lost: the 1\% of Definite=Ind tokens would all get a frequency of 1 (because that's the only value for that feature across that lemma) and a surprisal of zero (because $\log{\frac{1}{1}}=\log{1}=0$).
 
 A second key difference with Çöltekin \& Rama is as follows.
@@ -429,11 +477,13 @@ This indicates `the surprisal of the language': how surprising tokens of this la
 If there are very many morphological features whose values are all somewhat evenly represented among the tokens of the dataset, mean surprisal will be high.
 If on the other hand each lemma has only a few features, or if a small number of feature values are much more likely than others, mean surprisal will be small.
 
-Clearly our mean surprisal measure is capturing something similar to the classical entropy measure, but they are not strictly equivalent.
-Entropy weights surprisal by the same probability that defines the surprisal: the two $p$'s in the formula $\Sigma p\log{\frac{1}{p}}$ are the same.
-By contrast our measure calculates a sum of surprisals, each of which is defined in terms of the frequencies of its morphological feature values.
-Only then do we calculate a mean value by summing across the entire dataset.
-The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
+%%% SFM Chopping: moved to appendix
+% Clearly our mean surprisal measure is capturing something similar to the classical entropy measure, but they are not strictly equivalent.
+% Entropy weights surprisal by the same probability that defines the surprisal: the two $p$'s in the formula $\Sigma p\log{\frac{1}{p}}$ are the same.
+% By contrast our measure calculates a sum of surprisals, each of which is defined in terms of the frequencies of its morphological feature values.
+% Only then do we calculate a mean value by summing across the entire dataset.
+% The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
+%%% SFM end chopping
 
 There are several variants of this procedure, yielding slightly different measures of morphological information per dataset.
 One variant aggregates features at the level of UPOS rather than lemma.
@@ -474,8 +524,8 @@ We also calculate related metrics which are commonly reported in similar studies
  %  \item aggregation level = UPOS, all features
  %  \item aggregation level = UPOS, core features only
  % \end{enumerate}
-  \item type-token ratio (TTR): the number of unique tokens divided by the total number of tokens
-  \item Lemma-Token-Ratio (LTR): the number of unique lemmas divided by the total number of tokens
+  \item Type-Token Ratio (TTR): the number of unique tokens divided by the total number of tokens
+  \item Lemma-Token Ratio (LTR): the number of unique lemmas divided by the total number of tokens
   \item Mean number of morphological features per token (calculated before dummy features are inserted, so aggregation level is irrelevant)
       \begin{enumerate}
   \renewcommand{\labelenumi}{\alph{enumi})}
@@ -485,7 +535,7 @@ We also calculate related metrics which are commonly reported in similar studies
    \item Mean token surprisal: mean surprisal per token given all tokens, regardless of UPOS/lemma or morphological features
 \end{enumerate}
 
-\noindent We also report some simple statistics of each dataset, namely:
+\noindent We also report some simple statistics for each dataset, namely:
 
 \begin{enumerate}
   \setcounter{enumi}{9}  % This will start the list at 5
@@ -524,16 +574,18 @@ The Pearson correlation test evaluates the strength and significance of a linear
 The strength is expressed by a coefficient whose value lies between -1 (indicating negative correlation) and 1 (positive correlation). 
 An absolute value of 1 indicates a perfect relationship in which the two variables are fully matched. 
 Significance is measured via traditional p-values.
-If the p-value of the Pearson correlation coefficient is below 0.05, we take that as an indication that the correlation is significant and the number is represented in bold text and marked with an asterisk. 
+Significant correlations (p<0.05) are presented in bold text and marked with an asterisk. 
 An absolute correlation coefficient larger than 0.6 is commonly interpreted as a strong relationship, and above 0.8 very strong. 
 We have marked significant correlations above 0.6 in red text.
 For each pair of measurements, we compare as many overlapping data-points as possible.
 The number of data-points compared for each pair is reported in the upper triangle of the SPLOM as n.\footnote{When comparing between measurements based on the UD datasets, each point represents a single UD dataset. When comparing against the Grambank metrics Fusion and Informativity and Google's population numbers, the UD datasets are matched to entries in Grambank via glottocodes \citep{glottolog5.0} using the documentation of each dataset as a guide. When comparing between the Grambank metrics and Google's population data, the comparison is only made for unique pairs of glottocodes in order to avoid double-counting. We only compare data-points for which at least one UD dataset exists.}
 In addition to the raw language speaker population numbers from the Google data, we also include a logarithmic transformation.
 This makes comparison to other metrics easier and reduces the effect of outliers \citep{changyong2014log}.
-Since the Google data lists two languages as having zero population, and the logarithm of zero is undefined, we add 1 to all population figures before the transformation.
-This has the undesirable consequence of treating extinct languages as though they have a very small number of speakers.
-However, the relationship between population size and language features is likely coarse at best, so grouping extinct languages with very small languages does not jeopardise the broad conclusions that can be drawn.
+%%% SFM word chopping: added to appendix
+% Since the Google data lists two languages as having zero population, and the logarithm of zero is undefined, we add 1 to all population figures before the transformation.
+% This has the undesirable consequence of treating extinct languages as though they have a very small number of speakers.
+% However, the relationship between population size and language features is likely coarse at best, so grouping extinct languages with very small languages does not jeopardise the broad conclusions that can be drawn.
+%%% SFM end word chopping.
 
 UD datasets can vary considerably in terms of genre, which can have an impact on the measurements we are calculating. 
 The UD datasets that belong to the Parallel Universal Dependencies (PUD) subset are more comparable in genre. 
@@ -611,7 +663,7 @@ This suggests that genre has an impact on the variability of types in a dataset,
 \begin{figure}
     \centering
         \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_other_metrics_PUD.png}
-    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_custom_metrics_PUD}, while the remaining measures are standard quantities calculated from the PUD datasets.}
+    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_custom_metrics_PUD}, while the remaining measures are standard quantities calculated from the PUD datasets. Number of sentences is not displayed as it is fixed for all PUD datasets (1,000 sentences).}
     \label{fig:SPLOM_other_metrics_PUD}
 \end{figure}
 
@@ -644,14 +696,13 @@ This correlation becomes weaker when we consider our lemma-level metric together
 Overall, the different metrics we define in this paper tell a similar story. 
 They all strongly correlate with each other ($>=0.72^*$, see Figures  \ref{fig:SPLOM_custom_metrics} and \ref{fig:SPLOM_custom_metrics_PUD}). 
 The difference between the full data and the PUD subset (Figures  \ref{fig:SPLOM_other_metrics} and \ref{fig:SPLOM_other_metrics_PUD}) suggests that genre has a considerable impact on the variation of types in the datasets. 
-Corpus-based analyses should therefore take genre into account, even statistically controlling for it where possible.
+Corpus-based analyses should therefore take genre into account, and even statistically control for it where possible.
 
 The two custom metrics used for broader comparison in this study correlate either moderately ($0.45^*-0.48^*$) or strongly ($0.7^*$) with the Fusion metric derived from the Grambank dataset \citep{grambank_release, shcherbakova2023societies}, see Figures \ref{fig:SPLOM_metrics_external} and \ref{fig:SPLOM_metrics_external_PUD}. 
 This suggests that they are capturing related phenomena. 
 Our metrics and Fusion are also connected to the mean number of features per token: the more features in a dataset, the more scope each token has to increase its surprisal; likewise, having more features annotated in a corpus strongly increases a language's chance of being awarded a higher Fusion score based on a grammatical description of the same language.
-
-We do not find the same pattern when comparing our custom metric to the second Grambank metric: Informativity. 
-We are not confident exactly why this is, but it is likely to be caused by differences in design choices of which grammatical domains to include in the two datasets (UD versus Grambank).
+We do not find the same pattern when comparing our custom metric to the Grambank Informativity metric. 
+This may be due to differences in design choices of which grammatical domains to include in the two datasets (UD versus Grambank).
 % This relationship can also be seen in the strong correlations between our custom metrics and the mean number of features per token. 
 % The more morphological features a language has, the higher the Grambank Fusion score is and the more  
 
@@ -659,23 +710,28 @@ The comparisons of the custom metrics, additional metrics and Grambank metrics i
 The correlations with established metrics (TTR, Fusion etc.) also assures us that we are not entirely off the mark. 
 Even though the approaches differ we would expect them to at least weakly correlate - which most of them do. 
 However, this should not be taken to mean that it is irrelevant which metric of morphological information/complexity we choose. %(or combination of metrics, see \cite{ccoltekin2023complexity})'s dimensionality reduction proposal)
-Which metric is most appropriate should be decided \textit{a priori} based on the conceptual underpinnings and theoretical support it has generally - and in relation to the specific research question.
-For example, we are interested in the informational load of grammar and how language communities make use of it. 
-The custom metrics defined in this paper align more with this aim than the other metrics discussed. 
+Which metric is most appropriate should be decided \textit{a priori} based on the conceptual underpinnings and theoretical support it has generally, and by reference to the specific research question.
+As we are interested in the informational load of grammar and how language communities make use of it, the custom metrics defined in this paper align more with this aim than the other metrics discussed. 
 
-While the results show a lack of strong correlation between the custom metrics and population size, this should be taken with a grain of salt as more sophisticated analyses than a Pearson correlation test is most likely needed here. 
-It would for example be necessary to control for phylogenetic and spatial covariance \citep{shcherbakova2023societies} in order to thoroughly test any wider theories.
+The results show a weak negative correlation between most of the configurations of the two representative custom metrics and population size (see Figure \ref{fig:SPLOM_metrics_external}). 
+This trend is not significant for the PUD dataset, which might be due to the smaller sample size (n=21) or the fact that controlling for genre distorts the relationship.
+A negative correlation is in keeping with theoretical expectations as laid out in section \ref{sec:background}. 
+%Larger populations increase the probability of interacting with someone with whom you share little common ground, which in turn engenders a greater 
+%Less shared common ground > more low-context communication > more information in linguistic code > more information in grammar.
+However, it is necessary to investigate this with more sophisticated analyses than a Pearson correlation test.
+For example, it is desirable to increase the sample size of comparable corpora and introduce controls for phylogenetic and spatial covariance \citep{shcherbakova2023societies}.
 
 \section{Conclusion}
-Three achievements:
+This paper had three aims:
+
 \begin{enumerate}
-    \item Develop a metric of corpus-based informational load
+    \item Develop a corpus-based metric of morphological information, as a proxy for one aspect of linguistic complexity
     \item Improve on existing measures by explicitly quantifying absent morphological features
-    \item Provide a platform for future investigation into pragmatics and the consequences of explicitly encoded information
+    \item Provide a platform for future investigation into pragmatic constraints on grammar
 \end{enumerate}
 
-We find that it is possible to utilise cross-linguistic corpora such as the UD datasets to explore morphological information in a sophisticated way with information-theoretic approaches. 
-Our approach improve upon previous studies such as \citet{ccoltekin2023complexity} by taking into account tokens without morphological features when calculating the overall statistic for the entire dataset and stratifying surprisal by categories (UPOS or lemma). 
+We find it is possible to utilise cross-linguistic corpora such as the UD datasets to explore morphological information in a sophisticated way with information-theoretic approaches. 
+Our approach improves upon previous studies such as \citet{ccoltekin2023complexity} by taking into account tokens without morphological features when calculating the overall statistic for the entire dataset and stratifying surprisal by categories (UPOS or lemma). 
 To address concerns of non-comparability due to design choices of specific UD dataset contributors, we compute our metrics both over all features annotated and only the core features which are centrally defined by the UD coordinators. 
 To caution against non-comparability due to genre, we also present the results for all UD datasets and only those found in the PUD data. 
 We find that our corpus-based measures of surprisal typically correlate weakly or not at all with grammar-based measures of Fusion and Informativity (with stronger correlations on a restricted subset), signifying that the aspects of language complexity relating to morphological information are revealed in higher resolution when looking at actual corpora.
@@ -683,6 +739,8 @@ Although grammar specifies possibilities and prohibitions, it is usage patterns 
 % See appendix \ref{sec:caveat_genres} for more discussion of caveats.
 
 % The availability of datasets such as UD \cite{UD_2.14}
+
+%TC:ignore
 
 \bibliographystyle{unified}
 \bibliography{bib.bib, used_pkgs}
@@ -694,19 +752,160 @@ Although grammar specifies possibilities and prohibitions, it is usage patterns 
 
 \newpage
 
-%TC:ignore
+
 \setcounter{section}{0}
 \renewcommand\thesection{\Alph{section}}
-\section{Appendices}
+\section*{Appendices}
 
-\subsection{Caveats}
+\section{Detailed procedures}
+
+\subsection{Çöltekin \& Rama}\label{sec:appendix_ccoltekin}
+
+Like us, Çöltekin \& Rama aim to capture how evenly spread are the morphological features of a language.
+The canonical mathematical way to measure this `even-spreadedness' is entropy.
+Defined as $\Sigma p \log{\frac{1}{p}}$ for probabilities $p$ of a given distribution, entropy is large when probabilities are more evenly distributed and small when a few probabilities are much greater than the others.
+Thus entropy captures something like the average amount of uncertainty among a set of items.
+Çöltekin \& Rama thus define a measure of the entropy of all morphological features in a dataset to capture one aspect of a language's complexity.
+Their method of calculating this value is as follows:\footnote{This procedure describes the code which can be found at \url{https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py}, specifically the method \texttt{get\_mfh}.} %We are grateful to Çöltekin \& Rama for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}:
+\begin{enumerate}
+\item For a given dataset, randomly sample a fixed number of tokens
+\item Remove punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')
+\item Remove tokens that have no morphological features
+\item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
+\item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
+\item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
+\item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
+\item Run steps 2-7 multiple times for different samples of the same size and take the mean entropy.
+\end{enumerate}
+
+\noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
+The total entropy for this sample is approximately 3.15 bits.
+In their study \citet{ccoltekin2023complexity} would sample something like 1000 tokens at a time, generating an entropy measure each time and then taking the average.
+This average is then an estimate of the `overall' entropy measure for the dataset.
+
+\begin{table}[h]
+    \centering
+    \caption{Components of the measure of morphological feature entropy as defined by \citet{ccoltekin2023complexity} for the sample of tokens in Table \ref{tab:turkish_example}. The total feature count is 17, and each feature's Frequency is its Count divided by this total (rounded to three significant figures). The entropy of this sample is 3.15 bits (also to three significant figures).} %note table captions go above the table
+    \label{tab:mfh}   
+    \begin{tabular}{p{5cm}p{3cm}p{3cm}}
+\toprule
+	\textbf{Morphological feature}	&	\textbf{Count}	&	\textbf{Frequency (p)}	\\
+    \midrule
+	Case=Loc&1&0.0588       \\    \midrule
+	Number=Sing&4&0.235    \\    \midrule
+        Person=3&4&0.235		   \\    \midrule
+	Case=Nom&1&0.0588	       \\    \midrule
+	Case=Acc&1&0.0588		      \\    \midrule
+        Aspect=Perf&1&0.0588      \\    \midrule
+        Mood=Ind&1&0.0588		   \\    \midrule
+        Polarity=Pos&1&0.0588		\\    \midrule
+	Tense=Past&1&0.0588	     \\    \midrule
+	VerbForm=Fin&1&0.0588	    \\    \midrule
+	Voice=Cau&1&0.0588      	\\ \bottomrule
+
+    \end{tabular}
+\end{table}
+
+\subsection{The present study}\label{sec:appendix_ours}
+
+\subsubsection{Procedure for measuring mean surprisal per token}
+
+The full procedure of our basic metric is as follows:
+\begin{enumerate}
+\item Combine the files of each UD dataset (e.g. dev, test and train) to one table with one token per row
+\item Remove punctuation (UPOS=`PUNCT'), symbols (UPOS=`SYM') and unanalysable tokens (UPOS=`X')
+\item Define lemmas as a combination of lemma + UPOS, so that lemmas that are spelled the same but belong to different UPOS can be distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English are defined as having the lemmas ``mark\_NOUN'' and ``mark\_VERB'' as opposed to both potentially being assigned to the same lemma ``mark''.
+\item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
+\item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
+\item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
+\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\Timesfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
+\item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
+\item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
+\item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
+\item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including dummy-assigned features)
+\item Mean surprisal per token is the average of this total across all tokens in the dataset.
+
+% \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
+\end{enumerate}
+
+Clearly our mean surprisal measure is capturing something similar to the classical entropy measure used by \citet{ccoltekin2023complexity}, but they are not strictly equivalent.
+Entropy weights surprisal by the same probability that defines the surprisal: the two $p$'s in the formula $\Sigma p\log{\frac{1}{p}}$ are the same.
+By contrast our measure calculates a sum of surprisals, each of which is defined in terms of the frequencies of its morphological feature values.
+Only then do we calculate a mean value by summing across the entire dataset.
+The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
+
+\begin{table}[h]
+    \centering
+    \caption{Four tokens from the treebank UD\_Indonesian-PUD. The token `sebuah' has no feature value for Number, but in this illustrative example we imagine that other tokens of the same lemma do have this feature. We therefore include it as an unassigned feature; likewise for `para' and the feature Definite. Of the adjectives, neither `baru' nor `terakhir' have a value for the feature NumType; we continue to imagine that there is at least one lemma for each of these tokens that does have a value for this feature, therefore both are given it as an unassigned feature. In fact the token `baru' has no feature values of its own; thus it takes all features possessed by any other token of the lemma `baru' as unassigned.} %note table captions go above the table
+    \label{tab:unassigned_ex}   
+    \begin{tabular}{p{1cm}p{1.4cm}p{1.5cm}p{3.5cm}p{2.5cm}}
+\toprule
+
+% UD\_Indonesian-PUD
+%id	&
+UPOS&lemma	&token	&feats & unassigned feats	\\ 
+\midrule
+DET & buah & sebuah 
+& Definite=Ind|PronType=Art
+& Number
+\\\midrule
+DET & para	& para	&Number=Plur|PronType=Ind & Definite
+\\\midrule
+ADJ&baru	&baru&
+& Degree \newline
+NumType 
+\\\midrule
+ADJ & akhir	&terakhir&	Degree=Sup& NumType\\\bottomrule
+\end{tabular}
+\end{table}
+
+% OUR APPROACH, FEATURES SPLIT
+\begin{table}[h]
+    \centering
+    \caption{Four tokens from the treebank UD\_Indonesian-PUD. For illustrative purposes we imagine this dataset contains 20 occurrences of the lemma `buah', 10 of `para', 5 of `baru' and 12 of `akhir'. The Count and Frequency columns, whose values in this table are also illustrative and not real, answer the question: `how often does this lemma have this value for this feature?'. The frequencies are used to calculate the surprisal of a particular token. For example, the surprisal of the token `sebuah' is $\log{\frac{1}{0.3}}+\log{\frac{1}{0.05}}+\log{\frac{1}{0.5}} = 7.06\text{ bits}$ (to three significant figures).} %note table captions go above the table
+    \label{tab:unassigned_ex_SPLIT}   
+    \begin{tabular}{p{0.7cm}p{1cm}p{1.4cm}p{1.3cm}p{1.5cm}p{1.4cm}p{1.6cm}}
+\toprule
+
+%id	&
+UPOS&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
+
+DET & buah & sebuah & Definite& Ind & 6 & 0.3\\
+DET & buah & sebuah & Number& unassigned & 1 & 0.05\\
+DET & buah & sebuah & PronType& Art & 10 & 0.5
+\\\midrule
+DET & para	& para	&Definite & unassigned & 1 & 0.1\\
+DET & para	& para	&Number & Plur & 4 & 0.4\\
+DET & para	& para	&PronType & Ind & 6 & 0.6
+\\\midrule
+ADJ&baru	&baru& Degree&unassigned & 4 & 0.8\\
+ADJ&baru	&baru& NumType&unassigned & 1 & 0.2 \\\midrule
+ADJ & akhir	&terakhir&	Degree& Sup & 3 & 0.25\\
+ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsubsection{Calculation of Grambank metrics}\label{sec:appendix_rgrambank}
+
+The calculation of Fusion and Informativity from raw Grambank data is somewhat involved.
+We combine dialects into languages, and if two dialects under the same language have different values for the same feature, we choose one at random. 
+We remove languages with more than 25\% missing data across the features used to calculate each metric. 
+We do this using the functions from the package rgrambank \citep{R-rgrambank}. 
+This data wrangling procedure differs slightly from \citet{grambank_release} and \citet{shcherbakova2023societies}, but the difference is negligible. 
+See example scripts accompanying the R-package rgrambank for illustration of procedure and differences.
+Unlike \cite{shcherbakova2023societies}, but like \cite{grambank_release} we use the version of the Grambank metric Fusion which awards features that cover bound morphology and other morphology half a Fusion-point.
+
+\FloatBarrier
+
+\section{Caveats}
 \label{sec:caveats}
 
-\subsubsection{Comparability}
+\subsection{Comparability}
 \label{caveat_comparability}
 In comparative studies, it is desirable to compare like with like. There are several comparability challenges in this study. These are known and expected with datasets like UD \citep{UD_2.14}. We list the ones that are most important to our study here. 
 
-\paragraph{Variation in morphological annotation}
+\subsubsection{Variation in morphological annotation}
 Datasets can vary in many aspects, one of them being the \textbf{level of analysis of morphology}. 
 Some datasets may contain many different morphological features and some very few, despite the underlying languages being similar. 
 This is due to the design choices of the contributors of each dataset, and variation of this kind is expected in a project like UD.
@@ -747,7 +946,7 @@ They are:\footnote{For more detailed definitions of morphological features in th
 As core features are more standardised across UD datasets, albeit with some flexibility, we expect these features to be the most comparable across datasets.\footnote{For an example of this flexibility, the UD guidelines note that while gender is commonly associated with nouns, there is nothing in the central guidelines that prevent the feature from also appearing on adjectives and verbs.}
 We use the term ``core'' in this paper for this class of morphological features so as to not confuse it with other senses of the term ``universal''.
 
-\paragraph{Variation in Universal Part-Of-Speech annotation (UPOS)}
+\subsubsection{Variation in Universal Part-Of-Speech annotation (UPOS)}
 The UD datasets use a specific set of Universal Part-Of-Speech categories (UPOS):
 
 \begin{itemize}
@@ -820,7 +1019,7 @@ For the study at hand, this means that when the imputation of dummy features dep
 {\Timesfont цIитI} (Table \ref{tab:Abaza_sent_10}) will receive the features Gender[io]=unassigned, Number[abs]=unassigned, and so on.
 This is one of the reasons why we compute the metrics with the aggregation level set to both UPOS and lemma.
 
-\paragraph{Variation in genre}
+\subsubsection{Variation in genre}
 \label{sec:caveat_genres}
 Another comparability issue is related to \textbf{genre}, as the datasets of UD can be of very different genres. 
 For example, Beja-NSC is based on linguistic fieldworker Martine Vanhove's corpus which features transcribed spoken stories, whereas the UD dataset Czech-Poetry contains, as the name suggests, samples of Czech 19th-century poetry. 
@@ -845,7 +1044,7 @@ Additional languages have been provided (both translation and native UD v2 annot
 
 %\paragraph{Phonological realisation of morphological features}
 
-\subsubsection{Additional informational facets of morphological features}
+\subsection{Additional informational facets of morphological features}
 \label{caveat_conditional_order}
 Morphological features are liable to support probabilistic dependencies.
 For example, it is possible that if the morphological feature category Case takes the value Nominative, then the category Animacy is more likely to take the value Animate.
@@ -856,12 +1055,19 @@ It would be possible to define a more nuanced measure that takes these condition
 
 %Ignoring order of elements
 
+\subsection{Population figures}
+Since the Google data lists two languages as having zero population, and the logarithm of zero is undefined, we add 1 to all population figures before the logarithmic transformation.
+This has the undesirable consequence of treating extinct languages as though they have a very small number of speakers.
+However, the relationship between population size and language features is likely coarse at best, so grouping extinct languages with very small languages does not jeopardise the broad conclusions that can be drawn.
+
 \section{Data and code availability}
-All data in this study is available freely, see the README in the code project for details.
+All code in this project is available freely at this anonymised OSF-project: \url{https://osf.io/xmb6w/?view_only=6dc1e1caffa64b4a98b3a40591c6891d}.
+
+All data in this study is available freely, see the README in the code project for details on versions and downloading.
 
 All the analysis for this research project was done in the free and open source programming language R, using a multitude of packages. 
 
-We grateful acknowledge and cite the packages used: \input{citation_keys.txt}.
+We gratefully acknowledge and cite the packages used: \input{citation_keys.txt}.
 
 Table \ref{r_package_table} shows all packages used and their versions.
 
