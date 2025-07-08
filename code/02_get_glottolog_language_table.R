@@ -8,18 +8,12 @@ if(!file.exists("output/processed_data/glottolog_5.0_languages.tsv")){
   if(!dir.exists(dir)){
     dir.create(dir)}
     
-    if(!file.exists("../data/glottolog/cldf/codes.csv")){
-      SH.misc::get_zenodo_dir(url = "https://zenodo.org/records/10804582/files/glottolog/glottolog-cldf-v5.0.zip", 
-                              exdir= "../data/glottolog/")
-  }
-  
-# fetching Glottolog v5.0 from Zenodo using rcldf (requires internet)
-glottolog_rcldf_obj <- rcldf::cldf("../data/glottolog/", load_bib = F)
+# fetching Glottolog v5.0 LanguageTable and ValueTable from GitHub, specifically the branch tied to the release of 5.0
 
-ValueTable_wide <- glottolog_rcldf_obj$tables$ValueTable %>% 
+ValueTable_wide <- read_csv("https://github.com/glottolog/glottolog-cldf/raw/refs/tags/v5.0/cldf/values.csv", show_col_types = F) %>% 
   reshape2::dcast(Language_ID ~ Parameter_ID, value.var = "Value")
   
-glottolog_rcldf_obj$tables$LanguageTable %>% 
+read_csv("https://github.com/glottolog/glottolog-cldf/raw/refs/tags/v5.0/cldf/languages.csv", show_col_types = F) %>% 
   dplyr::rename(Language_level_ID = Language_ID, Language_ID = ID) %>% 
   full_join(ValueTable_wide, by = "Language_ID") %>% 
   write_tsv("output/processed_data/glottolog_5.0_languages.tsv")
