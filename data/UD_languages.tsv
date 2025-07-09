@@ -548,7 +548,7 @@ Ud-treebanks-v2.14	UD_Cappadocian-TueCL	cpg_tuecl-ud-test.conllu	capp1239	capp12
 Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-dev.conllu	clas1256	clas1256						
 Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-train.conllu	clas1256	clas1256						
 Ud-treebanks-v2.14	UD_Classical_Chinese-TueCL	lzh_tuecl-ud-test.conllu	lite1248	lite1248						
-Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246						
+Ud-treebanks-v2.14	UD_Egyptian-UJaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246						
 Ud-treebanks-v2.14	UD_English-CTeTex	en_ctetex-ud-test.conllu	stan1293	stan1293						
 Ud-treebanks-v2.14	UD_Galician-PUD	gl_pud-ud-test.conllu	gali1258	gali1258						
 Ud-treebanks-v2.14	UD_Gujarati-GujTB	gu_gujtb-ud-test.conllu	guja1252	guja1252	guj					
@@ -574,4 +574,3 @@ Ud-treebanks-v2.14	UD_Tswana-Popapolelo	tn_popapolelo-ud-test.conllu	tswa1253	ts
 Ud-treebanks-v2.14	UD_Vietnamese-TueCL	vi_tuecl-ud-test.conllu	viet1252	viet1252						
 Ud-treebanks-v2.14	UD_Abkhaz-AbNC	ab_abnc-ud-test.conllu	abkh1244	abkh1244						
 Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	az_tuecl-ud-test.conllu	nort2697	nort2697;sout2697						
-Ud-treebanks-v2.14	UD_Egyptian-Ujaen	egy_ujaen-ud-test.conllu	egyp1246	egyp1246						
