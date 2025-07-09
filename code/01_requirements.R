@@ -69,16 +69,12 @@ groundhog::groundhog.library(pkg = pkgs ,
 print("packages loaded successfully.")
 }
 
-if(using_groundhog == "no"){
-  if(!"pacman" %in% installed.packages()){
-    install.packages("pacman")
-  }
-
-  for(pkg in pkgs){
-#    print(pkg)
-    pacman::p_load(pkg,character.only = T)
-  }
-    
+if(using_groundhog != "yes"){
+  
+  source("fun_def_h_load.R")
+for(pkg in pkgs){  
+  h_load(pkg)
+    }
 }
 
 
