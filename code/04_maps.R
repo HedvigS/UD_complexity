@@ -15,7 +15,7 @@ df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>
   filter(n_feat_cats_core_features_only != 0) %>% 
   distinct()
 
-basemap +
+p <- basemap +
   geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
               size = 3, alpha = 0.9, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggtitle("Surprisal feat, agg_level = UPOS, all features") +
@@ -27,9 +27,9 @@ basemap +
          legend.direction = "horizontal",
          legend.title = element_blank())
 
-ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features.png",  height = 5, width = 7)
+ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos_all_features.png",  height = 5, width = 7, plot = p)
 
-basemap +
+p <- basemap +
   geom_jitter(data = df, mapping = aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
               size = 3, alpha = 0.9, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggtitle("Surprisal featstring, agg_level = lemma, core features only")+
@@ -41,14 +41,14 @@ basemap +
          legend.direction = "horizontal",
          legend.title = element_blank())
 
-ggsave("output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only.png",  height = 5, width = 7)
+ggsave(filename = "output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only.png",  height = 5, width = 7, plot = p)
 
 ########################### PUD ################################
 df_PUD  <- df %>% 
   filter(str_detect(dir, pattern = "PUD"))
 
 
-basemap +
+p <- basemap +
   geom_jitter(data = df_PUD, mapping = aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
               size = 3, alpha = 0.9, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggtitle("Surprisal feat, agg_level = UPOS, all features (PUD)")+
@@ -60,7 +60,7 @@ basemap +
          legend.direction = "horizontal",
          legend.title = element_blank())
 
-ggsave("output/plots/map_sum_surprisal_morph_split_mean_upos_all_features_PUD.png", height = 5, width = 7)
+ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos_all_features_PUD.png", height = 5, width = 7, plot = p)
 
 basemap +
   geom_jitter(data = df_PUD, mapping = aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
@@ -74,5 +74,5 @@ basemap +
          legend.direction = "horizontal",
          legend.title = element_blank())
 
-ggsave("output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only_PUD.png",  height = 5, width = 7)
+ggsave(filename = "output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only_PUD.png",  height = 5, width = 7, plot = p)
 
