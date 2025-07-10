@@ -29,7 +29,7 @@ The project relies on external data. These can be fetched from online sources ei
     Please note that the Glottolog, Grambank and google-research/url-nlp's data is further wrangled in the scripts above (ValueTable and LanguageTable are combined, dialects are merged etc). Therefore, we recommend executing the scripts for fetching and wrangling.
  
 ## Overview of scripts
-All scripts are found in the directory `code`, which should also be set as the working directory for executing the code. Below is a brief description of the scripts organised by steps in the analysis workflow. We expect that you are working within on R-session, be that via a terminal or Rstudio. You can also run all the necessary code by just sourcing the script `00_run_all.R`.
+All scripts are found in the directory `code`, which should also be set as the working directory for executing the code. Below is a brief description of the scripts organised by steps in the analysis workflow. We expect that you are working within one R-session, be that via a terminal or Rstudio, and start each session by executing ` code/01_requirements.R` so that all packages are set up. You can also run all the necessary code by sourcing the script `00_run_all.R`.
 
  ```
  #setting up packages, output directories etc
