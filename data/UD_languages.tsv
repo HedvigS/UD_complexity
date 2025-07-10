@@ -513,7 +513,6 @@ Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-test.conllu	oldf
 Ud-treebanks-v2.14	UD_Old_French-PROFITEROLE	fro_profiterole-ud-train.conllu	oldf1239	oldf1239	fro	3		fro		
 Ud-treebanks-v2.14	UD_Old_Irish-DipSGG	sga_dipsgg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga		
 Ud-treebanks-v2.14	UD_Old_Irish-DipWBG	sga_dipwbg-ud-test.conllu	oldi1245	oldi1245	sga	3		sga		
-Ud-treebanks-v2.14	UD_Old_Turkish-Tonqq	otk_tonqq-ud-test.conllu	oldu1238	oldu1238	otk	3		otk		
 Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-dev.conllu	poma1238	poma1238	qpm	3		qpm		
 Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-test.conllu	poma1238	poma1238	qpm	3		qpm		
 Ud-treebanks-v2.14	UD_Pomak-Philotis	qpm_philotis-ud-train.conllu	poma1238	poma1238	qpm	3		qpm		
@@ -542,8 +541,8 @@ Ud-treebanks-v2.14	UD_Xibe-XDT	sjo_xdt-ud-test.conllu	xibe1242	xibe1242	sjo	3		s
 Ud-treebanks-v2.14	UD_Yakut-YKTDT	sah_yktdt-ud-test.conllu	yaku1245	yaku1245	sah	3		sah		
 Ud-treebanks-v2.14	UD_Yupik-SLI	ess_sli-ud-test.conllu	cent2128	cent2128	ess	3		ess		
 Ud-treebanks-v2.14	UD_Zaar-Autogramm	say_autogramm-ud-test.conllu	zaar1253	zaar1253	say	3		say		
-Ud-treebanks-v2.14	UD_Abkhaz-AbNC	UD_Abkhaz-AbNCab_abnc-ud-test.conllu	abkh1244	abkh1244	abk					
-Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	UD_Azerbaijani-TueCLaz_tuecl-ud-test.conllu	nort2697	nort2697;sout2697						
+Ud-treebanks-v2.14	UD_Abkhaz-AbNC	ab_abnc-ud-test.conllu	abkh1244	abkh1244	abk					
+Ud-treebanks-v2.14	UD_Azerbaijani-TueCL	az_tuecl-ud-test.conllu	nort2697	nort2697;sout2697						
 Ud-treebanks-v2.14	UD_Bavarian-MaiBaam	bar_maibaam-ud-test.conllu	bava1246	bava1246						
 Ud-treebanks-v2.14	UD_Cappadocian-TueCL	cpg_tuecl-ud-test.conllu	capp1239	capp1239	cpg					
 Ud-treebanks-v2.14	UD_Classical_Armenian-CAVaL	xcl_caval-ud-dev.conllu	clas1256	clas1256						
