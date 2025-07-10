@@ -11,13 +11,25 @@ fns <- list.files(path = paste0("../data/", UD_version),
                   recursive = T)
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
-  dplyr::select(dir, conllu, glottocode) %>% 
-  filter((conllu %in% basename(fns)))
+  dplyr::select(dir, conllu, glottocode) 
+
+dirs <- list.dirs(path = paste0("../data/", UD_version), full.names = F, recursive = F)
+
+#check that the UD_languages.tsv correctly matches the fetched data, i.e. that all dirs and conllu files match
+checks <- list(UD_langs$conllu[!UD_langs$conllu %in% basename(fns)],
+basename(fns)[!basename(fns) %in% UD_langs$conllu],
+UD_langs$dir[!UD_langs$dir %in% dirs],
+dirs[!dirs %in% UD_langs$dir])
+
+check <- all(sapply(checks, length) == 0)
+
+if(check == FALSE){
+  stop("The file UD_languages.tsv and the fetched files don't match.")
+}
 
 UD_dirs <- UD_langs %>% 
   group_by(dir) %>% 
   summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
-
 
 for(i in 1:nrow(UD_dirs)){
   
