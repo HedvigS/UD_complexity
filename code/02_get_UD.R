@@ -15,7 +15,7 @@ if(!file.exists("../data/ud-treebanks-v2.14/UD_Abkhaz-AbNC/ab_abnc-ud-test.txt")
 options(timeout = 300) 
 
   
-SH.misc::get_zenodo_dir(url = "https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502/allzip", 
+SH.misc::get_zenodo_dir(url = "https://lindat.mff.cuni.cz/repository/server/api/core/items/e22c28af-deba-4411-a49d-d7a99e28d205/allzip?handleId=11234/1-5502", 
                         exdir= "../data/UD_zip_files/",drop_dir_level = F)
 
 utils::untar(tarfile =  "../data/UD_zip_files/ud-treebanks-v2.14.tgz", exdir = "../data/")
