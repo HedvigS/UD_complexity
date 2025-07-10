@@ -475,6 +475,7 @@ Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-test.conllu	ligu1248	ligu1248	lij	
 Ud-treebanks-v2.14	UD_Ligurian-GLT	lij_glt-ud-train.conllu	ligu1248	ligu1248	lij	3		lij		
 Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-test.conllu	livv1243	livv1243	olo	3		olo		
 Ud-treebanks-v2.14	UD_Livvi-KKPP	olo_kkpp-ud-train.conllu	livv1243	livv1243	olo	3		olo		
+Ud-treebanks-v2.14	UD_Low_Saxon-LSDC	nds_lsdc-ud-train.conllu	nort2628	bran1235;nort2628;west2356;meck1239;nort2627;lowe1387;east2290	nds	3		nds		
 Ud-treebanks-v2.14	UD_Low_Saxon-LSDC	nds_lsdc-ud-test.conllu	nort2628	bran1235;nort2628;west2356;meck1239;nort2627;lowe1387;east2290	nds	3		nds		
 Ud-treebanks-v2.14	UD_Madi-Jarawara	jaa_jarawara-ud-test.conllu	jama1261	jama1261	jaa	3		jaa		
 Ud-treebanks-v2.14	UD_Maghrebi_Arabic_French-Arabizi	qaf_arabizi-ud-dev.conllu	alge1239	alge1239;stan1290	qaf	3		qaf		yes
@@ -561,7 +562,7 @@ Ud-treebanks-v2.14	UD_Latvian-Cairo	lv_cairo-ud-test.conllu	latv1249	latv1249
 Ud-treebanks-v2.14	UD_Luxembourgish-LuxBank	lb_luxbank-ud-test.conllu	luxe1243	luxe1243						
 Ud-treebanks-v2.14	UD_Old_Turkish-Clausal	otk_clausal-ud-test.conllu	oldt1247	oldt1247	otk					
 Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	ota_boun-ud-test.conllu	otto1234	otto1234						
-Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	UD_Ottoman_Turkish-BOUNota_boun-ud-train.conllu	otto1234	otto1234						
+Ud-treebanks-v2.14	UD_Ottoman_Turkish-BOUN	ota_boun-ud-train.conllu	otto1234	otto1234						
 Ud-treebanks-v2.14	UD_Ottoman_Turkish-DUDU	ota_dudu-ud-test.conllu	otto1234	otto1234						
 Ud-treebanks-v2.14	UD_Paumari-TueCL	pad_tuecl-ud-test.conllu	paum1247	paum1247						
 Ud-treebanks-v2.14	UD_Romanian-TueCL	ro_tuecl-ud-test.conllu	roma1327	roma1327						
