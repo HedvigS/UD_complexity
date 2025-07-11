@@ -1,4 +1,7 @@
 Package	Version
+usethis	3.1.0
+purrr	1.1.0
+magrittr	2.0.3
 readr	2.1.5
 dplyr	1.1.4
 plyr	1.8.9
@@ -12,7 +15,6 @@ tidyr	1.3.1
 udpipe	0.8.11
 devtools	2.4.5
 magrittr	2.0.3
-archive	1.1.12
 bib2df	1.1.2.0
 logger	0.4.0
 csvwr	0.1.7
@@ -20,7 +22,6 @@ urltools	1.7.3
 tibble	3.3.0
 maps	3.4.3
 mapproj	1.2.12
-purrr	1.1.0
 randomcoloR	1.1.0.1
 GGally	2.2.1
 fs	1.6.6
