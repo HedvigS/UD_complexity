@@ -1,4 +1,5 @@
 source(file = "01_requirements.R")
+source("02_basemap.R")
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   filter(is.na(multilingual_exclude)) %>% 
@@ -6,7 +7,9 @@ UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>%
   mutate(PUD = ifelse(str_detect(dir, pattern = "PUD"), "PUD", "NOT PUD"))
 
 Glottolog <-read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
-  dplyr::rename(glottocode = Glottocode)
+  dplyr::rename(glottocode = Glottocode) %>% 
+  dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude)) 
+  
 
 df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
   inner_join(UD_langs, by = "dir") %>% 
