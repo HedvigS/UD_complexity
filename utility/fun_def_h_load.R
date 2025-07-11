@@ -38,14 +38,10 @@ h_load <- function(pkg,
 #        install.packages(url, repos = repos, type = "source", lib = lib, dependencies = dependencies)
 #      }
       
-      if(!"devtools" %in%  installed_pkgs ){ #install devtools if it isn't already installed
-        install.packages(pkgs = "devtools", dependencies = dependencies, repos = repos, source = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.5.tar.gz", lib = lib, upgrade = upgrade)
-      }
-        library(devtools, lib.loc = "../utility/packages/")
         
       if(!(pkg %in% installed_pkgs[,"Package"])){
       
-        devtools::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, 
+        remotes::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, 
                                   repos = repos, upgrade = upgrade)
         
       }
@@ -63,7 +59,7 @@ h_load <- function(pkg,
             cat(paste0("Package ", pkg," already installed but not with requested version (", version,"). Removing existing and reinstalling.\n"))
           }
           remove.packages(pkgs = pkg, lib = lib)
-          devtools::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, repos = repos,
+          remotes::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, repos = repos,
                                     upgrade = upgrade)
         }
         }
