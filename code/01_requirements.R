@@ -36,13 +36,11 @@ pkgs <- c(
 
 #packages we should load and other set-up
 
-if(using_groundhog != "yes"){
-  
+
   source("../utility/fun_def_h_load.R")
 for(pkg in pkgs){  
   h_load(pkg)
     }
-}
 
 
 set.seed(72000)
