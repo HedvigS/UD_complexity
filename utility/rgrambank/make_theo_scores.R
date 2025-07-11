@@ -1,3 +1,5 @@
+library(dplyr)
+
 #' Computes scores based on theoretical linguistics on grambank data.
 #'
 #' @param ValueTable data-frame, long format, of Grambank values. If not already binarised, make_binary_ValueTable() will be applied.

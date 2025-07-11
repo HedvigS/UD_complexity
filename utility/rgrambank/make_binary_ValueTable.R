@@ -1,3 +1,4 @@
+library(dplyr)
 #' @author Hedvig Skirgård and Simon Greenhill
 
 .binary_parameters <- c(

@@ -1,3 +1,5 @@
+library(dplyr)
+
 #' Makes a version of the Grambank ParameterTable with information on binarised features
 #' @param ParameterTable data-frame, long format. ParameterTable from cldf.
 #' @param keep_multi_state_features logical. If TRUE, rows with the multistate version of the features remain, if FALSE only binary or binarised features remain in the ParameterTable.

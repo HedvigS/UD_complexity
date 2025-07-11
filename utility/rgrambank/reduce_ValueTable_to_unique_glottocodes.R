@@ -1,3 +1,7 @@
+library(dplyr)
+library(tidyr)
+library(stringr)
+
 #' Reduce duplicates which have the same glottcode in a CLDF-datset ValueTable to one. Simplifies combination of datasets. Can also be applied to word-lists FormTable, with some adjustments (Value = Cognacy).
 #'
 #' @param ValueTable data-frame, long format. ValueTable from cldf.
