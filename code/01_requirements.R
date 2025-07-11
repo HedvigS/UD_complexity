@@ -8,7 +8,9 @@ if(!dir.exists(lib_dir)){
 
 .libPaths(lib_dir)
 
-#installing data.table.
+installed_pkgs <- installed.packages(lib.loc = lib_dir )[, c("Package", "Version")]
+
+#installing data.table version 1.17.8
 # the data.table R package is a dependency of other packages used in this project (e.g. ud_pipe)
 # installing the most recent version of data.table is relatively easy, this can be done with install.packages.
 # however, installing older version of data.table is difficult and may require installing software outside of R such as gettext for macos users due to CRAN not hosting binary files of older versions of data.table and therefore needing to compile them, which in turn requires gettext.
@@ -16,6 +18,8 @@ if(!dir.exists(lib_dir)){
 # the code below checks if you are on a mac arm64, mac x86_64 or windows machine and then installs from the binary files provided
 # if you are on a linux machine and want to install an older version of data.table, we recommend remotes::install_version("data.table", version = "1.17.8").
 
+if(!("data.table" %in% installed_pkgs[,"Package"]
+     )){
 if(grepl("arm64", .Platform$pkgType)){
 install.packages(pkgs = "../utility/packages_binary/data.table/macos_arm64/data.table_1.17.8.tgz",  repos = NULL,
                  type = "binary", lib = "../utility/packages/")
@@ -30,10 +34,12 @@ if(grepl("win", .Platform$pkgType)){
   install.packages(pkgs = "../utility/packages_binary/data.table/windows/data.table_1.17.8.zip",  repos = NULL,
                    type = "binary", lib = "../utility/packages/") 
 }
+}
 
-#Rtsne package installation
+#installing Rtsne 0.17
 # Similarly to data.table, it is necessary to install Rtsne from a binary file instead of from CRAN. We are using Rtsne version 0.17. It is a dependency of the package randomcoloR
 
+if(!("Rtsne" %in% installed_pkgs[,"Package"] )){
 if(grepl("arm64", .Platform$pkgType)){
   install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_arm64/Rtsne_0.17.tgz",  repos = NULL,
                    type = "binary", lib = "../utility/packages/")
@@ -48,9 +54,11 @@ if(grepl("win", .Platform$pkgType)){
   install.packages(pkgs = "../utility/packages_binary/Rtsne/windows/Rtsne_0.17.zip",  repos = NULL,
                    type = "binary", lib = "../utility/packages/") 
 }
+}
 
+###########################
 #installing rest of packages
-
+###########################
 
 # Set CRAN mirror to avoid "trying to use CRAN without setting a mirror" error
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
@@ -68,16 +76,16 @@ for(i in 1:nrow(pkgs_df)
   pkg <- pkgs_df[i, c("Package")]
   version <- pkgs_df[i, c("Version")]
   
-    h_load(pkg = pkg, version = version, lib = lib_dir, dependencies = T, verbose = T)
+    h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T)
     }
 
 
 # rcldf is an R package that is not available via CRAN but only GitHub. We use a particular state of the package on GitHub, as indicated by the commit ref "ab9554e763c646a5ea6a49fc0989cf9277322443"
 p <- "rcldf"
-if(!(p %in% rownames(installed.packages()))){
+if(!(p %in% installed_pkgs)){
   print("rcldf not installed, installing from github now")
-devtools::install_github("SimonGreenhill/rcldf", dependencies = T, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
-                        lib = lib_dir
+devtools::install_github("SimonGreenhill/rcldf", dependencies = NA, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
+                        lib = lib_dir, upgrade = "never"
                         )
 }
 library(rcldf, lib.loc = lib_dir)
