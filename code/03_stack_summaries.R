@@ -1,6 +1,6 @@
 source("01_requirements.R")
 
-source("../utility/SH.misc/stack_tsvs.R")
+source("../utility/SH_misc/stack_tsvs.R")
 
 fns <- list.files(path = "output/summarised/", pattern = "agg_level.*.tsv", full.names = T)
 

@@ -1,6 +1,6 @@
 source("01_requirements.R")
 
-source("../utility/SH.misc/get_zenodo_dir.R")
+source("../utility/SH_misc/get_zenodo_dir.R")
 
 dir <- paste0("../data/")
 if(!dir.exists(dir)){
