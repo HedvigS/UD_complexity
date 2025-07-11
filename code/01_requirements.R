@@ -1,50 +1,64 @@
 
 ### loading 
 
-pkgs <- c(
-  "utf8" ,
-  "Rcpp",
-  "plyr",
-  "data.table",
-  "dplyr",
-  "readr",
-  "reader",
-  "tidyr",
-  "stringr",
-  "ggplot2",
-  "ggpubr",
-  "GGally",
-  "curl",
-  "randomcoloR",
-  "devtools",
-  "udpipe",
-  "reshape2",
-  "archive", #for rcldf
-  "bib2df", #for rcldf
-  "logger",#for rcldf
-  "csvwr",#for rcldf
-  "logger",#for rcldf
-  "urltools",#for rcldf
-  "caper", #for SH.misc
-  "tibble",
-  "magrittr",
-  "purrr",
-  "devtools",
-  "viridis",
-  "forcats",
-  "ggridges")
+#pkgs <- c(
+#  "utf8" ,
+#  "Rcpp",
+#  "plyr",
+#  "data.table",
+#  "dplyr",
+#  "readr",
+#  "reader",
+#  "tidyr",
+# "stringr",
+# "ggplot2",
+#  "ggpubr",
+#  "GGally",
+# "curl",
+#  "randomcoloR",
+#  "devtools",
+# "udpipe",
+# "reshape2",
+# "archive", #for rcldf
+# "bib2df", #for rcldf
+# "logger",#for rcldf
+# "csvwr",#for rcldf
+# "logger",#for rcldf
+#  "urltools",#for rcldf
+#  "caper", #for SH.misc
+#  "tibble",
+#  "magrittr",
+#  "purrr",
+#  "devtools",
+#  "viridis",
+#  "forcats",
+#  "ggridges")
 
 #packages we should load and other set-up
 
+lib_dir <- paste0("../utility/packages/")
+if(!dir.exists(lib_dir)){
+  dir.create(lib_dir)
+}
 
-  source("../utility/fun_def_h_load.R")
-for(pkg in pkgs){  
-  h_load(pkg)
+.libPaths( c( .libPaths(), lib_dir ) )  
+
+pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")
+
+source("../utility/fun_def_h_load.R")
+
+for(i in 1:nrow(pkgs_df)
+    ){  
+  
+#  i <- 10
+  pkg <- pkgs_df[i, c("Package")]
+  version <- pkgs_df[i, c("Version")]
+
+  print(pkg)
+  
+    h_load(pkg = pkg, version = version, lib = lib_dir, dependencies = T, verbose = T)
     }
 
-
-set.seed(72000)
-seed <- 72000
 
 UD_version <- "ud-treebanks-v2.14"
 
