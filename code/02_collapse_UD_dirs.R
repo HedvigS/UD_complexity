@@ -1,5 +1,8 @@
 source("01_requirements.R")
 
+#set cut-off for inclusion. number of tokens minially
+minimum_tokens = 2000
+
 dir <- paste0("output/processed_data/", UD_version)
 if(!dir.exists(dir)){
   dir.create(dir)
@@ -93,8 +96,12 @@ for(i in 1:nrow(UD_dirs)){
   
   }
 
+if(nrow(df) >= minimum_tokens){  
+  
   df %>% 
     write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
-                            UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")
+                            UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")}else{
+                              warning(paste0( UD_dir_spec[1,1], " has less than ", minimum_tokens, " tokens and is therefore exlcuded."))
+                                                        }
   
 }
