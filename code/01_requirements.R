@@ -8,7 +8,7 @@ if(!dir.exists(lib_dir)){
 
 .libPaths(lib_dir)
 
-installed_pkgs <- installed.packages(lib.loc = lib_dir )[, c("Package", "Version")]
+installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Package", "Version")]
 
 #installing data.table version 1.17.8
 # the data.table R package is a dependency of other packages used in this project (e.g. ud_pipe)
@@ -18,7 +18,7 @@ installed_pkgs <- installed.packages(lib.loc = lib_dir )[, c("Package", "Version
 # the code below checks if you are on a mac arm64, mac x86_64 or windows machine and then installs from the binary files provided
 # if you are on a linux machine and want to install an older version of data.table, we recommend remotes::install_version("data.table", version = "1.17.8").
 
-if(!("data.table" %in% installed_pkgs[,"Package"]
+if(!("data.table" %in% installed_pkgs[,"Package"] 
      )){
 if(grepl("arm64", .Platform$pkgType)){
 install.packages(pkgs = "../utility/packages_binary/data.table/macos_arm64/data.table_1.17.8.tgz",  repos = NULL,
@@ -56,6 +56,12 @@ if(grepl("win", .Platform$pkgType)){
 }
 }
 
+if(!"remotes" %in% installed_pkgs[,"Package"]  ){ #install remotes if it isn't already installed
+  install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default")
+}
+library(remotes, lib.loc = "../utility/packages/")
+
+
 ###########################
 #installing rest of packages
 ###########################
@@ -76,7 +82,7 @@ for(i in 1:nrow(pkgs_df)
   pkg <- pkgs_df[i, c("Package")]
   version <- pkgs_df[i, c("Version")]
   
-    h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T)
+    h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
     }
 
 
@@ -84,11 +90,12 @@ for(i in 1:nrow(pkgs_df)
 p <- "rcldf"
 if(!(p %in% installed_pkgs)){
   print("rcldf not installed, installing from github now")
-devtools::install_github("SimonGreenhill/rcldf", dependencies = NA, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
+remotes::install_github("SimonGreenhill/rcldf", dependencies = NA, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
                         lib = lib_dir, upgrade = "never"
                         )
 }
-library(rcldf, lib.loc = lib_dir)
+
+library(package = "rcldf", lib.loc = lib_dir, character.only = T)
 
 #setting UD version
 UD_version <- "ud-treebanks-v2.14"
