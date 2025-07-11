@@ -59,10 +59,10 @@ for(i in 1:nrow(pkgs_df)
     h_load(pkg = pkg, version = version, lib = lib_dir, dependencies = T, verbose = T)
     }
 
-#install.packages("data.table")
+#install.packages("data.table") #dependency of udpipe
 library("data.table")
 
-#install.packages("Rtsne")
+#install.packages("Rtsne") #depedency of randomcoloR
 library("Rtsne")
 
 UD_version <- "ud-treebanks-v2.14"
