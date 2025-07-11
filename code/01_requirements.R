@@ -74,6 +74,5 @@ if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-print("Creating basemap for EEZ")
-basemap <- SH.misc::basemap_EEZ(, south = "down", colour_border_land = "white",colour_land = "white", colour_border_eez = "lightgray", xlim = c(-25, 150), ylim = c(-40, 75)) 
+
 
