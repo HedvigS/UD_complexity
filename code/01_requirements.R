@@ -1,9 +1,4 @@
 
-using_groundhog <- "no"
-
-#set cut-off for inclusion. number of tokens minially
-minimum_tokens = 2000
-
 ### loading 
 
 pkgs <- c(
@@ -43,7 +38,7 @@ pkgs <- c(
 
 if(using_groundhog != "yes"){
   
-  source("fun_def_h_load.R")
+  source("../utility/fun_def_h_load.R")
 for(pkg in pkgs){  
   h_load(pkg)
     }
@@ -67,19 +62,6 @@ remotes::install_github("SimonGreenhill/rcldf", dependencies = F, ref = "ab9554e
 }
 library(rcldf)
 
-p <- "rgrambank"
-if(!(p %in% rownames(installed.packages()))){
-  print("rgrambank not installed, installing from github now")
-  devtools::install_github("HedvigS/rgrambank", dependencies = F, ref = "7e7a59fa1c0a99b33d743b5376c2c8441517943c")
-}
-library(rgrambank)
-
-p <- "SH.misc"
-if(!(p %in% rownames(installed.packages()))){
-  print("SH.misc not installed, installing from github now")
-  devtools::install_github("HedvigS/SH.misc", dependencies = F, ref = "dc530b1cdc1ae4dbe9b29d695c153a6c50247a6e")
-}
-library(SH.misc)
 
 if(!dir.exists("output")){
   dir.create("output")
