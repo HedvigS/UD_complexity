@@ -1,6 +1,7 @@
 #This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
 
-source("01_requirements.R")
+library(readr, lib.loc = "../utility/packages/")
+library(dplyr, lib.loc = "../utility/packages/")
 
 source("../utility/rgrambank/make_binary_ParameterTable.R")
 source("../utility/rgrambank/make_binary_ValueTable.R")

@@ -1,4 +1,7 @@
-source("01_requirements.R")
+library(dplyr, lib.loc = "../utility/packages/")
+library(tidyr, lib.loc = "../utility/packages/")
+library(readr, lib.loc = "../utility/packages/")
+library(udpipe, lib.loc = "../utility/packages/")
 
 #set cut-off for inclusion. number of tokens minially
 minimum_tokens = 2000

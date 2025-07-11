@@ -1,4 +1,5 @@
-library(dplyr)
+library(dplyr, lib.loc = "../utility/packages/")
+
 #' @author Hedvig Skirgård and Simon Greenhill
 
 .binary_parameters <- c(

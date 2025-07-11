@@ -1,4 +1,7 @@
-source("01_requirements.R")
+library(dplyr, lib.loc = "../utility/packages/")
+library(ggplot2, lib.loc = "../utility/packages/")
+library(readr, lib.loc = "../utility/packages/")
+
 source("02_basemap.R")
 
 if(!file.exists("output/processed_data/google_pop.tsv")){

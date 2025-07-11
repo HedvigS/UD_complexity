@@ -1,4 +1,4 @@
-library(fs)
+library(fs, lib.loc = "../utility/packages/")
 
 #' Downloads content from Zenodo based on a download-URL, places it in a given spot on the local machine. Back-up function for rcldf::cldf. Can be used on any Zenodo-record, not just CLDF.
 #' @param url character vector. URL string, e..g "https://zenodo.org/record/7740822/files/grambank/grambank-analysed-v1.0.zip"

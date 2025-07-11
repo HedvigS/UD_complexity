@@ -3,6 +3,9 @@
 #agg_level = "upos" 
 #core_features = "core_features_only"
 
+library(dplyr, lib.loc = "../utility/packages/")
+library(tidyr, lib.loc = "../utility/packages/")
+library(readr, lib.loc = "../utility/packages/")
 
 process_data_per_UD_proj <- function(directory = "output",
          agg_level = "upos", #lemma token

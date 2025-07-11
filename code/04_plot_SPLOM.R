@@ -1,4 +1,6 @@
-source("01_requirements.R")
+library(dplyr, lib.loc = "../utility/packages/")
+library(ggplot2, lib.loc = "../utility/packages/")
+
 source("../utility/fun_def_SPLOM_fun.R")
 
 ##################################

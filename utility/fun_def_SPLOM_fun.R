@@ -1,3 +1,8 @@
+library(randomcoloR, lib.loc = "../utility/packages/")
+library(ggplot2, lib.loc = "../utility/packages/")
+library(dplyr, lib.loc = "../utility/packages/")
+library(scales, lib.loc = "../utility/packages/")
+
 coloured_SPLOM <- function(df = df, 
                            pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")). 
                            col_pairs_to_constraint = "None",

@@ -1,6 +1,6 @@
-library(dplyr)
-library(purrr)
-library(readr)
+library(purrr, lib.loc = "../utility/packages/")
+library(dplyr, lib.loc = "../utility/packages/")
+library(readr, lib.loc = "../utility/packages/")
 
 #' Stacks content of multiple tsv-files on-top of each other.
 #'

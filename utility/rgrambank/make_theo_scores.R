@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr, lib.loc = "../utility/packages/")
 
 #' Computes scores based on theoretical linguistics on grambank data.
 #'

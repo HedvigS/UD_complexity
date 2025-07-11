@@ -1,4 +1,4 @@
-library(dplyr)
+library(dplyr, lib.loc = "../utility/packages/")
 
 #' Makes a version of the Grambank ParameterTable with information on binarised features
 #' @param ParameterTable data-frame, long format. ParameterTable from cldf.

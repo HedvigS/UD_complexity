@@ -1,4 +1,3 @@
-source("01_requirements.R")
 
 dir <- paste0("../data/")
 if(!dir.exists(dir)){
