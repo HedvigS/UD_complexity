@@ -1,6 +1,6 @@
-library(dplyr)
-library(tidyr)
-library(stringr)
+library(tidyr, lib.loc = "../utility/packages/")
+library(dplyr, lib.loc = "../utility/packages/")
+library(stringr, lib.loc = "../utility/packages/")
 
 #' Reduce duplicates which have the same glottcode in a CLDF-datset ValueTable to one. Simplifies combination of datasets. Can also be applied to word-lists FormTable, with some adjustments (Value = Cognacy).
 #'
