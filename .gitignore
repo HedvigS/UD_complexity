@@ -30,3 +30,4 @@ sandbox/
 # Groundhog
 groundhog_libraries*
 /data
+.~lock.requirements.tsv\#
