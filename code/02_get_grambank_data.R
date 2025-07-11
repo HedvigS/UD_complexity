@@ -2,10 +2,12 @@
 
 source("01_requirements.R")
 
+source("../utility/SH.misc/get_zenodo_dir.R")
+
 if(!file.exists("output/processed_data/grambank/cldf/codes.csv")){
     
     #checking out specifically v1.0, which is commit 9e0f341
-  SH.misc::get_zenodo_dir(url = "https://zenodo.org/records/7740140/files/grambank/grambank-v1.0.zip", 
+  get_zenodo_dir(url = "https://zenodo.org/records/7740140/files/grambank/grambank-v1.0.zip", 
                    exdir= "output/processed_data/grambank/")
   }
   
