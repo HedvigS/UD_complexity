@@ -59,6 +59,11 @@ for(i in 1:nrow(pkgs_df)
     h_load(pkg = pkg, version = version, lib = lib_dir, dependencies = T, verbose = T)
     }
 
+#install.packages("data.table")
+library("data.table")
+
+#install.packages("Rtsne")
+library("Rtsne")
 
 UD_version <- "ud-treebanks-v2.14"
 
