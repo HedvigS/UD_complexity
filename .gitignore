@@ -31,3 +31,4 @@ sandbox/
 groundhog_libraries*
 /data
 .~lock.requirements.tsv\#
+/utility/packages
