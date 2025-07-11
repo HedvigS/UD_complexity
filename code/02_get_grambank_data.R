@@ -26,6 +26,9 @@ ParameterTable_binary <- make_binary_ParameterTable(ParameterTable = ParameterTa
                                                                keep_multi_state_features = FALSE,
                                                                keep_raw_binary = TRUE)
 
+
+set.seed(72000)
+
 ValueTable_binary_reduced <- reduce_ValueTable_to_unique_glottocodes(ValueTable = ValueTable_binary, LanguageTable = LanguageTable, merge_dialects = TRUE, method = "combine_random") %>% 
   dplyr::select(-Language_ID) %>% 
   dplyr::rename(Language_ID = Glottocode)
