@@ -1,5 +1,5 @@
 source("01_requirements.R")
-source("fun_def_SPLOM_fun.R")
+source("../utility/fun_def_SPLOM_fun.R")
 
 ##################################
 
