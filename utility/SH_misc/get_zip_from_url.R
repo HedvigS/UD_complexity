@@ -6,7 +6,7 @@
 #' @author Hedvig Skirgård
 #' @export
 
-get_zenodo_dir <- function(url, exdir, drop_dir_level = TRUE){
+get_zip_from_url <- function(url, exdir, drop_dir_level = TRUE){
 
 #  url <- c("https://zenodo.org/record/7740822/files/grambank/grambank-analysed-v1.0.zip")
 #  exdir = c("../grambank-analysed/")
