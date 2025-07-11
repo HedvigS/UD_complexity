@@ -1,4 +1,5 @@
 source("01_requirements.R")
+source("02_basemap.R")
 
 if(!file.exists("output/processed_data/google_pop.tsv")){
 
