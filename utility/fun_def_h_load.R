@@ -6,7 +6,8 @@ h_load <- function(pkg,
                    verbose = FALSE, 
                    version = NULL, 
                    repos = "http://cran.us.r-project.org", 
-                   dependencies = TRUE,
+                   dependencies = NA,
+                   upgrade = "never",
                    lib = .libPaths()[1]
                    ){
   
@@ -14,7 +15,7 @@ h_load <- function(pkg,
 
     if(is.null(version) & (!(pkg %in% installed_pkgs[,"Package"]))){ #if no version is specified, check if it's installed and if not then go and install it as normal
       
-      install.packages(pkg, dependencies = dependencies, repos = repos, lib = lib)
+      install.packages(pkg, dependencies = dependencies, repos = repos, lib = lib, upgrade = upgrade)
       
       if(verbose == T){
         cat(paste0("Installed ", pkg, ".\n"))}
@@ -38,13 +39,14 @@ h_load <- function(pkg,
 #      }
       
       if(!"devtools" %in%  installed_pkgs ){ #install devtools if it isn't already installed
-        install.packages(pkgs = "devtools", dependencies = dependencies, repos = repos, source = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.5.tar.gz", lib = lib)
+        install.packages(pkgs = "devtools", dependencies = dependencies, repos = repos, source = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.5.tar.gz", lib = lib, upgrade = upgrade)
       }
         library(devtools, lib.loc = "../utility/packages/")
         
       if(!(pkg %in% installed_pkgs[,"Package"])){
       
-        devtools::install_version(package  = pkg, version = version, lib = lib)
+        devtools::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, 
+                                  repos = repos, upgrade = upgrade)
         
       }
       
@@ -61,7 +63,8 @@ h_load <- function(pkg,
             cat(paste0("Package ", pkg," already installed but not with requested version (", version,"). Removing existing and reinstalling.\n"))
           }
           remove.packages(pkgs = pkg, lib = lib)
-          devtools::install_version(package  = pkg, version = version, lib = lib)
+          devtools::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, repos = repos,
+                                    upgrade = upgrade)
         }
         }
       }
@@ -69,10 +72,8 @@ h_load <- function(pkg,
       #version end
 
     if(verbose == T){
-      library(pkg, character.only = T, quietly = F)
+      library(pkg, character.only = T, quietly = F, lib.loc = lib)
       cat(paste0("Loaded ", pkg, ", version ",packageVersion(pkg),".\n"))
     }else{
-      suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F))}
-    
-  
+      suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F, lib.loc = lib))}
 }
