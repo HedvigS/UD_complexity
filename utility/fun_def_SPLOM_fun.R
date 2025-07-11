@@ -61,14 +61,15 @@ for (i in 1:(length(var_names) - 1)) {
 # Custom lower triangle function to use unique colors
 custom_lower <- function(data, mapping, pair_colors_map, ...){
 
-  var1 <- as_label(mapping$x)
-  var2 <- as_label(mapping$y)
+  var1 <- ggplot2::as_label(mapping$x)
+  var2 <- ggplot2::as_label(mapping$y)
+
 
   if(var1 %in% col_pairs_to_constraint & 
      var2 %in% col_pairs_to_constraint){
 
     data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>% 
-      distinct()
+      dplyr::distinct()
   
   }else{
     data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
@@ -87,27 +88,27 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
   # Get the background color for the pair
   bg_color <- pair_colors_map[[pair_key]]
   
-  ggplot(data_reduced, mapping) +
-    geom_point(alpha = alpha_point, fill = bg_color,  shape = 21) +
-    theme_minimal() +
-    theme(
-      panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
-      plot.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
-      panel.grid = element_blank()
+  ggplot2::ggplot(data_reduced, mapping) +
+    ggplot2::geom_point(alpha = alpha_point, fill = bg_color,  shape = 21) +
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.background = ggplot2::element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
+      plot.background = ggplot2::element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
+      panel.grid = ggplot2::element_blank()
     )
 }
 
 
 # Custom upper triangle function with correlation text and color control
 custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...){
-  var1 <- as_label(mapping$x)
-  var2 <- as_label(mapping$y)
+  var1 <- ggplot2::as_label(mapping$x)
+  var2 <- ggplot2::as_label(mapping$y)
   
   if(var1 %in% col_pairs_to_constraint & 
      var2 %in% col_pairs_to_constraint){
     
     data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>% 
-      distinct()
+      dplyr::distinct()
     
   }else{
     data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
@@ -158,24 +159,25 @@ custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...
   pad_x <- 0.4
   pad_y <- 0.3
   
-  ggplot() +
-    geom_rect(aes(xmin = x_center - pad_x, xmax = x_center + pad_x,
+  ggplot2::ggplot() +
+    ggplot2::geom_rect(aes(xmin = x_center - pad_x, xmax = x_center + pad_x,
                   ymin = y_center - pad_y, ymax = y_center + pad_y),
               fill = "white", color = NA, alpha = 0.8) +
-    annotate("text", x = x_center, y = y_center+0.1,
+    ggplot2::annotate("text", x = x_center, y = y_center+0.1,
              label = label, size = text_cor_size, color = text_color, fontface = fontface) +
-    annotate("text", x = x_center, y = y_center - 0.1,
+    ggplot2::annotate("text", x = x_center, y = y_center - 0.1,
              label = sublabel, size = text_cor_size - 1, color = "grey20") +
-    xlim(0, 1) + ylim(0, 1) +
-    theme_void() +
-    theme(
-      panel.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
-      plot.background = element_rect(fill = scales::alpha(bg_color, 0.5), color = NA)
+    ggplot2::xlim(0, 1) + 
+    ggplot2::ylim(0, 1) +
+    ggplot2::theme_void() +
+    ggplot2::theme(
+      panel.background = ggplot2::element_rect(fill = scales::alpha(bg_color, 0.5), color = NA),
+      plot.background = ggplot2::element_rect(fill = scales::alpha(bg_color, 0.5), color = NA)
     )
 }
 
 custom_diag <- function(data, mapping){
-  var <- as_label(mapping$x)
+  var <- ggplot2::as_label(mapping$x)
 
   if(herringbone == TRUE){
     hist_col <- pair_colors_hist[[var]]
@@ -187,7 +189,7 @@ custom_diag <- function(data, mapping){
   if(var %in% col_pairs_to_constraint){
     
     data_reduced <- dplyr::select(df, all_of(c(var, col_pairs_constraint))) %>% 
-      distinct()
+      dplyr::distinct()
   }else{
     data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var)))
   }
@@ -199,24 +201,24 @@ custom_diag <- function(data, mapping){
   x_center <- mean(hist_data$mids)
   y_center <- max(hist_data$counts) 
   
-  ggplot(data_reduced, aes(x = .data[[var]])) +
-    geom_histogram(fill = hist_col, color = hist_col, bins =  hist_bins, alpha = 0.6) +
-    annotate("text", x = x_center, y = y_center, 
+  ggplot2::ggplot(data_reduced, aes(x = .data[[var]])) +
+    ggplot2::geom_histogram(fill = hist_col, color = hist_col, bins =  hist_bins, alpha = 0.6) +
+    ggplot2::annotate("text", x = x_center, y = y_center, 
              label = var, size = hist_label_size, color = "black", 
              hjust = 0.5, vjust = 1.2, fontface = "bold") +
-    theme_minimal() +
-    theme(
-      panel.grid = element_blank(),
-      panel.background = element_rect(fill = "white", color = NA)
+    ggplot2::theme_minimal() +
+    ggplot2::theme(
+      panel.grid = ggplot2::element_blank(),
+      panel.background = ggplot2::element_rect(fill = "white", color = NA)
     )
 }
 
 
-ggpairs(  df_without_id_vars,
+GGally::ggpairs(  df_without_id_vars,
         lower = list(continuous = function(data, mapping, ...) custom_lower(data, mapping, pair_colors_map, ...)),
         upper = list(continuous = function(data, mapping, ...) custom_upper(data, mapping, pair_colors_map, ...)),
         diag = list(continuous = custom_diag)) +
-  theme(strip.text = element_text(size = text_strip_size))
+  ggplot2::theme(strip.text = element_text(size = text_strip_size))
 
 }
 

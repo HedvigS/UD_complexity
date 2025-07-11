@@ -4,19 +4,19 @@ source("../utility/fun_def_SPLOM_fun.R")
 ##################################
 
 UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
-  filter(is.na(multilingual_exclude)) %>% 
-  distinct(dir, glottocode)
+  dplyr::filter(is.na(multilingual_exclude)) %>% 
+  dplyr::distinct(dir, glottocode)
 
 df_external <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
-  rename(glottocode = Language_ID) %>% 
-  full_join(read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
+  dplyr::rename(glottocode = Language_ID) %>% 
+  dplyr::full_join(read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
 
 df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
-  inner_join(UD_langs, by = "dir") %>% 
-  left_join(df_external, by = "glottocode") %>% 
-  filter(n_feat_cats_all_features != 0) %>% 
-  filter(n_feat_cats_core_features_only != 0) %>% 
-  distinct()
+  dplyr::inner_join(UD_langs, by = "dir") %>% 
+  dplyr::left_join(df_external, by = "glottocode") %>% 
+  dplyr::filter(n_feat_cats_all_features != 0) %>% 
+  dplyr::filter(n_feat_cats_core_features_only != 0) %>% 
+  dplyr::distinct()
  
 df_for_plot <- df %>% 
   dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
@@ -47,7 +47,7 @@ p <- df_for_plot %>%
                    hist_label_size = 3, herringbone = T,pair_colors = pal
                    )
 
-ggsave("output/plots/SPLOM_custom_metrics.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_custom_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
   dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
@@ -84,7 +84,7 @@ p <-  df_for_plot %>%
   coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 6, pair_colors = pal, herringbone = T
                  )
 
-ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
   dplyr::select("glottocode",
@@ -95,8 +95,8 @@ df_for_plot <- df %>%
                 "Informativity\n(Grambank v1.0)" ="Informativity",
                 "Pop\n (Google)" = "Pop"
   )  %>% 
-  mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
-  distinct()
+  dplyr::mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
+  dplyr::distinct()
 
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
@@ -121,13 +121,13 @@ p <- df_for_plot %>%
                  col_pairs_constraint = "glottocode")
 
 
-ggsave("output/plots/SPLOM_metrics_external.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_metrics_external.png", height = 30, width = 30, units = "cm", plot = p)
 
 
 ###PUD
 
 df_for_plot <- df %>% 
-  filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
                 "Surprisal feat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
                 "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
@@ -151,10 +151,10 @@ pal <- c("#A7E1A1" , #1
 p <- df_for_plot %>% 
   coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10, hist_label_size = 2.5, herringbone = T, hist_bins = 7)
 
-ggsave("output/plots/SPLOM_custom_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_custom_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
-  filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
@@ -187,10 +187,10 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
 p <-  df_for_plot %>% 
   coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, pair_colors = pal, herringbone = T, hist_bins = 7)
 
-ggsave("output/plots/SPLOM_other_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_other_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
-  filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("glottocode",
                 "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
@@ -199,8 +199,8 @@ df_for_plot <- df %>%
                 "Informativity\n(Grambank v1.0)" ="Informativity",
                 "Pop\n (Google)" = "Pop"
   )  %>% 
-  mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
-  distinct()
+  dplyr::mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
+  dplyr::distinct()
 
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
@@ -222,7 +222,7 @@ p <-df_for_plot %>%
                                              "Pop\n(Google)\nlog10"), 
                  col_pairs_constraint = "glottocode", herringbone = T, hist_bins = 7)
 
-ggsave("output/plots/SPLOM_metrics_external_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_metrics_external_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
 
 

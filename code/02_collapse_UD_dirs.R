@@ -13,7 +13,7 @@ fns <- list.files(path = paste0("../data/", UD_version),
                   full.names = T, 
                   recursive = T)
 
-UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   dplyr::select(dir, conllu, glottocode) 
 
 dirs <- list.dirs(path = paste0("../data/", UD_version), full.names = F, recursive = F)
@@ -41,8 +41,8 @@ for(i in 1:nrow(UD_dirs)){
   cat(paste0("I'm on ", UD_dirs[i,1], ". That's ", i, " of ", nrow(UD_dirs), ".\n"))
   
   UD_dir_spec <- UD_dirs[i,] %>% 
-    mutate(conllus = str_split(conllus, ";")) %>% 
-    unnest(conllus)
+    dplyr::mutate(conllus = str_split(conllus, ";")) %>% 
+    tidyr::unnest(conllus)
   
   ######
   df <- data.frame(
@@ -91,7 +91,7 @@ for(i in 1:nrow(UD_dirs)){
       dplyr::mutate(across(everything(), as.character)) 
   
     df <- df %>% 
-      full_join(conllu, by = join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
+      dplyr::full_join(conllu, by = dplyr::join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
                                      dep_rel, deps, misc))
   
   }
@@ -99,7 +99,7 @@ for(i in 1:nrow(UD_dirs)){
 if(nrow(df) >= minimum_tokens){  
   
   df %>% 
-    write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
+    readr::write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
                             UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")}else{
                               warning(paste0( UD_dir_spec[1,1], " has less than ", minimum_tokens, " tokens and is therefore exlcuded."))
                                                         }

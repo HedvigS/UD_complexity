@@ -2,14 +2,14 @@
 
 source("01_requirements.R")
 
-source("../utility/SH_misc/get_zip_from_url.R")
 source("../utility/rgrambank/make_binary_ParameterTable.R")
 source("../utility/rgrambank/make_binary_ValueTable.R")
 source("../utility/rgrambank/make_theo_scores.R")
 source("../utility/rgrambank/reduce_ValueTable_to_unique_glottocodes.R")
 
 if(!file.exists("output/processed_data/grambank/cldf/codes.csv")){
-    
+
+  source("../utility/SH_misc/get_zip_from_url.R")
     #checking out specifically v1.0, which is commit 9e0f341
   get_zip_from_url(url = "https://zenodo.org/records/7740140/files/grambank/grambank-v1.0.zip", 
                    exdir= "output/processed_data/grambank/")
@@ -37,4 +37,4 @@ theo_scores <- make_theo_scores(ValueTable = ValueTable_binary_reduced,
                                            ParameterTable = ParameterTable, Fusion_option = "count_one_and_half")
 
 theo_scores %>% 
-  write_tsv("output/processed_data/grambank_theo_scores.tsv")
+  readr::write_tsv("output/processed_data/grambank_theo_scores.tsv")
