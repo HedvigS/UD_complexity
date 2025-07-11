@@ -36,12 +36,15 @@
 
 #packages we should load and other set-up
 
+# Set CRAN mirror to avoid "trying to use CRAN without setting a mirror" error
+options(repos = c(CRAN = "https://cloud.r-project.org/"))
+
 lib_dir <- paste0("../utility/packages/")
 if(!dir.exists(lib_dir)){
   dir.create(lib_dir)
 }
 
-.libPaths( c( .libPaths(), lib_dir ) )  
+.libPaths(lib_dir)
 
 pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")
 
@@ -53,17 +56,15 @@ for(i in 1:nrow(pkgs_df)
 #  i <- 10
   pkg <- pkgs_df[i, c("Package")]
   version <- pkgs_df[i, c("Version")]
-
-  print(pkg)
   
     h_load(pkg = pkg, version = version, lib = lib_dir, dependencies = T, verbose = T)
     }
 
-#install.packages("data.table") #dependency of udpipe
-library("data.table")
+#install.packages("data.table", lib = lib_dir) #dependency of udpipe
+library("data.table", lib.loc = lib_dir)
 
-#install.packages("Rtsne") #depedency of randomcoloR
-library("Rtsne")
+#install.packages("Rtsne", lib = lib_dir) #depedency of randomcoloR
+library("Rtsne", lib.loc = lib_dir)
 
 UD_version <- "ud-treebanks-v2.14"
 
@@ -74,10 +75,10 @@ UD_version <- "ud-treebanks-v2.14"
 p <- "rcldf"
 if(!(p %in% rownames(installed.packages()))){
   print("rcldf not installed, installing from github now")
-remotes::install_github("SimonGreenhill/rcldf", dependencies = F, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443"
+remotes::install_github("SimonGreenhill/rcldf", dependencies = F, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", lib = lib_dir
                         )
 }
-library(rcldf)
+library(rcldf, lib.loc = lib_dir)
 
 
 if(!dir.exists("output")){
