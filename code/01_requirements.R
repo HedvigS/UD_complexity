@@ -111,12 +111,11 @@ for(i in 1:nrow(pkgs_df)
 p <- "rcldf"
 if(!(p %in% rownames(installed.packages()))){
   print("rcldf not installed, installing from github now")
-remotes::install_github("SimonGreenhill/rcldf", dependencies = F, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
-                        lib.loc = lib_dir
+devtools::install_github("SimonGreenhill/rcldf", dependencies = T, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
+                        lib = lib_dir
                         )
 }
 library(rcldf, lib.loc = lib_dir)
-
 
 #setting UD version
 UD_version <- "ud-treebanks-v2.14"
