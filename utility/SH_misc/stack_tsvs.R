@@ -1,3 +1,7 @@
+library(dplyr)
+library(purrr)
+library(readr)
+
 #' Stacks content of multiple tsv-files on-top of each other.
 #'
 #' @param fns character vector of file names.
@@ -28,11 +32,13 @@ read_for_map_df <- function(x){
   if(verbose == TRUE){
   cat("I'm at file ", x, ".\n")
   }
-  df <- data.table::fread(x ,
-                                encoding = 'UTF-8', header = TRUE,
-                                fill = TRUE, blank.lines.skip = TRUE,
-                                sep = "\t", na.strings = "",
-  )   %>%
+  df <- read.delim(file = x, sep = "\t", header = TRUE, encoding = 'UTF-8', na.strings = "") %>%
+#    data.table::fread(x ,
+#                                encoding = 'UTF-8', header = TRUE,
+#                                fill = TRUE, blank.lines.skip = TRUE,
+#                                sep = "\t", na.strings = "",
+ # ) %>% 
+
       dplyr::mutate(across(everything(), as.character)) %>%
       dplyr::mutate(filename =x)
     df
@@ -41,7 +47,6 @@ read_for_map_df <- function(x){
   All_raw <-    purrr::map_df(.x = fns, .f = read_for_map_df)
 
 All_raw <- suppressMessages(readr::type_convert(All_raw, trim_ws = TRUE, guess_integer = FALSE))
-
 
 All_raw
 }

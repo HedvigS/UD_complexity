@@ -1,3 +1,5 @@
+library(fs)
+
 #' Downloads content from Zenodo based on a download-URL, places it in a given spot on the local machine. Back-up function for rcldf::cldf. Can be used on any Zenodo-record, not just CLDF.
 #' @param url character vector. URL string, e..g "https://zenodo.org/record/7740822/files/grambank/grambank-analysed-v1.0.zip"
 #' @param exdir character vector. name of folder where the files are to be written to
@@ -15,7 +17,7 @@ get_zip_from_url <- function(url, exdir, drop_dir_level = TRUE){
 #setting up a tempfile path where we can put the zipped files before unzipped to a specific location
 filepath <- file.path(tempfile())
 
-utils::download.file(file.path(url), destfile = filepath)
+utils::download.file(file.path(url), destfile = filepath, mode = "wb")
 utils::unzip(zipfile = filepath, exdir = exdir)
 
 if(drop_dir_level == TRUE){
