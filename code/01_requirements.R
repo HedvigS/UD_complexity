@@ -1,39 +1,12 @@
 
-### loading 
 
-#pkgs <- c(
-#  "utf8" ,
-#  "Rcpp",
-#  "plyr",
-#  "data.table",
-#  "dplyr",
-#  "readr",
-#  "reader",
-#  "tidyr",
-# "stringr",
-# "ggplot2",
-#  "ggpubr",
-#  "GGally",
-# "curl",
-#  "randomcoloR",
-#  "devtools",
-# "udpipe",
-# "reshape2",
-# "archive", #for rcldf
-# "bib2df", #for rcldf
-# "logger",#for rcldf
-# "csvwr",#for rcldf
-# "logger",#for rcldf
-#  "urltools",#for rcldf
-#  "caper", #for SH.misc
-#  "tibble",
-#  "magrittr",
-#  "purrr",
-#  "devtools",
-#  "viridis",
-#  "forcats",
-#  "ggridges")
+#creating and setting the library dir 
+lib_dir <- paste0("../utility/packages/")
+if(!dir.exists(lib_dir)){
+  dir.create(lib_dir)
+}
 
+.libPaths(lib_dir)
 
 #installing data.table.
 # the data.table R package is a dependency of other packages used in this project (e.g. ud_pipe)
@@ -54,7 +27,7 @@ if(grepl("x86_64", .Platform$pkgType)){
 }
 
 if(grepl("win", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/data.table/windows/data.table_1.17.8.tgz",  repos = NULL,
+  install.packages(pkgs = "../utility/packages_binary/data.table/windows/data.table_1.17.8.zip",  repos = NULL,
                    type = "binary", lib = "../utility/packages/") 
 }
 
@@ -72,7 +45,7 @@ if(grepl("x86_64", .Platform$pkgType)){
 }
 
 if(grepl("win", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/data.table/windows/data.table_1.17.8.zip",  repos = NULL,
+  install.packages(pkgs = "../utility/packages_binary/Rtsne/windows/Rtsne_0.17.zip",  repos = NULL,
                    type = "binary", lib = "../utility/packages/") 
 }
 
@@ -81,14 +54,6 @@ if(grepl("win", .Platform$pkgType)){
 
 # Set CRAN mirror to avoid "trying to use CRAN without setting a mirror" error
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
-
-#creating and setting the library dir 
-lib_dir <- paste0("../utility/packages/")
-if(!dir.exists(lib_dir)){
-  dir.create(lib_dir)
-}
-
-.libPaths(lib_dir)
 
 #reading in the table of packages to install and load
 pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")
