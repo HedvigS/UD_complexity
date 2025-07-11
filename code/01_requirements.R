@@ -41,34 +41,6 @@ pkgs <- c(
 
 #packages we should load and other set-up
 
-if(using_groundhog == "yes"){
-  
-  if(!"groundhog" %in% installed.packages()){
-    print("groundhog not installed, installing now")
-    install.packages("groundhog")
-  }
-  
-  library(groundhog)
-  
-  groundhog_date <- "2025-01-17"
-  
-  groundhog_dir <- paste0("groundhog_libraries_", groundhog_date)
-  
-  if(!dir.exists(groundhog_dir)){
-    print(paste0("groundhog directory ", groundhog_dir, " does not exist, creating it now"))
-    print(paste0("current working directory: ",getwd()))
-    dir.create(groundhog_dir)
-    print(paste0("groundhog directory ", groundhog_dir, " created"))
-  }
-  groundhog::set.groundhog.folder(groundhog_dir)
-  
-
-print("loading packages via groundhog...")
-groundhog::groundhog.library(pkg = pkgs ,
-                             date = groundhog_date, tolerate.R.version='4.5.0')
-print("packages loaded successfully.")
-}
-
 if(using_groundhog != "yes"){
   
   source("fun_def_h_load.R")
