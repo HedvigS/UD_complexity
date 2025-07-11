@@ -31,8 +31,8 @@ if(check == FALSE){
 }
 
 UD_dirs <- UD_langs %>% 
-  group_by(dir) %>% 
-  summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
+  dplyr::group_by(dir) %>% 
+  dplyr::summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
 
 for(i in 1:nrow(UD_dirs)){
   
