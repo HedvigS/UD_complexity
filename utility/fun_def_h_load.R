@@ -2,37 +2,76 @@
 #function to check if a pkg is installed or not, if not it installs it and either way it's loaded.
 #inspired by pacman::p_load()
 
-h_load <- function(pkg, verbose = F, version = NULL, repos = "http://cran.us.r-project.org", dependencies = T){
-  #  p <- "ggpubr"
-  #  pkg <- c("geiger", "ape")
-  for(p in pkg){
-    
-    if(is.null(version) & (!(p %in% rownames(installed.packages())))){ #if no version is specified, check if it's installed and if not then go and install it as normal
+h_load <- function(pkg, 
+                   verbose = FALSE, 
+                   version = NULL, 
+                   repos = "http://cran.us.r-project.org", 
+                   dependencies = TRUE,
+                   lib = .libPaths()[1]
+                   ){
+  
+  installed_pkgs <- installed.packages(lib.loc = lib)[, c("Package", "Version")]
+
+    if(is.null(version) & (!(pkg %in% installed_pkgs[,"Package"]))){ #if no version is specified, check if it's installed and if not then go and install it as normal
       
-      install.packages(p, dependencies = dependencies, repos = repos)
+      install.packages(pkg, dependencies = dependencies, repos = repos, lib = lib)
       
       if(verbose == T){
-        cat(paste0("Installed ", p, ".\n"))}
+        cat(paste0("Installed ", pkg, ".\n"))}
       
     }
-    if(!is.null(version) & (!(p %in% rownames(installed.packages())))){    
+
+  ###########Version install
+  
+      if(!is.null(version)){
       
-      if(!"devtools"%in% rownames(installed.packages())){ #install devtools if it isn't already installed
-        install.packages(devtools, dependencies = dependencies, repos = repos)
+#      if(repos  != "http://cran.us.r-project.org"){
+#      warning("repos must be set to http://cran.us.r-project.org for installing a specific version to work")
+#      }
+    
+#      .install_version_base <- function(pkg, version) {
+#        url <- paste0(
+#          "https://cran.r-project.org/src/contrib/Archive/",
+#          pkg, "/", pkg, "_", version, ".tar.gz"
+#        )
+#        install.packages(url, repos = repos, type = "source", lib = lib, dependencies = dependencies)
+#      }
+      
+      if(!"devtools"%in%  installed_pkgs ){ #install devtools if it isn't already installed
+        install.packages(pkgs = "devtools", dependencies = dependencies, repos = repos, source = "https://cran.r-project.org/src/contrib/Archive/devtools/devtools_2.4.5.tar.gz", lib = lib)
+      }
+        
+      if(!(pkg %in% installed_pkgs[,"Package"])){
+      
+        remotes::install_version(package  = pkg, version = version, lib = lib)
+        
       }
       
-      library(devtools, quietly = T, verbose = F, warn.conflicts = F)
-      devtools::install_version(p, version = version, dependencies = dependencies, repos = repos)
+      if(pkg %in% installed_pkgs[,"Package"]){
+        
+        if(version == installed_pkgs[pkg,"Version"]){
+          
+          if(verbose == T){
+            cat(paste0("Package ", pkg," already installed with requested version (", version,").\n"))
+            }
+        }else{
+          
+          if(verbose == T){
+            cat(paste0("Package ", pkg," already installed but not with requested version (", version,"). Removing existing and reinstalling.\n"))
+          }
+          remove.packages(pkgs = pkg, lib = lib)
+          remotes::install_version(package  = pkg, version = version, lib = lib)
+        }
+        }
+      }
       
-      if(verbose == T){
-        cat(paste0("Installed ", p, ", version ", version, ".\n"))}
-    }
-    
+      #version end
+
     if(verbose == T){
-      library(p, character.only = T, quietly = F)
-      cat(paste0("Loaded ", p, ", version ",packageVersion(p),".\n"))
+      library(pkg, character.only = T, quietly = F)
+      cat(paste0("Loaded ", pkg, ", version ",packageVersion(pkg),".\n"))
     }else{
-      suppressMessages(library(p, character.only = T, quietly = T, verbose = F, warn.conflicts = F))}
+      suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F))}
     
-  }
+  
 }
