@@ -1,7 +1,5 @@
 source("01_requirements.R")
 
-source("../utility/SH_misc/get_zip_from_url.R")
-
 dir <- paste0("../data/")
 if(!dir.exists(dir)){
   dir.create(dir)
@@ -16,7 +14,7 @@ if(!file.exists("../data/ud-treebanks-v2.14/UD_Abkhaz-AbNC/ab_abnc-ud-test.txt")
 
 options(timeout = 300) 
 
-  
+source("../utility/SH_misc/get_zip_from_url.R")
 get_zip_from_url(url = "https://lindat.mff.cuni.cz/repository/server/api/core/items/e22c28af-deba-4411-a49d-d7a99e28d205/allzip?handleId=11234/1-5502", 
                         exdir= "../data/UD_zip_files/",drop_dir_level = F)
 
