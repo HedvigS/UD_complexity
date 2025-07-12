@@ -4,7 +4,7 @@ library(readr, lib.loc = "../utility/packages/")
 library(udpipe, lib.loc = "../utility/packages/")
 
 #set cut-off for inclusion. number of tokens minially
-minimum_tokens = 2000
+minimum_tokens = 0
 
 dir <- paste0("output/processed_data/", UD_version)
 if(!dir.exists(dir)){
