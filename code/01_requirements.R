@@ -56,6 +56,25 @@ if(grepl("win", .Platform$pkgType)){
 }
 }
 
+
+# installing from binary file: openssl
+if(!("openssl" %in% installed_pkgs[,"Package"] )){
+  if(grepl("arm64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/openssl/macos_arm64/openssl_2.3.3.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("x86_64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/openssl/macos_x86_64/openssl_2.3.3.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("win", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/openssl/windows/openssl_2.3.3.zip",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/") 
+  }
+}
+
 if(!"remotes" %in% installed_pkgs[,"Package"]  ){ #install remotes if it isn't already installed
   install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default")
 }
