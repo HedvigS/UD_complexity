@@ -11,7 +11,9 @@ h_load <- function(pkg,
                    lib = .libPaths()[1]
                    ){
   
-  installed_pkgs <- installed.packages(lib.loc = lib)[, c("Package", "Version")]
+  installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE])
+  
+  
 
     if(is.null(version) & (!(pkg %in% installed_pkgs[,"Package"]))){ #if no version is specified, check if it's installed and if not then go and install it as normal
       

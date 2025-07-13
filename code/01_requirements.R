@@ -8,7 +8,7 @@ if(!dir.exists(lib_dir)){
 
 .libPaths(lib_dir)
 
-installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Package", "Version")]
+installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Package", "Version"), drop = FALSE]
 
 #installing data.table version 1.17.8
 # the data.table R package is a dependency of other packages used in this project (e.g. ud_pipe)
