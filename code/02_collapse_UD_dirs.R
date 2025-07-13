@@ -6,12 +6,12 @@ library(udpipe, lib.loc = "../utility/packages/")
 #set cut-off for inclusion. number of tokens minially
 minimum_tokens = 0
 
-dir <- paste0("output/processed_data/", UD_version)
+dir <- paste0("output/processed_data/ud-treebanks-v2.14")
 if(!dir.exists(dir)){
   dir.create(dir)
 }
 
-fns <- list.files(path = paste0("../data/", UD_version), 
+fns <- list.files(path = paste0("../data/ud-treebanks-v2.14"), 
                   pattern = "conllu", 
                   full.names = T, 
                   recursive = T)
@@ -19,7 +19,7 @@ fns <- list.files(path = paste0("../data/", UD_version),
 UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   dplyr::select(dir, conllu, glottocode) 
 
-dirs <- list.dirs(path = paste0("../data/", UD_version), full.names = F, recursive = F)
+dirs <- list.dirs(path = paste0("../data/ud-treebanks-v2.14"), full.names = F, recursive = F)
 
 #check that the UD_languages.tsv correctly matches the fetched data, i.e. that all dirs and conllu files match
 checks <- list(UD_langs$conllu[!UD_langs$conllu %in% basename(fns)],
@@ -69,7 +69,7 @@ for(i in 1:nrow(UD_dirs)){
 
   for(y in 1:nrow(UD_dir_spec)){
 #      y = 1
-     fn <-     paste0("../data/", UD_version, "/", UD_dir_spec[1,1],"/", UD_dir_spec[y,2] )
+     fn <-     paste0("../data/ud-treebanks-v2.14", "/", UD_dir_spec[1,1],"/", UD_dir_spec[y,2] )
 
     conllu <- udpipe::udpipe_read_conllu(fn) %>%   
       dplyr::filter(!is.na(token)) %>% 
@@ -102,7 +102,7 @@ for(i in 1:nrow(UD_dirs)){
 if(nrow(df) >= minimum_tokens){  
   
   df %>% 
-    readr::write_tsv(file = paste0("output/processed_data/", UD_version, "/", 
+    readr::write_tsv(file = paste0("output/processed_data/ud-treebanks-v2.14", "/", 
                             UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")}else{
                               warning(paste0( UD_dir_spec[1,1], " has less than ", minimum_tokens, " tokens and is therefore exlcuded."))
                                                         }

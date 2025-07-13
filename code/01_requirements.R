@@ -117,9 +117,6 @@ remotes::install_github("SimonGreenhill/rcldf", dependencies = NA, ref = "ab9554
 
 library(package = "rcldf", lib.loc = lib_dir, character.only = T)
 
-#setting UD version
-UD_version <- "ud-treebanks-v2.14"
-
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y

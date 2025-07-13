@@ -21,7 +21,7 @@ if(!(core_features %in% c("core_features_only", "all_features"))){
   stop("core_features has to be either core_features_only or all_features")
 }
 
-fns <- list.files(path = paste0(directory, "/processed_data/", UD_version), pattern = ".tsv", all.files = T, full.names = T)
+fns <- list.files(path = paste0(directory, "/processed_data/ud-treebanks-v2.14"), pattern = ".tsv", all.files = T, full.names = T)
 
 UD_core_feats_df <- data.frame(
   feat = c("PronType", "NumType", "Poss", "Reflex", "Abbr", "Typo", "Foreign", "ExtPos", "Gender", "Animacy", "NounClass", "Number", "Case", "Definite", "Deixis", "DeixisRef", "Degree", "VerbForm", "Mood", "Tense", "Aspect", "Voice", "Evident", "Polarity", "Person", "Polite", "Clusivity"),
