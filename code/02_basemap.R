@@ -1,4 +1,6 @@
 library(ggplot2, lib.loc = "../utility/packages/")
+library(dplyr, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 world <- ggplot2::map_data('world2', 
                            wrap=c(-25,335), #rewrapping the worldmap, i.e. shifting the center. I prefer this to world2 because I like to adjust the wrapping a bit differently, and world2 results in polygons leaking

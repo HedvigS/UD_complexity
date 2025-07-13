@@ -3,6 +3,7 @@
 library(readr, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(rcldf, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 source("../utility/rgrambank/make_binary_ParameterTable.R")
 source("../utility/rgrambank/make_binary_ValueTable.R")

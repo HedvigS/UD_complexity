@@ -1,3 +1,7 @@
+
+library(dplyr, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
+
 source(file = "01_requirements.R")
 source("02_basemap.R")
 

@@ -2,6 +2,7 @@ library(dplyr, lib.loc = "../utility/packages/")
 library(reshape2, lib.loc = "../utility/packages/")
 library(readr, lib.loc = "../utility/packages/")
 library(tidyr, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 source("../utility/SH_misc/stack_tsvs.R")
 

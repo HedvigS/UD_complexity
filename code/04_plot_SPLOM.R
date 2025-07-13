@@ -1,5 +1,6 @@
 library(dplyr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 source("../utility/fun_def_SPLOM_fun.R")
 

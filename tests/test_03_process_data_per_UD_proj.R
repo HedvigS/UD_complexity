@@ -1,11 +1,3 @@
-# Install the released version from CRAN
-if (!requireNamespace("testthat", quietly = TRUE)) {
-  install.packages("testthat")
-}
-
-# Load the library
-library("testthat")
-
 # Load the requirements and change the working directory
 # Change working directory because the script to be tested expects that
 # If the current working directory is "UD_complexity", set it to "code"

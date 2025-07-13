@@ -3,6 +3,7 @@
 library(readr, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(reshape2, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 if(!file.exists("output/processed_data/glottolog_5.0_languages.tsv")){
 

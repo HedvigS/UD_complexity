@@ -1,6 +1,7 @@
 library(dplyr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
 library(readr, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 source("02_basemap.R")
 

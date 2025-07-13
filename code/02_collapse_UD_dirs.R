@@ -2,6 +2,8 @@ library(dplyr, lib.loc = "../utility/packages/")
 library(tidyr, lib.loc = "../utility/packages/")
 library(readr, lib.loc = "../utility/packages/")
 library(udpipe, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
+library(stringr, lib.loc = "../utility/packages/")
 
 #set cut-off for inclusion. number of tokens minially
 minimum_tokens = 0

@@ -1,3 +1,5 @@
+library(dplyr, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 dir <- paste0("../data/")
 if(!dir.exists(dir)){
