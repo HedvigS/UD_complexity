@@ -31,8 +31,8 @@ if(grepl("x86_64", .Platform$pkgType)){
 }
 
 if(grepl("win", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/data.table/windows/data.table_1.17.8.zip",  repos = NULL,
-                   type = "binary", lib = "../utility/packages/") 
+  install.packages(pkgs = "https://cran.r-project.org/src/contrib/data.table_1.17.8.tar.gz",  repos = NULL,
+                   type = "source", lib = "../utility/packages/") 
 }
 }
 
@@ -75,11 +75,6 @@ if(!("openssl" %in% installed_pkgs[,"Package"] )){
   }
 }
 
-if(!"remotes" %in% installed_pkgs[,"Package"]  ){ #install remotes if it isn't already installed
-  install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default")
-}
-library(remotes, lib.loc = "../utility/packages/")
-
 
 ###########################
 #installing rest of packages
@@ -87,6 +82,12 @@ library(remotes, lib.loc = "../utility/packages/")
 
 # Set CRAN mirror to avoid "trying to use CRAN without setting a mirror" error
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
+
+# Install remotes package if not already installed
+if(!"remotes" %in% installed_pkgs[,"Package"]  ){
+  install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default")
+}
+library(remotes, lib.loc = "../utility/packages/")
 
 #reading in the table of packages to install and load
 pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")

@@ -50,7 +50,16 @@ h_load <- function(pkg,
       
       if(pkg %in% installed_pkgs[,"Package"]){
         
-        if(version == installed_pkgs[pkg,"Version"]){
+        # Get the installed version of the package
+        installed_version <- installed_pkgs[installed_pkgs$Package == pkg, "Version"]
+
+        # If there's a hyphen, replace it with a dot
+        if(grepl("-", installed_version)) {
+          installed_version <- gsub("-", ".", installed_version)
+        }
+
+        # Compare the installed version with the requested version
+        if(version == installed_version){
           
           if(verbose == T){
             cat(paste0("Package ", pkg," already installed with requested version (", version,").\n"))
