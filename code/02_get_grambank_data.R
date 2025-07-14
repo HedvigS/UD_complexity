@@ -10,7 +10,7 @@ source("../utility/rgrambank/make_binary_ValueTable.R")
 source("../utility/rgrambank/make_theo_scores.R")
 source("../utility/rgrambank/reduce_ValueTable_to_unique_glottocodes.R")
 
-if(!file.exists("output/processed_data/grambank/cldf/codes.csv")){
+if(!file.exists("output/processed_data/grambank_theo_scores.tsv")){
 
   source("../utility/SH_misc/get_zip_from_url.R")
     #checking out specifically v1.0, which is commit 9e0f341
