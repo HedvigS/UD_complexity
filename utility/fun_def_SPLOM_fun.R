@@ -1,4 +1,4 @@
-library(randomcoloR, lib.loc = "../utility/packages/")
+#library(randomcoloR, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(scales, lib.loc = "../utility/packages/")
@@ -26,7 +26,8 @@ n <- (length(names(df_without_id_vars)) * (length(names(df_without_id_vars)) - 1
   
 if(all(pair_colors == "default")){
 # Generate a large number of distinct colors (one for each unique pair of variables)
-pair_colors <- randomcoloR::distinctColorPalette(k  = n)
+stop("randomcoloR disabled due to package incompatabilities")
+  #pair_colors <- randomcoloR::distinctColorPalette(k  = n)
 }
 
 if(herringbone == TRUE){
