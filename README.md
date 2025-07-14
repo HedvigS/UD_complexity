@@ -3,7 +3,7 @@
 R project for exploring informational load of morphology in different langauges using Universal Depedencies.
 
 ## Project overview
-We are using the Universal Dependencies (UD) dataset to explore different facets of information in morphology.
+We are using the [Universal Dependencies (UD)](https://universaldependencies.org/) dataset ([version 2.14](https://lindat.mff.cuni.cz/repository/items/e22c28af-deba-4411-a49d-d7a99e28d205)) to explore different facets of information in morphology.
 We use morphology features annotated in UD to calculate information-theoretic metrics across datasets in different languages, and compare these to related measures such as grammatical features from [Grambank](https://grambank.clld.org/) and estimated population sizes from [Google](https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2/linguameta).
 
 ## Install
