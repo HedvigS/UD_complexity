@@ -1,4 +1,8 @@
+R_version_numbers <- paste0(R.version$major, ".", R.version$minor)
 
+if(R_version_numbers != "4.5.0"){
+  message("These scripts were written using R version 4.5.0, but you are using ", R_version_numbers, ". This needn't be a problem, but it's worth noting in case the results differ.\n")
+}
 
 #creating and setting the library dir 
 lib_dir <- paste0("../utility/packages/")
@@ -27,7 +31,7 @@ install.packages(pkgs = "../utility/packages_binary/data.table/macos_arm64/data.
 
 if(grepl("x86_64", .Platform$pkgType)){
   install.packages(pkgs = "../utility/packages_binary/data.table/macos_x86_64/data.table_1.17.8.tgz",  repos = NULL,
-                   type = "binary", lib = "../utility/packages/")
+                   type = "source", lib = "../utility/packages/")
 }
 
 if(grepl("win", .Platform$pkgType)){
@@ -35,6 +39,7 @@ if(grepl("win", .Platform$pkgType)){
                    type = "source", lib = "../utility/packages/") 
 }
 }
+
 
 #installing Rtsne 0.17
 # Similarly to data.table, it is necessary to install Rtsne from a binary file instead of from CRAN. We are using Rtsne version 0.17. It is a dependency of the package randomcoloR
@@ -56,24 +61,64 @@ if(grepl("win", .Platform$pkgType)){
 }
 }
 
-
-# installing from binary file: openssl
-if(!("openssl" %in% installed_pkgs[,"Package"] )){
+# installing from binary file: Matrix
+if(!("Matrix" %in% installed_pkgs[,"Package"] )){
   if(grepl("arm64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/macos_arm64/openssl_2.3.3.tgz",  repos = NULL,
+    install.packages(pkgs = "../utility/packages_binary/Matrix/macos_arm64/Matrix_1.7-3.tgz",  repos = NULL,
                      type = "binary", lib = "../utility/packages/")
   }
   
   if(grepl("x86_64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/macos_x86_64/openssl_2.3.3.tgz",  repos = NULL,
+    install.packages(pkgs = "../utility/packages_binary/Matrix/macos_x86_64/Matrix_1.7-3.tgz",  repos = NULL,
                      type = "binary", lib = "../utility/packages/")
   }
   
   if(grepl("win", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/windows/openssl_2.3.3.zip",  repos = NULL,
+    install.packages(pkgs = "../utility/packages_binary/Matrix/windows/Matrix_1.7-3.zip",  repos = NULL,
                      type = "binary", lib = "../utility/packages/") 
   }
 }
+
+
+# installing from binary file: ggpubr
+if(!("ggpubr" %in% installed_pkgs[,"Package"] )){
+  if(grepl("arm64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/ggpubr/macos_arm64/ggpubr_0.6.1.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("x86_64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/ggpubr/macos_x86_64/ggpubr_0.6.1.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("win", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/ggpubr/windows/ggpubr_0.6.1.zip",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/") 
+  }
+}
+
+
+
+
+if(!("Rtsne" %in% installed_pkgs[,"Package"] )){
+  if(grepl("arm64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_arm64/Rtsne_0.17.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("x86_64", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_x86_64/Rtsne_0.17.tgz",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/")
+  }
+  
+  if(grepl("win", .Platform$pkgType)){
+    install.packages(pkgs = "../utility/packages_binary/Rtsne/windows/Rtsne_0.17.zip",  repos = NULL,
+                     type = "binary", lib = "../utility/packages/") 
+  }
+}
+
+
 
 
 ###########################
@@ -99,6 +144,7 @@ for(i in 1:nrow(pkgs_df)
   pkg <- pkgs_df[i, c("Package")]
   version <- pkgs_df[i, c("Version")]
   
+  cat("I'm on ", pkg, ".\n")
     h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
     }
 
@@ -118,17 +164,4 @@ library(package = "rcldf", lib.loc = lib_dir, character.only = T)
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
 
-
-#setting up output folders
-if(!dir.exists("output")){
-  dir.create("output")
-}
-
-dir <- paste0("output/processed_data/")
-if(!dir.exists(dir)){
-  dir.create(dir)
-}
-  dir <- paste0("output/plots/")
-if(!dir.exists(dir)){
-  dir.create(dir)
-}
+source("01_requirements_dirs.R")
