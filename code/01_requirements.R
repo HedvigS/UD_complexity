@@ -80,12 +80,9 @@ if(!("openssl" %in% installed_pkgs[,"Package"] )){
 #installing rest of packages
 ###########################
 
-# Set CRAN mirror to avoid "trying to use CRAN without setting a mirror" error
-options(repos = c(CRAN = "https://cloud.r-project.org/"))
-
 # Install remotes package if not already installed
 if(!"remotes" %in% installed_pkgs[,"Package"]  ){
-  install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default")
+  install.packages(pkgs = "remotes", source = "https://cran.r-project.org/src/contrib/remotes_2.5.0.tar.gz", lib = "../utility/packages/", upgrade = "default", repos = "https://cloud.r-project.org/")
 }
 library(remotes, lib.loc = "../utility/packages/")
 
