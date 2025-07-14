@@ -124,7 +124,7 @@ As a fallback, each of these scripts can be replaced with manual data acquisitio
     + TODO explain how to download and where to put it
 + `google-research/url-nlp` https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2
     + TODO explain how to download and where to put it
-+ `UD v2.14` https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5502#show-files
++ `UD v2.14` https://lindat.mff.cuni.cz/repository/items/e22c28af-deba-4411-a49d-d7a99e28d205/download/zip
     + The downloaded UD must be unzipped twice: unzipping the initial file produces three further compressed files, of which you should unzip `ud-treebanks-v2.14.tgz`. This in turn produces 283 directories, one for each treebank, with names like "UD_Abaza-ATB" and "UD_English-EWT". All of these should be copied into `data/ud-treebanks-v2.14/`.
 
 The UD data must then be preprocessed (to remove tokens such as `X`, `PUNCT` and `SYM` that are not part of the analysis; see the manuscript for details) and reformatted (into `.tsv` files):
