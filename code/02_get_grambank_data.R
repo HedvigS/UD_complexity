@@ -1,26 +1,25 @@
-#This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
-
 library(readr, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
-library(rcldf, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 
-source("../utility/rgrambank/make_binary_ParameterTable.R")
-source("../utility/rgrambank/make_binary_ValueTable.R")
-source("../utility/rgrambank/make_theo_scores.R")
-source("../utility/rgrambank/reduce_ValueTable_to_unique_glottocodes.R")
-
-if(!file.exists("output/processed_data/grambank_theo_scores.tsv")){
+if(!file.exists("../data/grambank/cldf/values.csv")){
 
   source("../utility/SH_misc/get_zip_from_url.R")
     #checking out specifically v1.0, which is commit 9e0f341
   get_zip_from_url(url = "https://zenodo.org/records/7740140/files/grambank/grambank-v1.0.zip", 
                    exdir= "../data/grambank/")
-  }
+}
   
-ValueTable <- readr::read_csv("../data/grambank/cldf/values.csv", show_col_types = F)
+if(!file.exists("output/processed_data/grambank_theo_scores.tsv")){
+    
+ValueTable <- readr::read_csv("../data/grambank/cldf/values.csv", show_col_types = F) 
 LanguageTable <- readr::read_csv("../data/grambank/cldf/languages.csv", show_col_types = F)
 ParameterTable <- readr::read_csv("../data/grambank/cldf/parameters.csv", show_col_types = F)
+
+source("../utility/rgrambank/make_binary_ParameterTable.R")
+source("../utility/rgrambank/make_binary_ValueTable.R")
+source("../utility/rgrambank/make_theo_scores.R")
+source("../utility/rgrambank/reduce_ValueTable_to_unique_glottocodes.R")
 
 ValueTable_binary <- make_binary_ValueTable(ValueTable = ValueTable, keep_multistate = FALSE, keep_raw_binary = TRUE)
 ParameterTable_binary <- make_binary_ParameterTable(ParameterTable = ParameterTable,
@@ -39,3 +38,4 @@ theo_scores <- make_theo_scores(ValueTable = ValueTable_binary_reduced,
 
 theo_scores %>% 
   readr::write_tsv("output/processed_data/grambank_theo_scores.tsv")
+}
