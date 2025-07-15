@@ -181,5 +181,3 @@ library(package = "rcldf", lib.loc = lib_dir, character.only = T)
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
-
-source("01_requirements_dirs.R")

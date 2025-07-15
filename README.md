@@ -130,6 +130,7 @@ The correct order of scripts and function calls as listed in `00_run_all.R` is:
 
 ```         
 source("01_requirements.R")
+source("02_requirements_dirs.R")
 
 source("02_get_glottolog_language_table.R")
 source("02_get_grambank_data.R")
