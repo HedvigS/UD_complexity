@@ -15,14 +15,12 @@ if(!file.exists("output/processed_data/grambank_theo_scores.tsv")){
   source("../utility/SH_misc/get_zip_from_url.R")
     #checking out specifically v1.0, which is commit 9e0f341
   get_zip_from_url(url = "https://zenodo.org/records/7740140/files/grambank/grambank-v1.0.zip", 
-                   exdir= "output/processed_data/grambank/")
+                   exdir= "../data/grambank/")
   }
   
-grambank <- rcldf::cldf("output/processed_data/grambank/", load_bib = F)
-
-ValueTable <- grambank$tables$ValueTable 
-LanguageTable <- grambank$tables$LanguageTable
-ParameterTable <- grambank$tables$ParameterTable
+ValueTable <- readr::read_csv("../data/grambank/cldf/values.csv", show_col_types = F)
+LanguageTable <- readr::read_csv("../data/grambank/cldf/languages.csv", show_col_types = F)
+ParameterTable <- readr::read_csv("../data/grambank/cldf/parameters.csv", show_col_types = F)
 
 ValueTable_binary <- make_binary_ValueTable(ValueTable = ValueTable, keep_multistate = FALSE, keep_raw_binary = TRUE)
 ParameterTable_binary <- make_binary_ParameterTable(ParameterTable = ParameterTable,

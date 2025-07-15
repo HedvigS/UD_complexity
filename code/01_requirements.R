@@ -166,18 +166,6 @@ for(i in 1:nrow(pkgs_df)
     h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
     }
 
-
-# rcldf is an R package that is not available via CRAN but only GitHub. We use a particular state of the package on GitHub, as indicated by the commit ref "ab9554e763c646a5ea6a49fc0989cf9277322443"
-p <- "rcldf"
-if(!(p %in% installed_pkgs[,"Package"])){
-  print("rcldf not installed, installing from github now")
-remotes::install_github("SimonGreenhill/rcldf", dependencies = NA, ref = "ab9554e763c646a5ea6a49fc0989cf9277322443", 
-                        lib = lib_dir, upgrade = "never"
-                        )
-}
-
-library(package = "rcldf", lib.loc = lib_dir, character.only = T)
-
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
 #https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
