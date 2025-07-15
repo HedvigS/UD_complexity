@@ -59,9 +59,8 @@ We have documented the versions of the software used (`R`, `Rtools` and R packag
 | fs          | 1.6.6                                    |
 | scales      | 1.4.0                                    |
 | testthat    | 3.2.3                                    |
-| rcldf       | ab9554e763c646a5ea6a49fc0989cf9277322443 |
 
-All required R packages are installed for the user with R the script `code/01_requirements.R` which features some accommodations to platform-specific situations. All required R packages, with the exception of `data.table`, `openssl`, `Rtsne`,`ggpubr`, `Matrix`  and `rcldf`, are listed in the file `requirements.tsv` in a particular order. The other packages need to be installed from binary files (provided in `utility/packages_binary/`) or GitHub (`rcldf`) to ensure cross-platform compatability and versioning - this is specified in `code/01_requirements.R`.
+All required R packages are installed for the user with R the script `code/01_requirements.R` which features some accommodations to platform-specific situations. All required R packages, with the exception of `data.table`, `openssl`, `Rtsne`,`ggpubr`, and `Matrix`, are listed in the file `requirements.tsv` in a particular order. The other packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements.R`.
 
 We install all packages into a custom directory `utility/packages/`. R's virtual environment system `renv` does not fully shield the environment from global packages, which can lead to dependency conflicts. We thus avoid `renv` and set the library path in all our scripts exclusively to the custom directory when installing and loading packages. This ensures that the versions of the packages used througout the project are correct. If `code/01_requirements.R` fails for you in the installation guides below and you install packages by another route, please make sure to set the library directory to `utility/packages/` (i.e. create dir and set the argument `lib` in `install.packages()` to `utility/packages/`, otherwise the loading of packages in the subsequent scripts will break. If `code/01_requirements.R` but you succeed in installing packages by another route, please run `code/01_requirements_dirs.R` in order to set-up folders (this is otherwise called by `code/01_requirements.R`).
 
@@ -130,8 +129,8 @@ The correct order of scripts and function calls as listed in `00_run_all.R` is:
 
 ```         
 source("01_requirements.R")
-source("02_requirements_dirs.R")
 
+source("02_requirements_dirs.R")
 source("02_get_glottolog_language_table.R")
 source("02_get_grambank_data.R")
 source("02_google_pop.R")
@@ -160,6 +159,7 @@ See section **Installing necessary prerequisites** above.
 The project relies on external data. The following scripts fetch necessary data from online resources:
 
 ```         
+02_requirements_dirs.R
 02_get_glottolog_language_table.R
 02_get_grambank_data.R
 02_google_pop.R
@@ -168,12 +168,19 @@ The project relies on external data. The following scripts fetch necessary data 
 
 As a fallback, each of these scripts can be replaced with manual data acquisition in case there are issues with the scripts listed above: 
 
-- `Glottolog 5.0`. This dataset is available in identical form both on Zenodo and GitHub.
-    -   Zenodo location: <https://zenodo.org/records/10804582> - click `download`/`download all`, unzip file, unzip contents of file and open `glottolog/glottolog-glottolog-cldf-4dbf0787/cldf`. Move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project
-    -   GitHub locaiton<https://github.com/glottolog/glottolog-cldf/tree/v5.0>
-+ TODO explain how to download and where to put it 
+- `Glottolog 5.0`. This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
+    -   Zenodo location: <https://zenodo.org/records/10804582> - click `download`/`download all`, unzip file, unzip contents of file and open the directory `glottolog/glottolog-glottolog-cldf-4dbf0787/cldf`. Move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project.
+    -   GitHub location <https://github.com/glottolog/glottolog-cldf/tree/v5.0> - Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Navigate to the directory `glottolog-cldf` and move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project.
+    -   one the files are on place, run `02_get_glottolog_language_table.R`
 
-- `Grambank v1.0` <https://zenodo.org/records/7740140> + TODO explain how to download and where to put it 
+- `Grambank v1.0` This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
+    -   Zenodo location: <https://zenodo.org/records/7740140> - click `download`/`download all`, unzip file, unzip contents of file and open the directory `grambank/grambank-grambank-9e0f341`. Move the folder `cldf` to .`./data/grambank/` in this project.
+    -   Github location: <https://github.com/grambank/grambank/tree/v1.0> - Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Open the directory `grambank` and move the folder `cldf` to .`./data/grambank/` in this project
+    -   one the files are on place, run `02_get_grambank_data.R`
+
+
+
+TODO explain how to download and where to put it 
 
 - `google-research/url-nlp commit e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2` <https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2> + TODO explain how to download and where to put it 
 
