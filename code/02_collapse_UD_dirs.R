@@ -39,6 +39,8 @@ UD_dirs <- UD_langs %>%
   dplyr::group_by(dir) %>% 
   dplyr::summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
 
+#UD_dirs <- UD_dirs[c(1, 2, 3, 4, 16, 41, 53 ,67, 81),]
+
 for(i in 1:nrow(UD_dirs)){
   
   #i <- 1
