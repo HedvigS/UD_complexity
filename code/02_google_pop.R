@@ -11,12 +11,6 @@ Glottolog <- readr::read_tsv("output/processed_data/glottolog_5.0_languages.tsv"
   dplyr::rename(glottocode = Glottocode) %>% 
   dplyr::mutate(Longitude = if_else(Longitude <= -25, Longitude + 360, Longitude)) 
 
-  
-dir <- paste0("../data/google-research-url-nlp")
-if(!dir.exists(dir)){
-  dir.create(dir)
-}
-
 if(!file.exists("../data/google-research-url-nlp/linguameta.tsv")){
 readr::read_tsv("https://github.com/google-research/url-nlp/raw/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2/linguameta/linguameta.tsv", show_col_types = F) %>% 
     readr::write_tsv(file = "../data/google-research-url-nlp/linguameta.tsv") 
