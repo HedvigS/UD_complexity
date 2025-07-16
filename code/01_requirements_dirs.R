@@ -21,3 +21,8 @@ if(!dir.exists(dir)){
 dir <- paste0("../data/grambank")
 if(!dir.exists(dir)){
   dir.create(dir)}
+
+dir <- paste0("../data/google-research-url-nlp")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
