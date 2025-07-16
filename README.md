@@ -22,43 +22,43 @@ We have documented the versions of the software used (`R`, `Rtools` and R packag
 
 -   R packages
 
-| R Package   | Version                                  |
-|-------------|------------------------------------------|
-| data.table  | 1.17.8                                   |
-| Rtsne       | 0.17                                     |
-| openssl     | 2.3.3                                    |
-| Matrix      | 1.7-3                                    |
-| ggpubr      | 0.6.1                                    |
-| usethis     | 3.1.0                                    |
-| purrr       | 1.1.0                                    |
-| magrittr    | 2.0.3                                    |
-| readr       | 2.1.5                                    |
-| dplyr       | 1.1.4                                    |
-| plyr        | 1.8.9                                    |
-| later       | 1.4.2                                    |
-| promises    | 1.3.3                                    |
-| htmlwidgets | 1.6.4                                    |
-| htmltools   | 0.5.8.1                                  |
-| httr        | 1.4.7                                    |
-| ggplot2     | 3.5.2                                    |
-| ggpubr      | 0.6.0                                    |
-| stringr     | 1.5.1                                    |
-| viridis     | 0.6.5                                    |
-| reshape2    | 1.4.4                                    |
-| tidyr       | 1.3.1                                    |
-| udpipe      | 0.8.11                                   |
-| bib2df      | 1.1.2.0                                  |
-| logger      | 0.4.0                                    |
-| csvwr       | 0.1.7                                    |
-| urltools    | 1.7.3                                    |
-| tibble      | 3.3.0                                    |
-| maps        | 3.4.3                                    |
-| mapproj     | 1.2.12                                   |
-| randomcoloR | 1.1.0.1                                  |
-| GGally      | 2.2.1                                    |
-| fs          | 1.6.6                                    |
-| scales      | 1.4.0                                    |
-| testthat    | 3.2.3                                    |
+| R Package   | Version |
+|-------------|---------|
+| data.table  | 1.17.8  |
+| Rtsne       | 0.17    |
+| openssl     | 2.3.3   |
+| Matrix      | 1.7-3   |
+| ggpubr      | 0.6.1   |
+| usethis     | 3.1.0   |
+| purrr       | 1.1.0   |
+| magrittr    | 2.0.3   |
+| readr       | 2.1.5   |
+| dplyr       | 1.1.4   |
+| plyr        | 1.8.9   |
+| later       | 1.4.2   |
+| promises    | 1.3.3   |
+| htmlwidgets | 1.6.4   |
+| htmltools   | 0.5.8.1 |
+| httr        | 1.4.7   |
+| ggplot2     | 3.5.2   |
+| ggpubr      | 0.6.0   |
+| stringr     | 1.5.1   |
+| viridis     | 0.6.5   |
+| reshape2    | 1.4.4   |
+| tidyr       | 1.3.1   |
+| udpipe      | 0.8.11  |
+| bib2df      | 1.1.2.0 |
+| logger      | 0.4.0   |
+| csvwr       | 0.1.7   |
+| urltools    | 1.7.3   |
+| tibble      | 3.3.0   |
+| maps        | 3.4.3   |
+| mapproj     | 1.2.12  |
+| randomcoloR | 1.1.0.1 |
+| GGally      | 2.2.1   |
+| fs          | 1.6.6   |
+| scales      | 1.4.0   |
+| testthat    | 3.2.3   |
 
 All required R packages are installed for the user with R the script `code/01_requirements.R` which features some accommodations to platform-specific situations. All required R packages, with the exception of `data.table`, `openssl`, `Rtsne`,`ggpubr`, and `Matrix`, are listed in the file `requirements.tsv` in a particular order. The other packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements.R`.
 
@@ -75,7 +75,7 @@ We install all packages into a custom directory `utility/packages/`. R's virtual
 4.  If running from RStudio:
     1.  Ensure the working directory is `code/` directory inside this project.
     2.  Run `source("01_requirements.R")` in the Rstudio console.
-    
+
 MacOS users may experience issues due to incompatabile/non-existent versions of non-`R` software such as `Xcode`, `gettext`, `clang/clang++` or `V8`. We have tried our best to mitigate this by supplying the user with binary versions of certain packages in `utility/packages_binary/` and setting up `code/01_requirements.R` to install from there instead of compiling from source. If problems pesists, users are recommended to seek support for installing/updating this infrastrucutre.
 
 ### Windows software installation guide
@@ -129,6 +129,7 @@ The correct order of scripts and function calls as listed in `00_run_all.R` is:
 
 ```         
 source("01_requirements.R")
+source("01_requirements_dirs.R")
 
 source("02_requirements_dirs.R")
 source("02_get_glottolog_language_table.R")
@@ -150,44 +151,44 @@ source("04_plot_SPLOM.R")
 
 The following subsections break down and explain each step.
 
-#### 1. Installation
+#### 1. Installation and set-up
 
-See section **Installing necessary prerequisites** above.
+```         
+01_requirements.R
+```   
+For more on software installation,  see section **Installing necessary prerequisites** above.
+
+Setting up folder structure
+```         
+01_requirements_dirs.R
+```         
 
 #### 2. Obtain datasets
 
 The project relies on external data. The following scripts fetch necessary data from online resources:
 
 ```         
-02_requirements_dirs.R
 02_get_glottolog_language_table.R
 02_get_grambank_data.R
 02_google_pop.R
 02_get_UD.R
 ```
 
-As a fallback, each of these scripts can be replaced with manual data acquisition in case there are issues with the scripts listed above: 
+As a fallback, each of these scripts can be replaced with manual data acquisition in case there are issues with the scripts listed above:
 
-- `Glottolog 5.0`. This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
-    -   Zenodo location: <https://zenodo.org/records/10804582> - click `download`/`download all`, unzip file, unzip contents of file and open the directory `glottolog/glottolog-glottolog-cldf-4dbf0787/cldf`. Move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project.
+-   `Glottolog 5.0`. This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
+    -   Zenodo location: <https://zenodo.org/records/10804582> - click `download`/`download all`, extract file, extract contents of file and open the directory `glottolog/glottolog-glottolog-cldf-4dbf0787/cldf`. Move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project.
     -   GitHub location <https://github.com/glottolog/glottolog-cldf/tree/v5.0> - Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Navigate to the directory `glottolog-cldf` and move the two files `languages.csv` and `values.csv` to the folder `data/glottolog` in this project.
-    -   one the files are on place, run `02_get_glottolog_language_table.R`
-
-- `Grambank v1.0` This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
-    -   Zenodo location: <https://zenodo.org/records/7740140> - click `download`/`download all`, unzip file, unzip contents of file and open the directory `grambank/grambank-grambank-9e0f341`. Move the folder `cldf` to .`./data/grambank/` in this project.
-    -   Github location: <https://github.com/grambank/grambank/tree/v1.0> - Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Open the directory `grambank` and move the folder `cldf` to .`./data/grambank/` in this project
-    -   one the files are on place, run `02_get_grambank_data.R`
-
-
-
-TODO explain how to download and where to put it 
-
-- `google-research/url-nlp commit e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2` <https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2> + TODO explain how to download and where to put it 
-
-- `UD v2.14` <https://lindat.mff.cuni.cz/repository/items/e22c28af-deba-4411-a49d-d7a99e28d205/download/zip> + The downloaded UD must be unzipped twice: unzipping the initial file produces three further compressed files, of which you should unzip `ud-treebanks-v2.14.tgz`. This in turn produces 283 directories, one for each treebank, with names like "UD_Abaza-ATB" and "UD_English-EWT". All of these should be copied into `data/ud-treebanks-v2.14/`.
-
-The UD data must then be preprocessed (to remove tokens such as `X`, `PUNCT` and `SYM` that are not part of the analysis; see the manuscript for details) and reformatted (into `.tsv` files):
-
+    -   once the files are in place, run `02_get_glottolog_language_table.R` which derives specific tables for the analysis. The script will not re-download the content again.
+-   `Grambank v1.0` This dataset is available in identical archived form both on Zenodo and GitHub. You can fetch the data from either location.
+    -   Zenodo location: <https://zenodo.org/records/7740140> - click `download`/`download all`, extract file, extract contents of file and open the directory `grambank/grambank-grambank-9e0f341`. Move the folder `cldf` to `data/grambank/` in this project.
+    -   Github location: <https://github.com/grambank/grambank/tree/v1.0> - Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Open the directory `grambank` and move the folder `cldf` to `data/grambank/` in this project
+    -   once the files are in place, run `02_get_grambank_data.R` which derives specific tables for the analysis. The script will not re-download the content again.
+-   `google-research/url-nlp commit e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2`. This dataset is available on GitHub.
+    -   GitHub location: <https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2> Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view). Move the file `url-nlp/linguameta/linguameta.tsv` to `data/google-research-url-nlp/` in this project.
+    -   once the file is in place, run `02_google_pop.R` which derives a specific table for the analysis. The script will not re-download the content again.
+-   `UD v2.14`. This dataset is available at the website of the Czech Digital Research Infrastructure for Language Technologies, Arts and Humanities (LINDAT)
+    -   LINDAT location (URL triggers automatic download): <https://lindat.mff.cuni.cz/repository/items/e22c28af-deba-4411-a49d-d7a99e28d205/download/zip> - open link which triggers download of compressed file. Extract the downloaded file and then also extract the file `ud-treebanks-v2.14.tgz`. Move the directory `ud-treebanks-v2.14` to the folder `data` in the project folder. The directory `ud-treebanks-v2.14` contains 283 directories, one for each treebank, with names like "UD_Abaza-ATB" and "UD_English-EWT". These are later further processed by the script `02_collapse_UD_dirs.R` for analysis.
 
 ```         
 02_collapse_UD_dirs.R
