@@ -14,11 +14,11 @@ lakes <- ggplot2:: map_data("lakes",
 basemap <- ggplot2::ggplot() +
   ggplot2::geom_polygon(data=world, ggplot2::aes(x=long, #plotting the landmasses
                                y=lat,group=group),
-               colour="gray90",
-               fill="gray90", linewidth = 0.5) +
+               colour="gray80",
+               fill="gray80", linewidth = 0.5) +
   ggplot2::geom_polygon(data=lakes, ggplot2::aes(x=long,#plotting lakes
                                y=lat,group=group),
-               colour="gray90",
+               colour="gray80",
                fill="white", linewidth = 0.3)  +
   ggplot2::theme(#all of theme options are set such that it makes the most minimal plot, no legend, not grid lines etc
     panel.grid.major = ggplot2::element_blank(), 
@@ -31,5 +31,4 @@ basemap <- ggplot2::ggplot() +
     axis.text.x = ggplot2::element_blank(),
     axis.text.y = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank())   +
-  ggplot2::coord_quickmap(xlim=c(-24, 180), ylim=c(-40, 75), expand = FALSE)
-
+  ggplot2::coord_quickmap(xlim=c(-24, 180), ylim=c(-50, 75), expand = FALSE)
