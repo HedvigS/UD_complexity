@@ -1,18 +1,33 @@
-@Manual{R-base,
-  title = {R: A Language and Environment for Statistical Computing},
-  author = {{R Core Team}},
-  organization = {R Foundation for Statistical Computing},
-  address = {Vienna, Austria},
+@Manual{R-archive,
+  title = {archive: Multi-Format Archive and Compression Support},
+  author = {Jim Hester and Gábor Csárdi},
   year = {2025},
-  url = {https://www.R-project.org/},
+  note = {R package version 1.1.12},
+  url = {https://archive.r-lib.org/},
 }
 
-@Manual{R-data.table,
-  title = {data.table: Extension of `data.frame`},
-  author = {Tyson Barrett and Matt Dowle and Arun Srinivasan and Jan Gorecki and Michael Chirico and Toby Hocking and Benjamin Schwendinger},
+@Manual{R-bib2df,
+  title = {bib2df: Parse a BibTeX File to a Data Frame},
+  author = {Philipp Ottolinger},
   year = {2024},
-  note = {R package version 1.16.4},
-  url = {https://r-datatable.com},
+  note = {R package version 1.1.2.0},
+  url = {https://docs.ropensci.org/bib2df/},
+}
+
+@Manual{R-csvwr,
+  title = {csvwr: Read and Write CSV on the Web (CSVW) Tables and Metadata},
+  author = {Robin Gower},
+  year = {2022},
+  note = {R package version 0.1.7},
+  url = {https://robsteranium.github.io/csvwr/},
+}
+
+@Manual{R-devtools,
+  title = {devtools: Tools to Make Developing R Packages Easier},
+  author = {Hadley Wickham and Jim Hester and Winston Chang and Jennifer Bryan},
+  year = {2022},
+  note = {R package version 2.4.5},
+  url = {https://devtools.r-lib.org/},
 }
 
 @Manual{R-dplyr,
@@ -34,8 +49,8 @@
 @Manual{R-ggplot2,
   title = {ggplot2: Create Elegant Data Visualisations Using the Grammar of Graphics},
   author = {Hadley Wickham and Winston Chang and Lionel Henry and Thomas Lin Pedersen and Kohske Takahashi and Claus Wilke and Kara Woo and Hiroaki Yutani and Dewey Dunnington and Teun {van den Brand}},
-  year = {2024},
-  note = {R package version 3.5.1},
+  year = {2025},
+  note = {R package version 3.5.2},
   url = {https://ggplot2.tidyverse.org},
 }
 
@@ -47,19 +62,44 @@
   url = {https://rpkgs.datanovia.com/ggpubr/},
 }
 
-@Manual{R-groundhog,
-  title = {groundhog: Version-Control for CRAN, GitHub, and GitLab Packages},
-  author = {Uri Simonsohn and Hugo Gruson},
+@Manual{R-logger,
+  title = {logger: A Lightweight, Modern and Flexible Logging Utility},
+  author = {Gergely Daróczi and Hadley Wickham},
+  year = {2024},
+  note = {R package version 0.4.0},
+  url = {https://daroczig.github.io/logger/},
+}
+
+@Manual{R-magrittr,
+  title = {magrittr: A Forward-Pipe Operator for R},
+  author = {Stefan Milton Bache and Hadley Wickham},
+  year = {2022},
+  note = {R package version 2.0.3},
+  url = {https://magrittr.tidyverse.org},
+}
+
+@Manual{R-mapproj,
+  title = {mapproj: Map Projections},
+  author = {Alex Deckmyn},
   year = {2025},
-  note = {R package version 3.2.2},
-  url = {https://groundhogr.com/},
+  note = {R package version 1.2.12},
+  url = {https://CRAN.R-project.org/package=mapproj},
+  doi = {10.32614/CRAN.package.mapproj},
+}
+
+@Manual{R-maps,
+  title = {maps: Draw Geographical Maps},
+  author = {Alex Deckmyn},
+  year = {2025},
+  note = {R package version 3.4.3},
+  url = {https://github.com/adeckmyn/maps},
 }
 
 @Manual{R-MASS,
   title = {MASS: Support Functions and Datasets for Venables and Ripley's MASS},
   author = {Brian Ripley and Bill Venables},
   year = {2025},
-  note = {R package version 7.3-64},
+  note = {R package version 7.3-65},
   url = {http://www.stats.ox.ac.uk/pub/MASS4/},
 }
 
@@ -71,20 +111,21 @@
   url = {http://had.co.nz/plyr},
 }
 
+@Manual{R-purrr,
+  title = {purrr: Functional Programming Tools},
+  author = {Hadley Wickham and Lionel Henry},
+  year = {2025},
+  note = {R package version 1.1.0},
+  url = {https://purrr.tidyverse.org/},
+}
+
 @Manual{R-randomcoloR,
   title = {randomcoloR: Generate Attractive Random Colors},
   author = {Ron Ammar},
   year = {2019},
   note = {R package version 1.1.0.1},
   url = {https://CRAN.R-project.org/package=randomcoloR},
-}
-
-@Manual{R-rcldf,
-  title = {rcldf: Read Linguistic Data in the Cross Linguistic Data Format (CLDF)},
-  author = {Simon J. Greenhill},
-  year = {2025},
-  note = {R package version 1.3.1},
-  url = {https://github.com/SimonGreenhill/rcldf},
+  doi = {10.32614/CRAN.package.randomcoloR},
 }
 
 @Manual{R-readr,
@@ -95,15 +136,6 @@
   url = {https://readr.tidyverse.org},
 }
 
-@Manual{R-remotes,
-  title = {remotes: R Package Installation from Remote Repositories, Including
-GitHub},
-  author = {Gábor Csárdi and Jim Hester and Hadley Wickham and Winston Chang and Martin Morgan and Dan Tenenbaum},
-  year = {2024},
-  note = {R package version 2.5.0},
-  url = {https://remotes.r-lib.org},
-}
-
 @Manual{R-reshape2,
   title = {reshape2: Flexibly Reshape Data: A Reboot of the Reshape Package},
   author = {Hadley Wickham},
@@ -112,21 +144,13 @@ GitHub},
   url = {https://github.com/hadley/reshape},
 }
 
-@Manual{R-rgrambank,
-  title = {rgrambank: Assorted functions for handling language data, in particular
-Grambank and other CLDF-datasets},
-  author = {Hedvig Skirgård},
-  year = {2025},
-  note = {R package version 1.0, commit 7e7a59fa1c0a99b33d743b5376c2c8441517943c},
-  url = {https://github.com/HedvigS/rgrambank},
-}
-
-@Manual{R-SH.misc,
-  title = {SH.misc: Assorted functions for data science in linguistics},
-  author = {Hedvig Skirgård and Siva Kalyan},
-  year = {2025},
-  note = {R package version 0.0.0.9000, commit dc530b1cdc1ae4dbe9b29d695c153a6c50247a6e},
-  url = {https://github.com/HedvigS/SH.misc},
+@Manual{R-Rtsne,
+  title = {Rtsne: T-Distributed Stochastic Neighbor Embedding using a Barnes-Hut
+Implementation},
+  author = {Jesse Krijthe},
+  year = {2023},
+  note = {R package version 0.17},
+  url = {https://github.com/jkrijthe/Rtsne},
 }
 
 @Manual{R-stringr,
@@ -135,6 +159,14 @@ Grambank and other CLDF-datasets},
   year = {2023},
   note = {R package version 1.5.1},
   url = {https://stringr.tidyverse.org},
+}
+
+@Manual{R-tibble,
+  title = {tibble: Simple Data Frames},
+  author = {Kirill Müller and Hadley Wickham},
+  year = {2025},
+  note = {R package version 3.3.0},
+  url = {https://tibble.tidyverse.org/},
 }
 
 @Manual{R-tidyr,
@@ -152,6 +184,14 @@ Dependency Parsing with the UDPipe 'NLP' Toolkit},
   year = {2023},
   note = {R package version 0.8.11},
   url = {https://bnosac.github.io/udpipe/en/index.html},
+}
+
+@Manual{R-urltools,
+  title = {urltools: Vectorised Tools for URL Handling and Parsing},
+  author = {Os Keyes and Jay Jacobs and Drew Schmidt and Mark Greenaway and Bob Rudis and Alex Pinto and Maryam Khezrzadeh and Peter Meilstrup and Adam M. Costello and Jeff Bezanson and Peter Meilstrup and Xueyuan Jiang},
+  year = {2019},
+  note = {R package version 1.7.3},
+  url = {https://github.com/Ironholds/urltools/},
 }
 
 @Manual{R-viridis,
@@ -204,6 +244,24 @@ Dependency Parsing with the UDPipe 'NLP' Toolkit},
   url = {http://www.jstatsoft.org/v21/i12/},
 }
 
+@Article{Rtsne2008,
+  title = {Visualizing High-Dimensional Data Using t-SNE},
+  volume = {9},
+  pages = {2579-2605},
+  year = {2008},
+  author = {L.J.P. {van der Maaten} and G.E. Hinton},
+  journal = {Journal of Machine Learning Research},
+}
+
+@Article{Rtsne2014,
+  title = {Accelerating t-SNE using Tree-Based Algorithms},
+  volume = {15},
+  pages = {3221-3245},
+  year = {2014},
+  author = {L.J.P. {van der Maaten}},
+  journal = {Journal of Machine Learning Research},
+}
+
 @Manual{viridis2024,
   title = {{viridis(Lite)} - Colorblind-Friendly Color Maps for R},
   author = {{Garnier} and {Simon} and {Ross} and {Noam} and {Rudis} and {Robert} and {Camargo} and Antônio Pedro and {Sciaini} and {Marco} and {Scherer} and {Cédric}},
@@ -213,12 +271,12 @@ Dependency Parsing with the UDPipe 'NLP' Toolkit},
   doi = {10.5281/zenodo.4679423},
 }
 
-@Manual{R_4.4.3,
+@Manual{R_4.5.1,
   title = {R: A Language and Environment for Statistical Computing},
   author = {{R Core Team}},
   organization = {R Foundation for Statistical Computing},
   address = {Vienna, Austria},
   year = {2025},
   url = {https://www.R-project.org/},
-  note = {R version 4.4.3 (2025-02-28)},
+  note = {R version 4.5.1 (2025-06-13)},
 }
