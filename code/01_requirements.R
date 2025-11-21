@@ -12,6 +12,9 @@ if(!dir.exists(lib_dir)){
 
 .libPaths(lib_dir)
 
+#reading in the function that installs and loads packages
+source("../utility/fun_def_h_load.R")
+
 installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Package", "Version"), drop = FALSE]
 
 #installing data.table version 1.17.8
@@ -22,122 +25,25 @@ installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Pac
 # the code below checks if you are on a mac arm64, mac x86_64 or windows machine and then installs from the binary files provided
 # if you are on a linux machine and want to install an older version of data.table, we recommend remotes::install_version("data.table", version = "1.17.8").
 
-if(!("data.table" %in% installed_pkgs[,"Package"] 
-     )){
-if(grepl("arm64", .Platform$pkgType)){
-install.packages(pkgs = "../utility/packages_binary/data.table/macos_arm64/data.table_1.17.8.tgz",  repos = NULL,
-                 type = "binary", lib = "../utility/packages/")
-}
+#installing data.table 1.17
+h_install_from_binary(pkg = "data.table_1.17.8")
 
-if(grepl("x86_64", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/data.table/macos_x86_64/data.table_1.17.8.tgz",  repos = NULL,
-                   type = "source", lib = "../utility/packages/")
-}
-
-if(grepl("win", .Platform$pkgType)){
-  install.packages(pkgs = "https://cran.r-project.org/src/contrib/data.table_1.17.8.tar.gz",  repos = NULL,
-                   type = "source", lib = "../utility/packages/") 
-}
-}
-
-
+#same problem as with data.table, but other packages
 #installing Rtsne 0.17
-# Similarly to data.table, it is necessary to install Rtsne from a binary file instead of from CRAN. We are using Rtsne version 0.17. It is a dependency of the package randomcoloR
-
-if(!("Rtsne" %in% installed_pkgs[,"Package"] )){
-if(grepl("arm64", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_arm64/Rtsne_0.17.tgz",  repos = NULL,
-                   type = "binary", lib = "../utility/packages/")
-}
-
-if(grepl("x86_64", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_x86_64/Rtsne_0.17.tgz",  repos = NULL,
-                   type = "binary", lib = "../utility/packages/")
-}
-
-if(grepl("win", .Platform$pkgType)){
-  install.packages(pkgs = "../utility/packages_binary/Rtsne/windows/Rtsne_0.17.zip",  repos = NULL,
-                   type = "binary", lib = "../utility/packages/") 
-}
-}
+#It is a dependency of the package randomcoloR
+h_install_from_binary(pkg = "Rtsne_0.17")
 
 # installing from binary file: Matrix
-if(!("Matrix" %in% installed_pkgs[,"Package"] )){
-  if(grepl("arm64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Matrix/macos_arm64/Matrix_1.7-3.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("x86_64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Matrix/macos_x86_64/Matrix_1.7-3.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("win", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Matrix/windows/Matrix_1.7-3.zip",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/") 
-  }
-}
-
+h_install_from_binary(pkg = "Matrix_1.7-3")
 
 # installing from binary file: ggpubr
-if(!("ggpubr" %in% installed_pkgs[,"Package"] )){
-  if(grepl("arm64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/ggpubr/macos_arm64/ggpubr_0.6.1.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("x86_64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/ggpubr/macos_x86_64/ggpubr_0.6.1.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("win", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/ggpubr/windows/ggpubr_0.6.1.zip",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/") 
-  }
-}
+h_install_from_binary(pkg = "ggpubr_0.6.1")
 
-
-
-
-if(!("Rtsne" %in% installed_pkgs[,"Package"] )){
-  if(grepl("arm64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_arm64/Rtsne_0.17.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("x86_64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Rtsne/macos_x86_64/Rtsne_0.17.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("win", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/Rtsne/windows/Rtsne_0.17.zip",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/") 
-  }
-}
+# installing from binary file: Rtsne
+h_install_from_binary(pkg = "Rtsne_0.17")
 
 # installing from binary file: openssl
-if(!("openssl" %in% installed_pkgs[,"Package"] )){
-  if(grepl("arm64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/macos_arm64/openssl_2.3.3.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("x86_64", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/macos_x86_64/openssl_2.3.3.tgz",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/")
-  }
-  
-  if(grepl("win", .Platform$pkgType)){
-    install.packages(pkgs = "../utility/packages_binary/openssl/windows/openssl_2.3.3.zip",  repos = NULL,
-                     type = "binary", lib = "../utility/packages/") 
-  }
-}
-
-
-
+h_install_from_binary(pkg = "openssl_2.3.3")
 
 ###########################
 #installing rest of packages
@@ -152,8 +58,7 @@ library(remotes, lib.loc = "../utility/packages/")
 #reading in the table of packages to install and load
 pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")
 
-#reading in the function that installs and loads packages
-source("../utility/fun_def_h_load.R")
+
 
 #looping over dataframe to install packages
 for(i in 1:nrow(pkgs_df)
@@ -162,9 +67,20 @@ for(i in 1:nrow(pkgs_df)
   pkg <- pkgs_df[i, c("Package")]
   version <- pkgs_df[i, c("Version")]
   
-  cat("I'm on ", pkg, ".\n")
-    h_load(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
-    }
+  cat("I'm trying to install ", pkg, " ", version ,", version.\n")
+    h_install(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
+    cat("Installed: ", pkg, " version ", version,".\n")
+}
+
+#looping over dataframe to load packages
+for(i in 1:nrow(pkgs_df)
+){  
+  
+  pkg <- pkgs_df[i, c("Package")]
+  
+  cat("I'm trying to load ", pkg, " from ", lib_dir,".\n")
+  h_load(pkg = pkg, lib = lib_dir, verbose = T)
+}
 
 # UD data info
 #https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
