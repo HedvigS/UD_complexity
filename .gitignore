@@ -23,7 +23,8 @@ code/output/sum_dfs/*_sum_df.tsv
 
 # Python
 *.venv*
-
+*.egg-info/
+__pycache__/
 
 
 # VSCode
