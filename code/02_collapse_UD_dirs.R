@@ -43,7 +43,7 @@ UD_dirs <- UD_langs %>%
 
 for(i in 1:nrow(UD_dirs)){
   
-  #i <- 1
+  #i <- 132
   
   cat(paste0("I'm on ", UD_dirs[i,1], ". That's ", i, " of ", nrow(UD_dirs), ".\n"))
   
@@ -80,12 +80,10 @@ for(i in 1:nrow(UD_dirs)){
       dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
       #  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
-      dplyr::filter(upos != "X")  %>%
-      dplyr::filter(upos != "SYM")  %>%
-      dplyr::filter(token != "%") %>%  #remove tokens that are just "%"
-      dplyr::filter(token != "[:punct:]+") %>% #remove tokens that only consist of punctuation (including "$")
-      dplyr::filter(token != "[[punct]]+%") #remove tokens that consists of punctuation and percent sign only
-    
+      dplyr::filter(upos != "X")  #%>%
+#      dplyr::filter(upos != "SYM") # %>%
+#      dplyr::filter(token != "%") 
+
     if(all(!is.na(conllu$doc_id))){
       suppressWarnings( conllu$doc_id <- stringr::str_pad(as.numeric(conllu$doc_id), width = 3, pad = "0", side = "left") )
     }
@@ -100,6 +98,7 @@ for(i in 1:nrow(UD_dirs)){
     df <- df %>% 
       dplyr::full_join(conllu, by = dplyr::join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
                                      dep_rel, deps, misc))
+    
   
   }
 
