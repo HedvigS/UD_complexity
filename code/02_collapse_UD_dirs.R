@@ -6,7 +6,7 @@ library(magrittr, lib.loc = "../utility/packages/")
 library(stringr, lib.loc = "../utility/packages/")
 
 #set cut-off for inclusion. number of tokens minially
-minimum_tokens = 0
+minimum_tokens = 40000 # minimum used by Çöltekin & Rama (2023)
 
 dir <- paste0("output/processed_data/ud-treebanks-v2.14")
 if(!dir.exists(dir)){
