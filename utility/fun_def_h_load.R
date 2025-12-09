@@ -2,7 +2,7 @@
 #function to check if a pkg is installed or not, if not it installs it and either way it's loaded.
 #inspired by pacman::p_load()
 
-h_load <- function(pkg, 
+h_install <- function(pkg, 
                    verbose = FALSE, 
                    version = NULL, 
                    repos = "http://cran.us.r-project.org", 
@@ -78,9 +78,74 @@ h_load <- function(pkg,
       
       #version end
 
-    if(verbose == T){
-      library(pkg, character.only = T, quietly = F, lib.loc = lib)
-      cat(paste0("Loaded ", pkg, ", version ",packageVersion(pkg),".\n"))
-    }else{
-      suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F, lib.loc = lib))}
+  #in order to avoid issues with installing other packages and their depedencies clashing, let's unload the package from the environment
+  if(pkg %in% loadedNamespaces()){
+    unloadNamespace(pkg)
+    
+  }
+  
+  cat("I've installed ", pkg, " version ", version," in ", lib, ".\n")
+  
+}
+
+h_load <- function(pkg,  
+                   verbose = FALSE, 
+                   lib = .libPaths()[1]){
+
+if(verbose == T){
+  library(pkg, character.only = T, quietly = F, lib.loc = lib)
+  cat(paste0("Loaded ", pkg, " from", lib ,".\n"))
+}else{
+  suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F, lib.loc = lib))}
+}
+
+
+h_install_from_binary <- function(pkg){
+  
+#  pkg <- "data.table_1.17.8"
+  package <- sub("_.*$", "", pkg)
+  
+  if(!(package %in% installed_pkgs[,"Package"] 
+  )){
+    
+    if(grepl("arm64", .Platform$pkgType)){
+      filepath <- find_compressed_file(dir = paste0("../utility/packages_binary/", package, "/macos_arm64/"), pkg = pkg)
+      
+      install.packages(pkgs = filepath,   repos = NULL,
+                       type = "binary", lib = "../utility/packages/")
+    }
+    
+    if(grepl("x86_64", .Platform$pkgType)){
+      filepath <- find_compressed_file(dir = paste0("../utility/packages_binary/", package, "/macos_x86_64/"), pkg = pkg)
+      
+      install.packages(pkgs = filepath,  repos = NULL,
+                       repos = NULL,
+                       type = "source", lib = "../utility/packages/")
+    }
+    
+    if(grepl("win", .Platform$pkgType)){
+      filepath <- find_compressed_file(dir = paste0("../utility/packages_binary/", package, "/windows/"), pkg = pkg)
+      
+      install.packages(pkgs = filepath,  repos = NULL,
+                       type = "source", lib = "../utility/packages/") 
+    }
+  }
+  
+}
+
+
+find_compressed_file <- function(dir, pkg){
+
+  # list possible candidates
+  candidates <- list.files(dir,
+                           pattern = paste0("^", pkg, "\\.(tgz|zip)$"),
+                           full.names = TRUE)
+  
+  if (length(candidates) == 0) {
+    stop("Neither .tgz nor .zip found for package: ", pkg)
+  }
+  
+  # if both happen to exist, take the first
+  filepath <- candidates[1]
+  filepath
 }
