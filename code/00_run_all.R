@@ -1,5 +1,6 @@
 
-source("01_requirements.R")
+source("01_requirements_install.R")
+source("01_requirements_load.R")
 source("01_requirements_dirs.R")
 
 source("02_get_glottolog_language_table.R")

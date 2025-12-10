@@ -57,17 +57,22 @@ h_install <- function(pkg,
         if(grepl("-", installed_version)) {
           installed_version <- gsub("-", ".", installed_version)
         }
+        if(grepl("-", version)) {
+          requested_version <- gsub("-", ".", version)
+        } else {
+          requested_version <- version
+        }
 
         # Compare the installed version with the requested version
-        if(version == installed_version){
+        if(requested_version == installed_version){
           
           if(verbose == T){
-            cat(paste0("Package ", pkg," already installed with requested version (", version,").\n"))
+            cat(paste0("Package ", pkg," already installed with requested version (", requested_version,").\n"))
             }
         }else{
           
           if(verbose == T){
-            cat(paste0("Package ", pkg," already installed but not with requested version (", version,"). Removing existing and reinstalling.\n"))
+            cat(paste0("Package ", pkg," already installed with version ", installed_version, " but not with requested version (", requested_version,"). Removing existing and reinstalling.\n"))
           }
           remove.packages(pkgs = pkg, lib = lib)
           remotes::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, repos = repos,
@@ -78,11 +83,13 @@ h_install <- function(pkg,
       
       #version end
 
+  # FIX: try not unloading for now.
   #in order to avoid issues with installing other packages and their depedencies clashing, let's unload the package from the environment
-  if(pkg %in% loadedNamespaces()){
-    unloadNamespace(pkg)
+
+  # if(pkg %in% loadedNamespaces()){
+  #   unloadNamespace(pkg)
     
-  }
+  # }
   
   cat("I've installed ", pkg, " version ", version," in ", lib, ".\n")
   

@@ -19,6 +19,7 @@ code/output/sum_dfs/*_sum_df.tsv
 /data/ud-documentation-v2.14
 /data/UD_zip_files
 /data/google-research-url-nlp
+/data/glottolog
 
 
 # Python
@@ -29,13 +30,13 @@ __pycache__/
 
 # VSCode
 *.code-workspace
+.vscode
 
 # Sandbox
 sandbox/
 
 #packages dir
-utility/packages/*
-!utility/packages/
+utility/packages/
 
 #lock files
 .~lock.requirements.tsv\#

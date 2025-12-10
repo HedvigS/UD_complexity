@@ -1,20 +1,22 @@
 library(dplyr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
+library(readr, lib.loc = "../utility/packages/")
+library(GGally, lib.loc = "../utility/packages/")
 
 source("../utility/fun_def_SPLOM_fun.R")
 
 ##################################
 
-UD_langs <- read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::distinct(dir, glottocode)
 
-df_external <- read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
+df_external <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Language_ID) %>% 
-  dplyr::full_join(read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
+  dplyr::full_join(readr::read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
 
-df <- read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
+df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
   dplyr::left_join(df_external, by = "glottocode") %>% 
   dplyr::filter(n_feat_cats_all_features != 0) %>% 

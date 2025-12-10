@@ -71,17 +71,3 @@ for(i in 1:nrow(pkgs_df)
     h_install(pkg = pkg, version = version, lib = lib_dir, verbose = T, dependencies = NA, repos = "https://cloud.r-project.org/")
     cat("Installed: ", pkg, " version ", version,".\n")
 }
-
-#looping over dataframe to load packages
-for(i in 1:nrow(pkgs_df)
-){  
-  
-  pkg <- pkgs_df[i, c("Package")]
-  
-  cat("I'm trying to load ", pkg, " from ", lib_dir,".\n")
-  h_load(pkg = pkg, lib = lib_dir, verbose = T)
-}
-
-# UD data info
-#https://lindat.mff.cuni.cz/repository/xmlui/handle/11234/1-5287
-#https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-5287/ud-treebanks-v2.13.tgz?sequence=1&isAllowed=y
