@@ -24,6 +24,25 @@ def get_all_treebank_names(
     # Return the list of treebank names
     return treebank_names
 
+def get_mfh_from_dataframe(
+        df_nodes: pl.DataFrame
+):
+    """
+    Calculate the mean feature entropy from a dataframe of nodes.
+    
+    """
+
+    # print(f"[blue]Calculating MFH from dataframe...[/blue]")
+
+    # Get the MFH value (and the part-of-speech entropy value)
+    mfh_value, pos_entropy_value, dict_extra_info = get_mfh(
+        sentences=None,
+        df_nodes=df_nodes
+    )
+
+    # Return the MFH value
+    return mfh_value, dict_extra_info
+
 def get_mfh_from_treebank_name(
         treebank_name: str
 ):
@@ -92,16 +111,23 @@ if __name__ == "__main__":
     # mfh_value, dict_extra_info = get_mfh_from_treebank_name(treebank_name)
     # print(f"[green]MFH value for {treebank_name}:[/green] {mfh_value:.4f}")
 
-    # Run main and output to sandbox
-    output_dir = Path("sandbox/output")
+    # # Run main and output to sandbox
+    # output_dir = Path("sandbox/output")
 
-    # Make sure output directory exists
-    output_dir.mkdir(parents=True, exist_ok=True)
+    # # Make sure output directory exists
+    # output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Get MFH values for all treebanks
-    treebanks_dir = Path("data") / "ud-treebanks-v2.14"
-    results_df = main(treebanks_dir)
+    # # Get MFH values for all treebanks
+    # treebanks_dir = Path("data") / "ud-treebanks-v2.14"
+    # results_df = main(treebanks_dir)
 
-    # Save results to TSV
-    output_fpath = output_dir / "ud_treebanks_mfh_values.tsv"
-    results_df.write_csv(output_fpath, separator="\t")
+    # # Save results to TSV
+    # output_fpath = output_dir / "ud_treebanks_mfh_values.tsv"
+    # results_df.write_csv(output_fpath, separator="\t")
+
+    # Test with test dataframe in code/output_test/processed_data/ud-treebanks-v2.14/test_01.tsv
+    test_fpath = Path("code") / "output_test" / "processed_data" / "ud-treebanks-v2.14" / "test_01.tsv"
+    df_nodes = pl.read_csv(test_fpath, separator="\t", ignore_errors=True)
+
+    mfh_value, dict_extra_info = get_mfh_from_dataframe(df_nodes)
+    print(f"[green]MFH value for test dataframe:[/green] {mfh_value:.4f}")

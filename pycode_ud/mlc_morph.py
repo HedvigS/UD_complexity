@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # DOWNLOADED FROM https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py 2025-11-21
 # EDITED FOR FIXES
-from rich import print # FIX DEBUG
+from rich import print # EDIT
+import polars as pl # EDIT
 """
 """
 
@@ -250,7 +251,7 @@ def get_wh_lh(sentences, sample_size=1000, random_sample=True,
 
 def get_mfh(sentences, sample_size=1000, random_sample=True,
         filter_num=True, filter_pos={'X', 'PUNCT'},
-        smooth=None, **kwargs):
+        smooth=None, df_nodes=None, **kwargs):
     """ Calculate the morphological feature (and POS) entropy.
     POS en
 
@@ -260,22 +261,79 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
                 on Good-Tring. [these are currently not
                 (re)implemented here as they are not used in the
                 paper.]
+    df_nodes:   Polars dataframe. If provided, use these nodes to calculate document
+                frequencies for features. FIX.
 
     Other arguments are as defined in sample_nodes().
     """
-    nodes, dict_extra_info = sample_nodes(sentences, sample_size=sample_size,
-                 random_sample=random_sample,
-                 filter_num=filter_num, filter_pos=filter_pos, return_extra_info=True)
-    cfeat = Counter()
-    cpos = Counter()
-    npos, nfeat = 0, 0
-    # print("[yellow]STEPPING THROUGH NODES...[/yellow]") # FIX DEBUG
-    for node in nodes:
-        if node.feats:
-            feats = node.feats.split('|')
-            cfeat.update(feats)
-        cpos.update([node.upos])
-    # print(f"[green]COUNTED FEATURES FOR {len(nodes)} NODES.[/green]") # FIX DEBUG
+
+    if df_nodes is None:
+        # Original code.
+        nodes, dict_extra_info = sample_nodes(sentences, sample_size=sample_size,
+                    random_sample=random_sample,
+                    filter_num=filter_num, filter_pos=filter_pos, return_extra_info=True)
+        
+        cfeat = Counter()
+        cpos = Counter()
+        npos, nfeat = 0, 0
+        # print("[yellow]STEPPING THROUGH NODES...[/yellow]") # FIX DEBUG
+        for node in nodes:
+            if node.feats:
+                feats = node.feats.split('|')
+                cfeat.update(feats)
+            cpos.update([node.upos])
+
+    else:
+
+        # TODO: Filter (a) numbers and (b) empty tokens and lemmas.
+        # Original code in sample_nodes that does this (we assume n.form corresponds to the column "token" in the dataframe):
+        # elif filter_num and n.upos == 'NUM' and not n.form.isalpha():
+    #         dict_extra_info["n_filtered_num"] += 1
+    #         continue
+    #     elif n.form is None or n.lemma is None: # error in some treebanks
+    #         dict_extra_info["n_filtered_form_lemma"] += 1
+    #         continue
+
+        dict_extra_info = {"from_dataframe": True}
+
+        dict_extra_info["n_total_rows"] = df_nodes.height
+        
+        # Filter empty tokens and lemmas
+        df_nodes = df_nodes.filter(
+            (pl.col("token").is_not_null()) &
+            (pl.col("lemma").is_not_null()) &
+            (pl.col("token") != "") &
+            (pl.col("lemma") != "")
+        )
+
+        # Filter numbers
+        # The filter removes rows where upos == 'NUM' and token is not alphabetic (i.e. token.isalpha() is False).
+        if filter_num:
+            df_nodes = df_nodes.filter( # Keep only those rows...
+                ~( # ...where it is NOT the case that...
+                    (pl.col("upos") == "NUM") & # ...upos is NUM and...
+                    (~pl.col("token").map_elements(lambda x: x.isalpha(), return_dtype=pl.Boolean)) # ...token is NOT alphabetic.
+                )
+            )
+            
+        dict_extra_info["n_total_rows_filtered"] = df_nodes.height
+                
+        cfeat = Counter()
+        cpos = Counter()
+        npos, nfeat = 0, 0
+    
+        # Each row should create a DotDict-like object with 'feats' and 'upos' attributes,
+        # taken from the columns 'feats' and 'upos' of the dataframe.
+        for row in df_nodes.iter_rows(named=True):
+            # print(row) # FIX DEBUG
+            # print(row['feats'])
+            # print(row['upos'])
+            if row['feats']:
+                feats = row['feats'].split('|')
+                cfeat.update(feats)
+            cpos.update([row['upos']])
+    
+    # Below here original code.
     npos = sum(cpos.values())
     nfeat = sum(cfeat.values())
     ph, mfh = 0, 0
