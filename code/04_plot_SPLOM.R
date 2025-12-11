@@ -3,6 +3,7 @@ library(ggplot2, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 library(readr, lib.loc = "../utility/packages/")
 library(GGally, lib.loc = "../utility/packages/")
+library(stringr, lib.loc = "../utility/packages/")
 
 source("../utility/fun_def_SPLOM_fun.R")
 
@@ -132,7 +133,7 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_external.png", height = 30, width = 
 ###PUD
 
 df_for_plot <- df %>% 
-  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
                 "Surprisal feat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
                 "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
@@ -159,7 +160,7 @@ p <- df_for_plot %>%
 ggplot2::ggsave("output/plots/SPLOM_custom_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
-  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
@@ -195,7 +196,7 @@ p <-  df_for_plot %>%
 ggplot2::ggsave("output/plots/SPLOM_other_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
 
 df_for_plot <- df %>% 
-  dplyr::filter(str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
   dplyr::select("glottocode",
                 "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
