@@ -6,7 +6,7 @@ library(magrittr, lib.loc = "../utility/packages/")
 library(stringr, lib.loc = "../utility/packages/")
 
 #set cut-off for inclusion. number of tokens minially
-minimum_tokens = 13000 # minimum used by Çöltekin & Rama (2023)
+minimum_tokens = 13000 #smallest 
 
 dir <- paste0("output/processed_data/ud-treebanks-v2.14")
 if(!dir.exists(dir)){
@@ -89,7 +89,7 @@ for(i in 1:nrow(UD_dirs)){
     }
     
     suppressWarnings(conllu$paragraph_id <- stringr::str_pad(as.numeric(conllu$paragraph_id), width = 3, pad = "0", side = "left"))
-    suppressWarnings(conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left"))
+#    suppressWarnings(conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left"))
     
     conllu <- conllu %>% 
       tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
