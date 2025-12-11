@@ -1,5 +1,4 @@
-
-#directory = "output_test"
+#directory = "output"
 #agg_level = "upos" 
 #core_features = "core_features_only"
 
@@ -40,7 +39,8 @@ output_dirs <- c(
 "surprisal_per_featstring_lookup",
 "surprisal_per_feat", 
 "surprisal_per_featstring", 
-"summarised")
+"summarised", 
+"n_tokens")
 
 for(dir_spec in output_dirs ){
 dir_spec <- paste0(directory, "/", dir_spec)
@@ -52,7 +52,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <- 1
+# i <-41
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -60,8 +60,74 @@ for(i in 1:length(fns)){
     
   #reading in
 conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) %>% 
+  dplyr::mutate(lemma = ifelse(str_detect(token_id, "-"), token, lemma)) %>% 
   dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
 
+
+### DEAL WITH MULTIWORD WORDS
+# Contracted words, like "don't" are treated in UD in a special fashion. The conllu files contain 3 tokens for such a contraction: "don't", "do" and "n't". The contracted word, in this case "don't" does not receive feats, upos, lemma or dependency relation annotations. Instead, these annotations occur on the "sub-words", i.e. "do" and "n't". The schema for doing this is centrally governed, but it is up to each dataset to decide when to do this. In this project, we are intrested in morphology of surface forms, i.e. exactly what is said/written, as opposed to their teased out syntactical sub-parts. For this reason, we want to keep the contracted word, i.e. "don't", move the annotations to that token and remove the components (i.e. "do" and "n't"). All contracted words (i.e "don't") have a dash in their token_id (e.g. "6-7") which can be mapped to the sub-words token_ids (e.g. "6" and "7"). We use this relationship to identify contracted words and sub-words and map information.
+
+n_tokens_whole <- nrow(conllu)
+n_tokens_empty_dropped <- conllu %>% 
+  dplyr::filter(!str_detect(token_id, "\\.")) %>% nrow()
+n_tokens_only_subwords <- conllu %>% 
+  dplyr::filter(!stringr::str_detect(token_id, "-")) %>% nrow()
+
+conllu <- conllu %>% 
+  dplyr::filter(!str_detect(token_id, "\\."))
+
+df_contracted <- conllu  %>%
+  dplyr::filter(str_detect(token_id, "-"))
+
+if(nrow(df_contracted) > 0){
+cat("There are multiword tokens in this dataset, disentangling. \n")
+df_contracted <- conllu  %>%
+  dplyr::filter(str_detect(token_id, "-")) %>% 
+  dplyr::mutate(
+    token_range = str_extract(token_id, "\\d+-\\d+"),
+    start = as.integer(str_extract(token_range, "^\\d+")),
+    end   = as.integer(str_extract(token_range, "\\d+$")),
+  ) %>% 
+  dplyr::rowwise() %>%
+  dplyr::mutate(token_num =  list(start:end)) %>% 
+  tidyr::unnest(token_num) %>% 
+  tidyr::unite(sentence_id, token_num, col = "id") %>% 
+  dplyr::select(id, token_id)
+
+df_uncontracted <- conllu  %>%
+  dplyr::filter(!str_detect(token_id, "-")) %>% 
+  dplyr::rename(token_num = token_id) %>% 
+  tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE) %>% 
+  dplyr::filter(id %in% df_contracted$id) %>% 
+  dplyr::select(id, feats, upos, sentence_id, token_num)
+
+df_contracts_solved <- df_contracted %>% 
+  dplyr::full_join(df_uncontracted, by = c("id"), relationship = "many-to-many") %>% 
+  dplyr::filter(!is.na(token_id)) %>% 
+  tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE) %>% 
+  dplyr::group_by(sentence_id, token_id) %>% 
+  dplyr::summarise(feats_contracted = paste0(feats, collapse = "|"), 
+                   upos_contracted = paste0(upos, collapse = "_"), .groups = "drop")
+
+conllu <- conllu  %>% 
+  dplyr::anti_join(dplyr::select(df_uncontracted, sentence_id, token_id = token_num), by = c("sentence_id", "token_id")) %>%
+  dplyr::left_join(df_contracts_solved, by = join_by(sentence_id, token_id)) %>% 
+  mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
+  mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
+  dplyr::select(-feats_contracted, -upos_contracted)
+}
+
+n_tokens_multiwords_resolved <- conllu %>% nrow()
+
+df_n_tokens <- data.frame(filename = fn, 
+                          n_tokens_whole = n_tokens_whole,
+                          n_tokens_empty_dropped = n_tokens_empty_dropped,
+                          n_tokens_only_subwords = n_tokens_only_subwords ,
+                          n_tokens_multiwords_resolved = n_tokens_multiwords_resolved )
+
+df_n_tokens %>% 
+  write_tsv(paste0(directory,"/n_tokens/", basename(fn), "_ns.tsv" ))
+  
 ########## SORT OUT TAGGING
 
 # There are inconsistencies in coding of different UD-projects. It is not the case that every token of the same part-of-speech (upos) are tagged for the same information. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
