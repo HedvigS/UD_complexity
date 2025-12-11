@@ -91,7 +91,11 @@ h_install <- function(pkg,
     
   # }
   
-  cat("I've installed ", pkg, " version ", version," in ", lib, ".\n")
+  installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE])
+  
+  if(pkg %in% installed_pkgs[,"Package"]){
+  cat("I've installed ", pkg, " version ", version," in ", lib, ".\n")}
+  else{stop("Installation failed.")}
   
 }
 
@@ -101,16 +105,25 @@ h_load <- function(pkg,
 
 if(verbose == T){
   library(pkg, character.only = T, quietly = F, lib.loc = lib)
-  cat(paste0("Loaded ", pkg, " from", lib ,".\n"))
 }else{
   suppressMessages(library(pkg, character.only = T, quietly = T, verbose = F, warn.conflicts = F, lib.loc = lib))}
-}
+
+if(pkg %in% loadedNamespaces()){
+        if(verbose == TRUE){
+       cat(paste0("Loaded ", pkg, " from", lib ,".\n"))
+     }
+}else{stop("Loading failed.")}
+
+  }
 
 
-h_install_from_binary <- function(pkg){
+h_install_from_binary <- function(pkg, 
+                                  lib = .libPaths()[1]){
   
 #  pkg <- "data.table_1.17.8"
   package <- sub("_.*$", "", pkg)
+  
+  installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE])
   
   if(!(package %in% installed_pkgs[,"Package"] 
   )){
@@ -137,6 +150,12 @@ h_install_from_binary <- function(pkg){
                        type = "source", lib = "../utility/packages/") 
     }
   }
+  
+  installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib)[, c("Package", "Version"), drop = FALSE])
+  
+  if(package %in% installed_pkgs[,"Package"]){
+    cat("I've installed ", pkg, " version in ", lib, ".\n")}
+  else{stop("Installation failed.")}
   
 }
 
