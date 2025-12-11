@@ -77,8 +77,7 @@ for(i in 1:nrow(UD_dirs)){
 
     conllu <- udpipe::udpipe_read_conllu(fn) %>%   
       dplyr::filter(!is.na(token)) %>% 
-      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
-      #  dplyr::filter(!str_detect(feats, "Foreign=Yes|ExtPos=Yes")) %>% 
+#      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #if there isn't a lemma assigned, assume that the unique token is the lemma
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
       dplyr::filter(upos != "X")  #%>%
 #      dplyr::filter(upos != "SYM") # %>%
