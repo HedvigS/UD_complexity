@@ -18,3 +18,4 @@ process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_feature
 
 source("04_stack_summaries.R")
 source("04_plot_SPLOM.R")
+source("04_maps.R")
