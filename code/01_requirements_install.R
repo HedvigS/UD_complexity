@@ -28,22 +28,22 @@ installed_pkgs <- as.data.frame(installed.packages(lib.loc = lib_dir ))[, c("Pac
 #installing data.table 1.17
 h_install_from_binary(pkg = "data.table_1.17.8")
 
-#same problem as with data.table, but other packages
-#installing Rtsne 0.17
-#It is a dependency of the package randomcoloR
-h_install_from_binary(pkg = "Rtsne_0.17")
+# #same problem as with data.table, but other packages
+# #installing Rtsne 0.17
+# #It is a dependency of the package randomcoloR
+# h_install_from_binary(pkg = "Rtsne_0.17")
 
 # installing from binary file: Matrix
 h_install_from_binary(pkg = "Matrix_1.7-3")
 
-# installing from binary file: ggpubr
-h_install_from_binary(pkg = "ggpubr_0.6.1")
+# # installing from binary file: ggpubr
+# h_install_from_binary(pkg = "ggpubr_0.6.1")
 
-# installing from binary file: Rtsne
-h_install_from_binary(pkg = "Rtsne_0.17")
+# # installing from binary file: Rtsne
+# h_install_from_binary(pkg = "Rtsne_0.17")
 
-# installing from binary file: openssl
-h_install_from_binary(pkg = "openssl_2.3.3")
+# # installing from binary file: openssl
+# h_install_from_binary(pkg = "openssl_2.3.3")
 
 ###########################
 #installing rest of packages

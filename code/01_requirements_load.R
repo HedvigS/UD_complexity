@@ -18,6 +18,10 @@ source("../utility/fun_def_h_load.R")
 #reading in the table of packages to install and load
 pkgs_df <- utils::read.delim(file = "../requirements.tsv", sep = "\t")
 
+# Load packages installed from binary
+h_load(pkg = "data.table", lib = lib_dir, verbose = T)
+h_load(pkg = "Matrix", lib = lib_dir, verbose = T)
+
 #looping over dataframe to load packages
 for(i in 1:nrow(pkgs_df)
 ){  

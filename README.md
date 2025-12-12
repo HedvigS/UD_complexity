@@ -25,13 +25,11 @@ Likewise, we expect that future versions of the data-sets yield very similar out
 ### Required software
 
 -   `R` version 4.5.0. We expect other versions of `R` 4 to work, but for perfect replication the version we used was 4.5.0.
-
--   (For some Windows users it may be necessary to also install `Rtools` 4.4)
-
+-   (For some Windows users it may be necessary to also install `Rtools` 45)
 -   R packages: see `requirements.tsv`
 
 All required R packages are installed for the user with R the script `code/01_requirements_install.R` which features some accommodations to platform-specific situations.
-All required R packages, with the exception of `data.table`, `openssl`, `Rtsne`,`ggpubr`, and `Matrix`, are listed in the file `requirements.tsv` in a particular order. 
+All required R packages, with the exception of `data.table` and `Matrix`, are listed in the file `requirements.tsv` in a particular order. 
 The other packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements_install.R`.
 
 We install all packages into a custom directory `utility/packages/`.
@@ -71,7 +69,7 @@ If problems pesists, users are recommended to seek support for installing/updati
 
 R will then install the required packages. On Windows this can take a long time because installing specific versions of packages requires compiling them from source.
 
-5.  When executing `code/01_requirements_install.R`, if the process terminates due to not finding `Rtools`, please install `Rtools` version 4.4 separately outside of R and then return to the guide above.
+5.  When executing `code/01_requirements_install.R`, if the process terminates due to not finding `Rtools`, please install `Rtools` version 45 separately outside of R and then return to the guide above.
     -   `Rtools`: <https://cran.r-project.org/bin/windows/Rtools/>
     -   `Rtools` installation instructions: <https://ucdavisdatalab.github.io/install_guides/r-and-r-tools.html#r-tools>
 
