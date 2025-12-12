@@ -127,7 +127,7 @@ df_n_tokens %>%
   write_tsv(paste0(directory,"/n_tokens/", basename(fn), "_ns.tsv" ))
   
 conllu <- conllu %>% 
-  dplyr::mutate(lemma = ifelse(str_detect(token_id, "-"), token, lemma)) %>% #for multiwords, make the lemma be the same as the token
+  dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #
   dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
 
 ########## SORT OUT TAGGING
