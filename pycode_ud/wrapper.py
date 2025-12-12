@@ -5,6 +5,7 @@ from rich import print
 from tqdm import tqdm
 import polars as pl
 import numpy as np
+import argparse
 
 from pycode_ud.mlc_morph import get_mfh, read_treebank
 
@@ -67,67 +68,94 @@ def get_mfh_from_treebank_name(
     # Return the MFH value
     return mfh_value, dict_extra_info
 
-def main(treebanks_dir: Path):
+def main(
+        bool_test=False,
+    ):
     """
     Get MFH values for all treebanks in the specified directory.
+    Save to code/output/mfh_stacked.tsv, or code/output_test/mfh_stacked.tsv if in test mode.
     """
 
-    # Get all treebank names
-    treebank_names = get_all_treebank_names(treebanks_dir)
+    # Inform the user
+    if bool_test:
+        print(f"[yellow]Running in test mode...[/yellow]")
+    else:
+        print(f"[blue]Running in normal mode...[/blue]")
 
-    # Initialise dataframe to store results
-    results_df = pl.DataFrame({
-        "treebank_name": treebank_names,
+    # Ensure working directory is at the top level (i.e. one level above both pycode_ud/ and code/; directory is UD_complexity/)
+    if Path.cwd().name == "pycode_ud" or Path.cwd().name == "code":
+        Path.cwd().parent.chdir()
+    
+    # Now fail if we are not at the top level
+    if not Path.cwd().name == "UD_complexity": 
+        print(f"[red]Current working directory should be UD_complexity/, but is {str(Path.cwd())}[/red]")
+        exit(1)
+
+    # Build output directory path, output filepath, and input directory path
+    dir_output = Path("code") / ("output_test" if bool_test else "output")
+    fpath_output = dir_output / "mfh_stacked.tsv"
+    dir_input = dir_output / "processed_data" / "ud-treebanks-v2.14"
+
+    # Get all TSV files in the input directory
+    list_tsv_files = sorted(dir_input.glob("*.tsv"))
+
+    # Prepare output dataframe
+    df_out = pl.DataFrame({
+        "dir": [],
+        "mfh": [],
+        "n_total_rows": [],
+        "n_total_rows_filtered": [],
     })
 
-    # Iterate over each treebank and calculate its MFH value
-    it  = results_df.iter_rows(named=True)
+    # Set schema
+    df_out = df_out.with_columns([
+        pl.col("dir").cast(pl.Utf8),
+        pl.col("mfh").cast(pl.Float64),
+        pl.col("n_total_rows").cast(pl.Int64),
+        pl.col("n_total_rows_filtered").cast(pl.Int64),
+    ])
 
-    # Initialise list of mfh values
-    mfh_values = []
-
-    # Loop over the iterator with a progress bar
-    for row in tqdm(it, total=len(treebank_names), desc="Calculating MFH values"):
-        treebank_name = row["treebank_name"]
-
-        # Get the MFH value for the current treebank
-        mfh_value, dict_extra_info = get_mfh_from_treebank_name(treebank_name)
-
-        # Update the results list
-        mfh_values.append(mfh_value)
+    # For each TSV file...
+    for tsv_fpath in tqdm(list_tsv_files, desc="Processing treebanks"):
         
-    # Add the MFH values to the results dataframe
-    results_df = results_df.with_columns(
-        pl.Series("mfh_value", [f"{mfh_value:.4f}" for mfh_value in mfh_values])
-    )
+        # Get the treebank name from the filename
+        treebank_name = tsv_fpath.stem
 
-    # Return the results dataframe
-    return results_df
+        # Read the TSV file into a Polars DataFrame
+        df_nodes = pl.read_csv(tsv_fpath, separator="\t", ignore_errors=True)
+
+        # Calculate MFH from the DataFrame
+        mfh_value, dict_extra_info = get_mfh_from_dataframe(df_nodes)
+
+        # Append the result to the output dataframe
+        df_new = pl.DataFrame({
+                "dir": [str(treebank_name)],
+                "mfh": [float(mfh_value)],
+                "n_total_rows": [dict_extra_info.get("n_total_rows", -1)],
+                "n_total_rows_filtered": [dict_extra_info.get("n_total_rows_filtered", -1)],
+            })
+
+        # Stack the new dataframe to the output dataframe
+        df_out = pl.concat([df_out, df_new], how="vertical")
+
+    # Append the result to the output file
+    df_out.write_csv(fpath_output, separator="\t")
 
 if __name__ == "__main__":
 
-    # # Example usage
-    # treebank_name = "UD_Zaar-Autogramm"
-    # mfh_value, dict_extra_info = get_mfh_from_treebank_name(treebank_name)
-    # print(f"[green]MFH value for {treebank_name}:[/green] {mfh_value:.4f}")
+    # Argument parser
+    parser = argparse.ArgumentParser(description="Calculate MFH for UD treebanks.")
 
-    # # Run main and output to sandbox
-    # output_dir = Path("sandbox/output")
+    # Add -t for test mode
+    parser.add_argument(
+        "-t",
+        "--test",
+        action="store_true",
+        help="Run in test mode with a test dataframe.",
+    )
 
-    # # Make sure output directory exists
-    # output_dir.mkdir(parents=True, exist_ok=True)
+    # Call main
+    args = parser.parse_args()
+    main(bool_test=args.test)
 
-    # # Get MFH values for all treebanks
-    # treebanks_dir = Path("data") / "ud-treebanks-v2.14"
-    # results_df = main(treebanks_dir)
-
-    # # Save results to TSV
-    # output_fpath = output_dir / "ud_treebanks_mfh_values.tsv"
-    # results_df.write_csv(output_fpath, separator="\t")
-
-    # Test with test dataframe in code/output_test/processed_data/ud-treebanks-v2.14/test_01.tsv
-    test_fpath = Path("code") / "output_test" / "processed_data" / "ud-treebanks-v2.14" / "test_01.tsv"
-    df_nodes = pl.read_csv(test_fpath, separator="\t", ignore_errors=True)
-
-    mfh_value, dict_extra_info = get_mfh_from_dataframe(df_nodes)
-    print(f"[green]MFH value for test dataframe:[/green] {mfh_value:.4f}")
+    
