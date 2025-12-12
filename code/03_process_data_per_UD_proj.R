@@ -39,8 +39,7 @@ output_dirs <- c(
 "surprisal_per_featstring_lookup",
 "surprisal_per_feat", 
 "surprisal_per_featstring", 
-"summarised", 
-"n_tokens")
+"summarised")
 
 for(dir_spec in output_dirs ){
 dir_spec <- paste0(directory, "/", dir_spec)
@@ -52,7 +51,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <-41
+# i <-67
   fn <- fns[i]
   dir <- basename(fn)  %>% str_replace_all(".tsv", "")
 
@@ -65,12 +64,14 @@ conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "
 ### DEAL WITH MULTIWORD WORDS
 # Contracted words, like "don't" are treated in UD in a special fashion. The conllu files contain 3 tokens for such a contraction: "don't", "do" and "n't". The contracted word, in this case "don't" does not receive feats, upos, lemma or dependency relation annotations. Instead, these annotations occur on the "sub-words", i.e. "do" and "n't". The schema for doing this is centrally governed, but it is up to each dataset to decide when to do this. In this project, we are intrested in morphology of surface forms, i.e. exactly what is said/written, as opposed to their teased out syntactical sub-parts. For this reason, we want to keep the contracted word, i.e. "don't", move the annotations to that token and remove the components (i.e. "do" and "n't"). All contracted words (i.e "don't") have a dash in their token_id (e.g. "6-7") which can be mapped to the sub-words token_ids (e.g. "6" and "7"). We use this relationship to identify contracted words and sub-words and map information.
 
+#doing some counting of number of tokens
 n_tokens_whole <- nrow(conllu)
 n_tokens_empty_dropped <- conllu %>% 
   dplyr::filter(!str_detect(token_id, "\\.")) %>% nrow()
 n_tokens_only_subwords <- conllu %>% 
   dplyr::filter(!stringr::str_detect(token_id, "-")) %>% nrow()
 
+#remove empty node tokens
 conllu <- conllu %>% 
   dplyr::filter(!str_detect(token_id, "\\."))
 
@@ -78,7 +79,9 @@ df_contracted <- conllu  %>%
   dplyr::filter(str_detect(token_id, "-"))
 
 if(nrow(df_contracted) > 0){
+
 cat("There are multiword tokens in this dataset, disentangling. \n")
+
 df_contracted <- conllu  %>%
   dplyr::filter(str_detect(token_id, "-")) %>% 
   dplyr::mutate(
@@ -89,20 +92,20 @@ df_contracted <- conllu  %>%
   dplyr::rowwise() %>%
   dplyr::mutate(token_num =  list(start:end)) %>% 
   tidyr::unnest(token_num) %>% 
-  tidyr::unite(sentence_id, token_num, col = "id") %>% 
+  tidyr::unite(sentence_id, token_num, col = "id", sep = "£") %>% 
   dplyr::select(id, token_id)
 
 df_uncontracted <- conllu  %>%
   dplyr::filter(!str_detect(token_id, "-")) %>% 
   dplyr::rename(token_num = token_id) %>% 
-  tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE) %>% 
+  tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE, sep = "£") %>% 
   dplyr::filter(id %in% df_contracted$id) %>% 
   dplyr::select(id, feats, upos, sentence_id, token_num)
 
 df_contracts_solved <- df_contracted %>% 
   dplyr::full_join(df_uncontracted, by = c("id"), relationship = "many-to-many") %>% 
   dplyr::filter(!is.na(token_id)) %>% 
-  tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE) %>% 
+  tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE, , sep = "£") %>% 
   dplyr::group_by(sentence_id, token_id) %>% 
   dplyr::summarise(feats_contracted = paste0(feats, collapse = "|"), 
                    upos_contracted = paste0(upos, collapse = "_"), .groups = "drop")
@@ -117,15 +120,11 @@ conllu <- conllu  %>%
 
 n_tokens_multiwords_resolved <- conllu %>% nrow()
 
-df_n_tokens <- data.frame(filename = fn, 
+df_n_tokens <- data.frame(dir  = dir , 
                           n_tokens_whole = n_tokens_whole,
                           n_tokens_empty_dropped = n_tokens_empty_dropped,
                           n_tokens_only_subwords = n_tokens_only_subwords ,
                           n_tokens_multiwords_resolved = n_tokens_multiwords_resolved )
-
-df_n_tokens %>% 
-  write_tsv(paste0(directory,"/n_tokens/", basename(fn), "_ns.tsv" ))
-  
 conllu <- conllu %>% 
   dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) %>% #
   dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
@@ -146,7 +145,7 @@ conllu_split <- conllu %>%
     } else {
       .
     }
-  } %>%
+  } %>% 
   dplyr::mutate(feats_combo = ifelse(!is.na(feat_cat), paste0(feat_cat, "=", feat_value), NA)) %>% #stick feat_cat and feat_value back together, unless the feat_cat was in that previously mentioned irrelevant category
   dplyr::group_by(id, sentence_id, token, lemma, upos) %>% #ironically, we now need to get back to the previous state of feature strings (several features) and then split it again to get everything to line up. Can also be done in two dfs and joins, but this works as well.
   dplyr::summarise(feats_trimmed = paste0(unique(na.exclude(feats_combo)), collapse = "|"), .groups = "keep") %>% 
@@ -188,7 +187,7 @@ conllu_split_dummys_inserted  <- expanded %>%
 
 ####################################
 
-#for some computations, we need the original format with one row per token. here we render that back again
+#for some computations, we need the original format with one row per token and all feats cocatenanted. here we render that back again
 conllu <- conllu_split_dummys_inserted  %>% 
   dplyr::mutate(feats_combo = paste0(feat_cat, "=", feat_value)) %>% 
   dplyr::arrange(feat_cat) %>% 
@@ -311,6 +310,7 @@ data.frame(dir = dir,
            suprisal_token_mean = surprisal_token$surprisal %>% mean(), 
            sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
            surprisal_per_morph_featstring_mean = token_surprisal_df_feat_string$surprisal_per_morph_featstring  %>% mean()) %>%
+  full_join(df_n_tokens, by = "dir") %>% 
   readr::write_tsv(file = paste0(directory, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
 }
 }
