@@ -59,9 +59,7 @@ for(i in 1:length(fns)){
     cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
     
   #reading in
-conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c")) %>% 
-  dplyr::mutate(lemma = ifelse(str_detect(token_id, "-"), token, lemma)) %>% 
-  dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
+conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
 
 
 ### DEAL WITH MULTIWORD WORDS
@@ -128,6 +126,10 @@ df_n_tokens <- data.frame(filename = fn,
 df_n_tokens %>% 
   write_tsv(paste0(directory,"/n_tokens/", basename(fn), "_ns.tsv" ))
   
+conllu <- conllu %>% 
+  dplyr::mutate(lemma = ifelse(str_detect(token_id, "-"), token, lemma)) %>% #for multiwords, make the lemma be the same as the token
+  dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
+
 ########## SORT OUT TAGGING
 
 # There are inconsistencies in coding of different UD-projects. It is not the case that every token of the same part-of-speech (upos) are tagged for the same information. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
