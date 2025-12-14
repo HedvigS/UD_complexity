@@ -1,6 +1,6 @@
+library(magrittr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
-library(magrittr, lib.loc = "../utility/packages/")
 library(maps, lib.loc = "../utility/packages/")
 
 world <- ggplot2::map_data('world2', 
