@@ -372,12 +372,13 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <-7
+# i <-18
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
   if(verbose == TRUE){
-    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))}
+    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))
+    }
     
   #reading in
 conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
@@ -410,10 +411,6 @@ n_types <- conllu$token %>% unique() %>%  na.omit() %>% length()
 n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
 if(verbose == TRUE){cat(paste0("The lemma-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n")) }
 if(verbose == TRUE){cat(paste0("The type-token-ratio is ", round(n_types /  n_tokens, 4) , ".\n")) }
-data.frame(TTR = n_types /  n_tokens, 
-           TTR_lemma = n_lemmas / n_tokens, 
-           dir = dir) %>% 
-  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/TTR/", dir, "_TTR_sum.tsv"))
 
 conllu %>% 
   dplyr::group_by(token, lemma, upos) %>% 
