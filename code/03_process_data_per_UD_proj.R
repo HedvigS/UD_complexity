@@ -480,7 +480,7 @@ lookup_not_split <- conllu %>%
 
 lookup_not_split %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_featstring_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_featstring_lookup/surprisal_per_featstring_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
 token_surprisal_df_feat_string <- conllu %>% 
   dplyr::distinct(id, token, lemma, feats, upos) %>% 
