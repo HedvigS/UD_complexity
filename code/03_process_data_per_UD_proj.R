@@ -50,8 +50,8 @@ process_UD_data <- function(input_dir = NULL,
     dir.create(output_dir)
   }
   
-  if(!(dir.exists(paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features)))){
-    dir.create(paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features))
+  if(!(dir.exists(paste0(output_dir, "/agg_level_", agg_level, "_", core_features)))){
+    dir.create(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))
   }
   
   output_dirs <- c("processed_tsv", #for output files that will serve as input to next function
@@ -59,7 +59,7 @@ process_UD_data <- function(input_dir = NULL,
 
   
     for(dir_spec in output_dirs ){
-    dir_spec <- paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features, "/", dir_spec)
+    dir_spec <- paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/", dir_spec)
     if(!dir.exists(dir_spec)){
       dir.create(dir_spec)
     }
@@ -274,19 +274,85 @@ process_UD_data <- function(input_dir = NULL,
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
                                 verbose = TRUE,
-         agg_level = "upos", #lemma token
-         core_features = "core_features_only"
+         agg_level = NULL, #upos,lemma token
+         core_features = NULL# core_features_only, all_features
              ){
 
+#input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/"
+#output_dir <- "output/results/ud-treebanks-v2.14_results"
+  
+  if(!dir.exists(output_dir)){
+    dir.create(output_dir)
+  }
+  
+  if(!(dir.exists(input_dir))){
+    stop("input_dir does not exist.")
+  }
+  
+  fns <- list.files(path = input_dir, pattern = ".tsv", all.files = T, full.names = T)
+  
+  if(length(fns) == 0){
+    stop("there are no tsv-files in the input_dir.")
+  }
+  
+  # if the input files from from the function process_UD_data, then they have the arguments agg_level and core_features encoded in the directory name. 
+agg_level_inferred <- NULL
+  
+if(str_detect(input_dir, "agg_level_lemma")){
+  agg_level_inferred <- "lemma"
+  }
 
-if(!(agg_level %in% c("upos", "lemma", "token"))){
-  stop("agg_level has to be either UPOS, lemma or token.")
+if(str_detect(input_dir, "agg_level_upos")){
+  agg_level_inferred <- "upos"
 }
 
-input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/processed_tsv/"
-  
+if(str_detect(input_dir, "agg_level_token")){
+  agg_level_inferred <- "token"
+}
+ 
+core_features_inferred  <- NULL 
 
+if(str_detect(input_dir, "all_features")){
+  core_features_inferred  <- "all_features"
+}
+
+if(str_detect(input_dir, "core_features_only")){
+  core_features_inferred  <- "core_features_only"
+}
+
+if(is.null(agg_level)){
+  agg_level <- agg_level_inferred
+}else{
+if(!is.null(agg_level_inferred) & agg_level != agg_level_inferred){
+  stop("The agg_level specified in the function call and the agg_level denoted in the directory's name do not correspond.")}
+}
+
+  if(is.null(core_features)){
+    core_features <- core_features_inferred
+  }else{
+    if(!is.null(core_features_inferred) & core_features != core_features_inferred){
+      stop("The core_features specified in the function call and the agg_level denoted in the directory's name do not correspond.")}
+  }
+  
+  #various checks to make sure that arguments make sense
+  if(!(agg_level %in% c("upos", "lemma", "token"))){
+    stop("agg_level has to be either UPOS, lemma or token.")
+  }
+  
+  if(!(core_features %in% c("core_features_only", "all_features"))){
+    stop("core_features has to be either core_features_only or all_features.")
+  }
+  
 #set up the output dirs
+if(!dir.exists(output_dir)){
+  dir.create(output_dir)
+}
+
+if(!dir.exists(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))){
+  dir.create(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))
+}
+
+
 output_dirs <- c(
 "surprisal_per_token",
 "surprisal_per_feat_lookup",
@@ -296,7 +362,7 @@ output_dirs <- c(
 "summarised")
 
 for(dir_spec in output_dirs ){
-dir_spec <- paste0(directory, "/", dir_spec)
+dir_spec <- paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/", dir_spec)
 if(!dir.exists(dir_spec)){
   dir.create(dir_spec)
 }
@@ -304,20 +370,22 @@ if(!dir.exists(dir_spec)){
                   
 #looping through one tsv at a time
 
-
 for(i in 1:length(fns)){
-# i <-67
+# i <-7
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
   if(verbose == TRUE){
     cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))}
     
-    
   #reading in
 conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
 
-
+conllu_split <- conllu %>% 
+  dplyr::mutate(feats_split = stringr::str_split(feats, "\\|")) %>% #split the feature cell for each feature
+  tidyr::unnest(cols = c(feats_split)) %>% #unravel the feature cell into separate rows for each feature
+  tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  
+  
 n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique() %>% length()
 
 n_feats_per_token_df  <- conllu_split %>% 
