@@ -8,6 +8,13 @@ dir <- paste0("output/processed_data/")
 if(!dir.exists(dir)){
   dir.create(dir)
 }
+
+
+dir <- paste0("output/results/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
 dir <- paste0("output/plots/")
 if(!dir.exists(dir)){
   dir.create(dir)
