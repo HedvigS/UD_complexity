@@ -387,9 +387,12 @@ conllu_split <- conllu %>%
   tidyr::unnest(cols = c(feats_split)) %>% #unravel the feature cell into separate rows for each feature
   tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  
   
-n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique() %>% length()
+n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique()
+n_feat_cats <- n_feat_cats[!grepl("unassigned", n_feat_cats)] %>% length()
 
 n_feats_per_token_df  <- conllu_split %>% 
+  dplyr::filter(!str_detect(feat_cat, "unassigned")) %>% 
+  dplyr::filter(!str_detect(feat_value, "unassigned")) %>% 
   dplyr::group_by(id) %>% 
   dplyr::mutate(feats_n = n()) %>% 
   dplyr::mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n)) %>% 
@@ -495,10 +498,11 @@ data.frame(dir = dir,
            core_features = core_features,
            n_types = n_types, 
            n_tokens = n_tokens, 
+           n_lemmas = n_lemmas, 
            n_sentences = conllu$sentence_id %>% unique() %>% length(), 
-           n_feat_cats = n_feat_cats,
            TTR = n_types /  n_tokens, 
            LTR = n_lemmas / n_tokens, 
+           n_feat_cats = n_feat_cats,
            n_feats_per_token_mean = n_feats_per_token_df$feats_n %>% mean(),
            suprisal_token_mean = surprisal_token$surprisal %>% mean(), 
            sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
