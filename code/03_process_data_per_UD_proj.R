@@ -83,9 +83,9 @@ process_UD_data <- function(input_dir = NULL,
                          "bad_UD_morph_feat_cats =", bad_UD_morph_feat_cats, "\n",
                          "core_features = ", core_features, "\n", 
                          "fill_empty_lemmas_with_tokens = " , fill_empty_lemmas_with_tokens , "\n",
-                         "make_all_tokens_of_same_UPOS_have_same_feat_cat = ", make_all_tokens_of_same_UPOS_have_same_feat_cat,  "\n")
+                         "make_all_tokens_of_same_agg_level_have_same_feat_catt = ", make_all_tokens_of_same_agg_level_have_same_feat_cat,  "\n")
 
-  write_lines(x = settings_log, file = paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features,"/settings_log.txt"))  
+  readr::write_lines(x = settings_log, file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features,"/settings_log.txt"))  
   
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
   
@@ -240,7 +240,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos) 
     
     ###
-    output_fn <- paste0(output_dir,  "/agg_level_ ", agg_level, "_", core_features, "/processed_tsv/", dir,".tsv")
+    output_fn <- paste0(output_dir,  "/agg_level_", agg_level, "_", core_features, "/processed_tsv/", dir,".tsv")
     conllu %>% 
       readr::write_tsv(file = output_fn, na = "", quote = "all")
     
@@ -254,7 +254,7 @@ process_UD_data <- function(input_dir = NULL,
                               n_tokens_multiwords_resolved = n_tokens_multiwords_resolved,
                               n_tokens_output = nrow( conllu))
     
-    output_fn <- paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features, "/counts/", dir,".tsv")
+    output_fn <- paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/counts/", dir,".tsv")
     
     df_n_tokens     %>% 
       readr::write_tsv(file = output_fn, na = "", quote = "all")
