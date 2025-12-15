@@ -503,7 +503,6 @@ data.frame(dir = dir,
            suprisal_token_mean = surprisal_token$surprisal %>% mean(), 
            sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
            surprisal_per_morph_featstring_mean = token_surprisal_df_feat_string$surprisal_per_morph_featstring  %>% mean()) %>%
-  full_join(df_n_tokens, by = "dir") %>% 
   readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
 } #end of for-loop
 
