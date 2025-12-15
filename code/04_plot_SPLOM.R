@@ -20,8 +20,8 @@ df_external <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv",
 df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
   dplyr::left_join(df_external, by = "glottocode") %>% 
-  dplyr::filter(n_feat_cats_all_features != 0) %>% 
-  dplyr::filter(n_feat_cats_core_features_only != 0) %>% 
+  dplyr::filter(n_feat_cats_upos_all_features != 0) %>% 
+  dplyr::filter(n_feat_cats_upos_core_features_only!= 0) %>% 
   dplyr::distinct()
 
 #################
@@ -55,7 +55,7 @@ pal <- c("#A7E1A1" , #1
          )
 
 p <- df_for_plot %>% 
-    coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, 
+    coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, method = "pearson",
                    hist_label_size = 3, herringbone = T,pair_colors = pal
                    )
 
@@ -69,14 +69,14 @@ df_for_plot <- df %>%
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
-                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
+                "Feats per token\n(mean)\nall features\nlemma" = "n_feats_per_token_mean_lemma_all_features",                         
+                "Feats per token\n(mean)\ncore features only\nlemma" ="n_feats_per_token_mean_lemma_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
                 "Sentences (n)" = "n_sentences" ,
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
+                "Feat cat (n)\nall features\nlemma" = "n_feat_cats_lemma_all_features",                                    
+                "Feat cat (n)\ncore features only" = "n_feat_cats_lemma_core_features_only"
                 
             ) 
 
@@ -194,14 +194,14 @@ df_for_plot <- df %>%
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
-                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
+                "Feats per token\n(mean)\nall features\nlemma" = "n_feats_per_token_mean_upos_all_features",                         
+                "Feats per token\n(mean)\ncore features only\nlemma" ="n_feats_per_token_mean_upos_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
               #  "Sentences (n)" = "n_sentences" ,
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
+                "Feat cat (n)\nall features\nlemma" = "n_feats_per_token_mean_lemma_all_features",                                    
+                "Feat cat (n)\ncore features only\nlemma" = "n_feat_cats_lemma_core_features_only"
   ) 
 
 cat("Dataframe for SPLOM other metrics PUD plot:\n")
