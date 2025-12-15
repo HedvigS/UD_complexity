@@ -16,6 +16,7 @@ library(stringr, lib.loc = "../utility/packages/")
 
 process_UD_data <- function(input_dir = NULL,
                          output_dir = NULL, 
+                         verbose = TRUE,
                          resolve_multiwords_to = "super-word", 
                          remove_empty_nodes = TRUE, 
                          agg_level = "upos", #lemma token,
@@ -83,9 +84,11 @@ process_UD_data <- function(input_dir = NULL,
   for(i in 1:length(fns)){
     # i <-67
     fn <- fns[i]
-    dir <- basename(fn)  %>% str_replace_all(".tsv", "")
+    dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
     
-    cat(paste0("I'm processesing ", dir, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
+    if(verbose == TRUE){
+      
+    cat(paste0("I'm processesing ", dir, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n")) }
     
     #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
@@ -93,7 +96,7 @@ process_UD_data <- function(input_dir = NULL,
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
     n_tokens_empty_dropped <- conllu %>% 
-      dplyr::filter(!str_detect(token_id, "\\.")) %>% nrow()
+      dplyr::filter(!stringr::str_detect(token_id, "\\.")) %>% nrow()
     n_tokens_only_subwords <- conllu %>% 
       dplyr::filter(!stringr::str_detect(token_id, "-")) %>% nrow()
   
@@ -101,7 +104,7 @@ process_UD_data <- function(input_dir = NULL,
     # ID contains tokens that represent words not found in the input, but inserted to complete certain syntactic structures. For example, the second "likes" in the sentence "Sarah likes tea and Bill likes coffee". These complete structures according to certain present principles from the dataset designer, but are not actually present in the input. Researchers can choose in this function to remove these inserted tokens. In UD projects, all of these tokens have a period in the token_id, and it is only tokens of this kind that have a period in their token_id. Therefore, removing tokens with a period in their token_id removes these tokens reliably.
     if(remove_empty_nodes == TRUE){
     conllu <- conllu %>% 
-      dplyr::filter(!str_detect(token_id, "\\."))
+      dplyr::filter(!stringr::str_detect(token_id, "\\."))
     }
     
     ### DEAL WITH MULTIWORD WORDS
@@ -110,18 +113,19 @@ process_UD_data <- function(input_dir = NULL,
   if(resolve_multiwords_to == "super-word"){
     
     df_contracted <- conllu  %>%
-      dplyr::filter(str_detect(token_id, "-"))
+      dplyr::filter(stringr::str_detect(token_id, "-"))
     
     if(nrow(df_contracted) > 0){
-      
+      if(verbose == TRUE){
+        
       cat("There are multiword tokens in this dataset, disentangling. \n")
-      
+      }
       df_contracted <- conllu  %>%
-        dplyr::filter(str_detect(token_id, "-")) %>% 
+        dplyr::filter(stringr::str_detect(token_id, "-")) %>% 
         dplyr::mutate(
-          token_range = str_extract(token_id, "\\d+-\\d+"),
-          start = as.integer(str_extract(token_range, "^\\d+")),
-          end   = as.integer(str_extract(token_range, "\\d+$")),
+          token_range = stringr::str_extract(token_id, "\\d+-\\d+"),
+          start = as.integer(stringr::str_extract(token_range, "^\\d+")),
+          end   = as.integer(stringr::str_extract(token_range, "\\d+$")),
         ) %>% 
         dplyr::rowwise() %>%
         dplyr::mutate(token_num =  list(start:end)) %>% 
@@ -130,7 +134,7 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::select(id, token_id)
       
       df_uncontracted <- conllu  %>%
-        dplyr::filter(!str_detect(token_id, "-")) %>% 
+        dplyr::filter(!stringr::str_detect(token_id, "-")) %>% 
         dplyr::rename(token_num = token_id) %>% 
         tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE, sep = "£") %>% 
         dplyr::filter(id %in% df_contracted$id) %>% 
@@ -174,7 +178,7 @@ process_UD_data <- function(input_dir = NULL,
   
     #split for morph tags
     conllu_split <- conllu %>%
-      dplyr::mutate(feats_split = str_split(feats, "\\|")) %>% #split the feature cell for each feature
+      dplyr::mutate(feats_split = stringr::str_split(feats, "\\|")) %>% #split the feature cell for each feature
       tidyr::unnest(cols = c(feats_split))  %>% #unravel the feature cell into separate rows for each feature
       tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  %>% #split the feature into its two components: feat_cat and feat_value
       dplyr::mutate(feat_cat = ifelse(feat_cat %in% bad_UD_morph_feat_cats, yes = NA, no = feat_cat)) %>% #if the feat_cat belongs to a set of feat_cats which is not relevant for the study, replace it with NA. the irrelevant set is defined in 01_requirements.R
@@ -189,7 +193,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::group_by(id, sentence_id, token, lemma, upos) %>% #ironically, we now need to get back to the previous state of feature strings (several features) and then split it again to get everything to line up. Can also be done in two dfs and joins, but this works as well.
       dplyr::summarise(feats_trimmed = paste0(unique(na.exclude(feats_combo)), collapse = "|"), .groups = "keep") %>% 
       dplyr::mutate(feats_trimmed = ifelse(feats_trimmed == "", NA, feats_trimmed)) %>% 
-      dplyr::mutate(feats_split = str_split(feats_trimmed, "\\|")) %>% 
+      dplyr::mutate(feats_split = stringr::str_split(feats_trimmed, "\\|")) %>% 
       tidyr::unnest(cols = c(feats_split))  %>%
       tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right") %>%  
       dplyr::select(-feats_trimmed) %>% 
@@ -294,9 +298,10 @@ if(!dir.exists(dir_spec)){
 for(i in 1:length(fns)){
 # i <-67
   fn <- fns[i]
-  dir <- basename(fn)  %>% str_replace_all(".tsv", "")
+  dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
-    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))
+  if(verbose == TRUE){
+    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))}
     
     
   #reading in
@@ -322,9 +327,8 @@ n_tokens_per_sentence_df <- conllu %>%
 n_tokens <- conllu %>% nrow()
 n_types <- conllu$token %>% unique() %>%  na.omit() %>% length()
 n_lemmas <- conllu$lemma %>% unique() %>%  na.omit() %>% length()
-cat(paste0("The lemma-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n"))
-cat(paste0("The type-token-ratio is ", round(n_types /  n_tokens, 4) , ".\n"))
-
+if(verbose == TRUE){cat(paste0("The lemma-token-ratio is ", round(n_lemmas /  n_tokens, 4) , ".\n")) }
+if(verbose == TRUE){cat(paste0("The type-token-ratio is ", round(n_types /  n_tokens, 4) , ".\n")) }
 data.frame(TTR = n_types /  n_tokens, 
            TTR_lemma = n_lemmas / n_tokens, 
            dir = dir) %>% 
