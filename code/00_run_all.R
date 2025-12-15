@@ -33,10 +33,30 @@ process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/
 )
 
 
-process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features = "core_features_only")
-process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "core_features_only")
-process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features = "all_features")
-process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "all_features")
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_core_features_only/processed_tsv/", 
+                    verbose = TRUE, 
+                    agg_level = "upos",
+                    core_features = "core_features_only",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_all_features/processed_tsv/", 
+                    agg_level = "upos",
+                    core_features = "all_features",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_core_features_only/processed_tsv/", 
+                    agg_level = "lemma", 
+                    core_features = "core_features_only", 
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/", 
+                    agg_level = "lemma", 
+                    core_features = "all_features", 
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+
+
+
 
 source("04_stack_summaries.R")
 source("04_plot_SPLOM.R")
