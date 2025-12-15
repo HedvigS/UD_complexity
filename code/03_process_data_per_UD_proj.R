@@ -354,6 +354,7 @@ if(!dir.exists(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))
 
 
 output_dirs <- c(
+  "TTR",
 "surprisal_per_token",
 "surprisal_per_feat_lookup",
 "surprisal_per_featstring_lookup",
@@ -394,7 +395,6 @@ n_feats_per_token_df  <- conllu_split %>%
   dplyr::mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n)) %>% 
   dplyr::distinct(id, feats_n)
 
-
 ## COUNTS
 #some simple counts: count number of types, tokens, lemmas and sentences
 n_tokens_per_sentence_df <- conllu %>% 
@@ -410,13 +410,13 @@ if(verbose == TRUE){cat(paste0("The type-token-ratio is ", round(n_types /  n_to
 data.frame(TTR = n_types /  n_tokens, 
            TTR_lemma = n_lemmas / n_tokens, 
            dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/TTR/", dir, "_TTR_sum.tsv"))
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/TTR/", dir, "_TTR_sum.tsv"))
 
 conllu %>% 
   dplyr::group_by(token, lemma, upos) %>% 
   dplyr::summarise(n = n(), .groups = "drop") %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/TTR/", dir, "_TTR_full.tsv"))
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/TTR/", dir, "_TTR_full.tsv"))
 
 surprisal_all_tokens_lookup <- conllu %>% 
   dplyr::group_by(token) %>% 
@@ -430,7 +430,7 @@ surprisal_token <- conllu %>%
 conllu %>% 
   dplyr::left_join(surprisal_all_tokens_lookup, by = "token") %>%
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/surprisal_per_token/surprisal_per_token_", dir,
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_token/surprisal_per_token_", dir,
                           ".tsv"))
 
 n_unique_lemma_per_sentence <- conllu %>% 
@@ -443,7 +443,7 @@ n_unique_lemma_per_sentence <- conllu %>%
 #computing the probabilities and surprisal of each morph tag value per lemma
 
 #prop for each morph feat
-lookup <- conllu_split_dummys_inserted  %>% 
+lookup <- conllu_split  %>% 
   dplyr::group_by(.data[[agg_level]], feat_cat, feat_value) %>% 
   dplyr::summarise(n = n(), .groups = "drop") %>% 
   dplyr::group_by(.data[[agg_level]], feat_cat) %>% 
@@ -455,9 +455,9 @@ lookup <- conllu_split_dummys_inserted  %>%
 
 lookup %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/surprisal_per_feat_lookup/surprisal_per_feat_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_feat_lookup/surprisal_per_feat_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
-token_surprisal_df <- conllu_split_dummys_inserted  %>% 
+token_surprisal_df <- conllu_split  %>% 
   dplyr::distinct(id, token, lemma, feat_cat, feat_value, upos) %>% 
   dplyr::left_join(lookup, by = c(agg_level, "feat_cat", "feat_value")) %>%
   dplyr::group_by(id) %>% 
@@ -465,7 +465,7 @@ token_surprisal_df <- conllu_split_dummys_inserted  %>%
 
 token_surprisal_df %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/surprisal_per_feat/surprisal_per_feat_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_feat/surprisal_per_feat_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
 
 #featstrings
 lookup_not_split <- conllu %>% 
@@ -480,7 +480,7 @@ lookup_not_split <- conllu %>%
 
 lookup_not_split %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/surprisal_per_featstring_lookup/surprisal_per_featstring_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_featstring_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
 token_surprisal_df_feat_string <- conllu %>% 
   dplyr::distinct(id, token, lemma, feats, upos) %>% 
@@ -488,8 +488,7 @@ token_surprisal_df_feat_string <- conllu %>%
 
 token_surprisal_df_feat_string %>% 
   dplyr::mutate(dir = dir) %>% 
-  readr::write_tsv(file = paste0(directory, "/surprisal_per_featstring/surprisal_per_featstring_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
-
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_featstring/surprisal_per_featstring_per_agg_level_",agg_level, "_",  core_features, "_", dir, ".tsv"), na = "", quote = "all")
 
 data.frame(dir = dir, 
            agg_level = agg_level, 
@@ -505,8 +504,8 @@ data.frame(dir = dir,
            sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
            surprisal_per_morph_featstring_mean = token_surprisal_df_feat_string$surprisal_per_morph_featstring  %>% mean()) %>%
   full_join(df_n_tokens, by = "dir") %>% 
-  readr::write_tsv(file = paste0(directory, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
-}
+  readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
+} #end of for-loop
 
 
-}
+}#end of function
