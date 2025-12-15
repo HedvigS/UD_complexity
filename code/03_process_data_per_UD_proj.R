@@ -17,11 +17,11 @@ library(stringr, lib.loc = "../utility/packages/")
 process_UD_data <- function(input_dir = NULL,
                          output_dir = NULL, 
                          verbose = TRUE,
-                         resolve_multiwords_to = "super-word", 
+                         agg_level = NULL, #upos, lemma token,
+                         core_features = NULL, #"core_features_only", "all_features"
+                         resolve_multiwords_to = "super-word",
                          remove_empty_nodes = TRUE, 
-                         agg_level = "upos", #lemma token,
                          bad_UD_morph_feat_cats =  c("Abbr", "Typo", "Foreign"),
-                         core_features = "core_features_only",
                          fill_empty_lemmas_with_tokens = TRUE,
                          make_all_tokens_of_same_agg_level_have_same_feat_cat =  TRUE){
   
@@ -50,11 +50,16 @@ process_UD_data <- function(input_dir = NULL,
     dir.create(output_dir)
   }
   
+  if(!(dir.exists(paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features)))){
+    dir.create(paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features))
+  }
+  
   output_dirs <- c("processed_tsv", #for output files that will serve as input to next function
                    "counts") # for token counts during the process
 
+  
     for(dir_spec in output_dirs ){
-    dir_spec <- paste0(output_dir, "/", dir_spec)
+    dir_spec <- paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features, "/", dir_spec)
     if(!dir.exists(dir_spec)){
       dir.create(dir_spec)
     }
@@ -70,25 +75,31 @@ process_UD_data <- function(input_dir = NULL,
     feat = c("PronType", "NumType", "Poss", "Reflex", "Abbr", "Typo", "Foreign", "ExtPos", "Gender", "Animacy", "NounClass", "Number", "Case", "Definite", "Deixis", "DeixisRef", "Degree", "VerbForm", "Mood", "Tense", "Aspect", "Voice", "Evident", "Polarity", "Person", "Polite", "Clusivity"),
     type = c("Lexical", "Lexical",  "Lexical",  "Lexical",  "Other", "Other", "Other", "Other",  "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Nominal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal", "Verbal")
   )
-
+  
 #saving what the settings were for processing the content
   settings_log <- paste0("resolve_multiwords_to = ", resolve_multiwords_to, "\n", 
                          "remove_empty_nodes =", remove_empty_nodes, "\n",  
+                         "agg_level =", agg_level, "\n",
+                         "bad_UD_morph_feat_cats =", bad_UD_morph_feat_cats, "\n",
                          "core_features = ", core_features, "\n", 
                          "fill_empty_lemmas_with_tokens = " , fill_empty_lemmas_with_tokens , "\n",
                          "make_all_tokens_of_same_UPOS_have_same_feat_cat = ", make_all_tokens_of_same_UPOS_have_same_feat_cat,  "\n")
 
-  write_lines(x = settings_log, file = paste0(output_dir, "/settings_log.txt"))  
+  write_lines(x = settings_log, file = paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features,"/settings_log.txt"))  
   
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
+  
+
+
   for(i in 1:length(fns)){
     # i <-67
     fn <- fns[i]
+    
     dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
     
     if(verbose == TRUE){
       
-    cat(paste0("I'm processesing ", dir, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n")) }
+    cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level =", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) }
     
     #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
@@ -116,10 +127,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::filter(stringr::str_detect(token_id, "-"))
     
     if(nrow(df_contracted) > 0){
-      if(verbose == TRUE){
-        
-      cat("There are multiword tokens in this dataset, disentangling. \n")
-      }
+      if(verbose == TRUE){ cat("There are multiword tokens in this dataset, disentangling. \n")}
       df_contracted <- conllu  %>%
         dplyr::filter(stringr::str_detect(token_id, "-")) %>% 
         dplyr::mutate(
@@ -232,7 +240,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos) 
     
     ###
-    output_fn <- paste0(output_dir, "/processed_tsv/", dir,".tsv")
+    output_fn <- paste0(output_dir,  "/agg_level_ ", agg_level, "_", core_features, "/processed_tsv/", dir,".tsv")
     conllu %>% 
       readr::write_tsv(file = output_fn, na = "", quote = "all")
     
@@ -246,14 +254,14 @@ process_UD_data <- function(input_dir = NULL,
                               n_tokens_multiwords_resolved = n_tokens_multiwords_resolved,
                               n_tokens_output = nrow( conllu))
     
-    output_fn <- paste0(output_dir, "/counts/", dir,".tsv")
+    output_fn <- paste0(output_dir, "/agg_level_ ", agg_level, "_", core_features, "/counts/", dir,".tsv")
     
     df_n_tokens     %>% 
       readr::write_tsv(file = output_fn, na = "", quote = "all")
     
    } #end of for loop
-  
-  #end of function
+
+    #end of function
   }
 
 
@@ -265,6 +273,7 @@ process_UD_data <- function(input_dir = NULL,
 
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
+                                verbose = TRUE,
          agg_level = "upos", #lemma token
          core_features = "core_features_only"
              ){
@@ -295,13 +304,14 @@ if(!dir.exists(dir_spec)){
                   
 #looping through one tsv at a time
 
+
 for(i in 1:length(fns)){
 # i <-67
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
   if(verbose == TRUE){
-    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", Sys.time(),".\n"))}
+    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))}
     
     
   #reading in
@@ -429,4 +439,6 @@ data.frame(dir = dir,
   full_join(df_n_tokens, by = "dir") %>% 
   readr::write_tsv(file = paste0(directory, "/summarised/", dir, "_summarised_agg_level_",agg_level, "_",  core_features, ".tsv"), na = "", quote = "all")
 }
+
+
 }
