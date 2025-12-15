@@ -8,7 +8,7 @@ library(stringr, lib.loc = "../utility/packages/")
 #set cut-off for inclusion. number of tokens minially
 minimum_tokens = 13000 #smallest 
 
-dir <- paste0("output/processed_data/ud-treebanks-v2.14")
+dir <- paste0("output/processed_data/ud-treebanks-v2.14_collapsed")
 if(!dir.exists(dir)){
   dir.create(dir)
 }
@@ -106,7 +106,7 @@ if(nrow(df) >= minimum_tokens){
   
   cat("\n It is written to file. There were ", nrow(df), " tokens.\n")
   df %>% 
-    readr::write_tsv(file = paste0("output/processed_data/ud-treebanks-v2.14", "/", 
+    readr::write_tsv(file = paste0("output/processed_data/ud-treebanks-v2.14_collapsed", "/", 
                             UD_dir_spec[1,1], ".tsv"), quote = "all", na = "")}else{
                               cat("\n Too few tokens, not written to file. There were ", nrow(df), " tokens.\n")
                             }
