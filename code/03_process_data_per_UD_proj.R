@@ -175,7 +175,7 @@ process_UD_data <- function(input_dir = NULL,
 
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
-      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } #for multiwords, the lemma is missing. This is also the case for certian other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma - if it's missing just using the token itself.
+      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } #for multiwords, the lemma is missing. This is also the case for certain other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma by inserting the token information there.
       
     conllu <- conllu %>% 
       dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
@@ -376,7 +376,7 @@ for(i in 1:length(fns)){
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
-  if(verbose == TRUE){
+if(verbose == TRUE){
     cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))
     }
     
@@ -391,13 +391,12 @@ conllu_split <- conllu %>%
 n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique()
 n_feat_cats <- n_feat_cats[!grepl("unassigned", n_feat_cats)] %>% length()
 
-n_feats_per_token_df  <- conllu_split %>% 
-  dplyr::filter(!str_detect(feat_cat, "unassigned")) %>% 
-  dplyr::filter(!str_detect(feat_value, "unassigned")) %>% 
+n_feats_per_token_df  <- conllu_split %>%
   dplyr::group_by(id) %>% 
-  dplyr::mutate(feats_n = n()) %>% 
-  dplyr::mutate(feats_n = ifelse(is.na(feat_cat), 0, feats_n)) %>% 
-  dplyr::distinct(id, feats_n)
+  dplyr::summarise(
+    feats_n = sum(feat_value != "unassigned"),
+    .groups = "drop"
+  ) 
 
 ## COUNTS
 #some simple counts: count number of types, tokens, lemmas and sentences
