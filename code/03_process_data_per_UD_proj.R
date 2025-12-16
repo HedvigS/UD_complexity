@@ -377,7 +377,7 @@ for(i in 1:length(fns)){
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
 if(verbose == TRUE){
-    cat(paste0("I'm on ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))
+    cat(paste0("I'm calculating surprisal for ", dir, " for agg level ", agg_level, " with ", core_features, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n"))
     }
     
   #reading in
