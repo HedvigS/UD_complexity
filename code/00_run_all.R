@@ -56,10 +56,6 @@ calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_proces
                     core_features = "all_features", 
                     output_dir <- "output/results/ud-treebanks-v2.14_results")
 
-
-
-
-
 source("04_stack_summaries.R")
 source("04_combine_all_data.R")
 source("04_plot_SPLOM.R")
