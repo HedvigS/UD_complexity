@@ -1,4 +1,3 @@
-
 library(dplyr, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
@@ -8,23 +7,18 @@ library(viridis, lib.loc = "../utility/packages/")
 
 source("02_basemap.R")
 
-UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
-  dplyr::filter(is.na(multilingual_exclude)) %>% 
-  dplyr::distinct(dir, glottocode) %>% 
-  dplyr::mutate(PUD = ifelse(stringr::str_detect(dir, pattern = "PUD"), "PUD", "NOT PUD"))
 
+##################################
 Glottolog <-readr::read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Glottocode) %>% 
   dplyr::mutate(Longitude = ifelse(Longitude <= -25, Longitude + 360, Longitude)) 
-  
 
-df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
-  dplyr::inner_join(UD_langs, by = "dir") %>% 
-  dplyr::left_join(Glottolog, by = "glottocode") %>% 
+df <- readr::read_tsv("output/results/all_results.tsv", show_col_types = F)
+
+df <- df %>% 
   dplyr::filter(n_feat_cats_all_features != 0) %>% 
   dplyr::filter(n_feat_cats_core_features_only != 0) %>% 
-  dplyr::distinct()
-
+  left_join(Glottolog, by = "glottocode")
 
 # Sum surprisal morph split mean, agg level = UPOS, all features
 p <- basemap +
@@ -89,3 +83,4 @@ p <- basemap +
          legend.title = ggplot2::element_blank())
 
 ggplot2::ggsave(filename = "output/plots/map_surprisal_per_morph_featstring_mean_lemma_core_features_only_PUD.png",  height = 5, width = 7, plot = p)
+
