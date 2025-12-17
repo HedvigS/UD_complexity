@@ -13,21 +13,62 @@ UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>%
   dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::distinct(dir, glottocode)
 
+mfh <- readr::read_tsv("output/mfh_stacked.tsv", show_col_types = FALSE) %>% 
+  dplyr::rename( n_total_rows_mfh = n_total_rows, 
+                 n_total_rows_filtered_mfh= n_total_rows_filtered)
+
 df_external <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Language_ID) %>% 
   dplyr::full_join(readr::read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
 
 df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
+  dplyr::full_join(mfh, by = "dir") %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
-  dplyr::left_join(df_external, by = "glottocode") %>% 
-  dplyr::filter(n_feat_cats_upos_all_features != 0) %>% 
-  dplyr::filter(n_feat_cats_upos_core_features_only!= 0) %>% 
-  dplyr::distinct()
+  dplyr::left_join(df_external, by = "glottocode") 
 
-#################
+# with each calculating run-through, we count number of feature categories (Tense, Def etc) in the entire dataset and per token. These should be exactly the same regardless if the agg_level is upos or lemma, but should differ depending on if we've trimmed to core_features or not. This is just a reality check to check that all is as expected
+if(sum(df$n_feat_cats_lemma_all_features == df$n_feat_cats_upos_all_features) != nrow(df)){
+  stop("n_feat_cats_lemma_all_features are not the same as n_feat_cats_upos_all_features.")  
+}
+
+if(
+  sum(df$n_feat_cats_lemma_core_features_only == df$n_feat_cats_upos_core_features_only) != nrow(df)){
+  stop("n_feat_cats_lemma_core_features_only are not the same as n_feat_cats_upos_core_features_only.")  
+}
+
+if(
+  sum(df$n_feat_cats_lemma_core_features_only == df$n_feat_cats_upos_core_features_only) != nrow(df)){
+  stop("n_feat_cats_lemma_core_features_only are not the same as n_feat_cats_upos_core_features_only.")  
+} 
+
+if(
+  sum(df$n_feats_per_token_mean_upos_all_features == df$n_feats_per_token_mean_lemma_all_features) != nrow(df)){
+  stop("n_feats_per_token_mean_upos_all_features are not the same as n_feats_per_token_mean_lemma_all_features.")  
+} 
+
+if(
+  sum(df$n_feats_per_token_mean_upos_core_features_only == df$n_feats_per_token_mean_lemma_core_features_only) != nrow(df)){
+  stop("n_feats_per_token_mean_upos_core_features_only are not the same as n_feats_per_token_mean_lemma_core_features_only.")  
+} 
+
+#If no errors were thrown, we might as well just keep on of these columns instead of both in each pair
+df <- df %>% 
+  dplyr::mutate(n_feat_cats_core_features_only = n_feat_cats_lemma_core_features_only) %>% 
+  dplyr::select(-n_feat_cats_lemma_core_features_only, -n_feat_cats_upos_core_features_only) %>% 
+  dplyr::mutate(n_feat_cats_all_features = n_feat_cats_lemma_all_features) %>% 
+  dplyr::select(-n_feat_cats_upos_all_features, -n_feat_cats_lemma_all_features) %>% 
+  dplyr::mutate(n_feats_per_token_mean_core_features_only = n_feats_per_token_mean_lemma_core_features_only) %>% 
+  dplyr::select(-n_feats_per_token_mean_lemma_core_features_only, -n_feats_per_token_mean_upos_core_features_only) %>% 
+  dplyr::mutate(n_feats_per_token_mean_all_features = n_feats_per_token_mean_lemma_all_features) %>% 
+  dplyr::select(-n_feats_per_token_mean_lemma_all_features, -n_feats_per_token_mean_upos_all_features) 
+
+df <- df %>% 
+  dplyr::filter(n_feat_cats_all_features != 0) %>% 
+  dplyr::filter(n_feat_cats_core_features_only != 0) 
+
 # SPLOM custom metrics
- 
-df_for_plot <- df %>% 
+
+df_for_plot <- df %>%
   dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
                 "Surprisal feat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
                 "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
@@ -52,12 +93,12 @@ pal <- c("#A7E1A1" , #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
          "#35c43f", #7
          "grey40" #8
-         )
+)
 
 p <- df_for_plot %>% 
-    coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, method = "pearson",
-                   hist_label_size = 3, herringbone = T,pair_colors = pal
-                   )
+  coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, method = "spearman",
+                 hist_label_size = 3, herringbone = T,pair_colors = pal, cor_test_method_exact = FALSE
+  )
 
 ggplot2::ggsave("output/plots/SPLOM_custom_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -69,16 +110,16 @@ df_for_plot <- df %>%
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features\nlemma" = "n_feats_per_token_mean_lemma_all_features",                         
-                "Feats per token\n(mean)\ncore features only\nlemma" ="n_feats_per_token_mean_lemma_core_features_only",
+                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
+                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
                 "Sentences (n)" = "n_sentences" ,
-                "Feat cat (n)\nall features\nlemma" = "n_feat_cats_lemma_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_lemma_core_features_only"
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
+                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
                 
-            ) 
+  ) 
 
 cat("Dataframe for SPLOM other metrics plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
@@ -99,8 +140,8 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
 
 
 p <-  df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 6, pair_colors = pal, herringbone = T
-                 )
+  coloured_SPLOM(hist_label_size = 2.3, method = "spearman",text_cor_size = 5, text_strip_size = 6, pair_colors = pal, herringbone = T, cor_test_method_exact = FALSE
+  )
 
 ggplot2::ggsave("output/plots/SPLOM_other_metrics.png", height = 30, width = 30, units = "cm", plot = p)
 
@@ -114,9 +155,8 @@ df_for_plot <- df %>%
                 "TTR",
                 "Fusion\n(Grambank v1.0)" = "Fusion", 
                 "Informativity\n(Grambank v1.0)" ="Informativity",
-                "Pop\n (Google)" = "Pop"
+                "Çöltekin & Rama's\nmfh\n(slightly modified version)" = mfh
   )  %>% 
-  dplyr::mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
   dplyr::distinct()
 
 cat("Dataframe for SPLOM external metrics plot:\n")
@@ -128,20 +168,24 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          "#DBAC5E", #4
          "#f5dd02", #5
          "#f57f31", #6
+         "pink",
          "grey40"
-         )
+)
 
 p <- df_for_plot %>% 
   coloured_SPLOM(hist_label_size = 3,
                  pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 10,
+                 method = "spearman",
+                 cor_test_method_exact = FALSE,
+                
                  herringbone = T,
                  col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", 
                                              "Informativity\n(Grambank v1.0)", 
                                              "Pop\n (Google)", 
                                              "Pop\n(Google)\nlog10"
-                                             ), 
+                 ), 
                  col_pairs_constraint = "glottocode")
 
 
@@ -165,22 +209,22 @@ cat("Dataframe for SPLOM custom metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
 if (nrow(df_for_plot) > 0) {
-
+  
   pal <- c("#A7E1A1" , #1
-          "#5bafe3",   #2
-          sum_surprisal_morph_split_mean_upos_all_features_col, #3
-          "#90D8D7", #4
-          "#86e397" , #5
-          surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
-          "#35c43f", #7
-          "grey40" #8
+           "#5bafe3",   #2
+           sum_surprisal_morph_split_mean_upos_all_features_col, #3
+           "#90D8D7", #4
+           "#86e397" , #5
+           surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
+           "#35c43f", #7
+           "grey40" #8
   )
-
+  
   p <- df_for_plot %>% 
-    coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10, hist_label_size = 2.5, herringbone = T, hist_bins = 7)
-
+    coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10,method = "spearman", hist_label_size = 2.5, herringbone = T, hist_bins = 7, cor_test_method_exact = FALSE)
+  
   ggplot2::ggsave("output/plots/SPLOM_custom_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
-
+  
 } else {
   cat("No PUD data available for SPLOM custom metrics plot.\n")
 }
@@ -194,40 +238,40 @@ df_for_plot <- df %>%
                 "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features\nlemma" = "n_feats_per_token_mean_upos_all_features",                         
-                "Feats per token\n(mean)\ncore features only\nlemma" ="n_feats_per_token_mean_upos_core_features_only",
+                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
+                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
-              #  "Sentences (n)" = "n_sentences" ,
-                "Feat cat (n)\nall features\nlemma" = "n_feats_per_token_mean_lemma_all_features",                                    
-                "Feat cat (n)\ncore features only\nlemma" = "n_feat_cats_lemma_core_features_only"
+                #  "Sentences (n)" = "n_sentences" ,
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
+                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
   ) 
 
 cat("Dataframe for SPLOM other metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
 if (nrow(df_for_plot) > 0) {
-
+  
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
-          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
-          TTR_col, #3
-          "#BA4FE1", #4
-          "#cf2d27" , #5
-          "#E278B1", #6
-          "#ed268d", #7
-          "#c735e8", #8
-          "#f723bb", #9
-        #  "#cf2757", #10
-          "#c387f5", #11
-          "grey40" #12
+           surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
+           TTR_col, #3
+           "#BA4FE1", #4
+           "#cf2d27" , #5
+           "#E278B1", #6
+           "#ed268d", #7
+           "#c735e8", #8
+           "#f723bb", #9
+           #  "#cf2757", #10
+           "#c387f5", #11
+           "grey40" #12
   )
-
+  
   p <-  df_for_plot %>% 
-    coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, pair_colors = pal, herringbone = T, hist_bins = 7)
-
+    coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, method = "spearman",pair_colors = pal, herringbone = T, hist_bins = 7, cor_test_method_exact = FALSE)
+  
   ggplot2::ggsave("output/plots/SPLOM_other_metrics_PUD.png", height = 30, width = 30, units = "cm", plot = p)
-
+  
 } else {
   cat("No PUD data available for SPLOM other metrics plot.\n")
 }
@@ -243,48 +287,49 @@ df_for_plot <- df %>%
                 "TTR",
                 "Fusion\n(Grambank v1.0)" = "Fusion", 
                 "Informativity\n(Grambank v1.0)" ="Informativity",
-                "Pop\n (Google)" = "Pop"
+                "Çöltekin & Rama's\nmfh\n(slightly modified version)" = mfh
   )  %>% 
-  dplyr::mutate("Pop\n(Google)\nlog10" = log10(`Pop\n (Google)` +1)) %>% 
   dplyr::distinct()
 
 cat("Dataframe for SPLOM external metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
 if (nrow(df_for_plot) > 0) {
-
+  
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
-          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
-          TTR_col, #3
-          "#DBAC5E", #4
-          "#f5dd02", #5
-          "#f57f31", #6
-          "grey40"
+           surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
+           TTR_col, #3
+           "#DBAC5E", #4
+           "#f5dd02", #5
+           "#f57f31", #6
+           "grey40"
   )
-
+  
   p <-df_for_plot %>% 
     coloured_SPLOM(hist_label_size = 3,
-                  pair_colors = pal, 
-                  text_cor_size = 5, 
-                  text_strip_size = 10,
-                  col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", 
-                                              "Informativity\n(Grambank v1.0)", 
-                                              "Pop\n (Google)", 
-                                              "Pop\n(Google)\nlog10"), 
-                  col_pairs_constraint = "glottocode", herringbone = T, hist_bins = 7)
-                  
-
+                   pair_colors = pal, 
+                   method = "spearman",
+                   cor_test_method_exact = FALSE,   
+                   text_cor_size = 5, 
+                   text_strip_size = 10,
+                   col_pairs_to_constraint = c("Fusion\n(Grambank v1.0)", 
+                                               "Informativity\n(Grambank v1.0)", 
+                                               "Pop\n (Google)", 
+                                               "Pop\n(Google)\nlog10"), 
+                   col_pairs_constraint = "glottocode", herringbone = T, hist_bins = 7)
+  
+  
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_PUD.png", height = 30, width = 30, units = "cm", plot = p)
-
+  
 } else {
   cat("No PUD data available for SPLOM external metrics plot.\n")
 }
 
 #df_check <- df %>% 
 #  distinct(glottocode, Fusion, Pop) 
-  
+
 #df_check <- df_check[complete.cases(df_check),]
-  
+
 #nrow(df_check)
 
 #df_check %>% 
