@@ -5,6 +5,7 @@ library(scales, lib.loc = "../utility/packages/")
 
 coloured_SPLOM <- function(df = df,
                            method = "pearson",
+                           cor_test_method_exact = TRUE, 
                            pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).
                            col_pairs_to_constraint = "None",
                            col_pairs_constraint = "None",
@@ -129,7 +130,7 @@ custom_upper <- function(data, mapping, pair_colors_map, ...){
   x <- data_reduced[[var1]]
   y <- data_reduced[[var2]]
 
-  ct <- cor.test(x, y, method = method)
+  ct <- cor.test(x, y, method = method, exact = cor_test_method_exact)
   r <- ct$estimate
   p <- ct$p.value
 
