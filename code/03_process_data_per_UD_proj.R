@@ -25,8 +25,10 @@ process_UD_data <- function(input_dir = NULL,
                          fill_empty_lemmas_with_tokens = TRUE,
                          make_all_tokens_of_same_agg_level_have_same_feat_cat =  TRUE){
   
-  #  input_dir <- paste0("output/processed_data/ud-treebanks-v2.14_collapsed/")
+  # input_dir <- paste0("output/processed_data/ud-treebanks-v2.14_collapsed/")
   # output_dir <- "output/processed_data/ud-treebanks-v2.14_processed"
+  # core_features <- "all_features"
+  # agg_level <- "upos"
   
   #various checks to make sure that arguments make sense
   if(!(core_features %in% c("core_features_only", "all_features"))){
@@ -372,7 +374,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <-18
+# i <-19
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
