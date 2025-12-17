@@ -4,6 +4,7 @@ library(dplyr, lib.loc = "../utility/packages/")
 library(scales, lib.loc = "../utility/packages/")
 
 coloured_SPLOM <- function(df = df,
+                           method = "pearson",
                            pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).
                            col_pairs_to_constraint = "None",
                            col_pairs_constraint = "None",
@@ -14,7 +15,8 @@ coloured_SPLOM <- function(df = df,
                            herringbone = FALSE,
                            alpha_point = 0.8){
 
-
+  method <- match.arg(method, c("pearson", "spearman"))
+  
   if(all(col_pairs_constraint != "None")){
   df_without_id_vars <- df %>%
   dplyr::select(-all_of(col_pairs_constraint))
@@ -106,7 +108,7 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
 
 
 # Custom upper triangle function with correlation text and color control
-custom_upper <- function(data, mapping, pair_colors_map, method = "pearson", ...){
+custom_upper <- function(data, mapping, pair_colors_map, ...){
   var1 <- ggplot2::as_label(mapping$x)
   var2 <- ggplot2::as_label(mapping$y)
 

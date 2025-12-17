@@ -6,6 +6,7 @@ from tqdm import tqdm
 import polars as pl
 import numpy as np
 import argparse
+import os
 
 from pycode_ud.mlc_morph import get_mfh, read_treebank
 
@@ -78,13 +79,13 @@ def main(
 
     # Inform the user
     if bool_test:
-        print(f"[yellow]Running in test mode...[/yellow]")
+        print(f"[yellow]Calculating mean feature entropy in test mode...[/yellow]")
     else:
-        print(f"[blue]Running in normal mode...[/blue]")
+        print(f"[blue]Calculating mean feature entropy...[/blue]")
 
     # Ensure working directory is at the top level (i.e. one level above both pycode_ud/ and code/; directory is UD_complexity/)
     if Path.cwd().name == "pycode_ud" or Path.cwd().name == "code":
-        Path.cwd().parent.chdir()
+        os.chdir(Path.cwd().parent)
     
     # Now fail if we are not at the top level
     if not Path.cwd().name == "UD_complexity": 
@@ -93,11 +94,16 @@ def main(
 
     # Build output directory path, output filepath, and input directory path
     dir_output = Path("code") / ("output_test" if bool_test else "output")
-    fpath_output = dir_output / "mfh_stacked.tsv"
-    dir_input = dir_output / "processed_data" / "ud-treebanks-v2.14"
+    fpath_output = dir_output / "results" / "mfh_stacked.tsv"
+    dir_input = dir_output / "processed_data" / "ud-treebanks-v2.14_collapsed"
 
     # Get all TSV files in the input directory
     list_tsv_files = sorted(dir_input.glob("*.tsv"))
+
+    # If there are none, print error message and exit.
+    if len(list_tsv_files) == 0:
+        print(f"[red]No TSV files found in {str(dir_input)}[/red]")
+        exit(1)
 
     # Prepare output dataframe
     df_out = pl.DataFrame({
@@ -137,9 +143,15 @@ def main(
 
         # Stack the new dataframe to the output dataframe
         df_out = pl.concat([df_out, df_new], how="vertical")
+    
+    # Check the output directory exists, create if not
+    dir_output_results = fpath_output.parent
+    dir_output_results.mkdir(parents=True, exist_ok=True)
 
     # Append the result to the output file
     df_out.write_csv(fpath_output, separator="\t")
+
+    print(f"[green]MFH calculation complete. Results saved to {str(fpath_output)}[/green]")
 
 if __name__ == "__main__":
 

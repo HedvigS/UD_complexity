@@ -24,9 +24,12 @@ Likewise, we expect that future versions of the data-sets yield very similar out
 
 ### Required software
 
--   `R` version 4.5.0. We expect other versions of `R` 4 to work, but for perfect replication the version we used was 4.5.0.
--   (For some Windows users it may be necessary to also install `Rtools` 45)
+-   R version 4.5.0. We expect other versions of R 4 to work, but for perfect replication the version we used was 4.5.0.
+-   (For some Windows users it may be necessary to also install Rtools 45)
 -   R packages: see `requirements.tsv`
+-   Python version 3.11-3.13.
+
+#### R versions and packages
 
 All required R packages are installed for the user with R the script `code/01_requirements_install.R` which features some accommodations to platform-specific situations.
 All required R packages, with the exception of `data.table` and `Matrix`, are listed in the file `requirements.tsv` in a particular order. 
@@ -39,17 +42,31 @@ This ensures that the versions of the packages used througout the project are co
 If `code/01_requirements_install.R` fails for you in the installation guides below and you install packages by another route, please make sure to set the library directory to `utility/packages/` (i.e. create dir and set the argument `lib` in `install.packages()` to `utility/packages/`), otherwise the loading of packages in the subsequent scripts will break.
 If `code/01_requirements_install.R` fails but you succeed in installing packages by another route, please run `code/01_requirements_dirs.R` in order to set-up folders (this is otherwise called by `code/00_run_all.R`).
 
+#### Python versions and packages
+
+We have tested on python version 3.11 on Windows and TODO on MacOS.
+We expect other recent versions of python to work similarly.
+Earlier versions of python are unlikely to work due to incompatibility with the package `polars`.
+See below for instructions on installing the python virtual environment and package requirements, all of which are listed in `pyproject.toml`.
+
 ### MacOS software installation guide
 
 1.  Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view).
 2.  Install `R` 4.5.0. [macos arm64](https://mirror.accum.se/mirror/CRAN/bin/macosx/big-sur-arm64/base/R-4.5.0-arm64.pkg) [macos x86_64](https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.5.0-x86_64.pkg)\
-3.  If running from terminal:
+3. Install python version 3.11-3.13, create a virtual environment, and install the project:
+    1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/macos/) or installed directly via your system's package manager.
+    2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python3 -m venv .venv_ud_complexity`.
+    3. **Activate virtual environment**: Run `source .venv_ud_complexity/bin/activate`
+    4. **Upgrade pip**: Run `python.exe -m pip install --upgrade pip`
+    5. **Install project**: Run `pip install -e .` to install the project as an editable package.
+    6. **Run tests**: Run `pytest` to run basic checks ensuring the python scripts run as expected.
+4.  If running from terminal:
     1.  ensure `Rscript` is in your `$PATH` environment variable (i.e run `which Rscript` and confirm that you don't get `command not found`. If `Rscript` command is not found, please add the relevant file-path in your `$PATH` environment variable in your shell profile, e.g. `.zshrc`, `.profile` or `.bash_profile` depending on your machine)
     2.  navigate to the `code/` directory inside this project.
-    3.  Run `Rscript 01_requirements.R`.
-4.  If running from RStudio:
+    3.  Run `Rscript 01_requirements_install.R`.
+5.  If running from RStudio:
     1.  Ensure the working directory is `code/` directory inside this project.
-    2.  Run `source("01_requirements.R")` in the Rstudio console.
+    2.  Run `source("01_requirements_install.R")` in the Rstudio console.
 
 MacOS users may experience issues due to incompatabile/non-existent versions of non-`R` software such as `Xcode`, `gettext`, `clang/clang++` or `V8`. 
 We have tried our best to mitigate this by supplying the user with binary versions of certain packages in `utility/packages_binary/` and setting up `code/01_requirements_install.R` to install from there instead of compiling from source. 
@@ -59,11 +76,18 @@ If problems pesists, users are recommended to seek support for installing/updati
 
 1.  Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view).
 2.  Install [R 4.5.0](https://cran.r-project.org/bin/windows/base/old/4.5.0/).
-3.  If running from a terminal:
+3. Install python version 3.11-3.13, create a virtual environment, and install the project:
+    1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/windows/) or installed directly via your system's package manager.
+    2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python -m venv .venv_ud_complexity`.
+    3. **Activate virtual environment**: Run `.venv_ud_complexity/Scripts/activate`
+    4. **Upgrade pip**: Run `python.exe -m pip install --upgrade pip`
+    5. **Install project**: Run `pip install -e .` to install the project as an editable package.
+    6. **Run tests**: Run `pytest` to run basic checks ensuring the python scripts run as expected.
+4.  If running from a terminal:
     1.  Make sure `Rscript` from the 4.5.0 version of R is available on your `PATH`. See for example [this guide](https://www.architectryan.com/2018/03/17/add-to-the-path-on-windows-10/).
     2.  Open a terminal in the `code/` directory.
     3.  Run `Rscript 01_requirements_install.R`.
-4.  If running from RStudio:
+5.  If running from RStudio:
     1.  Ensure the working directory is `code/`.
     2.  Run `source("01_requirements_install.R")`.
 
@@ -153,23 +177,74 @@ As a fallback, each of these scripts can be replaced with manual data acquisitio
 
 #### 3. Calculate metrics on datasets
 
-The method to calculate metrics on each data-set is in:
+We calculate mean feature entropy as defined by Çöltekin and Rama (2023), as well as several custom metrics described in the manuscript.
+Mean feature entropy is calculated on all processed datasets with:
+
+```
+03_run_python.R
+```
+
+Our own metrics require further pre-processing of the data.
+This preprocessing, and the calculation of the metrics themselves, occur in functions in the following script:
 
 ```         
 03_process_data_per_UD_proj.R
 ```
 
-To actually calculate the metrics, call the method defined in that script with the desired parameters. 
-In the manuscript we report the results of running this method four times, with the following parameter combinations:
+To actually process the data and calculate the metrics, call the methods defined in that script with the desired parameters. 
+In the manuscript we report the results of running each method four times, with the following parameter combinations:
 
-```         
-process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features = "core_features_only")
-process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "core_features_only")
-process_data_per_UD_proj(directory = "output", agg_level = "upos", core_features = "all_features")
-process_data_per_UD_proj(directory = "output", agg_level = "lemma", core_features = "all_features")
+```
+# Processing
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "upos",
+                core_features = "core_features_only",
+)
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "upos",
+                core_features = "core_features_only",
+)
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "lemma",
+                core_features = "core_features_only",
+)
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "upos",
+                core_features = "all_features",
+)
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "lemma", #lemma token,
+                core_features = "all_features",
+)
+
+# Calculation
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_core_features_only/processed_tsv/", 
+                    agg_level = "upos",
+                    core_features = "core_features_only",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_all_features/processed_tsv/", 
+                    agg_level = "upos",
+                    core_features = "all_features",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_core_features_only/processed_tsv/", 
+                    agg_level = "lemma", 
+                    core_features = "core_features_only", 
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/", 
+                    agg_level = "lemma", 
+                    core_features = "all_features", 
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
 ```
 
-See section **Metrics** for details of this function.
+See section **Metrics** for details of the calculation function.
 
 #### 4. Summarise and plot
 
