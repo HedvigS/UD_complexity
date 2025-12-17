@@ -61,5 +61,6 @@ calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_proces
 
 
 source("04_stack_summaries.R")
+source("04_combine_all_data.R")
 source("04_plot_SPLOM.R")
 source("04_maps.R")
