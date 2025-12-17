@@ -10,6 +10,9 @@ source("02_google_pop.R")
 source("02_get_UD.R")
 source("02_collapse_UD_dirs.R")
 
+# Calculate C&R's mean feature entropy (MFH) using the Python script
+source("03_run_python.R")
+
 source("03_process_data_per_UD_proj.R")
 process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
                 output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
@@ -34,7 +37,6 @@ process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/
 
 
 calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_core_features_only/processed_tsv/", 
-                    verbose = TRUE, 
                     agg_level = "upos",
                     core_features = "core_features_only",
                     output_dir <- "output/results/ud-treebanks-v2.14_results")

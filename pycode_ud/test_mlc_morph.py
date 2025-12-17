@@ -231,8 +231,37 @@ def test_get_mfh_using_tsv():
     Use test_01.tsv to test get_mfh function.
     """
 
-    # Load output_test/processed_data/ud-treebanks-v2.14/test_01.tsv into a dataframe
-    fpath_tsv = Path("code") / "output_test" / "processed_data" / "ud-treebanks-v2.14" / "test_01.tsv"
+    # Create a test dataframe with the TSV data
+    df_nodes = pl.DataFrame({
+        "id": [1, 2, 3, 4, 5, 6, 7, 8],
+        "doc_id": [1, 1, 1, 1, 1, 1, 1, 1],
+        "paragraph_id": [1, 1, 1, 1, 1, 1, 1, 1],
+        "sentence_id": [1, 1, 1, 1, 1, 1, 1, 1],
+        "sentence": ["This is a test."] * 8,
+        "token_id": [1, 2, 3, 4, 5, 6, 7, 8],
+        "token": ["123", "abc", "one", "", "tu", None, "wu", "extra"],
+        "lemma": ["123", "abc", "one", "au", "", "vu", None, "extra"],
+        "upos": ["NUM", "NOUN", "NUM", "VERB", "VERB", "VERB", "VERB", "VERB"],
+        "xpos": ["N"] * 8,
+        "feats": ["Gender=Male", "Gender=Female", "Gender=Male", "Gender=Female", "Gender=Male", "Gender=Female", "Gender=Male", "Gender=Female"],
+        "head_token_id": [0, 1, 2, 3, 4, 5, 6, 7],
+        "dep_rel": ["TEST"] * 8,
+        "deps": [""] * 8,
+        "misc": [f"test misc {x}" for x in "ABCDEFGH"],
+    })
+
+    # Create test directory if it doesn't exist
+    test_dir = Path("code") / "output_test" / "processed_data" / "ud-treebanks-v2.14_collapsed"
+    test_dir.mkdir(parents=True, exist_ok=True)
+
+    # Save the test dataframe to a TSV file
+    fpath_tsv = test_dir / "test_01.tsv"
+    df_nodes.write_csv(
+        str(fpath_tsv),
+        separator="\t",
+    )
+
+    # Now load the TSV file and pass it to get_mfh
     df_nodes = pl.read_csv(
         str(fpath_tsv),
         separator="\t",
@@ -244,6 +273,12 @@ def test_get_mfh_using_tsv():
         df_nodes=df_nodes,
     )
 
-    # Report the MFH value
-    print(f"MFH for test_01.tsv: {mfh:.4f}")
-    print(f"Filtered rows: {dict_extra_info['n_total_rows'] - dict_extra_info['n_total_rows_filtered']} out of {dict_extra_info['n_total_rows']} total rows.")
+    # We expect the entropy to be greater than 0 but less than 1.
+    assert 0.0 < mfh < 1.0, f"Expected MFH to be between 0.0 and 1.0, but got {mfh}"
+
+    # There are 8 total rows
+    assert dict_extra_info["n_total_rows"] == 8, f"Expected 8 total rows, but got {dict_extra_info['n_total_rows']}"
+
+    # There was 1 row with no lemma, 1 with no token and 1 with a number, so they should be filtered out
+    assert dict_extra_info["n_total_rows"] - dict_extra_info["n_total_rows_filtered"] == 5, \
+        f"Expected 5 rows to be filtered out, but got {dict_extra_info['n_total_rows'] - dict_extra_info['n_total_rows_filtered']}"
