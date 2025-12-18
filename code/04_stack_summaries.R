@@ -82,13 +82,13 @@ p <- all_counts %>%
 
 all_counts$dir <- forcats::fct_reorder(all_counts$dir, all_counts$diff)
 
-all_counts %>% 
+p  <- all_counts %>% 
   ggplot2::ggplot() +
   ggplot2::geom_bar(mapping = ggplot2::aes(x = dir, y = diff), stat = "identity")
 
-all_counts %>% 
+p  <- all_counts %>% 
   ggplot2::ggplot() +
   ggplot2::geom_point(mapping = aes(x = n_tokens_in_input, y = diff))
 
   
-all_counts$diff %>% mean()
+mean  <- all_counts$diff %>% mean()
