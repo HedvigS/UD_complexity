@@ -99,6 +99,8 @@ R will then install the required packages. On Windows this can take a long time 
 
 ## Run
 
+Be aware that running the entire pipeline end-to-end will create results in the `output/` directory totalling around **70GB**.
+
 ### Run all
 
 In the terminal, make sure the working directory is `code/` and then run:
@@ -252,20 +254,26 @@ To summarise the results and generate the plots found in the manuscript, use the
 
 ```         
 04_stack_summaries.R
+04_combine_all_data.R
 04_plot_SPLOM.R
+04_maps.R
 ```
 
 ## Output
 
 The output folders are structured as follows: 
-+ `processed_data`: Data processed by steps earlier than `03_process_data_per_UD_proj.R`, and used by that script to generate further output files. 
-+ `summarised`: Summary data at the level of the whole data-set (e.g. number of types, number of tokens, ratios and surprisals) 
-+ `surprisal_per_feat`: counts, proportions and sum of surprisals for individual feature values 
-+ `surprisal_per_feat_lookup`: counts, proportions and surprisals for individual feature values 
-+ `surprisal_per_featstring`: counts, proportions and surprisals for full feature strings for each token (where the counts and proportions are determined per `agg_level`, either UPOS, lemma or token) 
-+ `surprisal_per_featstring_lookup`: counts, proportions and surprisals per feature string, per `agg_level` (UPOS, lemma or token) 
-+ `surprisal_per_token`: counts, proportions and surprisals for each token regardless of morphological features. Ignores UPOS, so "marks" (English verb) and "marks" (English plural noun) would be counted as two instances of the same token. 
-+ `TTR`: Type-token ratios of individual tokens
++ `plots`: SPLOM plots and maps created in step 4.
++ `processed_data`: Preprocessing of UD data:
+  + `ud-treebanks-v2.14_collapsed`: Treebanks after filtering with `02_collapse_UD_dirs.R`
+  + `ud-treebanks-v2.14_processed`: Treebanks after preprocessing with `process_UD_data()` in `03_process_data_per_UD_proj.R`
++ `results`: Results of calculations performed by `calculate_surprisal()` in `03_process_data_per_UD_proj.R`. Subdirectories organise data as follows:
+  + `summarised`: Summary data at the level of the whole data-set (e.g. number of types, number of tokens, ratios and surprisals) 
+  + `surprisal_per_feat`: counts, proportions and sum of surprisals for individual feature values 
+  + `surprisal_per_feat_lookup`: counts, proportions and surprisals for individual feature values 
+  + `surprisal_per_featstring`: counts, proportions and surprisals for full feature strings for each token (where the counts and proportions are determined per `agg_level`, either UPOS, lemma or token) 
+  + `surprisal_per_featstring_lookup`: counts, proportions and surprisals per feature string, per `agg_level` (UPOS, lemma or token) 
+  + `surprisal_per_token`: counts, proportions and surprisals for each token regardless of morphological features. Ignores UPOS, so "marks" (English verb) and "marks" (English plural noun) would be counted as two instances of the same token. 
+  + `TTR`: Type-token ratios of individual tokens
 
 ## Metrics
 
