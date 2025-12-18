@@ -7,11 +7,11 @@ name = "pycode_ud"
 version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy==2.0.2",
-    "rich==14.2.0",
-    "tqdm==4.67.1",
-    "polars==1.35.2",
-    "pytest==8.3.4",
+    "numpy>=2.0.2,<3.0.0",
+    "rich>=14.2.0,<15.0.0",
+    "tqdm>=4.67.1,<5.0.0",
+    "polars>=1.35.2,<2.0.0",
+    "pytest>=8.3.4,<9.0.0",
 ]
 
 [tool.setuptools]
