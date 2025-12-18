@@ -285,7 +285,7 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
 
     else:
 
-        # TODO: Filter (a) numbers and (b) empty tokens and lemmas.
+        # Filter (a) empty tokens and lemmas and (b) numbers.
         # Original code in sample_nodes that does this (we assume n.form corresponds to the column "token" in the dataframe):
         # elif filter_num and n.upos == 'NUM' and not n.form.isalpha():
     #         dict_extra_info["n_filtered_num"] += 1

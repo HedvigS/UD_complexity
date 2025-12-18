@@ -9,7 +9,7 @@ UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>%
   dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::distinct(dir, glottocode)
 
-mfh <- readr::read_tsv("output/mfh_stacked.tsv", show_col_types = FALSE) %>% 
+mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE) %>% 
   dplyr::rename( n_total_rows_mfh = n_total_rows, 
                  n_total_rows_filtered_mfh= n_total_rows_filtered)
 

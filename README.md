@@ -27,7 +27,7 @@ Likewise, we expect that future versions of the data-sets yield very similar out
 -   R version 4.5.0. We expect other versions of R 4 to work, but for perfect replication the version we used was 4.5.0.
 -   (For some Windows users it may be necessary to also install Rtools 45)
 -   R packages: see `requirements.tsv`
--   Python version 3.11-3.13.
+-   Python version 3.10-3.13.
 
 #### R versions and packages
 
@@ -44,7 +44,7 @@ If `code/01_requirements_install.R` fails but you succeed in installing packages
 
 #### Python versions and packages
 
-We have tested on python version 3.11 on Windows and TODO on MacOS.
+We have tested on python version 3.10 on Windows and TODO on MacOS.
 We expect other recent versions of python to work similarly.
 Earlier versions of python are unlikely to work due to incompatibility with the package `polars`.
 See below for instructions on installing the python virtual environment and package requirements, all of which are listed in `pyproject.toml`.
@@ -53,7 +53,7 @@ See below for instructions on installing the python virtual environment and pack
 
 1.  Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view).
 2.  Install `R` 4.5.0. [macos arm64](https://mirror.accum.se/mirror/CRAN/bin/macosx/big-sur-arm64/base/R-4.5.0-arm64.pkg) [macos x86_64](https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.5.0-x86_64.pkg)\
-3. Install python version 3.11-3.13, create a virtual environment, and install the project:
+3. Install python version 3.10-3.13, create a virtual environment, and install the project:
     1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/macos/) or installed directly via your system's package manager.
     2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python3 -m venv .venv_ud_complexity`.
     3. **Activate virtual environment**: Run `source .venv_ud_complexity/bin/activate`
@@ -76,7 +76,7 @@ If problems pesists, users are recommended to seek support for installing/updati
 
 1.  Clone this Git repository or [download this repository as a ZIP file and extract it](https://docs.github.com/en/repositories/working-with-files/using-files/downloading-source-code-archives#downloading-source-code-archives-from-the-repository-view).
 2.  Install [R 4.5.0](https://cran.r-project.org/bin/windows/base/old/4.5.0/).
-3. Install python version 3.11-3.13, create a virtual environment, and install the project:
+3. Install python version 3.10-3.13, create a virtual environment, and install the project:
     1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/windows/) or installed directly via your system's package manager.
     2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python -m venv .venv_ud_complexity`.
     3. **Activate virtual environment**: Run `.venv_ud_complexity/Scripts/activate`
