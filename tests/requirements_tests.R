@@ -3,6 +3,17 @@ UD_version <- "ud-treebanks-v2.14"
 # Set CRAN mirror
 options(repos = c(CRAN = "https://cloud.r-project.org/"))
 
+# Set the working directory to /code/
+if (basename(getwd()) == "UD_complexity") {
+  setwd("code")
+} else if (basename(getwd()) == "tests") {
+  setwd("../code")
+} else if (basename(getwd()) == "code") {
+  # Do nothing, already in the correct directory
+} else {
+  stop("Unexpected working directory. Please run the script from 'UD_complexity' or 'tests' directory.")
+}
+
 # Load the requirements.
 if (basename(getwd()) == "code") {
   f_requirements <- "../tests/requirements_tests.tsv"
