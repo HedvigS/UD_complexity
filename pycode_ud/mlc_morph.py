@@ -251,7 +251,7 @@ def get_wh_lh(sentences, sample_size=1000, random_sample=True,
 
 def get_mfh(sentences, sample_size=1000, random_sample=True,
         filter_num=True, filter_pos={'X', 'PUNCT'},
-        smooth=None, df_nodes=None, **kwargs):
+        smooth=None, df_nodes=None, return_distributions_only=False, **kwargs):
     """ Calculate the morphological feature (and POS) entropy.
     POS en
 
@@ -331,7 +331,18 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
             if row['feats']:
                 feats = row['feats'].split('|')
                 cfeat.update(feats)
+
+                # Track which features belong to which parts of speech.
+                for feat in feats:
+                    key = f"{row['upos']}__{feat.split('=')[0]}"
+                    if key not in dict_extra_info:
+                        dict_extra_info[key] = 0
+                    dict_extra_info[key] += 1
+
             cpos.update([row['upos']])
+    
+    if return_distributions_only:
+        return cfeat, cpos, dict_extra_info
     
     # Below here original code.
     npos = sum(cpos.values())
