@@ -36,17 +36,14 @@ metrics_df_2_ways <- all %>%
   tidyr::unite(variable, agg_level, core_features, col = "cast_variable", remove = TRUE) %>% 
   reshape2::dcast(dir ~ cast_variable, value.var = "value")
 
-df <- all %>% 
-  dplyr::select(dir, "n_types", "n_tokens" , "n_sentences" ,"TTR" ,    "LTR"   , "suprisal_token_mean" ) %>% 
+df <- all %>%
+  dplyr::select(dir, "n_types", "n_tokens" , "n_lemmas", "n_sentences" ,"TTR" ,    "LTR"   , "suprisal_token_mean" ) %>% 
   dplyr::distinct() %>% 
   dplyr::full_join(custom_metrics_df_4_ways, by = "dir") %>% 
   dplyr::full_join(metrics_df_2_ways, by = "dir")
   
 df %>% 
   readr::write_tsv("output/all_summaries_stacked.tsv", na = "")
-
-
-
 
 fns1 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/counts/", 
                    pattern = ".tsv", full.names = T)

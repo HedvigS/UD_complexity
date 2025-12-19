@@ -58,5 +58,12 @@ df <- df %>%
   dplyr::mutate(n_feats_per_token_mean_all_features = n_feats_per_token_mean_lemma_all_features) %>% 
   dplyr::select(-n_feats_per_token_mean_lemma_all_features, -n_feats_per_token_mean_upos_all_features) 
 
+#some datasets don't have the tokens in them
+df <- df %>% 
+  dplyr::mutate(TTR = ifelse(n_types <=2, NA, TTR)) %>% 
+  dplyr::mutate(LTR = ifelse(n_types <=2, NA, LTR))  %>% 
+  dplyr::mutate(suprisal_token_mean = ifelse(n_types <=2, NA, suprisal_token_mean))  %>% 
+  dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  
+  
 df %>% 
   readr::write_tsv("output/results/all_results.tsv", na = "")
