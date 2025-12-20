@@ -538,7 +538,7 @@ We also calculate related metrics which are commonly reported in other studies o
  % \end{enumerate}
   \item Type-Token Ratio (TTR): the number of unique tokens divided by the total number of tokens
   \item Lemma-Token Ratio (LTR): the number of unique lemmas divided by the total number of tokens
-  \item Mean number of morphological features per token (calculated before dummy features are inserted, so aggregation level is irrelevant)
+  \item Mean number of morphological features per token (calculated without ``dummy'' features)
       \begin{enumerate}
   \renewcommand{\labelenumi}{\alph{enumi})}
   \item all features
@@ -553,8 +553,7 @@ We also calculate related metrics which are commonly reported in other studies o
   \setcounter{enumi}{9}  % This will start the list at 5
   \item Number of types
   \item Number of tokens
-  \item Number of sentences
-  \item Number of unique features% (comparable to Grambank metrics Fusion and Informativity)
+  \item Number of unique feature categories (e.g. Tense, NumType)% (comparable to Grambank metrics Fusion and Informativity)
       \begin{enumerate}
     \renewcommand{\labelenumi}{\alph{enumi})}
  \item  all features
@@ -934,12 +933,40 @@ ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
 
 For comparing with the Grambank metrics Fusion and Informativity, match the UD-datasets to glottocodes and take the mean of our metrics.
 
+To illustrate the general flow of actions and order of scripts, we have made a schematic illustration in Figure \ref{fig:data_processing_flowchart}.
+
 \begin{figure}
     \centering
     \includegraphics[width=0.45\linewidth]{latex/graphics/UD_complexity data flowchart.png}
-    \caption{Flowchart of data-processing.}
-    \label{fig:}
+    \caption{General flowchart of data-processing.}
+    \label{fig:data_processing_flowchart}
 \end{figure}
+\FloatBarrier
+\paragraph{Applying approach to other datasets}
+In this study, we specifically apply our approach to UD-datasets. However, any corpus that can be formatted into a table where every row is a token can be used as input. The specific function that calculates the different surprisal metrics is \texttt{calculate\_surprisal()} in code\textbackslash{}03\_process\_data\_per\_UD\_proj.R. The token-table needs to have the following columns (as exemplified in table \ref{tab:example_input}): dir (unique identifier of dataset), id (unique identifier of token in entire dataset), token, lemma, feats and upos.
+
+\begin{table}[h]
+    \centering
+    \caption{Example of input-table to the function \texttt{calculate\_surprisal()}.} %note table captions go above the table
+    \label{tab:example_input}   
+    \begin{tabular}{p{1.55cm}p{1.7cm}p{1.3cm}p{2cm}p{3.2cm}p{1.5cm}}
+\toprule
+\textbf{dir}&  \textbf{id}	&	\textbf{token}	&	\textbf{lemma}	&	\textbf{feats}	&	\textbf{upos}	\\	\midrule
+Ukranian-IU &  001\_0002\_1	&	\Timesfont{У}	&	\Timesfont{у}\_ADP	&	Case=Loc	&	ADP	\\	\midrule
+Ukranian-IU & 001\_0002\_10	&	\Timesfont{зображення}	&	\Timesfont{зображення}\_NOUN	&	Animacy=Inan| Case=Nom| Gender=Neut|Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_11	&	\Timesfont{Венери}	&	\Timesfont{Венера}\_PROPN	&	Animacy=Anim| Case=Gen|Gender=Fem| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_12	&	\Timesfont{та}	&	\Timesfont{та}\_CCONJ	&	unassigned=unassigned	&	CCONJ	\\	\midrule
+Ukranian-IU & 001\_0002\_13	&	\Timesfont{Адоніса}	&	\Timesfont{Адоніс}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_2	&	\Timesfont{домі}	&	\Timesfont{дім}\_NOUN	&	Animacy=Inan|Case=Loc| Gender=Masc| Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_3	&	\Timesfont{римського}	&	\Timesfont{римський}\_ADJ	&	Case=Gen|Gender=Masc| Number=Sing	&	ADJ	\\	\midrule
+Ukranian-IU & 001\_0002\_4	&	\Timesfont{патриція}	&	\Timesfont{патрицій}\_NOUN	&	Animacy=Anim|Case=Gen| Gender=Masc|Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_5	&	\Timesfont{Руфіна}	&	\Timesfont{Руфін}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc|NameType=Giv| Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_6	&	\Timesfont{була}	&	\Timesfont{бути}\_VERB	&	Aspect=Imp|Gender=Fem| Mood=Ind|Number=Sing| Person=unassigned|Tense=Past| VerbForm=Fin	&	VERB	\\	\midrule
+Ukranian-IU & 001\_0002\_7	&	\Timesfont{прегарна}	&	\Timesfont{прегарний}\_ADJ	&	Case=Nom|Gender=Fem| Number=Sing	&	ADJ	\\	\midrule
+Ukranian-IU & 001\_0002\_8	&	\Timesfont{фреска}	&	\Timesfont{фреска}\_NOUN	&	Animacy=Inan|Case=Nom| Gender=Fem|Number=Sing	&	NOUN	\\	\midrule
+\bottomrule
+    \end{tabular}
+\end{table}
 
 \subsection{Calculation of Grambank metrics}\label{sec:appendix_rgrambank}
 The metrics Fusion and Informativity were calculated from Grambank v1.0 with the following procedure, using functions from the R-package rgrambank \citep{R-rgrambank}. 
