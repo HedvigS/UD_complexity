@@ -57,7 +57,7 @@ See below for instructions on installing the python virtual environment and pack
     1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/macos/) or installed directly via your system's package manager.
     2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python3 -m venv .venv_ud_complexity`.
     3. **Activate virtual environment**: Run `source .venv_ud_complexity/bin/activate`
-    4. **Upgrade pip**: Run `python.exe -m pip install --upgrade pip`
+    4. **Upgrade pip**: Run `python3 -m pip install --upgrade pip`
     5. **Install project**: Run `pip install -e .` to install the project as an editable package.
     6. **Run tests**: Run `pytest` to run basic checks ensuring the python scripts run as expected.
 4.  If running from terminal:
