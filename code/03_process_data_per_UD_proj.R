@@ -276,12 +276,15 @@ process_UD_data <- function(input_dir = NULL,
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
                                 verbose = TRUE,
+                                UD_dataset = TRUE, 
          agg_level = NULL, #upos,lemma token
          core_features = NULL# core_features_only, all_features
              ){
 
 #input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/"
 #output_dir <- "output/results/ud-treebanks-v2.14_results"
+  
+  
   
   if(!dir.exists(output_dir)){
     dir.create(output_dir)
@@ -320,6 +323,12 @@ if(str_detect(input_dir, "all_features")){
 
 if(str_detect(input_dir, "core_features_only")){
   core_features_inferred  <- "core_features_only"
+}
+
+
+if(UD_dataset == FALSE){
+  core_features <- "NOT_APPLICABLE"
+  core_features_inferred  <- "NOT_APPLICABLE"
 }
 
 if(is.null(agg_level)){
