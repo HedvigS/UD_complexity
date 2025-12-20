@@ -86,7 +86,7 @@ genre_df <- metadata_df %>%
   dplyr::arrange(dplyr::desc(n))
 
 colors_17 <-  c(
-  "#FF6F61", "#6B5B95", "#88B04B", "#F7CAC9", "#EFC050",
+  "#FF6F61", "#6B5B95", "purple", "#F7CAC9", "#EFC050",
   "#955251", "#009B77", "#B565A7", "#DD4124", "#45B8AC",
   "#92A8D1", "#5B5EA6", "#9B2335", "#DFCFBE", "#BC243C",
   "#C3447A", "#9AD0EC"
@@ -105,7 +105,7 @@ df <- genre_df %>%
     # row index
     idx = row_number(),
     # fixed distance for first 10, then spiral
-    x_label = ifelse(idx <= 10, 5, 5 + (idx - 10) + 0.03)
+    x_label = ifelse(idx <= 10, 5, 5 + (idx - 10)*0.5)
   )
 
 # plot
@@ -123,5 +123,5 @@ p <- ggplot2::ggplot(df, ggplot2::aes(ymax = ymax, ymin = ymin, xmax = x_slice, 
   ggplot2::theme(legend.position = "none") +
   ggplot2::scale_fill_manual(values = colors_17)
 
-ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 10, height = 10)
+ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 7, height = 7)
 
