@@ -5,7 +5,7 @@ library(stringr, lib.loc = "../utility/packages/")
 library(tidyr, lib.loc = "../utility/packages/")
 
 parse_ud_metadata <- function(README_fn) {
-  lines <- readLines(README_fn, warn = FALSE)
+  lines <- base::readLines(README_fn, warn = FALSE)
   
   # find last line that contains all four words (flexible match)
   # any characters (.*) allowed in between, case-insensitive
