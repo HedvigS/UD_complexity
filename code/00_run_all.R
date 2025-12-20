@@ -5,7 +5,6 @@ source("01_requirements_dirs.R")
 
 source("02_get_glottolog_language_table.R")
 source("02_get_grambank_data.R")
-source("02_google_pop.R")
 
 source("02_get_UD.R")
 source("02_collapse_UD_dirs.R")
