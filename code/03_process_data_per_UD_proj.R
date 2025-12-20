@@ -431,7 +431,6 @@ conllu %>%
                           ".tsv"))
 
 n_unique_lemma_per_sentence <- conllu %>% 
-  dplyr::filter(!is.na(lemma)) %>% 
   dplyr::distinct(sentence_id, lemma) %>%
   dplyr::group_by(sentence_id) %>% 
   dplyr::summarise(n_lemma = n(), .groups = "drop")
