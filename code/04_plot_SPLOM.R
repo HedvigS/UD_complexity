@@ -59,7 +59,6 @@ df_for_plot <- df %>%
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
-                "Sentences (n)" = "n_sentences" ,
                 "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
                 "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
                 
@@ -212,7 +211,6 @@ df_for_plot <- df %>%
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
-                #  "Sentences (n)" = "n_sentences" ,
                 "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
                 "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
   ) 
