@@ -83,13 +83,6 @@ for(i in 1:nrow(UD_dirs)){
       dplyr::mutate(filename = fn) %>% 
       dplyr::mutate(upos = ifelse(upos == "MULTIWORD", NA, upos)) #turning missing upos for multiword items back into NA so that the rest of the data-flow works as expected.
 
-    if(all(!is.na(conllu$doc_id))){
-      suppressWarnings( conllu$doc_id <- stringr::str_pad(as.numeric(conllu$doc_id), width = 3, pad = "0", side = "left") )
-    }
-    
-    suppressWarnings(conllu$paragraph_id <- stringr::str_pad(as.numeric(conllu$paragraph_id), width = 3, pad = "0", side = "left"))
-#    suppressWarnings(conllu$token_id <- stringr::str_pad(as.numeric(conllu$token_id), width = 3, pad = "0", side = "left"))
-    
     conllu <- conllu %>% 
       tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
       dplyr::mutate(across(everything(), as.character)) 
