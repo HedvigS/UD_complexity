@@ -105,7 +105,7 @@ df <- genre_df %>%
     # row index
     idx = row_number(),
     # fixed distance for first 10, then spiral
-    x_label = ifelse(idx <= 10, 5, 5 + (idx - 10)*0.4)
+    x_label = ifelse(idx <= 10, 5, 5 + (idx - 10) + 0.03)
   )
 
 # plot
@@ -123,4 +123,5 @@ p <- ggplot2::ggplot(df, ggplot2::aes(ymax = ymax, ymin = ymin, xmax = x_slice, 
   ggplot2::theme(legend.position = "none") +
   ggplot2::scale_fill_manual(values = colors_17)
 
-ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 7, height = 7)
+ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 10, height = 10)
+
