@@ -10,10 +10,6 @@ source("../utility/fun_def_SPLOM_fun.R")
 ##################################
 df <- readr::read_tsv("output/results/all_results.tsv", show_col_types = F)
 
-df <- df %>% 
-  dplyr::filter(n_feat_cats_all_features != 0) %>% 
-  dplyr::filter(n_feat_cats_core_features_only != 0) 
-
 # SPLOM custom metrics
 
 df_for_plot <- df %>%
