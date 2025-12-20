@@ -402,10 +402,6 @@ n_feats_per_token_df  <- conllu_split %>%
 
 ## COUNTS
 #some simple counts: count number of types, tokens, lemmas and sentences
-n_tokens_per_sentence_df <- conllu %>% 
-  dplyr::group_by(sentence_id) %>% 
-  dplyr::summarise(n_tokens = n(), .groups = "drop")
-
 ## TTR
 n_tokens <- conllu %>% nrow()
 n_types <- conllu$token %>% unique() %>%  na.omit() %>% length()
