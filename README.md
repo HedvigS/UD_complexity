@@ -5,7 +5,7 @@ R project for exploring informational load of morphology using the Universal Dep
 ## Project overview
 
 We are using the [Universal Dependencies (UD)](https://universaldependencies.org/) data-set ([version 2.14](https://lindat.mff.cuni.cz/repository/items/e22c28af-deba-4411-a49d-d7a99e28d205)) to explore different facets of information in morphology.
-We use morphology features annotated in UD to calculate information-theoretic metrics across data-sets in different languages, and compare these to related measures such as grammatical features from [Grambank](https://grambank.clld.org/) and estimated population sizes from [Google](https://github.com/google-research/url-nlp/tree/e2adf5c9e2af5108d7e5d2a920ce9936d9867cc2/linguameta).
+We use morphology features annotated in UD to calculate information-theoretic metrics across data-sets in different languages, and compare these to related measures such as grammatical features from [Grambank](https://grambank.clld.org/) and Çöltekin & Rama's 2023 mfh-measure.
 
 ## Installing necessary prerequisites
 
@@ -17,7 +17,7 @@ Another method of installing them (e.g. directly via binaries from [CRAN](https:
 
 ### Versioning
 
-We have documented the versions of the software used (`R`, `Rtools` and R packages) and data (Universal Dependencies, Grambank, Glottolog and google-research/url-nlp) in this README.md document and in the `R` scripts of this project.
+We have documented the versions of the software used (`R`, `Rtools` and R packages) and data (Universal Dependencies, Grambank and Glottolog) in this README.md document and in the `R` scripts of this project.
 For perfect replication, please use the versions specified.
 For the software, we anticipate that related versions will generally be compatible with the analysis; however, this cannot be guaranteed.
 Likewise, we expect that future versions of the data-sets yield very similar outcomes as they are not expected to change dramatically in content, but this can also not be guaranteeed.
@@ -32,7 +32,7 @@ Likewise, we expect that future versions of the data-sets yield very similar out
 #### R versions and packages
 
 All required R packages are installed for the user with R the script `code/01_requirements_install.R` which features some accommodations to platform-specific situations.
-All required R packages, with the exception of `data.table` and `Matrix`, are listed in the file `requirements.tsv` in a particular order. 
+All required R packages, with the exception of `data.table` and `Matrix`, are listed in the file `requirements.tsv` in a particular order that is optimally constructed in terms of package depencies. 
 The other packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements_install.R`.
 
 We install all packages into a custom directory `utility/packages/`.
