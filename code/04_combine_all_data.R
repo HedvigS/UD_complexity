@@ -63,7 +63,8 @@ df <- df %>%
   dplyr::mutate(TTR = ifelse(n_types <=2, NA, TTR)) %>% 
   dplyr::mutate(LTR = ifelse(n_types <=2, NA, LTR))  %>% 
   dplyr::mutate(suprisal_token_mean = ifelse(n_types <=2, NA, suprisal_token_mean))  %>% 
-  dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  
-  
+  dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  %>% 
+  dplyr::filter(n_feat_cats_all_features >= 2)
+
 df %>% 
   readr::write_tsv("output/results/all_results.tsv", na = "")
