@@ -430,11 +430,6 @@ conllu %>%
   readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_token/surprisal_per_token_", dir,
                           ".tsv"))
 
-n_unique_lemma_per_sentence <- conllu %>% 
-  dplyr::distinct(sentence_id, lemma) %>%
-  dplyr::group_by(sentence_id) %>% 
-  dplyr::summarise(n_lemma = n(), .groups = "drop")
-
 ########## custom metrics
 #computing the probabilities and surprisal of each morph tag value per lemma
 
