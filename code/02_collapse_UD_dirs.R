@@ -77,7 +77,6 @@ for(i in 1:nrow(UD_dirs)){
      fn <-     paste0("../data/ud-treebanks-v2.14", "/", UD_dir_spec[1,1],"/", UD_dir_spec[y,2] )
 
     conllu <- udpipe::udpipe_read_conllu(fn) %>%   
-      dplyr::filter(!is.na(token)) %>% 
       dplyr::mutate(upos = ifelse(str_detect(token_id, "-") & is.na(lemma), "MULTIWORD", upos)) %>% #making missing value upos for multiword token not missing so that it survives the negative filters below
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
       dplyr::filter(upos != "X")  %>%
