@@ -44,6 +44,7 @@
 
 \usepackage{graphicx, color}
 \graphicspath{{latex/fig/}}
+\setlength{\emergencystretch}{2em}
 
 \begin{document}
 
@@ -523,7 +524,7 @@ Overall, we define eight versions of our metric:
 We note caveats to our approach in appendix \ref*{sec:caveats}. 
 
 \subsection{Additional metrics}
-We also calculate related metrics which are commonly reported in similar studies.
+We also calculate related metrics which are commonly reported in other studies of morphological complexity in corpora or which can be useful in interpreting the custom metrics. For example, we expect that a dataset that contains more morphological feature categories are more likely to exhibit higher levels of surprisal of morphological features per token as there are more features that can be utilized. 
 %Like for the metrics defined above, some of those listed here depend on whether the aggregation level is lemma or UPOS, and whether all features or only core features are considered.
 \begin{enumerate}
   \setcounter{enumi}{1}  % This will start the list at 2
@@ -561,31 +562,30 @@ We also calculate related metrics which are commonly reported in similar studies
  \end{enumerate}
  \end{enumerate}
 
-For comparison with information external to UD, we also include:
+We also compare to other metrics external to our study: 
 
 \begin{itemize}
-    \item Grambank metrics (for detailed definitions see \citet{grambank_release}, \citet{shcherbakova2023societies} and \citet{R-rgrambank}) 
-\begin{itemize}
-\item Fusion 
-\item Informativity 
+    \item Morphological feature entropy (MFH) as calculated by \citet{ccoltekin2023complexity} - with small modifications (see appendices \ref{sec:appendix_ccoltekin} and \ref{sec:appendixComparison})
+\item Grambank metrics (for detailed definitions see \citet{grambank_release}, \citet{shcherbakova2023societies} and \citet{R-rgrambank}) 
+    \begin{itemize}
+    \item Fusion 
+    \item Informativity 
+    \end{itemize}
+%Speaker population estimates, compiled by Google's research team \citep{ritchie-etal-2024-linguameta-unified}
 \end{itemize}
-    \item Speaker population estimates, compiled by Google's research team \citep{ritchie-etal-2024-linguameta-unified}
-\end{itemize}
-
 
 \section{Results}
-We report the results in ScatterPlOt Matrices (SPLOMs) and maps.\footnote{Unfortunately there are no UD datasets present in the Americas or Central or Eastern Pacific, which is why these regions are not displayed on the maps. Furthermore, the geographical points are tied to the locations of the languages in Glottolog 5.0 \citep{glottolog5.0}. The points have been jittered somewhat to avoid overlaps which would obscure information.}
-The SPLOM visualisations compare different measurements of the same data in a  pairwise fashion.\footnote{There are four datasets included in our study that do not contain regular tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and
-Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular. The lemma annotation is also irregular. For this reason, we do not include a few of the metrics for these four dataset (TTR, LTR, Number of types and mean surprisal of token).}.
+We report the results in ScatterPlOt Matrices (SPLOMs) and maps.\footnote{Unfortunately there are no UD datasets present in the Americas or Central or Eastern Pacific, which is why these regions are not displayed on the maps. Furthermore, the geographical points are tied to the locations of the languages in Glottolog 5.0 \citep{glottolog5.0}. The points have been jittered somewhat to avoid overlaps for dataset of the same/nearby languages which would obscure information.}
+The SPLOM visualisations compare different measurements of the same data in a  pairwise fashion.
 The lower-left portion of each SPLOM shows scatterplots for the pairwise comparisons of measurements.
-The upper-right portion shows the Pearson correlation coefficient of the corresponding pair. 
+The upper-right portion shows the Spearman's rank correlation coefficient of the corresponding pair. 
 The diagonal of the plot shows histograms of each measure. 
 The upper and right edges of the diagram list the names of each measure, while the left and lower edges display axis values for the scatterplots.
 
-The Pearson correlation test evaluates the strength and significance of a linear relationship between two variables. 
+The Spearman correlation test evaluates the strength and significance of the relationship between the rank of two variables
 The strength is expressed by a coefficient whose value lies between -1 (indicating negative correlation) and 1 (positive correlation). 
 An absolute value of 1 indicates a perfect relationship in which the two variables are fully matched. 
-Significance is measured via traditional p-values.
+Significance is measured via traditional p-values\footnote{For some of our variables, there were values that tied at the same rank. This makes it impossible to calculate  exact p-values for Spearman's rank correlation coefficient in the same way as when there are no ties. In such cases, we use an approximation that is well-established (asymptotic $t$ approximation) and implemented in the base R-package stat's function cor.test(method = "spearman", exact = FALSE).}.
 Significant correlations (p<0.05) are presented in bold text and marked with an asterisk. 
 An absolute correlation coefficient larger than 0.7 is commonly interpreted as a strong relationship, and above 0.9 very strong. 
 We have marked significant correlations above 0.6 in red text.
@@ -607,24 +607,24 @@ See Appendix section \ref{sec:caveat_genres} for more information.
 \subsection{Custom metrics}
 
 First, we consider the relationship between the new metrics defined in this paper. 
-Figures \ref{fig:SPLOM_custom_metrics} and \ref{fig:SPLOM_custom_metrics_PUD} show the relationship between the eight measurements we calculate, for all datasets and for PUD datasets only. 
+Figures \ref{fig:SPLOM_metric_custom} and \ref{fig:SPLOM_metric_custom_PUD} show the relationship between the eight measurements we calculate, for all datasets and for PUD datasets only. 
 % The measures are calculated separately for individual features and combinations of features (``featstring''), for aggregation levels UPOS and lemma, and with all features or just the core features.
 % With three binary distinctions (feat vs featstring, UPOS vs lemma, core vs all features), we have eight different measures. 
 Most of these correlate strongly with each other, suggesting that while they differ in specific implementation they are picking up on the same characteristics of the datasets (and thereby languages) in question.\footnote{A reviewer rightly pointed out that one cannot infer from a correlation between two variables that both are tracking the same underlying characteristic. For example, age and wage are correlated but do not track any single property in a population. Here we are relying on the fact that each of our metrics is defined in terms of the same formula, applied to the same datasets, but with variations in implementation. The relatively strong correlations between these implementations demonstrate, we think, that there is a general property of each dataset -- what we have described as the `morpho-surprisal' -- that each specific implementation is capturing an aspect of. It is as though we were to use several variants on the definition of `income' (gross wage, net wage, disposable income, etc.) and note that they are correlated because each captures some aspect of a more general property (`income' considered as an abstract kind, without specifying a precise formulation).} 
-The correlations are even stronger if we consider only the PUD-subset of UD (Figure \ref{fig:SPLOM_custom_metrics_PUD}), indicating that the variation among the full complement of datasets is partly due to genre.
+The correlations are even stronger if we consider only the PUD-subset of UD (Figure \ref{fig:SPLOM_metric_custom_PUD}), indicating that the variation among the full complement of datasets is partly due to genre.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_custom_metrics.png}
+    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom.png}
     \caption{SPLOM of custom metrics (all UD datasets). Since all eight measures are variations on the theme `mean surprisal per token', the correlations are all strong or very strong. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_other_metrics} and \ref{fig:SPLOM_metrics_external}.}
-    \label{fig:SPLOM_custom_metrics}
+    \label{fig:SPLOM_metric_custom}
 \end{figure}
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_custom_metrics_PUD.png}
-    \caption{SPLOM of custom metrics (PUD datasets only). Since the PUD datasets are smaller in size and uniform in genre, the correlations are stronger than their counterparts in Figure \ref{fig:SPLOM_custom_metrics}. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_other_metrics_PUD} and \ref{fig:SPLOM_metrics_external_PUD}.}
-    \label{fig:SPLOM_custom_metrics_PUD}
+    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom_PUD.png}
+    \caption{SPLOM of custom metrics (PUD datasets only). Since the PUD datasets are smaller in size and uniform in genre, the correlations are stronger than their counterparts in Figure \ref{fig:SPLOM_metric_custom}. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_other_metrics_PUD} and \ref{fig:SPLOM_metrics_external_PUD}.}
+    \label{fig:SPLOM_metric_custom_PUD}
 \end{figure}
 
 \FloatBarrier
@@ -644,11 +644,11 @@ However, as several key areas are missing or severely under-represented (primari
 \begin{figure}[htbp]
   \centering
   \subfigure[Mean sum surprisal of features (in bits), aggregation level = UPOS, all features\label{fig:map_sum_surprisal_morph_split_mean_upos_all_features}]{
-    \includegraphics[width=0.45\linewidth]{latex/graphics/map_sum_surprisal_morph_split_mean_upos_all_features.png}
+    \includegraphics[width=0.48\linewidth]{latex/graphics/map_sum_surprisal_morph_split_mean_upos_all_features.png}
   }
   \hfill
   \subfigure[Mean sum surprisal of featstring (in bits), aggregation level = lemma, core features only\label{fig:map_surprisal_per_morph_featstring_mean_lemma_core_features_only}]{
-    \includegraphics[width=0.45\linewidth]{latex/graphics/map_surprisal_per_morph_featstring_mean_lemma_core_features_only.png}
+    \includegraphics[width=0.48\linewidth]{latex/graphics/map_surprisal_per_morph_featstring_mean_lemma_core_features_only.png}
   }
   \caption{Maps showing two of the custom metrics.}
   \label{fig:maps_custom_two}
@@ -666,32 +666,44 @@ This suggests that genre has an impact on the variability of types in a dataset,
 
 \begin{figure}
     \centering
-        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_other_metrics.png}
-    \caption{SPLOM additional metrics  (all UD datasets). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_custom_metrics}, while the remaining measures are standard quantities calculated from the UD datasets.}
+        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_other.png}  
+    \caption{SPLOM additional metrics  (all UD datasets). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_metric_custom}, while the remaining measures are standard quantities calculated from the UD datasets.}
     \label{fig:SPLOM_other_metrics}
 \end{figure}
 
 \begin{figure}
     \centering
-        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_other_metrics_PUD.png}
-    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_custom_metrics_PUD}, while the remaining measures are standard quantities calculated from the PUD datasets. Number of sentences is not displayed as it is fixed for all PUD datasets (1,000 sentences).}
+        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_other_PUD.png}  
+    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure \ref{fig:SPLOM_metric_custom_PUD}, while the remaining measures are standard quantities calculated from the PUD datasets. Number of sentences is not displayed as it is fixed for all PUD datasets (1,000 sentences).}
     \label{fig:SPLOM_other_metrics_PUD}
 \end{figure}
 
 \subsection{Comparison with mean feature entropy}
-
 \citet{ccoltekin2023complexity} define a metric called mean feature entropy, in which all feature-value pairs in the entire dataset are aggregated without regard to lemma or part of speech.
-A comparison of their metric with our two representative metrics can be seen in Figure \ref{fig:SPLOM_metrics_external}.
+A empirical comparison of the metric outcomes with our two representative metrics and TTR can be seen in Figure \ref{fig:SPLOM_metrics_external_CR}.
+The correlations between our metrics and theirs are moderate to strong ( ($0.65^*-0.89^*$) or not significant.
 The first notable point of comparison is that mean feature entropy assigns zero to some datasets that our metrics assign appreciable values to.
 This is because Çöltekin \& Rama omit datasets with empty lemmas, and there are a couple of datasets with morphological information but without lemmas assigned (namely UD\_Faroese-FarPaHC.tsv and UD\_English-GUMReddit.tsv).
+Secondly, our UPOS/all features metric assigns a wider range of values to the datasets, some of which are lower and some higher than mean feature entropy.
+Third, both of our comparison metrics correlate more strongly with Grambank's Fusion metric, suggesting our measures better capture this aspect of a language's grammar (though see the next section).
+For more information on the differences between our two approaches methodologically, see Appendix \ref{sec:appendixComparison}.
 
-
-
+\begin{figure}
+    \centering
+  \centering
+  \subfigure[All datasets \label{fig:SPLOM_metrics_external_CR}]{\includegraphics[width=0.48\linewidth]{latex/graphics/SPLOM_metrics_external_CR.png}
+  }
+  \hfill
+  \subfigure[PUD datasets only \label{fig:SPLOM_metrics_external_CR_PUD}]{\includegraphics[width=0.48\linewidth]{latex/graphics/SPLOM_metrics_external_CR_PUD.png}
+  }
+  \caption{Comparison with \citet{ccoltekin2023complexity}'s metric}
+    \label{fig:SPLOM_metrics_external_CR}
+\end{figure}
 
 \subsection{Grambank metrics}
 
 Finally, we compare our custom metrics to the Grambank metrics Fusion and Informativity. 
-The correlations between our metrics and the Grambank metrics are typically weak ($0.45^*-0.48^*$) or not significant (Figures \ref{fig:SPLOM_metrics_external} and \ref{fig:SPLOM_metrics_external_PUD}).
+The correlations between our metrics and the Grambank metrics are typically weak ($0.45^*-0.48^*$) or not significant (Figure \ref{fig:SPLOM_metrics_external_grambank_PUD}).
 Only with the PUD datasets do we see strong correlations ($0.7^*$), between our two representative custom metrics and the Grambank Fusion measure, though these are generated by a relatively small sample of only 18 datasets.
 This lack of correlation highlights the distinctiveness of corpus-based analyses of complexity: insofar as our range of metrics captures something real, it is something that shows up in feature frequencies, rather than the rules describing a language's grammar.
 The facets of language complexity discussed earlier are sensitive not just to grammar but to usage, indicating the relevance of corpora for quantifying complexity.
@@ -699,22 +711,19 @@ We discuss these issues in more detail below.
 
 \begin{figure}
     \centering
-        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_external.png}
-    \caption{SPLOM representative custom metrics, type-token ratio (TTR), Grambank metrics and mean feature entropy (all UD datasets).}
-    \label{fig:SPLOM_metrics_external}
-\end{figure}
-
-\begin{figure}
     \centering
-        \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_external_PUD.png}
-    \caption{SPLOM representative custom metrics, type-token ratio (TTR), Grambank metrics and mean feature entropy (PUD datasets only).}
-    \label{fig:SPLOM_metrics_external_PUD}
+  \centering
+    \subfigure[All datasets \label{fig:SPLOM_metrics_external_grambank}]{\includegraphics[width=0.48\linewidth]{latex/graphics/SPLOM_metrics_external_Grambank.png}}
+  \hfill
+  \subfigure[PUD datasets only\label{fig:SPLOM_metrics_external_grambank_PUD}]{\includegraphics[width=0.48\linewidth]{latex/graphics/SPLOM_metrics_external_Grambank_PUD.png}}
+    \caption{Comparison with Grambank metrics.}
+    \label{fig:SPLOM_metrics_external_grambank_PUD}
 \end{figure}
 
 \FloatBarrier
 \section{Discussion}
 Overall, the different metrics we define in this paper tell a similar story. 
-With one exception, they all strongly correlate with each other ($>=0.7^*$, see Figures  \ref{fig:SPLOM_custom_metrics} and \ref{fig:SPLOM_custom_metrics_PUD}). 
+With one exception, they all strongly correlate with each other ($>=0.7^*$, see Figures  \ref{fig:SPLOM_metric_custom} and \ref{fig:SPLOM_metric_custom_PUD}). 
 The difference between the full data and the PUD subset (Figures  \ref{fig:SPLOM_other_metrics} and \ref{fig:SPLOM_other_metrics_PUD}) suggests that genre has a considerable impact on the variation of types in the datasets. 
 Corpus-based analyses should therefore take genre into account, and statistically control for it where possible.
 
@@ -738,7 +747,7 @@ This trend is not significant for the PUD dataset, which might be due to the sma
 A negative correlation between our metrics and population size is in keeping with theoretical expectations as laid out in section \ref{sec:background}. 
 %Larger populations increase the probability of interacting with someone with whom you share little common ground, which in turn engenders a greater 
 %Less shared common ground > more low-context communication > more information in linguistic code > more information in grammar.
-However, it is necessary to investigate this with more sophisticated analyses than a Pearson correlation test.
+However, it is necessary to investigate this with more sophisticated analyses than a Spearman correlation test.
 For example, it is desirable to increase the sample size of comparable corpora and introduce controls for phylogenetic and spatial covariance \citep{shcherbakova2023societies}.
 
 \section{Conclusion}
@@ -769,7 +778,8 @@ The significant, if very weak, negative correlation between one of our metrics a
 \bibliography{bib.bib, used_pkgs}
 
 %\section{Acknowledgements}
-%We are indebted to Matthew Spike for his input on this article in particular and for our discussions on ``complexity'' and information in general. We thank {\c{C}}a{\u{g}}r{\i} {\c{C}}{\"o}ltekin and Taraka Rama for their aid in understanding the intracies of their measurement. We also want to thank the audiences at the Working Group for Empirical Linguistics-seminar series (WoGEL) at the Department of Linguistics and Philology at Uppsala University, department seminars at the Department of Linguistic and Cultural Evolution (DLCE) at the Max Planck Institute for Evolutionary Anthropology and participants at the 2024 Biennial meeting of the Association for Linguistic Typology in Singapore. We have also benefitted from advice from Daan van Esch, code review by Christoph Rzymski and discussions with Angela Chira. Finally, we'd like to thank the organisers of the workshop on Dependency Grammar for Typology at the ALT-meeting and editors of this special issue: Andrew Dyer, Luigi Talamo, Annemarie Verkerk, Luca Brigada Villa, Erica Biagetti \& Diego Alves. 
+%We are indebted to Matthew Spike for his input on this article in particular and for our discussions on ``complexity'' and information in general. We thank {\c{C}}a{\u{g}}r{\i} {\c{C}}{\"o}ltekin and Taraka Rama for generous their aid in understanding the intracies of their measurement. We also want to thank the audiences at the Working Group for Empirical Linguistics-seminar series (WoGEL) at the Department of Linguistics and Philology at Uppsala University, department seminars at the Department of Linguistic and Cultural Evolution (DLCE) at the Max Planck Institute for Evolutionary Anthropology and participants at the 2024 Biennial meeting of the Association for Linguistic Typology in Singapore. We have also benefitted from advice from Daan van Esch, code review by Christoph Rzymski and discussions with Angela Chira. We also acknowledge the aid from Natalie Korobzow in understanding Russian. 
+%Finally, we'd like to thank the organisers of the workshop on Dependency Grammar for Typology at the ALT-meeting and editors of this special issue ( Andrew Dyer, Luigi Talamo, Annemarie Verkerk, Luca Brigada Villa, Erica Biagetti \& Diego Alves) as well as the other presenters at the workshop and the audience. 
 
 \newpage
 
@@ -779,7 +789,6 @@ The significant, if very weak, negative correlation between one of our metrics a
 \section*{Appendices}
 
 \section{Detailed procedures}
-
 \subsection{Çöltekin \& Rama}\label{sec:appendix_ccoltekin}
 
 Like us, Çöltekin \& Rama aim to capture how evenly spread are the morphological features of a language.
@@ -789,9 +798,11 @@ Thus entropy captures something like the average amount of uncertainty among a s
 Çöltekin \& Rama thus define a measure of the entropy of all morphological features in a dataset to capture one aspect of a language's complexity.
 Their method of calculating this value is as follows:\footnote{This procedure describes the code which can be found at \url{https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py}, specifically the method \texttt{get\_mfh}.} %We are grateful to Çöltekin \& Rama for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}:
 \begin{enumerate}
-\item For a given dataset, randomly sample a fixed number of tokens
-\item Remove punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')
+\item Read in the UD-datasets such that multiword tokens are not included but empty-tokens are kept
+\item For a given dataset, randomly sample sentences (with replacement) until you reach a fixed set of tokens (in the paper, they use 20,000). This process is repeated 100 times and the average entropy measures are reported
+\item Remove tokens that are punctuation (UPOS=`PUNCT') or unanalysable tokens (UPOS=`X')
 \item Remove tokens that have no morphological features
+\item Remove tokens that have the UPOS NUM and where the token is non-alphabetical (i.e. ``50'')
 \item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example})
 \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
 \item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
@@ -801,7 +812,7 @@ Their method of calculating this value is as follows:\footnote{This procedure de
 
 \noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
 The total entropy for this sample is approximately 3.15 bits.
-In their study \citet{ccoltekin2023complexity} sample (with replacement) 20,000 tokens 100 times, generating an entropy measure each time and then taking the average.
+%In their study \citet{ccoltekin2023complexity} sample (with replacement) 20,000 tokens 100 times, generating an entropy measure each time and then taking the average.
 This average is then an estimate of the `overall' entropy measure for the dataset.
 
 \begin{table}[h]
@@ -827,20 +838,25 @@ This average is then an estimate of the `overall' entropy measure for the datase
     \end{tabular}
 \end{table}
 
+\paragraph{Implementation in this project}
+For comparison, we re-ran the code of \citet{ccoltekin2023complexity} on the same dataset as our analysis. 
+To make the outcomes more comparable, we introduced a modification of their procedure. 
+We did not do the bootstrapping sampling (sample sentences with replacement until you reach a given token target) - instead we ran the analysis on the exact same datasets as ours - i.e all tokens in the 173 UD datasets with more than 13,000 tokens (excluding tokens with UPOS PUNCT or X). 
+We copied the python scripts graciously provide by Çağrı Çöltekin and Taraka Rama at \href{https://github.com/coltekin/mcomplexity/}{https://github.com/coltekin/mcomplexity/}, made a few small modifications and incorporated the modified scripts into our project's codebase. 
+The modifications include removing the calling of sample\_nodes in get\_mfh, which had the consequence that some of the filtering in sample\_nodes happen in get\_mfh instead.
+
 \subsection{The present study}\label{sec:appendix_ours}
-
 %\subsubsection{Procedure for measuring mean surprisal per token}
-
 The full procedure of our metric is as follows:
 \begin{enumerate}
-\item Collapse the files of each UD dataset (e.g. dev, test and train) to one table with one token per row
+\item Collapse the files of each UD dataset (e.g. dev, test and train) to one table with one token per row (including multiword-tokens, component word tokens and empty node tokens)
 \item Remove punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')\footnote{For more on UPOS X, please see \href{https://universaldependencies.org/u/pos/X.html}{https://universaldependencies.org/u/pos/X.html}}.\footnote{During development, we also tested filtering out tokens that are tagged as UPOS=`SYM' or that only consist of certain symbols such as \%. However, we found that these were not consistently treated across datasets, so excluding these tokens impaired comparability. We opted instead the same approach as \citet{ccoltekin2023complexity} and filtering out only the most obviously irrelevant tokens.}
+\item Remove datasets with less than 13,000 tokens. 13,000 was chosen as a cut-off as this let us keep all PUD-datasets with more than 2 feature categories defined.
 \item Remove empty nodes. UD allows the insertion of tokens that are not present in the surface sentence in order to facilitate certain kinds of syntactic analysis. For example, the insertion of ``likes'' between ``Bill'' and ``tea'' in the sentence ``Sue likes coffee and Bill tea''. We drop these tokens from our analysis as we want to analyse the surface form as closely as possible. 
 %\footnote{For more details on empty nodes in UD, see \href{https://universaldependencies.org/format.html?utm_source=chatgpt.com#words-tokens-and-empty-nodes}{https://universaldependencies.org/format.html?utm_source=chatgpt.com#words-tokens-and-empty-nodes}}
-\item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. Within the UD-project separate words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. If that schema is applied, then the multiword token (e.g. ``don't) is unmarked for the same annotations. In this project, we want to analyse the surface forms - therefore we are re-assigning the annotations to the multi-word (e.g. ``don't'') and removing the component words (e.g. ``do'' and ``n't''). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see \href{https://universaldependencies.org/format.html\#words-tokens-and-empty-nodes}{https://universaldependencies.org/format.html\#words-tokens-and-empty-nodes}.}
+\item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. For UD-datasets, words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. The multiword also appears as a token, but without UPOS, lemma or morphological features. In this project, we want to analyse the surface forms - therefore we retain the multiword and remove the component words. We assign the multiwork token the morphological features and upos of the component words (e.g. "AUX\_PART). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see UD documentation: \href{https://universaldependencies.org/format.html\#words-tokens-and-empty-nodes}{https://universaldependencies.org/format.html\#words-tokens-and-empty-nodes}.}
 \item Missing lemmas are replaced by the token.  There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Arabic-NYUAD, leave the lemma field empty for most tokens where UPOS is ADP or PROPN. Conversely, in UD\_Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field.
-\item Remove datasets with less than 13,000 tokens.
-\item Define lemmas as a combination of lemma + UPOS, so that lemmas that are spelled the same but belong to different UPOS can be distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English are defined as having the lemmas ``mark\_NOUN'' and ``mark\_VERB'' as opposed to both potentially being assigned to the same lemma ``mark''.
+\item Define lemmas as a combination of lemma + UPOS, to ensure that lemmas that are spelled the same but belong to different UPOS can be reliably distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English-PUD are both annotated as belonging to the lemma ``mark''. By combinig lemma with UPOS, we can distinguish these as ``mark\_NOUN'' and ``mark\_VERB''.
 \item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
 \item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
 \item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
@@ -850,9 +866,13 @@ The full procedure of our metric is as follows:
 \item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
 \item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including dummy-assigned features)
 \item Mean surprisal per token is the average of this total across all tokens in the dataset.
+\item Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages.
+\item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages. \footnote{There are four datasets included in our study that do not contain regular tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and
+Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types >=2). The lemma annotation is also irregular.} 
 
 % \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
 \end{enumerate}
+
 
 Clearly our mean surprisal measure is capturing something similar to the classical entropy measure used by \citet{ccoltekin2023complexity}, but they are not strictly equivalent.
 Entropy weights surprisal by the same probability that defines the surprisal: the two $p$'s in the formula $\Sigma p\log{\frac{1}{p}}$ are the same.
@@ -912,32 +932,44 @@ ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
 \end{tabular}
 \end{table}
 
+For comparing with the Grambank metrics Fusion and Informativity, match the UD-datasets to glottocodes and take the mean of our metrics.
 
-
+\begin{figure}
+    \centering
+    \includegraphics[width=0.45\linewidth]{latex/graphics/UD_complexity data flowchart.png}
+    \caption{Flowchart of data-processing.}
+    \label{fig:}
+\end{figure}
 
 \subsection{Calculation of Grambank metrics}\label{sec:appendix_rgrambank}
-
-The calculation of Fusion and Informativity from raw Grambank data is somewhat involved.
-We combine dialects into languages, and if two dialects under the same language have different values for the same feature, we choose one at random. 
-We remove languages with more than 25\% missing data across the features used to calculate each metric. 
-We do this using the functions from the package rgrambank \citep{R-rgrambank}. 
-This data wrangling procedure differs slightly from \citet{grambank_release} and \citet{shcherbakova2023societies}, but the difference is negligible. 
-See example scripts accompanying the R-package rgrambank for illustration of procedure and differences.
-Unlike \cite{shcherbakova2023societies}, but like \cite{grambank_release} we use the version of the Grambank metric Fusion which awards features that cover bound morphology and other morphology half a Fusion-point.
+The metrics Fusion and Informativity were calculated from Grambank v1.0 with the following procedure, using functions from the R-package rgrambank \citep{R-rgrambank}. 
+As this package is not fully published at the time of submission of this manuscript, we have copied the relevant functions over into our project to allow for a robust user-experience.
+We combine dialects into languages to make comparison matches possible.
+If two dialects under the same language have different values for the same feature, we choose one value at random (using the function reduce\_ValueTable\_to\_unique\_glottocodes). 
+For each metric, we remove languages with more than 25\% missing data across the features used to calculate that specific metric and then compute the metric (using make\_theo\_scores). 
+This data wrangling procedure differs slightly from \citet{grambank_release} and \citet{shcherbakova2023societies} in terms of how the missing values are cropped (they instead crop the full dataset once and then calculate each metric), but the difference is very small. 
+See section Analysis: PCA in \citet{grambank_release} for more details on the metrics.
+%See example scripts accompanying the R-package rgrambank for illustration of procedure and differences.
+Unlike \cite{shcherbakova2023societies}, but like \cite{grambank_release} we use the version of the Grambank metric Fusion which awards features that cover bound morphology \emph{and} other morphology half a Fusion-point. Features that relate to bound morphology have 1 fusion point. As in the other two papers, we disregard features which relate to free-standing marking (Fusion point = 0).
 
 \FloatBarrier
 
-\section{Comparison of metrics}\label{sec:appendixComparison}
+\section{Comparison of C\&R and our metrics of feature entropy/suprisal}\label{sec:appendixComparison}
 
-Several reviewers asked for a detailed comparison between our metric and that of \citet{ccoltekin2023complexity} (C\&R).
-Here we list all the differences of which we are aware.
+This section contains a detailed comparison between our metric and that of \citet{ccoltekin2023complexity} (C\&R).
 In each case we believe our methodology is an improvement and we indicate exactly how.
 
-\subsection{C\&R remove all empty lemmas and tokens; we don't}
+\subsection{C\&R remove all tokens with empty lemmas and/or tokens; we don't}
 
 C\&R remove tokens whose lemma is empty or whose token is empty.
-However, some tokens are empty because their lemma is understood to be identical to the token.
-We treat these cases as genuine tokens. 
+However, some tokens have missing lemma because their lemma is understood to be identical to the token or for other reasons specific to the dataset (e.g. lemmatization efforts focussed on content words)  
+For example, this is most likely the case in many instances in Arabic-NYUAD where the lemma field is empty for most tokens where the part-of-speech is adposition (ADP) or proper names (PROPN). 
+Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). 
+We treat tokens with missing lemmas as genuine tokens. 
+To normalise for comparison, we replace missing lemmas with the content in the token field.
+There are also datasets with missing tokens, but where there is annotation for morphological features, such as Arabic-NYUAD. 
+We believe these tokens still contain valuable information for the computation of morphological complexity and hence include them.
+We do however exclude them from some analysis, such as TTR.
 As a result, there are datasets for which C\&R's morphological feature entropy is calculated as zero but which have appreciable complexity by our metric. 
 Examples of these are EXAMPLES, as can be seen in the results SPLOMS (REF TO FIGURES).
 
@@ -945,21 +977,26 @@ Examples of these are EXAMPLES, as can be seen in the results SPLOMS (REF TO FIG
 
 C\&R remove tokens whose UPOS is NUM and which are non-alphabetical.
 This means they remove some tokens that are in fact tagged for morphological features. 
-For example, in UD\_Chinese-GSDSimp there are tokens such as `50\%' whose morphological feature list has a value `NumType=Card', contrasting with other NUM tokens with feature values `NumType=Ord'. 
-We include these in order to avoid artificially restricting the kinds of tokens whose morphological features are involved in the calculation of the metric. 
 
-One might ask: why not remove the numbers? 
-Perhaps NumType=Ord is not the kind of feature we want to include? 
-But that raises the question of which feature categories `genuinely' contribute to the kind of complexity we are estimating. 
-We have avoided that question here, instead removing only those parts of speech that clearly play no role in morphological complexity e.g. punctuation.
+For example, in Russian-GSD we find the token ``30'' in the sentence ``Длительность инфузии составляет приблизительно 30 мин.'' (English translation: ``The duration of infusion is approximately 30 minutes''). 
+The token ``30'' is tagged as having accusative case. 
+We take that to mean that ``30'' is identical to ``тридцать'' (Cyrillic spelling of the cardinal numeral thirty in accusative form) and should be included when it comes to morphological features.
+Another example can be found in Chinese-GSDSimp where there are tokens such as `50\%' whose morphological feature list includes `NumType=Card', contrasting with other NUM tokens with feature values `NumType=Ord'. 
+We do not remove tokens of this kind in order to avoid artificially restricting the kinds of tokens whose morphological features are involved in the calculation of the metric. 
+
+%One might ask: why not remove the numbers? 
+%Perhaps NumType=Ord is not the kind of feature we want to include? 
+%But that raises the question of which feature categories `genuinely' contribute to the kind of complexity we are estimating 
+%In this project, we take a generous view and include all of the morphological features that UD contains (excluding Abbr, Typo and Foreign). and remove only tokens marked with parts of speech that clearly play no role in morphological complexity e.g. punctuation.
+%We do segment results into ``all features'' and ``core features only'', for more detail see section \ref{sec_appendix:core_features}.
 
 \subsection{C\&R sample; we use the entire dataset}
 
-C\&R sample 20,000 tokens (with replacement) 100 times per dataset, yielding an average value for morphological feature entropy.
-Their justification is that this aids comparability: two datasets, one with 50,000 tokens and the other with 1.5 million, would yield different orders of magnitude of datapoints for analysis. 
-To ensure all datasets provide the same amount of data, a common sampling of this kind is required.
+C\&R sample sentences (with replacement) until they reach 20,000 tokens, derive entropy and repeat this 100 times per dataset, yielding an average value for morphological feature entropy.
+Their justification is that this aids comparability: two datasets, one with 50,000 tokens and the other with 1.5 million, would yield different orders of magnitude of data-points for analysis. 
+To ensure all datasets provide the same amount of data and confidence intervals and standard deviations are comparable, bootstrapping sampling of this kind is often implemented.
 
-Whether or not this justification is appropriate for their other metrics, it does not hold for morphological feature entropy.
+Whether or not this justification is appropriate for the other metrics they calculate (e.g. Inflectional synthesis, Mean Size of Paradigm), it is not relevant for point estimates of morphological feature entropy which is the focus of this study.
 Entropy is an average across an entire dataset, yielding a value whose units are surprisal per feature.
 Sampling with replacement simply produces an approximation to the value that would be obtained by calculating the metric over the entire dataset.
 This is true regardless of the dataset's size.
@@ -991,6 +1028,9 @@ Only point 5 is about the metric proper, while point 3 concerns whether the metr
 Very well: we think that all five points count in favour of our overall approach, while point 5 specifically justifies using our metric instead of C\&R's mean feature entropy. 
 We think this provides sufficient ground for the present study, especially given we are able to extend our analysis to TODO datasets compared to C\&R's TODO.
 
+Furthermore, our metrics correlate more strongly with Grambank's Fusion measure (Figures \ref{fig:SPLOM_metrics_external} \& \ref{fig:SPLOM_metrics_external_PUD}).
+Mean feature entropy correlates with Fusion too, but insofar as we are aiming to capture something within corpora that is also picked up by grammars of the languages in question, our metrics capture it more obviously.
+
 \subsection{Consequences of the differences}\label{subsec:appendixConsequences}
 
 The following examples refer to the part-of-speech versions of our metric, but the same points would hold for the lemma versions too.
@@ -1013,12 +1053,22 @@ In our metric, surprisal values are based on frequencies determined with respect
 As a result, a dataset with diverse features across different parts of speech will receive a high value of mean feature entropy; if those features are relatively homogenous \textit{within} each part of speech, they will receive a lower value from us.
 For example, suppose a dataset had one feature with exactly eight values, with the values spread equiprobably across four parts of speech.
 Each part of speech has the same number of tokens, and each has two feature values distributed evenly.
-The mean feature entropy would be 3 bits, because there are eight equiprobable feature-value pairs and $\Sum\frac{1}{8}\log{\frac{1}{\frac{1}{8}}}=3$.
+The mean feature entropy would be 3 bits, because there are eight equiprobable feature-value pairs and $\sum\frac{1}{8}\log{\frac{1}{\frac{1}{8}}}=3$.
 But our metric would assign 1 bit per token, because within each part of speech there are two equiprobable values.
 The average surprisal is therefore 1 bit, and our metric assigns 1 bit to the dataset where mean feature entropy gives 3 bits.
 An example of this kind of situation is UD\_Afrikaans-AfriBooms.
 Its mean feature entropy is 4.41 bits, yet our UPOS/core features metric gives a value of 1.26 bits.
 
+While the ranking of Latin as more complex than Afrikaans is attested on both measures, our metric provides a much larger range of values within which to locate different datasets.
+Figure \ref{fig:boxPlotsMetrics} depicts box plots of the values of all eight of our variants across all datasets in this study, together with the corresponding values for mean feature entropy.
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{latex/graphics/box_plots_metrics.png}
+    \caption{Box plots of the values of the various metrics used in this study. Datasets for which the mean feature entropy is zero have been omitted.}
+    \label{fig:boxPlotsMetrics}
+\end{figure}
 
 \section{Caveats}
 \label{sec:caveats}
@@ -1027,7 +1077,7 @@ Its mean feature entropy is 4.41 bits, yet our UPOS/core features metric gives a
 \label{caveat_comparability}
 In comparative studies, it is desirable to compare like with like. There are several comparability challenges in this study. These are known and expected with datasets like UD \citep{UD_2.14}. We list the ones that are most important to our study here. 
 
-\subsubsection{Variation in morphological annotation}
+\subsubsection{Variation in morphological annotation}\label{sec_appendix:core_features}
 Datasets can vary in many aspects, one of them being the \textbf{level of analysis of morphology}. 
 Some datasets may contain many different morphological features and some very few, despite the underlying languages being similar. 
 This is due to the design choices of the contributors of each dataset, and variation of this kind is expected in a project like UD.
@@ -1147,7 +1197,8 @@ Another comparability issue is related to \textbf{genre}, as the datasets of UD 
 For example, Beja-NSC is based on linguistic fieldworker Martine Vanhove's corpus which features transcribed spoken stories, whereas the UD dataset Czech-Poetry contains, as the name suggests, samples of Czech 19th-century poetry. 
 Ukrainian-ID consists of, as many datasets in UD do, a blend of fiction, news, opinion pieces, Wikipedia articles, legal documents, letters, posts and comments. 
 We may expect that genre affects the structure and lexicon of the datasets, with poems exhibiting more experimental word order and legal documents more technical jargon. 
-
+Figure \ref{fig:genre_doughnut} shows a frequency doughnut-plot of genre tags for the 158 datasets included in this study.
+``News'' is the most common genre tag (n=102), with nonfiction coming second (n=66).
 
 \begin{figure}
     \centering
@@ -1156,13 +1207,13 @@ We may expect that genre affects the structure and lexicon of the datasets, with
     \label{fig:genre_doughnut}
 \end{figure}
 
-
 While we present the metrics as they are calculated over each dataset in UD, future studies could delve more into the differences between datasets as they relate to the genre of the content.
 Some of the UD datasets are more comparable in genre than others, in particular those that stem from the \hyperlink{http://universaldependencies.org/conll17/}{Conference on Computational Natural Language Learning 2017 shared task on Multilingual Parsing from Raw Text to Universal Dependencies}.
-These datasets all contain the same text from news and Wikipedia, translated into different languages and are referred to as the Parallel Universal Dependencies (PUD) treebanks.
-We mark out the PUD datasets specifically in visualisations as they represent highly comparable data in terms of genre.
+These datasets are all based on the same texts from news and Wikipedia, translated into different languages.
+These datasets are referred to as the Parallel Universal Dependencies (PUD) treebanks.
+We separate out analysis for PUD datasets only as they represent highly comparable data in terms of genre.
 
-Each PUD dataset is described the same way in accompanying documentation \citep{UD_2.14}:
+Each PUD dataset is described the same way in the accompanying documentation \citep{UD_2.14}:
 \begin{quote}
     
 \textit{
