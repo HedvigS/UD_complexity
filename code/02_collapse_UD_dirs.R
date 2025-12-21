@@ -85,7 +85,7 @@ for(i in 1:nrow(UD_dirs)){
 
     conllu <- conllu %>% 
       tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
-      dplyr::mutate(dplyr::across(everything(), as.character)) 
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) 
   
     df <- df %>% 
       dplyr::full_join(conllu, by = dplyr::join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,
