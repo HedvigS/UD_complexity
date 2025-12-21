@@ -276,18 +276,19 @@ process_UD_data <- function(input_dir = NULL,
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
                                 verbose = TRUE,
-                                UD_dataset = TRUE, 
-         agg_level = NULL, #upos,lemma token
-         core_features = NULL# core_features_only, all_features
+                                agg_level = NULL, #upos,lemma token
+                                core_features = NULL# core_features_only, all_features
              ){
 
 #input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/"
 #output_dir <- "output/results/ud-treebanks-v2.14_results"
   
+  if(is.null(output_dir)){
+    stop("output_dir is NULL, it needs to be defined.")
+  }
   
-  
-  if(!dir.exists(output_dir)){
-    dir.create(output_dir)
+  if(is.null(input_dir)){
+    stop("input_dir is NULL, it needs to be defined.")
   }
   
   if(!(dir.exists(input_dir))){
@@ -326,12 +327,11 @@ if(str_detect(input_dir, "core_features_only")){
 }
 
 
-if(UD_dataset == FALSE){
-  core_features <- "NOT_APPLICABLE"
-  core_features_inferred  <- "NOT_APPLICABLE"
-}
-
 if(is.null(agg_level)){
+  if(is.null(agg_level_inferred)){
+    stop("agg_level is not defined and cannot be inferred from input_dir.")
+  }
+  
   agg_level <- agg_level_inferred
 }else{
 if(!is.null(agg_level_inferred) & agg_level != agg_level_inferred){
@@ -339,6 +339,10 @@ if(!is.null(agg_level_inferred) & agg_level != agg_level_inferred){
 }
 
   if(is.null(core_features)){
+    
+    if(is.null(core_features_inferred)){
+      stop("core_features is not defined and cannot be inferred from input_dir.")
+    }
     core_features <- core_features_inferred
   }else{
     if(!is.null(core_features_inferred) & core_features != core_features_inferred){
@@ -362,7 +366,6 @@ if(!dir.exists(output_dir)){
 if(!dir.exists(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))){
   dir.create(paste0(output_dir, "/agg_level_", agg_level, "_", core_features))
 }
-
 
 output_dirs <- c(
   "TTR",
