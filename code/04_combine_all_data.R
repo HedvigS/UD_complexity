@@ -13,14 +13,13 @@ mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE)
   dplyr::rename( n_total_rows_mfh = n_total_rows, 
                  n_total_rows_filtered_mfh= n_total_rows_filtered)
 
-df_external <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
-  dplyr::rename(glottocode = Language_ID) %>% 
-  dplyr::full_join(readr::read_tsv("output/processed_data/google_pop.tsv", show_col_types = F), by = "glottocode")
+df_grambank_metrics <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
+  dplyr::rename(glottocode = Language_ID) 
 
 df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
   dplyr::full_join(mfh, by = "dir") %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
-  dplyr::left_join(df_external, by = "glottocode") 
+  dplyr::left_join(df_grambank_metrics, by = "glottocode") 
 
 # with each calculating run-through, we count number of feature categories (Tense, Def etc) in the entire dataset and per token. These should be exactly the same regardless if the agg_level is upos or lemma, but should differ depending on if we've trimmed to core_features or not. This is just a reality check to check that all is as expected
 if(sum(df$n_feat_cats_lemma_all_features == df$n_feat_cats_upos_all_features) != nrow(df)){
