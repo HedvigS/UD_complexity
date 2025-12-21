@@ -118,7 +118,7 @@ Broadly, one can characterise the field of research as being concerned with how 
 %%% SFM end word chopping
 
 Language complexity can be operationalised into many different specific measurements. 
-Some of these measurements correlate and may track the same/similar phenomena \citep{bentz2016comparison, bentz2023complexity, ccoltekin2023complexity}, or not \citep{lupyan2024cautionary}.
+Some of these measurements correlate and may track the same/similar phenomena \citep{bentz2016comparison, bentz2023complexity, ccoltekin2023complexity}, but it would be wrong to conclude that every measurement of `linguistic complexity' tracks the same thing \citep{lupyan2024cautionary}.
 Table \ref{tab:complex_metrics} gives an overview of several different ways of measuring language complexity. 
 The table combines measurements based on typological surveys of grammatical descriptions (e.g. WALS; Grambank) with those derived from corpora, experiments, and simulation studies.
 
@@ -162,20 +162,21 @@ Depending on the particular research question being evaluated, it is desirable t
 
 A language with a rich morphology often exhibits more unique words compared to a language with less grammatical marking overall, or grammatical marking that is free-standing.
 Morphological marking is also not necessarily compositional: paradigms can include suppletion, vowel harmony and other non-compositional patterns.
-In this sense, languages with more unique word forms and richer paradigmatic patterns to learn and process instantiate one dimension of language complexity (c.f. \citet{baerman2015understanding}, \citet{bentz2016comparison}, \citet{dahl2004growth}).
+In this sense, languages with more unique word forms and richer paradigmatic patterns to learn (and thereby more potential forms to process online) instantiate one dimension of language complexity (c.f. \citet{baerman2015understanding}, \citet{bentz2016comparison}, \citet{dahl2004growth}).
 Therefore, one way to measure a facet of a language's complexity is to quantify the amount of morphology it contains.
 Many studies have contributed to this discussion by studying the grammatical rules of different languages (cf. \citet{lupyan2010language}, \citet{shcherbakova2023societies}).
-However, a language can have a rich morphological paradigm but when one studies usage it turns out several of the forms are rarely uttered.
+However, a language can have a rich morphological paradigm in its ruleset, but when one studies usage it turns out several of the forms are rarely uttered.
 If all forms are not equally used, that paints a different picture of the morphology of the language compared to if we only study the possibilities and implicitly treat them as equally present.
 For example, in Spanish there are three distinctions in the demonstrative system (\emph{este}/\emph{ese}/\emph{acquel} \citet[87]{butt_2019_spanish}\footnote{This is the masculine singular series. The markers differ further for feminine, neuter and plural.}). 
 However, out of these the first two are used the most. 
-In the UD-dataset Spanish-AnCora \citep{aule2008ancora}, \emph{acquel} is used 5\% of the time, \emph{ese} 26\% and \emph{este} 69\%,.
+In the Universal Dependencies (UD) dataset Spanish-AnCora \citep{aule2008ancora}, \emph{acquel} is used 5\% of the time, \emph{ese} 26\% and \emph{este} 69\%,.
 We find a somewhat similar situation in Turkish, where there are also three distinctions in demonstratives (\emph{bu}, \emph{şu}, \emph{o} \citet[67]{turkish_2020}\footnote{This is the nominative series. The forms differ for further cases.}). 
-In the UD-dataset Turkish-Penn, \emph{bu} accounts for 85\% of occurrences, \emph{o} 9\% and \emph{şu} 6\%.
+In the UD dataset Turkish-Penn, \emph{bu} accounts for 85\% of occurrences, \emph{o} 9\% and \emph{şu} 6\%.
 Spanish and Turkish can both be said to have three distinctions in their demonstrative paradigms, but usage frequencies differ between the two languages.
 This may mean that the implications for learning and processing also differ.
 Corpora have the advantage of providing information about the frequency of different features in actual usage (cf. \citet{levshina_gradient}, \citet{bentz2016comparison} Saussure's \textit{langue} and \textit{parôle} \citet{Saussure1916}) as opposed to the possibilities of the system.
 
+Because the frequencies of available morphological forms may have an impact on the difficulty of learning and processing the language, we can approach linguistic complexity through a corpus study of morphology.
 In this study, we focus on morphological distinctions and their distribution in corpora. 
 
 
@@ -684,7 +685,7 @@ The correlations between our metrics and theirs are moderate to strong ( ($0.65^
 The first notable point of comparison is that mean feature entropy assigns zero to some datasets that our metrics assign appreciable values to.
 This is because Çöltekin \& Rama omit datasets with empty lemmas, and there are a couple of datasets with morphological information but without lemmas assigned (namely UD\_Faroese-FarPaHC.tsv and UD\_English-GUMReddit.tsv).
 Secondly, our UPOS/all features metric assigns a wider range of values to the datasets, some of which are lower and some higher than mean feature entropy.
-Third, both of our comparison metrics correlate more strongly with Grambank's Fusion metric, suggesting our measures better capture this aspect of a language's grammar (though see the next section).
+Third, both of our comparison metrics correlate more strongly with Grambank's Fusion metric **** BUT GRAMBANK METRICS ARE NO LONGER IN THIS PLOT! ****, suggesting our measures better capture this aspect of a language's grammar (though see the next section).
 For more information on the differences between our two approaches methodologically, see Appendix \ref{sec:appendixComparison}.
 
 \begin{figure}
@@ -942,8 +943,13 @@ To illustrate the general flow of actions and order of scripts, we have made a s
     \label{fig:data_processing_flowchart}
 \end{figure}
 \FloatBarrier
-\paragraph{Applying approach to other datasets}
-In this study, we specifically apply our approach to UD-datasets. However, any corpus that can be formatted into a table where every row is a token can be used as input. The specific function that calculates the different surprisal metrics is \texttt{calculate\_surprisal()} in code\textbackslash{}03\_process\_data\_per\_UD\_proj.R. The token-table needs to have the following columns (as exemplified in table \ref{tab:example_input}): dir (unique identifier of dataset), id (unique identifier of token in entire dataset), token, lemma, feats and upos.
+
+\paragraph{Applying our approach to non-UD-datasets}
+In this study, we specifically apply our approach to UD-datasets. However, any corpus that can be formatted into a table where every row is a token can be used as input. The specific function that calculates the different surprisal metrics is \texttt{calculate\_surprisal()} in \texttt{code$\textbackslash${}03\_process\_data\_per\_UD\_proj.R}. The token-table needs to have the following columns (as exemplified in table \ref{tab:example_input}): dir (unique identifier of dataset), id (unique identifier of token in entire dataset), token, lemma, feats (formatted exactly in table \ref{tab:example_input}) and upos. 
+There cannot be missing values for id, lemma, UPOS or feats and there need to be more than 1 unique value in each.
+As the distinction ``core features'' versus ``all features'' is UD-specific, users applying the function to other datasets should set the argument \texttt{core\_features} to \texttt{all\_features}.
+Furthermore, the pre-processing that inserts \texttt{unassigned} feature categories and feature values should take place before the function \texttt{calculate\_surprisal()} is applied in order for it to work as expected. 
+See our detailed procedure in section \ref{sec:appendix_ours} and the function \texttt{process\_UD\_data} in the script \texttt{code\textbackslash{}03\_process\_data\_per\_UD\_proj.R} for information on the insertion of \texttt{unassigned} feature categories and feature values.
 
 \begin{table}[h]
     \centering
