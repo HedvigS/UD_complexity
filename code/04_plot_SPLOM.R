@@ -10,24 +10,30 @@ source("../utility/fun_def_SPLOM_fun.R")
 ##################################
 df <- readr::read_tsv("output/results/all_results.tsv", show_col_types = F)
 
+#define colores to variables in order to resuse them accross different SPLOMS
+sum_surprisal_morph_split_mean_upos_all_features_col <- "#2be375"
+surprisal_per_morph_featstring_mean_lemma_core_features_only_col <- "#357dc4"
+TTR_col <- "#9234eb"
+CR_col <- "#DBAC5E"
+fusion_col <- "#f57f31"
+informativity_col <- "pink"
+feat_cat_all_col <- "#f723bb"
+
 # SPLOM custom metrics
 
 df_for_plot <- df %>%
-  dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
-                "Surprisal feat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
-                "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
-                "Surprisal feat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
-                "Surprisal featstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
-                "Surprisal featstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
-                "Surprisal featstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
+  dplyr::select("Surprisal\nfeat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "Surprisal\nfeat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "Surprisal\nfeat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "Surprisal\nfeatstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "Surprisal\nfeatstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "Surprisal\nfeatstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
 
 cat("Dataframe for SPLOM custom metrics plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
-sum_surprisal_morph_split_mean_upos_all_features_col <- "#2be375"
-surprisal_per_morph_featstring_mean_lemma_core_features_only_col <- "#357dc4"
-TTR_col <- "#9234eb"
 
 pal <- c("#A7E1A1" , #1
          "#5bafe3",   #2
@@ -40,8 +46,14 @@ pal <- c("#A7E1A1" , #1
 )
 
 p <- df_for_plot %>% 
-  coloured_SPLOM(text_cor_size = 5, text_strip_size = 10, method = "spearman",
-                 hist_label_size = 3, herringbone = T,pair_colors = pal, cor_test_method_exact = FALSE
+  coloured_SPLOM(text_cor_size = 5, 
+                 text_strip_size = 10, 
+                 method = "spearman",
+                 hist_label_size = 3, 
+                 herringbone = TRUE,
+                 hist_bins = 10, 
+                 pair_colors = pal, 
+                 cor_test_method_exact = TRUE
   )
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p)
@@ -50,17 +62,17 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30
 # SPLOM other metrics
 
 df_for_plot <- df %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
+                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",          #5
                 "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
                 "Types (n)" = "n_types", 
                 "Tokens (n) " = "n_tokens",
                 "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
+                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only" #11
                 
   ) 
 
@@ -75,15 +87,22 @@ pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          "#E278B1", #6
          "#ed268d", #7
          "#c735e8", #8
-         "#f723bb", #9
-         "#cf2757", #10
+         "#cf2757", #9
+         feat_cat_all_col, #10
          "#c387f5", #11
          "grey40" #12
 )
 
 
 p <-  df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.3, method = "spearman",text_cor_size = 5, text_strip_size = 7, pair_colors = pal, herringbone = T, cor_test_method_exact = FALSE
+  coloured_SPLOM(hist_label_size = 2.3, 
+                 method = "spearman",
+                 text_cor_size = 5, 
+                 text_strip_size = 7, 
+                 pair_colors = pal, 
+                 herringbone = TRUE, 
+                 hist_bins = 10, 
+                 cor_test_method_exact = FALSE
   )
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p)
@@ -93,10 +112,10 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30,
 
 #CR
 df_for_plot <- df %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Çöltekin & Rama's\nmfh\n(slightly modified version)" = mfh
+                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
 cat("Dataframe for SPLOM external metrics plot:\n")
@@ -105,15 +124,16 @@ cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
          TTR_col, #3
-         "#DBAC5E" #4"
+         CR_col #4"
 )
 
 p <- df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 3,
+  coloured_SPLOM(hist_label_size = 2.5,
                  pair_colors = pal, 
                  text_cor_size = 5, 
-                 text_strip_size = 10,
+                 text_strip_size = 9,
                  method = "spearman",
+                 hist_bins = 10, 
                  cor_test_method_exact = FALSE,
                  herringbone = T)
 
@@ -126,13 +146,15 @@ df_for_plot <- df %>%
   summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
             surprisal_per_morph_featstring_mean_lemma_core_features_only = mean(surprisal_per_morph_featstring_mean_lemma_core_features_only), 
             TTR = mean(TTR),
+            mfh = mean(mfh),
             Fusion = mean(Fusion), 
             n_feat_cats_all_features = mean(n_feat_cats_all_features),
             Informativity = mean(Informativity), .groups = "drop") %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
                 "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
+                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh,
                 "Fusion\n(Grambank v1.0)" = "Fusion", 
                 "Informativity\n(Grambank v1.0)" ="Informativity")  
 
@@ -142,36 +164,39 @@ cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
          TTR_col, #3
-         "#f57f31", #6
-         "pink",    "#c387f5" #11
+         feat_cat_all_col,
+         CR_col,
+         fusion_col, 
+         informativity_col
 )
 
 p <- df_for_plot %>% 
-  coloured_SPLOM(hist_label_size = 2.5,
+  coloured_SPLOM(hist_label_size = 1.8,
                  pair_colors = pal, 
                  text_cor_size = 5, 
-                 text_strip_size = 7,
+                 text_strip_size = 6,
                  method = "spearman",
+                 hist_bins = 10, 
                  cor_test_method_exact = FALSE,
-                 
                  herringbone = T)
-
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p)
 
-####################################
+##############################################################################
+##############################################################################
+##############################################################################
 # PUD
 
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal feat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
-                "Surprisal feat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
-                "Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
-                "Surprisal feat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
-                "Surprisal featstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
-                "Surprisal featstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
-                "Surprisal featstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
+  dplyr::select("Surprisal\nfeat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "Surprisal\nfeat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "Surprisal\nfeat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "Surprisal\nfeatstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "Surprisal\nfeatstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "Surprisal\nfeatstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
 
 cat("Dataframe for SPLOM custom metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
@@ -189,7 +214,14 @@ if (nrow(df_for_plot) > 0) {
   )
   
   p <- df_for_plot %>% 
-    coloured_SPLOM(pair_colors = pal, text_cor_size = 5, text_strip_size = 10,method = "spearman", hist_label_size = 2.5, herringbone = T, hist_bins = 7, cor_test_method_exact = FALSE)
+    coloured_SPLOM(pair_colors = pal, 
+                   text_cor_size = 5, 
+                   text_strip_size = 10,
+                   method = "spearman", 
+                   hist_label_size = 3, 
+                   herringbone = TRUE, 
+                   hist_bins = 7, 
+                   cor_test_method_exact = TRUE)
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p)
   
@@ -202,8 +234,8 @@ if (nrow(df_for_plot) > 0) {
 
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
                 "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
@@ -228,14 +260,20 @@ if (nrow(df_for_plot) > 0) {
            "#E278B1", #6
            "#ed268d", #7
            "#c735e8", #8
-           "#f723bb", #9
-           #  "#cf2757", #10
+           "#cf2757", #9
+           feat_cat_all_col, #10
            "#c387f5", #11
            "grey40" #12
   )
   
   p <-  df_for_plot %>% 
-    coloured_SPLOM(hist_label_size = 2.3, text_cor_size = 5, text_strip_size = 7, method = "spearman",pair_colors = pal, herringbone = T, hist_bins = 7, cor_test_method_exact = FALSE)
+    coloured_SPLOM(hist_label_size = 2.3, 
+                   text_cor_size = 5, text_strip_size = 7, 
+                   method = "spearman",
+                   pair_colors = pal, 
+                   herringbone = TRUE, 
+                   hist_bins = 7, 
+                   cor_test_method_exact = FALSE)
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p)
   
@@ -249,10 +287,10 @@ if (nrow(df_for_plot) > 0) {
 #CR
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Çöltekin & Rama's\nmfh\n(slightly modified version)" = mfh
+                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
 
@@ -265,16 +303,17 @@ if (nrow(df_for_plot) > 0) {
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
            TTR_col, #3
-           "#DBAC5E" #4"
+           CR_col #4"
   )
   
   p <- df_for_plot %>% 
-    coloured_SPLOM(hist_label_size = 3,
+    coloured_SPLOM(hist_label_size = 2.5,
                    pair_colors = pal, 
                    text_cor_size = 5, 
-                   text_strip_size = 10,
+                   text_strip_size = 9,
                    method = "spearman",
-                   cor_test_method_exact = FALSE,
+                   hist_bins = 7, 
+                   cor_test_method_exact = TRUE,
                    herringbone = T)
   
   
@@ -288,18 +327,22 @@ if (nrow(df_for_plot) > 0) {
 
 #external grambank
 df_for_plot <- df %>% 
+  dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
   group_by(glottocode) %>% 
   summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
             surprisal_per_morph_featstring_mean_lemma_core_features_only = mean(surprisal_per_morph_featstring_mean_lemma_core_features_only), 
             TTR = mean(TTR),
             Fusion = mean(Fusion), 
+            mfh = mean(mfh),
             n_feat_cats_all_features = mean(n_feat_cats_all_features),
             Informativity = mean(Informativity), .groups = "drop"
             ) %>% 
-  dplyr::select("Surprisal feat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal featstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select(
+    "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",  
+    "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = "mfh",
                 "Fusion\n(Grambank v1.0)" = "Fusion", 
                 "Informativity\n(Grambank v1.0)" ="Informativity")  
 
@@ -313,20 +356,21 @@ if (nrow(df_for_plot) > 0) {
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
            TTR_col, #3
-           "#f57f31", #6
-           "pink",    "#c387f5" #11
+           feat_cat_all_col, 
+           CR_col, 
+           fusion_col, 
+           informativity_col
   )
   
   p <- df_for_plot %>% 
-    coloured_SPLOM(hist_label_size = 2.5,
+    coloured_SPLOM(hist_label_size = 1.8,
                    pair_colors = pal, 
                    text_cor_size = 5, 
-                   text_strip_size = 7,
+                   text_strip_size = 6,
                    method = "spearman",
+                   hist_bins = 7, 
                    cor_test_method_exact = FALSE,
-                   
                    herringbone = T)
-  
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p)
   
@@ -335,4 +379,3 @@ if (nrow(df_for_plot) > 0) {
 } else {
   cat("No PUD data available for SPLOM external metrics plot.\n")
 }
-
