@@ -160,9 +160,9 @@ process_UD_data <- function(input_dir = NULL,
       
       conllu <- conllu  %>% 
         dplyr::anti_join(dplyr::select(df_uncontracted, sentence_id, token_id = token_num), by = c("sentence_id", "token_id")) %>%
-        dplyr::left_join(df_contracts_solved, by = join_by(sentence_id, token_id)) %>% 
-        mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
-        mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
+        dplyr::left_join(df_contracts_solved, by = dplyr::join_by(sentence_id, token_id)) %>% 
+        dplyr::mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
+        dplyr::mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
         dplyr::select(-feats_contracted, -upos_contracted)
     }
     
@@ -212,7 +212,7 @@ process_UD_data <- function(input_dir = NULL,
 
     if(make_all_tokens_of_same_agg_level_have_same_feat_cat == TRUE){    
     agg_level_feat_cat_df_distinct <- conllu_split %>% 
-      dplyr::select(all_of(agg_level), feat_cat) %>% 
+      dplyr::select(dplyr::all_of(agg_level), feat_cat) %>% 
       dplyr::filter(!is.na(feat_cat)) %>% 
       dplyr::distinct() 
     
@@ -224,7 +224,7 @@ process_UD_data <- function(input_dir = NULL,
     
     conllu_split  <- expanded %>%
       dplyr::left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "feat_cat")) %>%
-      dplyr::mutate(feat_value = coalesce(feat_value, "unassigned")) %>% 
+      dplyr::mutate(feat_value = dplyr::coalesce(feat_value, "unassigned")) %>% 
       dplyr::mutate(feat_cat = ifelse(is.na(feat_cat), "unassigned", feat_cat))
 
     }
@@ -454,7 +454,7 @@ lookup <- conllu_split  %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(prop = n/sum) %>% 
   dplyr::mutate(surprisal = log2(1/prop)) %>%
-  dplyr::select(all_of(agg_level), feat_cat, feat_value, n, prop, surprisal)
+  dplyr::select(dplyr::all_of(agg_level), feat_cat, feat_value, n, prop, surprisal)
 
 lookup %>% 
   dplyr::mutate(dir = dir) %>% 
@@ -479,7 +479,7 @@ lookup_not_split <- conllu %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(prop = n/sum) %>% 
   dplyr::mutate(surprisal = log2(1/prop)) %>% 
-  dplyr::select(all_of(agg_level), feats,n, prop, surprisal_per_morph_featstring = surprisal)
+  dplyr::select(dplyr::all_of(agg_level), feats,n, prop, surprisal_per_morph_featstring = surprisal)
 
 lookup_not_split %>% 
   dplyr::mutate(dir = dir) %>% 

@@ -18,7 +18,7 @@ df <- readr::read_tsv("output/results/all_results.tsv", show_col_types = F)
 df <- df %>% 
   dplyr::filter(n_feat_cats_all_features != 0) %>% 
   dplyr::filter(n_feat_cats_core_features_only != 0) %>% 
-  left_join(Glottolog, by = "glottocode")
+  dplyr::left_join(Glottolog, by = "glottocode")
 
 # Sum surprisal morph split mean, agg level = UPOS, all features
 p <- basemap +
@@ -26,7 +26,7 @@ p <- basemap +
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggplot2::ggtitle("Surprisal feat, agg_level = UPOS, all features") +
   viridis::scale_fill_viridis(option = "plasma", breaks = c(1,3, 5, 7, 9, 11)) +
-  ggplot2::theme( plot.margin = unit(c(0, 0, 0, 0), "cm") , 
+  ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
          legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
@@ -41,7 +41,7 @@ p <- basemap +
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggplot2::ggtitle("Surprisal featstring, agg_level = lemma, core features only")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0, 1,2)) +
-  ggplot2::theme( plot.margin = unit(c(0, 0, 0, 0), "cm") , 
+  ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
          legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
@@ -60,7 +60,7 @@ p <- basemap +
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggplot2::ggtitle("Surprisal feat, agg_level = UPOS, all features (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,1,3, 5, 7)) +
-  ggplot2::theme( plot.margin = unit(c(0, 0, 0, 0), "cm") , 
+  ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
          legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
@@ -75,7 +75,7 @@ p <- basemap +
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
   ggplot2::ggtitle("Surprisal featstring, agg_level = lemma, core features only (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,0.5, 1,2)) +
-  ggplot2::theme( plot.margin = unit(c(0, 0, 0, 0), "cm") , 
+  ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
          legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
