@@ -16,9 +16,6 @@ ValueTable <- readr::read_csv("../data/grambank/cldf/values.csv", show_col_types
 LanguageTable <- readr::read_csv("../data/grambank/cldf/languages.csv", show_col_types = F)
 ParameterTable <- readr::read_csv("../data/grambank/cldf/parameters.csv", show_col_types = F)
 
-#for computing the metric related to word order, it is necessary ot binarise the multistate features. This is done inside make_theo_scores, via other functions. We load all necessary functions here.
-source("../utility/rgrambank/make_binary_ParameterTable.R")
-source("../utility/rgrambank/make_binary_ValueTable.R")
 source("../utility/rgrambank/make_theo_scores.R")
 source("../utility/rgrambank/reduce_ValueTable_to_unique_glottocodes.R")
 
