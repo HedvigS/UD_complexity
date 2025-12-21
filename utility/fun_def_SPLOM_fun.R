@@ -20,7 +20,7 @@ coloured_SPLOM <- function(df = df,
   
   if(all(col_pairs_constraint != "None")){
   df_without_id_vars <- df %>%
-  dplyr::select(-all_of(col_pairs_constraint))
+  dplyr::select(-dplyr::all_of(col_pairs_constraint))
   }else{
     df_without_id_vars <- df
   }
@@ -77,16 +77,15 @@ custom_lower <- function(data, mapping, pair_colors_map, ...){
   if(var1 %in% col_pairs_to_constraint &
      var2 %in% col_pairs_to_constraint){
 
-    data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>%
+    data_reduced <- dplyr::select(df, dplyr::all_of(c(var1, var2, col_pairs_constraint))) %>%
       dplyr::distinct()
 
   }else{
-    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
-
+    data_reduced <- dplyr::select(df_without_id_vars, dplyr::all_of(c(var1, var2)))
   }
 
   # Select only the relevant variables
-  data_reduced <- dplyr::select(data, all_of(c(var1, var2)))
+  data_reduced <- dplyr::select(data, dplyr::all_of(c(var1, var2)))
 
   # Keep only complete cases (no NAs) and distinct rows
   data_reduced <- data_reduced[complete.cases(data_reduced), ]
@@ -116,12 +115,11 @@ custom_upper <- function(data, mapping, pair_colors_map, ...){
   if(var1 %in% col_pairs_to_constraint &
      var2 %in% col_pairs_to_constraint){
 
-    data_reduced <- dplyr::select(df, all_of(c(var1, var2, col_pairs_constraint))) %>%
+    data_reduced <- dplyr::select(df, dplyr::all_of(c(var1, var2, col_pairs_constraint))) %>%
       dplyr::distinct()
 
   }else{
-    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var1, var2)))
-
+    data_reduced <- dplyr::select(df_without_id_vars, dplyr::all_of(c(var1, var2)))
   }
 
   # Keep only complete cases (no NAs) and distinct rows
@@ -197,10 +195,10 @@ custom_diag <- function(data, mapping){
   # Select the relevant variable
   if(var %in% col_pairs_to_constraint){
 
-    data_reduced <- dplyr::select(df, all_of(c(var, col_pairs_constraint))) %>%
+    data_reduced <- dplyr::select(df, dplyr::all_of(c(var, col_pairs_constraint))) %>%
       dplyr::distinct()
   }else{
-    data_reduced <- dplyr::select(df_without_id_vars, all_of(c(var)))
+    data_reduced <- dplyr::select(df_without_id_vars, dplyr::all_of(c(var)))
   }
 
   data_reduced <- data_reduced[complete.cases(data_reduced), , drop = FALSE]

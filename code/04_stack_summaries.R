@@ -19,7 +19,7 @@ fns4 <- list.files(path = "output/results/ud-treebanks-v2.14_results/agg_level_u
 
 fns <- c(fns1, fns2, fns3, fns4)
 
-all <- stack_tsvs(fns = fns, verbose = F) 
+all <- stack_tsvs(fns = fns, verbose = F) # from stack_tsvs.R
 
 custom_metrics_df_4_ways <- all %>% 
   dplyr::select(dir, agg_level, core_features,
@@ -56,7 +56,7 @@ fns4 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/ag
 
 fns <- c(fns1, fns2, fns3, fns4)
 
-all_counts <- stack_tsvs(fns = fns, verbose = F) 
+all_counts <- stack_tsvs(fns = fns, verbose = F) # from stack_tsvs.R
 
 all_counts$dir <- forcats::fct_reorder(all_counts$dir, all_counts$n_tokens_in_input)
 

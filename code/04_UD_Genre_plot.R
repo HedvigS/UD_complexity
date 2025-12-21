@@ -3,6 +3,7 @@ library(dplyr, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 library(stringr, lib.loc = "../utility/packages/")
 library(tidyr, lib.loc = "../utility/packages/")
+library(ggplot2, lib.loc = "../utility/packages/")
 
 parse_ud_metadata <- function(README_fn) {
   lines <- base::readLines(README_fn, warn = FALSE)
@@ -103,7 +104,7 @@ df <- genre_df %>%
     label_pos = (ymax + ymin)/2,
     x_slice = 4,
     # row index
-    idx = row_number(),
+    idx = dplyr::row_number(),
     # fixed distance for first 10, then spiral
     x_label = ifelse(idx <= 10, 5, 5 + (idx - 10)*0.5)
   )
@@ -117,11 +118,11 @@ p <- ggplot2::ggplot(df, ggplot2::aes(ymax = ymax, ymin = ymin, xmax = x_slice, 
   ggplot2::geom_segment(ggplot2::aes(x = x_slice, xend = x_label, y = label_pos, yend = label_pos),
                color = "grey40") +
   # labels
-  ggplot2::geom_label(aes(x = x_label, y = label_pos, label = Genre),
+  ggplot2::geom_label(ggplot2::aes(x = x_label, y = label_pos, label = Genre),
              size = 4, alpha = 0.7) +
   ggplot2::theme_void() +
   ggplot2::theme(legend.position = "none") +
   ggplot2::scale_fill_manual(values = colors_17)
 
-ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 7, height = 7)
+ggplot2::ggsave(filename = "output/plots/genre_doughnut.png", plot = p, width = 7, height = 7)
 
