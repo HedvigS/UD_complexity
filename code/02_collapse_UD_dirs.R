@@ -48,7 +48,7 @@ for(i in 1:nrow(UD_dirs)){
   cat(paste0("I'm on ", UD_dirs[i,1], ". That's ", i, " of ", nrow(UD_dirs)))
   
   UD_dir_spec <- UD_dirs[i,] %>% 
-    dplyr::mutate(conllus = str_split(conllus, ";")) %>% 
+    dplyr::mutate(conllus = stringr::str_split(conllus, ";")) %>% 
     tidyr::unnest(conllus)
   
   ######
@@ -77,7 +77,7 @@ for(i in 1:nrow(UD_dirs)){
      fn <-     paste0("../data/ud-treebanks-v2.14", "/", UD_dir_spec[1,1],"/", UD_dir_spec[y,2] )
 
     conllu <- udpipe::udpipe_read_conllu(fn) %>%   
-      dplyr::mutate(upos = ifelse(str_detect(token_id, "-") & is.na(lemma), "MULTIWORD", upos)) %>% #making missing value upos for multiword token not missing so that it survives the negative filters below
+      dplyr::mutate(upos = ifelse(stringr::str_detect(token_id, "-") & is.na(lemma), "MULTIWORD", upos)) %>% #making missing value upos for multiword token not missing so that it survives the negative filters below
       dplyr::filter(upos != "PUNCT")  %>% #remove tokens that are tagged with the part-of-speech tag punct for punctuation
       dplyr::filter(upos != "X")  %>%
       dplyr::mutate(filename = fn) %>% 
@@ -85,7 +85,7 @@ for(i in 1:nrow(UD_dirs)){
 
     conllu <- conllu %>% 
       tidyr::unite(doc_id, paragraph_id, sentence_id, token_id, col = "id", remove = F) %>% 
-      dplyr::mutate(across(everything(), as.character)) 
+      dplyr::mutate(dplyr::across(everything(), as.character)) 
   
     df <- df %>% 
       dplyr::full_join(conllu, by = dplyr::join_by(id, doc_id, paragraph_id, sentence_id, sentence, token_id, token, lemma, upos, xpos, feats, head_token_id,

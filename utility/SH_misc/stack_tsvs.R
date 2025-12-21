@@ -39,7 +39,7 @@ read_for_map_df <- function(x){
 #                                sep = "\t", na.strings = "",
  # ) %>% 
 
-      dplyr::mutate(across(everything(), as.character)) %>%
+      dplyr::mutate(dplyr::across(dplyr::everything(), as.character)) %>%
       dplyr::mutate(filename =x)
     df
   }

@@ -142,8 +142,8 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width
 
 #grambank
 df_for_plot <- df %>% 
-  group_by(glottocode) %>% 
-  summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
+  dplyr::group_by(glottocode) %>% 
+  dplyr::summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
             surprisal_per_morph_featstring_mean_lemma_core_features_only = mean(surprisal_per_morph_featstring_mean_lemma_core_features_only), 
             TTR = mean(TTR),
             mfh = mean(mfh),
@@ -328,8 +328,8 @@ if (nrow(df_for_plot) > 0) {
 #external grambank
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  group_by(glottocode) %>% 
-  summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
+  dplyr::group_by(glottocode) %>% 
+  dplyr::summarise(sum_surprisal_morph_split_mean_upos_all_features = mean(sum_surprisal_morph_split_mean_upos_all_features), 
             surprisal_per_morph_featstring_mean_lemma_core_features_only = mean(surprisal_per_morph_featstring_mean_lemma_core_features_only), 
             TTR = mean(TTR),
             Fusion = mean(Fusion), 
