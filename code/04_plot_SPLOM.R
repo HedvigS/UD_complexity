@@ -56,7 +56,11 @@ p <- df_for_plot %>%
                  cor_test_method_exact = TRUE
   )
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p)
+
+p$p_values_df %>% 
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "", quote = "all")
+ 
+ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
 ####################################
 # SPLOM other metrics
@@ -105,7 +109,10 @@ p <-  df_for_plot %>%
                  cor_test_method_exact = FALSE
   )
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p)
+p$p_values_df %>% 
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "", quote = "all")
+
+ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
 ####################################
 # SPLOM external metrics
@@ -137,8 +144,10 @@ p <- df_for_plot %>%
                  cor_test_method_exact = FALSE,
                  herringbone = T)
 
+p$p_values_df %>% 
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "", quote = "all")
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
 #grambank
 df_for_plot <- df %>% 
@@ -180,7 +189,10 @@ p <- df_for_plot %>%
                  cor_test_method_exact = FALSE,
                  herringbone = T)
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p)
+p$p_values_df %>% 
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "", quote = "all")
+
+ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
 ##############################################################################
 ##############################################################################
@@ -223,7 +235,10 @@ if (nrow(df_for_plot) > 0) {
                    hist_bins = 7, 
                    cor_test_method_exact = TRUE)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+  p$p_values_df %>% 
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "", quote = "all")
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
 } else {
   cat("No PUD data available for SPLOM custom metrics plot.\n")
@@ -275,7 +290,11 @@ if (nrow(df_for_plot) > 0) {
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+  
+  p$p_values_df %>% 
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "", quote = "all")
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
 } else {
   cat("No PUD data available for SPLOM other metrics plot.\n")
@@ -316,8 +335,10 @@ if (nrow(df_for_plot) > 0) {
                    cor_test_method_exact = TRUE,
                    herringbone = T)
   
+  p$p_values_df %>% 
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "", quote = "all")
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p)
+  ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
   
   
@@ -372,7 +393,11 @@ if (nrow(df_for_plot) > 0) {
                    cor_test_method_exact = FALSE,
                    herringbone = T)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p)
+  p$p_values_df %>% 
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "", quote = "all")
+  
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
   
   
