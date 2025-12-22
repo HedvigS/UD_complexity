@@ -56,7 +56,18 @@ p <- df_for_plot %>%
                  cor_test_method_exact = TRUE
   )
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p)
+
+p$p_values_df %>% 
+  dplyr::mutate(
+    pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+    x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.17f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "")
+ 
+ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
 ####################################
 # SPLOM other metrics
@@ -105,7 +116,17 @@ p <-  df_for_plot %>%
                  cor_test_method_exact = FALSE
   )
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p)
+p$p_values_df %>% 
+  dplyr::mutate(
+    pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+    x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.17f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "")
+
+ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
 ####################################
 # SPLOM external metrics
@@ -115,6 +136,7 @@ df_for_plot <- df %>%
   dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
                 "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
@@ -124,6 +146,7 @@ cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
          TTR_col, #3
+         feat_cat_all_col,
          CR_col #4"
 )
 
@@ -137,8 +160,17 @@ p <- df_for_plot %>%
                  cor_test_method_exact = FALSE,
                  herringbone = T)
 
+p$p_values_df %>%  
+  dplyr::mutate(
+    pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+    x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.17f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p)
+ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
 #grambank
 df_for_plot <- df %>% 
@@ -180,7 +212,17 @@ p <- df_for_plot %>%
                  cor_test_method_exact = FALSE,
                  herringbone = T)
 
-ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p)
+p$p_values_df %>% 
+  dplyr::mutate(
+    pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+    x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.17f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
+
+ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
 ##############################################################################
 ##############################################################################
@@ -223,7 +265,17 @@ if (nrow(df_for_plot) > 0) {
                    hist_bins = 7, 
                    cor_test_method_exact = TRUE)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+  p$p_values_df %>% 
+    dplyr::mutate(
+      pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+      x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.17f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "")
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
 } else {
   cat("No PUD data available for SPLOM custom metrics plot.\n")
@@ -275,7 +327,18 @@ if (nrow(df_for_plot) > 0) {
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p)
+  
+  p$p_values_df %>% 
+    dplyr::mutate(
+      pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+      x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.17f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "")
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
 } else {
   cat("No PUD data available for SPLOM other metrics plot.\n")
@@ -290,6 +353,7 @@ df_for_plot <- df %>%
   dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
                 "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
@@ -303,6 +367,7 @@ if (nrow(df_for_plot) > 0) {
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
            TTR_col, #3
+           feat_cat_all_col,
            CR_col #4"
   )
   
@@ -313,11 +378,20 @@ if (nrow(df_for_plot) > 0) {
                    text_strip_size = 9,
                    method = "spearman",
                    hist_bins = 7, 
-                   cor_test_method_exact = TRUE,
+                   cor_test_method_exact = FALSE,
                    herringbone = T)
   
+  p$p_values_df %>% 
+    dplyr::mutate(
+      pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+      x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.17f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p)
+  ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
   
   
@@ -372,7 +446,18 @@ if (nrow(df_for_plot) > 0) {
                    cor_test_method_exact = FALSE,
                    herringbone = T)
   
-  ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p)
+  p$p_values_df %>% 
+    dplyr::mutate(
+      pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+      x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.17f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
+  
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
   
   
