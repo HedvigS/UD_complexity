@@ -450,7 +450,7 @@ if (nrow(df_for_plot) > 0) {
       coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
       pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
     ) %>%
-    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "", quote = "all")
   
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
