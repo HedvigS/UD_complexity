@@ -20,6 +20,11 @@ if(!dir.exists(dir)){
   dir.create(dir)
 }
 
+dir <- paste0("output/results/correlation_dfs/")
+if(!dir.exists(dir)){
+  dir.create(dir)
+}
+
 dir <- paste0("../data/glottolog")
 if(!dir.exists(dir)){
   dir.create(dir)}
