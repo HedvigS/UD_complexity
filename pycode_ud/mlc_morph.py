@@ -306,6 +306,11 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
             (pl.col("lemma") != "")
         )
 
+        # Filter empty nodes - where token id contains the literal character "."
+        df_nodes = df_nodes.filter(
+            ~pl.col("token_id").cast(pl.Utf8).str.contains(r"\.").fill_null(True)
+        )
+
         # Filter numbers
         # The filter removes rows where upos == 'NUM' and token is not alphabetic (i.e. token.isalpha() is False).
         if filter_num:

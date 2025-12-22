@@ -128,7 +128,7 @@ def main(
         treebank_name = tsv_fpath.stem
 
         # Read the TSV file into a Polars DataFrame
-        df_nodes = pl.read_csv(tsv_fpath, separator="\t", ignore_errors=True)
+        df_nodes = pl.read_csv(tsv_fpath, separator="\t", ignore_errors=True, infer_schema=False) # all should be strings
 
         # Calculate MFH from the DataFrame
         mfh_value, dict_extra_info = get_mfh_from_dataframe(df_nodes)
