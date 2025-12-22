@@ -61,11 +61,11 @@ p$p_values_df %>%
   dplyr::mutate(
     pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-    y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-    coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-    pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-  ) %>%
-  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "", quote = "all")
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.13f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "")
  
 ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
@@ -120,11 +120,11 @@ p$p_values_df %>%
   dplyr::mutate(
     pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-    y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-    coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-    pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-  ) %>%
-  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "", quote = "all")
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.13f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
@@ -162,11 +162,11 @@ p$p_values_df %>%
   dplyr::mutate(
     pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-    y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-    coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-    pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-  ) %>%
-  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "", quote = "all")
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.13f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
@@ -214,11 +214,11 @@ p$p_values_df %>%
   dplyr::mutate(
     pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-    y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-    coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-    pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-  ) %>%
-  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "", quote = "all")
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.13f", pvalue)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
@@ -267,11 +267,11 @@ if (nrow(df_for_plot) > 0) {
     dplyr::mutate(
       pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-      y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-      coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-      pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-    ) %>%
-    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "", quote = "all")
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.13f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "")
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
@@ -330,11 +330,11 @@ if (nrow(df_for_plot) > 0) {
     dplyr::mutate(
       pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-      y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-      coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-      pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-    ) %>%
-    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "", quote = "all")
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.13f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "")
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_other_PUD.png", height = 30, width = 30, units = "cm", plot = p$plot)
   
@@ -381,11 +381,11 @@ if (nrow(df_for_plot) > 0) {
     dplyr::mutate(
       pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-      y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-      coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-      pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-    ) %>%
-    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "", quote = "all")
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.13f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
@@ -446,11 +446,11 @@ if (nrow(df_for_plot) > 0) {
     dplyr::mutate(
       pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
-      y = stringr::str_replace_all(y, "\n", " "), #removing line breaks in tsv
-      coef = as.character(formatC(coef, format = "f", digits = 16, drop0trailing = TRUE)), #ensuring that we avoid scientific formatting (0.1E-20).
-      pvalue = as.character(formatC(pvalue, format = "f", digits = 16, drop0trailing = TRUE))
-    ) %>%
-    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "", quote = "all")
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.13f", pvalue)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
   
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
