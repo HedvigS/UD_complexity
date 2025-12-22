@@ -63,7 +63,7 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.13f", pvalue)
+    pvalue = sprintf("%.17f", pvalue)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "")
  
@@ -122,7 +122,7 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.13f", pvalue)
+    pvalue = sprintf("%.17f", pvalue)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "")
 
@@ -136,6 +136,7 @@ df_for_plot <- df %>%
   dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
                 "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
@@ -145,6 +146,7 @@ cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
          TTR_col, #3
+         feat_cat_all_col,
          CR_col #4"
 )
 
@@ -164,7 +166,7 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.13f", pvalue)
+    pvalue = sprintf("%.17f", pvalue)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
 
@@ -216,7 +218,7 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.13f", pvalue)
+    pvalue = sprintf("%.17f", pvalue)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
 
@@ -269,7 +271,7 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.13f", pvalue)
+      pvalue = sprintf("%.17f", pvalue)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "")
   
@@ -332,7 +334,7 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.13f", pvalue)
+      pvalue = sprintf("%.17f", pvalue)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "")
   
@@ -351,6 +353,7 @@ df_for_plot <- df %>%
   dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
                 "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
+                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
                 "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
   )  
 
@@ -364,6 +367,7 @@ if (nrow(df_for_plot) > 0) {
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
            TTR_col, #3
+           feat_cat_all_col,
            CR_col #4"
   )
   
@@ -374,7 +378,7 @@ if (nrow(df_for_plot) > 0) {
                    text_strip_size = 9,
                    method = "spearman",
                    hist_bins = 7, 
-                   cor_test_method_exact = TRUE,
+                   cor_test_method_exact = FALSE,
                    herringbone = T)
   
   p$p_values_df %>% 
@@ -383,7 +387,7 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.13f", pvalue)
+      pvalue = sprintf("%.17f", pvalue)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
   
@@ -448,7 +452,7 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.13f", pvalue)
+      pvalue = sprintf("%.17f", pvalue)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
   
