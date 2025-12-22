@@ -133,6 +133,13 @@ def main():
 
         # a. Load the correlation df
         path_correlation_df = DIR_CORRELATION_DFS / fname
+
+        # Check the file exists
+        if not path_correlation_df.is_file():
+            print(f"[red]Error: File '{fname}' not found in directory '{str(DIR_CORRELATION_DFS)}'.[/red]")
+            exit(1)
+
+        # Load the correlation df
         df_correlation = pl.read_csv(path_correlation_df, separator="\t")
 
         # b. For each row signified by a pair_key in list_adjustment_groups, get the p-value
