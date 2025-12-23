@@ -155,6 +155,7 @@ p <- df_for_plot %>%
                  pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 9,
+                 adjust_pvalues = "holm", 
                  method = "spearman",
                  hist_bins = 10, 
                  cor_test_method_exact = FALSE,
@@ -207,6 +208,7 @@ p <- df_for_plot %>%
                  pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 6,
+                 adjust_pvalues = "holm",
                  method = "spearman",
                  hist_bins = 10, 
                  cor_test_method_exact = FALSE,
@@ -376,6 +378,7 @@ if (nrow(df_for_plot) > 0) {
                    pair_colors = pal, 
                    text_cor_size = 5, 
                    text_strip_size = 9,
+                   adjust_pvalues = "holm",
                    method = "spearman",
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
@@ -442,6 +445,7 @@ if (nrow(df_for_plot) > 0) {
                    text_cor_size = 5, 
                    text_strip_size = 6,
                    method = "spearman",
+                   adjust_pvalues = "holm",
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
                    herringbone = T)
@@ -458,8 +462,6 @@ if (nrow(df_for_plot) > 0) {
   
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
-  
-  
   
 } else {
   cat("No PUD data available for SPLOM external metrics plot.\n")
