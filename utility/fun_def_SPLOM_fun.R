@@ -6,6 +6,7 @@ library(scales, lib.loc = "../utility/packages/")
 coloured_SPLOM <- function(df = df,
                            method = "pearson",
                            cor_test_method_exact = TRUE, 
+                           adjust_pvalues = "none", # "holm", "hochberg", "hommel", "bonferroni", "BH", "BY",   "fdr", "none"
                            pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).
                            col_pairs_to_constraint = "None",
                            col_pairs_constraint = "None",
@@ -93,6 +94,10 @@ coloured_SPLOM <- function(df = df,
                                       stringsAsFactors = FALSE))
     }
   }
+  
+#adjust pvalues for multiple comparisons
+p_values_df$pvalue <- stats::p.adjust(p = p_values_df$pvalue, method = adjust_pvalues, n = n)
+  
   
   # --- Custom plotting functions ---
   custom_lower <- function(data, mapping, pair_colors_map, ...){
