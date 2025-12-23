@@ -156,6 +156,14 @@ p <- df_for_plot %>%
                  text_cor_size = 5, 
                  text_strip_size = 9,
                  adjust_pvalues = "holm", 
+                 adjust_pvalues_for_pairs =   c("Surprisal\nfeat\nagg_level = UPOS\nall features_TTR",
+                                                "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features",
+                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features",
+                                                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR",
+                                                "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                "Feat cat (n)\nall features_TTR"  ,
+                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR" ),
                  method = "spearman",
                  hist_bins = 10, 
                  cor_test_method_exact = FALSE,
@@ -208,11 +216,34 @@ p <- df_for_plot %>%
                  pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 6,
-                 adjust_pvalues = "holm",
+                 adjust_pvalues = "holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features", 
+                                                                      "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features" ,
+                                                                      "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                                      "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only" ,
+                                                                      "Fusion\n(Grambank v1.0)_TTR",
+                                                                      "Informativity\n(Grambank v1.0)_TTR",
+                                                                      "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" ,
+                                                                      "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" ,
+                                                                      "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"  ,
+                                                                      "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"  
+                 ),
                  method = "spearman",
                  hist_bins = 10, 
                  cor_test_method_exact = FALSE,
                  herringbone = T)
+
+
+#Feat / UPOS / all & Fusion & All & 0.0454 & \textit{0.409} \\ "Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features"
+#Feat / UPOS / all & Informativity & All & \textit{0.305} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features"  
+#Featstring / lemma / core & Fusion & All & 0.00735 & \textit{0.0735} \\ "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
+#Featstring / lemma / core & Informativity & All & \textit{0.505} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"      
+#Type-Token Ratio & Fusion & All & \textit{0.736} & \textit{1.000} \\ "Fusion\n(Grambank v1.0)_TTR"
+#Type-Token Ratio & Informativity & All & \textit{0.321} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_TTR"  
+#\#Feature categories & Fusion & All & \textit{0.371} & \textit{1.000} \\ "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" 
+#\#Feature categories & Informativity & All & \textit{0.760} & \textit{1.000} \\ "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" 
+#MFH & Fusion & All & \textit{0.0510} & \textit{0.409} \\  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"   
+#MFH & Informativity & All & \textit{0.726} & \textit{1.000} \\  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"       
+
 
 p$p_values_df %>% 
   dplyr::mutate(
@@ -378,6 +409,14 @@ if (nrow(df_for_plot) > 0) {
                    text_cor_size = 5, 
                    text_strip_size = 9,
                    adjust_pvalues = "holm",
+                   adjust_pvalues_for_pairs =   c("Surprisal\nfeat\nagg_level = UPOS\nall features_TTR",
+                                                                          "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features",
+                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features",
+                                                                          "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR",
+                                                                          "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                                          "Feat cat (n)\nall features_TTR"  ,
+                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR" ),
                    method = "spearman",
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
@@ -392,6 +431,20 @@ if (nrow(df_for_plot) > 0) {
       pvalue = sprintf("%.17f", pvalue)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
+  
+
+  
+  p$p_values_df$pair_key 
+  #Feat / UPOS / all & Type-Token Ratio & All & 3.65e-06 & 1.46e-05 \\ "Surprisal\nfeat\nagg_level = UPOS\nall features_TTR" 
+  #Feat / UPOS / all & \#Feature categories & All & <2.22e-16 & <2.22e-16 \\ "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features" 
+  #Feat / UPOS / all & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features"   
+  #Featstring / lemma / core & Type-Token Ratio & All & \textit{0.0924} & \textit{0.0924} \\  "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR" 
+  #Featstring / lemma / core & \#Feature categories & All & 3.66e-11 & 1.83e-10 \\ "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
+  #Featstring / lemma / core & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"
+  #Type-Token Ratio & \#Feature categories & All & 0.00939 & 0.0188 \\ "Feat cat (n)\nall features_TTR"      
+  #Type-Token Ratio & MFH & All & 0.00246 & 0.00739 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR"  
+  
+  
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
@@ -444,7 +497,17 @@ if (nrow(df_for_plot) > 0) {
                    text_cor_size = 5, 
                    text_strip_size = 6,
                    method = "spearman",
-                   adjust_pvalues = "holm",
+                   adjust_pvalues = "holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features", 
+                                                                        "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features" ,
+                                                                        "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
+                                                                        "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only" ,
+                                                                        "Fusion\n(Grambank v1.0)_TTR",
+                                                                        "Informativity\n(Grambank v1.0)_TTR",
+                                                                        "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" ,
+                                                                        "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" ,
+                                                                        "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"  ,
+                                                                        "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"  
+                   ),
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
                    herringbone = T)
