@@ -5,6 +5,7 @@ library(scales, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 
 coloured_SPLOM <- function(df = df,
+                           verbose = TRUE,
                            method = "pearson",
                            cor_test_method_exact = TRUE, 
                            adjust_pvalues = "none", # "holm", "hochberg", "hommel", "bonferroni", "BH", "BY",   "fdr", "none"
@@ -107,13 +108,24 @@ coloured_SPLOM <- function(df = df,
 if(length(adjust_pvalues_for_pairs) ==  0){
 p_values_df$pvalue <- stats::p.adjust(p = p_values_df$pvalue, method = adjust_pvalues, n = n)
 }else{
+  
   p_values_df_to_be_adjusted <- dplyr::filter(p_values_df, pair_key %in% adjust_pvalues_for_pairs)
+  
+  if(!all(p_values_df_to_be_adjusted$pair_key %in% adjust_pvalues_for_pairs) ){
+stop("Mismatches between adjust_pvalues_for_pairs and pair_keys.")    
+  }
+  
+  if(verbose){
+    cat(paste0("Adjusted p-values for \n"))
+    print(p_values_df_to_be_adjusted$pair_key)
+  }
   
   p_values_df_to_be_adjusted$pvalue <- stats::p.adjust(p = p_values_df_to_be_adjusted$pvalue, method = adjust_pvalues)
   
   p_values_df <-   p_values_df %>% 
     dplyr::filter(!pair_key %in% adjust_pvalues_for_pairs) %>% 
-    dplyr::full_join(p_values_df_to_be_adjusted)
+    dplyr::full_join(p_values_df_to_be_adjusted, by = join_by(pair_key, x, y, coef, pvalue, n))
+  
 }
   
   # --- Custom plotting functions ---
