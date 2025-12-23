@@ -220,8 +220,8 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue)
-  )  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
+    pvalue = sprintf("%.17f", pvalue))  %>% 
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
