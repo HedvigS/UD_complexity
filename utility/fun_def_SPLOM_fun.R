@@ -126,7 +126,7 @@ stop("Mismatches between adjust_pvalues_for_pairs and pair_keys.")
   
   p_values_df <-   p_values_df %>% 
     dplyr::filter(!pair_key %in% adjust_pvalues_for_pairs) %>% 
-    dplyr::full_join(p_values_df_to_be_adjusted, by = join_by(pair_key, x, y, coef, pvalue, n, pvalue_adjusted))
+    dplyr::full_join(p_values_df_to_be_adjusted, by = c("pair_key", "x", "y", "coef", "pvalue", "n", "pvalue_adjusted"))
   
 }
   
