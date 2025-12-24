@@ -55,7 +55,7 @@ See below for instructions on installing the python virtual environment and pack
 2.  Install `R` 4.5.0. [macos arm64](https://mirror.accum.se/mirror/CRAN/bin/macosx/big-sur-arm64/base/R-4.5.0-arm64.pkg) [macos x86_64](https://cran.r-project.org/bin/macosx/big-sur-x86_64/base/R-4.5.0-x86_64.pkg)\
 3. Install python version 3.10-3.13, create a virtual environment, and install the project:
     1. **Install Python**: Python can be downloaded from the [official website](https://www.python.org/downloads/macos/) or installed directly via your system's package manager.
-    2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python3 -m venv .venv_ud_complexity`.
+    2. **Create virtual environment**: From the top-level directory `UD_complexity` create a virtual environment with `python -m venv .venv_ud_complexity`.
     3. **Activate virtual environment**: Run `source .venv_ud_complexity/bin/activate`
     4. **Upgrade pip**: Run `python -m pip install --upgrade pip`
     5. **Install project**: Run `pip install -e .` to install the project as an editable package.
