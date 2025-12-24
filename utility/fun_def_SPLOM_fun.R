@@ -71,6 +71,7 @@ coloured_SPLOM <- function(df = df,
                             coef = numeric(),
                             pvalue = numeric(),
                             pvalue_adjusted = as.numeric(),
+                            pvalue_adjustement = as.character(),
                             n = numeric(),
                             stringsAsFactors = FALSE)
   
@@ -95,6 +96,7 @@ coloured_SPLOM <- function(df = df,
                                       coef = r,
                                       pvalue = p,
                                       pvalue_adjusted = p, 
+                                      pvalue_adjustement = "none",
                                       n = length(x),
                                       stringsAsFactors = FALSE))
     }
@@ -116,17 +118,17 @@ p_values_df$pvalue_adjusted <- stats::p.adjust(p = p_values_df$pvalue, method = 
   if(!all(p_values_df_to_be_adjusted$pair_key %in% adjust_pvalues_for_pairs) ){
 stop("Mismatches between adjust_pvalues_for_pairs and pair_keys.")    
   }
-  
+
+  p_values_df_to_be_adjusted$pvalue_adjusted <- stats::p.adjust(p = p_values_df_to_be_adjusted$pvalue, method = adjust_pvalues_method)
+  p_values_df_to_be_adjusted$pvalue_adjustement <- paste0(adjust_pvalues_method)
   if(verbose){
     cat(paste0("Adjusted p-values for \n"))
     print(p_values_df_to_be_adjusted$pair_key)
   }
   
-  p_values_df_to_be_adjusted$pvalue_adjusted <- stats::p.adjust(p = p_values_df_to_be_adjusted$pvalue, method = adjust_pvalues_method)
-  
   p_values_df <-   p_values_df %>% 
     dplyr::filter(!pair_key %in% adjust_pvalues_for_pairs) %>% 
-    dplyr::full_join(p_values_df_to_be_adjusted, by = c("pair_key", "x", "y", "coef", "pvalue", "n", "pvalue_adjusted"))
+    dplyr::full_join(p_values_df_to_be_adjusted, by = c("pair_key", "x", "y", "coef", "pvalue", "n", "pvalue_adjusted", "pvalue_adjustement"))
   
 }
   
