@@ -24,7 +24,7 @@ df <- df %>%
 p <- basemap +
   ggplot2::geom_jitter(data = df, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
-  ggplot2::ggtitle("Surprisal feat, agg_level = UPOS, all features") +
+  ggplot2::ggtitle("morpho-surprisal / feat / UPOS / all features") +
   viridis::scale_fill_viridis(option = "plasma", breaks = c(1,3, 5, 7, 9, 11)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
@@ -39,7 +39,7 @@ ggplot2::ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos
 p <- basemap +
   ggplot2::geom_jitter(data = df, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
-  ggplot2::ggtitle("Surprisal featstring, agg_level = lemma, core features only")+
+  ggplot2::ggtitle("morpho-surprisal / featstring  /  lemma / core features only")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0, 1,2)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
@@ -58,7 +58,7 @@ df_PUD  <- df %>%
 p <- basemap +
   ggplot2::geom_jitter(data = df_PUD, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
-  ggplot2::ggtitle("Surprisal feat, agg_level = UPOS, all features (PUD)")+
+  ggplot2::ggtitle("morpho-surprisal / feat / UPOS / all features (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,1,3, 5, 7)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
@@ -73,7 +73,7 @@ ggplot2::ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos
 p <- basemap +
   ggplot2::geom_jitter(data = df_PUD, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
               size = 2, alpha = 0.8, width = 3.5, height=3.5, shape = 21, color = "black") +
-  ggplot2::ggtitle("Surprisal featstring, agg_level = lemma, core features only (PUD)")+
+  ggplot2::ggtitle("morpho-surprisal / featstring  /  lemma / core features only (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,0.5, 1,2)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
