@@ -2,10 +2,14 @@
 library(ggplot2, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(scales, lib.loc = "../utility/packages/")
+library(magrittr, lib.loc = "../utility/packages/")
 
 coloured_SPLOM <- function(df = df,
+                           verbose = TRUE,
                            method = "pearson",
                            cor_test_method_exact = TRUE, 
+                           adjust_pvalues_method = "none", # "holm", "hochberg", "hommel", "bonferroni", "BH", "BY",   "fdr", "none"
+                           adjust_pvalues_for_pairs = c(),
                            pair_colors = "default", #if set to default, then we use randomcoloR::distinctColorPalette to find a set of distinct colors for the number of plots needed. This argument can also be set to a vector of hex-codes for colors (e.g. c("#E55679", "#5FE3B6", "#D447A0")).
                            col_pairs_to_constraint = "None",
                            col_pairs_constraint = "None",
@@ -66,6 +70,7 @@ coloured_SPLOM <- function(df = df,
                             y = as.character(),
                             coef = numeric(),
                             pvalue = numeric(),
+                            pvalue_adjusted = as.numeric(),
                             n = numeric(),
                             stringsAsFactors = FALSE)
   
@@ -89,10 +94,41 @@ coloured_SPLOM <- function(df = df,
                                       y = var_names[j],
                                       coef = r,
                                       pvalue = p,
+                                      pvalue_adjusted = p, 
                                       n = length(x),
                                       stringsAsFactors = FALSE))
     }
   }
+  
+  
+#  adjust_pvalues_for_pairs <- c("Informativity\n(Grambank v1.0)_TTR", "Fusion\n(Grambank v1.0)_TTR")
+#  adjust_pvalues = "holm"
+#adjust pvalues for multiple comparisons
+  if(length(adjust_pvalues_for_pairs) ==  1){
+  stop("adjust_pvalues_for_pairs has to be 0 or greater than 1.")}
+  
+if(length(adjust_pvalues_for_pairs) ==  0){
+p_values_df$pvalue_adjusted <- stats::p.adjust(p = p_values_df$pvalue, method = adjust_pvalues_method)
+}else{
+  
+  p_values_df_to_be_adjusted <- dplyr::filter(p_values_df, pair_key %in% adjust_pvalues_for_pairs)
+  
+  if(!all(p_values_df_to_be_adjusted$pair_key %in% adjust_pvalues_for_pairs) ){
+stop("Mismatches between adjust_pvalues_for_pairs and pair_keys.")    
+  }
+  
+  if(verbose){
+    cat(paste0("Adjusted p-values for \n"))
+    print(p_values_df_to_be_adjusted$pair_key)
+  }
+  
+  p_values_df_to_be_adjusted$pvalue_adjusted <- stats::p.adjust(p = p_values_df_to_be_adjusted$pvalue, method = adjust_pvalues_method)
+  
+  p_values_df <-   p_values_df %>% 
+    dplyr::filter(!pair_key %in% adjust_pvalues_for_pairs) %>% 
+    dplyr::full_join(p_values_df_to_be_adjusted, by = c("pair_key", "x", "y", "coef", "pvalue", "n", "pvalue_adjusted"))
+  
+}
   
   # --- Custom plotting functions ---
   custom_lower <- function(data, mapping, pair_colors_map, ...){
@@ -120,7 +156,7 @@ coloured_SPLOM <- function(df = df,
     var2 <- ggplot2::as_label(mapping$y)
     pair_key <- paste(sort(c(var1, var2)), collapse = "_")
     r <- p_values_df$coef[p_values_df$pair_key == pair_key]
-    p <- p_values_df$pvalue[p_values_df$pair_key == pair_key]
+    p <- p_values_df$pvalue_adjusted[p_values_df$pair_key == pair_key]
     n <- p_values_df$n[p_values_df$pair_key == pair_key]
     bg_color <- pair_colors_map[[pair_key]]
     
