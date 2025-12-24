@@ -63,7 +63,8 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue)
+    pvalue = sprintf("%.17f", pvalue),
+    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "")
  
@@ -122,7 +123,8 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue)
+    pvalue = sprintf("%.17f", pvalue),
+    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "")
 
@@ -175,9 +177,21 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue)
+    pvalue = sprintf("%.17f", pvalue),
+    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
+
+#Feat / UPOS / all & Type-Token Ratio & All & 3.65e-06 & 1.46e-05 \\ "Surprisal\nfeat\nagg_level = UPOS\nall features_TTR" 
+#Feat / UPOS / all & \#Feature categories & All & <2.22e-16 & <2.22e-16 \\ "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features" 
+#Feat / UPOS / all & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features"   
+#Featstring / lemma / core & Type-Token Ratio & All & \textit{0.0924} & \textit{0.0924} \\  "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR" 
+#Featstring / lemma / core & \#Feature categories & All & 3.66e-11 & 1.83e-10 \\ "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
+#Featstring / lemma / core & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"
+#Type-Token Ratio & \#Feature categories & All & 0.00939 & 0.0188 \\ "Feat cat (n)\nall features_TTR"      
+#Type-Token Ratio & MFH & All & 0.00246 & 0.00739 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR"  
+# \#Feature categories & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Feat cat (n)\nall features" 
+
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
@@ -251,7 +265,8 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue))  %>% 
+    pvalue = sprintf("%.17f", pvalue),
+    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted))  %>% 
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
@@ -303,7 +318,8 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue)
+      pvalue = sprintf("%.17f", pvalue),
+      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "")
   
@@ -366,7 +382,8 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue)
+      pvalue = sprintf("%.17f", pvalue),
+      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "")
   
@@ -416,7 +433,8 @@ if (nrow(df_for_plot) > 0) {
                                                                           "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
                                                                           "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
                                                                           "Feat cat (n)\nall features_TTR"  ,
-                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR" ),
+                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR",
+                                                  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Feat cat (n)\nall features"),
                    method = "spearman",
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
@@ -428,23 +446,10 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue)
+      pvalue = sprintf("%.17f", pvalue),
+      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
-  
-
-  
-  p$p_values_df$pair_key 
-  #Feat / UPOS / all & Type-Token Ratio & All & 3.65e-06 & 1.46e-05 \\ "Surprisal\nfeat\nagg_level = UPOS\nall features_TTR" 
-  #Feat / UPOS / all & \#Feature categories & All & <2.22e-16 & <2.22e-16 \\ "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features" 
-  #Feat / UPOS / all & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features"   
-  #Featstring / lemma / core & Type-Token Ratio & All & \textit{0.0924} & \textit{0.0924} \\  "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR" 
-  #Featstring / lemma / core & \#Feature categories & All & 3.66e-11 & 1.83e-10 \\ "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
-  #Featstring / lemma / core & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"
-  #Type-Token Ratio & \#Feature categories & All & 0.00939 & 0.0188 \\ "Feat cat (n)\nall features_TTR"      
-  #Type-Token Ratio & MFH & All & 0.00246 & 0.00739 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR"  
-  
-  
   
   ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR_PUD.png", height = 18, width = 18, units = "cm", plot = p$plot)
   
@@ -518,7 +523,8 @@ if (nrow(df_for_plot) > 0) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue)
+      pvalue = sprintf("%.17f", pvalue),
+      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
   
