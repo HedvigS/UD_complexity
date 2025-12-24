@@ -22,14 +22,14 @@ feat_cat_all_col <- "#f723bb"
 # SPLOM custom metrics
 
 df_for_plot <- df %>%
-  dplyr::select("Surprisal\nfeat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
-                "Surprisal\nfeat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
-                "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
-                "Surprisal\nfeat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
-                "Surprisal\nfeatstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
-                "Surprisal\nfeatstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
-                "Surprisal\nfeatstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
+  dplyr::select("morpho-surprisal / \n feat / \n lemma / \n all features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "morpho-surprisal / \n feat / \n lemma / \n core features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "morpho-surprisal / \n feat / \n UPOS / \n core features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  lemma / \n all features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n all features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n core features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
 
 cat("Dataframe for SPLOM custom metrics plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
@@ -42,7 +42,7 @@ pal <- c("#A7E1A1" , #1
          "#86e397" , #5
          surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
          "#35c43f", #7
-         "grey40" #8
+         "#4292c6" #8
 )
 
 p <- df_for_plot %>% 
@@ -74,17 +74,17 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30
 # SPLOM other metrics
 
 df_for_plot <- df %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+  dplyr::select("morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",          #5
-                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
-                "Suprisal of token\nmean" = suprisal_token_mean, 
-                "Types (n)" = "n_types", 
-                "Tokens (n) " = "n_tokens",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only" #11
+                "Feats per token\n(mean)\n all features" = "n_feats_per_token_mean_all_features",          #5
+                "Feats per token\n(mean)\n core features only" ="n_feats_per_token_mean_core_features_only",
+                "Suprisal of token\nmean" = "suprisal_token_mean", 
+                "# Types" = "n_types", 
+                "# Tokens " = "n_tokens",
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",                                    
+                "# Feat cat / \n core features only" = "n_feat_cats_core_features_only" #11
                 
   ) 
 
@@ -135,11 +135,11 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_other.png", height = 30, width = 30,
 
 #CR
 df_for_plot <- df %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
-                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",    
+                "Ç&R's MFH\n(slightly modified\nversion)" = mfh
   )  
 
 cat("Dataframe for SPLOM external metrics plot:\n")
@@ -158,14 +158,14 @@ p <- df_for_plot %>%
                  text_cor_size = 5, 
                  text_strip_size = 9,
                  adjust_pvalues_method ="holm", 
-                 adjust_pvalues_for_pairs =   c("Surprisal\nfeat\nagg_level = UPOS\nall features_TTR",
-                                                "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features",
-                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features",
-                                                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR",
-                                                "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                "Feat cat (n)\nall features_TTR"  ,
-                                                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR" ),
+                 adjust_pvalues_for_pairs =   c("morpho-surprisal / \n feat / \n UPOS / \n all features_TTR",
+                                                "# Feat cat / \n all features_morpho-surprisal / \n feat / \n UPOS / \n all features",
+                                                "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n feat / \n UPOS / \n all features",
+                                                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only_TTR",
+                                                "# Feat cat / \n all features_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                "# Feat cat / \n all features_TTR"  ,
+                                                "Ç&R's MFH\n(slightly modified\nversion)_TTR" ),
                  method = "spearman",
                  hist_bins = 10, 
                  cor_test_method_exact = FALSE,
@@ -182,15 +182,15 @@ p$p_values_df %>%
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
 
-#Feat / UPOS / all & Type-Token Ratio & All & 3.65e-06 & 1.46e-05 \\ "Surprisal\nfeat\nagg_level = UPOS\nall features_TTR" 
-#Feat / UPOS / all & \#Feature categories & All & <2.22e-16 & <2.22e-16 \\ "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features" 
-#Feat / UPOS / all & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features"   
-#Featstring / lemma / core & Type-Token Ratio & All & \textit{0.0924} & \textit{0.0924} \\  "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR" 
-#Featstring / lemma / core & \#Feature categories & All & 3.66e-11 & 1.83e-10 \\ "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
-#Featstring / lemma / core & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"
-#Type-Token Ratio & \#Feature categories & All & 0.00939 & 0.0188 \\ "Feat cat (n)\nall features_TTR"      
-#Type-Token Ratio & MFH & All & 0.00246 & 0.00739 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR"  
-# \#Feature categories & MFH & All & <2.22e-16 & <2.22e-16 \\ "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Feat cat (n)\nall features" 
+#Feat / UPOS / all & Type-Token Ratio & All & 3.65e-06 & 1.46e-05 \\ "morpho-surprisal / \n feat / \n UPOS / \n all features_TTR" 
+#Feat / UPOS / all & #Feature categories & All & <2.22e-16 & <2.22e-16 \\ "# Feat cat / \n all features_morpho-surprisal / \n feat / \n UPOS / \n all features" 
+#Feat / UPOS / all & MFH & All & <2.22e-16 & <2.22e-16 \\ "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n feat / \n UPOS / \n all features"   
+#Featstring / lemma / core & Type-Token Ratio & All & \textit{0.0924} & \textit{0.0924} \\  "morpho-surprisal / \n featstring  / \n  lemma / \n core features only_TTR" 
+#Featstring / lemma / core & #Feature categories & All & 3.66e-11 & 1.83e-10 \\ "# Feat cat / \n all features_morpho-surprisal / \n featstring  / \n  lemma / \n core features only"         
+#Featstring / lemma / core & MFH & All & <2.22e-16 & <2.22e-16 \\ "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only"
+#Type-Token Ratio & #Feature categories & All & 0.00939 & 0.0188 \\ "# Feat cat / \n all features_TTR"      
+#Type-Token Ratio & MFH & All & 0.00246 & 0.00739 \\ "Ç&R's MFH\n(slightly modified\nversion)_TTR"  
+# #Feature categories & MFH & All & <2.22e-16 & <2.22e-16 \\ "Ç&R's MFH\n(slightly modified\nversion)_# Feat cat / \n all features" 
 
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_CR.png", height = 18, width = 18, units = "cm", plot = p$plot)
@@ -205,13 +205,13 @@ df_for_plot <- df %>%
             Fusion = mean(Fusion), 
             n_feat_cats_all_features = mean(n_feat_cats_all_features),
             Informativity = mean(Informativity), .groups = "drop") %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
-                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh,
-                "Fusion\n(Grambank v1.0)" = "Fusion", 
-                "Informativity\n(Grambank v1.0)" ="Informativity")  
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",    
+                "Ç&R's MFH\n(slightly modified\nversion)" = mfh,
+                "Fusion\n(Grambank)" = "Fusion", 
+                "Informativity\n(Grambank)" ="Informativity")  
 
 cat("Dataframe for SPLOM external metrics plot (Grambank):\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
@@ -230,16 +230,16 @@ p <- df_for_plot %>%
                  pair_colors = pal, 
                  text_cor_size = 5, 
                  text_strip_size = 6,
-                 adjust_pvalues_method ="holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features", 
-                                                                      "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features" ,
-                                                                      "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                                      "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only" ,
-                                                                      "Fusion\n(Grambank v1.0)_TTR",
-                                                                      "Informativity\n(Grambank v1.0)_TTR",
-                                                                      "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" ,
-                                                                      "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" ,
-                                                                      "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"  ,
-                                                                      "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"  
+                 adjust_pvalues_method ="holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features", 
+                                                                      "Informativity\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features" ,
+                                                                      "Fusion\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                                      "Informativity\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only" ,
+                                                                      "Fusion\n(Grambank)_TTR",
+                                                                      "Informativity\n(Grambank)_TTR",
+                                                                      "# Feat cat / \n all features_Fusion\n(Grambank)" ,
+                                                                      "# Feat cat / \n all features_Informativity\n(Grambank)" ,
+                                                                      "Ç&R's MFH\n(slightly modified\nversion)_Fusion\n(Grambank)"  ,
+                                                                      "Ç&R's MFH\n(slightly modified\nversion)_Informativity\n(Grambank)"  
                  ),
                  method = "spearman",
                  hist_bins = 10, 
@@ -247,16 +247,16 @@ p <- df_for_plot %>%
                  herringbone = T)
 
 
-#Feat / UPOS / all & Fusion & All & 0.0454 & \textit{0.409} \\ "Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features"
-#Feat / UPOS / all & Informativity & All & \textit{0.305} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features"  
-#Featstring / lemma / core & Fusion & All & 0.00735 & \textit{0.0735} \\ "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"         
-#Featstring / lemma / core & Informativity & All & \textit{0.505} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only"      
-#Type-Token Ratio & Fusion & All & \textit{0.736} & \textit{1.000} \\ "Fusion\n(Grambank v1.0)_TTR"
-#Type-Token Ratio & Informativity & All & \textit{0.321} & \textit{1.000} \\ "Informativity\n(Grambank v1.0)_TTR"  
-#\#Feature categories & Fusion & All & \textit{0.371} & \textit{1.000} \\ "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" 
-#\#Feature categories & Informativity & All & \textit{0.760} & \textit{1.000} \\ "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" 
-#MFH & Fusion & All & \textit{0.0510} & \textit{0.409} \\  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"   
-#MFH & Informativity & All & \textit{0.726} & \textit{1.000} \\  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"       
+#Feat / UPOS / all & Fusion & All & 0.0454 & \textit{0.409} \\ "Fusion\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features"
+#Feat / UPOS / all & Informativity & All & \textit{0.305} & \textit{1.000} \\ "Informativity\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features"  
+#Featstring / lemma / core & Fusion & All & 0.00735 & \textit{0.0735} \\ "Fusion\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only"         
+#Featstring / lemma / core & Informativity & All & \textit{0.505} & \textit{1.000} \\ "Informativity\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only"      
+#Type-Token Ratio & Fusion & All & \textit{0.736} & \textit{1.000} \\ "Fusion\n(Grambank)_TTR"
+#Type-Token Ratio & Informativity & All & \textit{0.321} & \textit{1.000} \\ "Informativity\n(Grambank)_TTR"  
+##Feature categories & Fusion & All & \textit{0.371} & \textit{1.000} \\ "# Feat cat / \n all features_Fusion\n(Grambank)" 
+##Feature categories & Informativity & All & \textit{0.760} & \textit{1.000} \\ "# Feat cat / \n all features_Informativity\n(Grambank)" 
+#MFH & Fusion & All & \textit{0.0510} & \textit{0.409} \\  "Ç&R's MFH\n(slightly modified\nversion)_Fusion\n(Grambank)"   
+#MFH & Informativity & All & \textit{0.726} & \textit{1.000} \\  "Ç&R's MFH\n(slightly modified\nversion)_Informativity\n(Grambank)"       
 
 
 p$p_values_df %>% 
@@ -278,19 +278,19 @@ ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18,
 
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = lemma\nall features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
-                "Surprisal\nfeat\nagg_level = lemma\ncore features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
-                "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
-                "Surprisal\nfeat\nagg_level = UPOS\ncore features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
-                "Surprisal\nfeatstring\nagg_level = lemma\nall features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
-                "Surprisal\nfeatstring\nagg_level = UPOS\nall features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
-                "Surprisal\nfeatstring\nagg_level = UPOS\ncore features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
+  dplyr::select("morpho-surprisal / \n feat / \n lemma / \n all features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "morpho-surprisal / \n feat / \n lemma / \n core features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "morpho-surprisal / \n feat / \n UPOS / \n core features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  lemma / \n all features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n all features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n core features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ) 
 
 cat("Dataframe for SPLOM custom metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
-if (nrow(df_for_plot) > 0) {
+if (nrow(df_for_plot) > 4) {
   
   pal <- c("#A7E1A1" , #1
            "#5bafe3",   #2
@@ -299,7 +299,7 @@ if (nrow(df_for_plot) > 0) {
            "#86e397" , #5
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
            "#35c43f", #7
-           "grey40" #8
+           "#4292c6" #8
   )
   
   p <- df_for_plot %>% 
@@ -334,23 +334,23 @@ if (nrow(df_for_plot) > 0) {
 
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+  dplyr::select("morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" = "surprisal_per_morph_featstring_mean_lemma_core_features_only",
                 "TTR",
                 "LTR"   ,
-                "Feats per token\n(mean)\nall features" = "n_feats_per_token_mean_all_features",                         
-                "Feats per token\n(mean)\ncore features only" ="n_feats_per_token_mean_core_features_only",
+                "Feats per token\n(mean)\n all features" = "n_feats_per_token_mean_all_features",                         
+                "Feats per token\n(mean)\n core features only" ="n_feats_per_token_mean_core_features_only",
                 "Suprisal of token\nmean" = suprisal_token_mean, 
-                "Types (n)" = "n_types", 
-                "Tokens (n) " = "n_tokens",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",                                    
-                "Feat cat (n)\ncore features only" = "n_feat_cats_core_features_only"
+                "# Types" = "n_types", 
+                "# Tokens " = "n_tokens",
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",                                    
+                "# Feat cat / \n core features only" = "n_feat_cats_core_features_only"
   ) 
 
 cat("Dataframe for SPLOM other metrics PUD plot:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
-if (nrow(df_for_plot) > 0) {
+if (nrow(df_for_plot) > 4) {
   
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
@@ -399,18 +399,18 @@ if (nrow(df_for_plot) > 0) {
 #CR
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
-  dplyr::select("Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+  dplyr::select("morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",    
-                "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = mfh
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",    
+                "Ç&R's MFH\n(slightly modified\nversion)" = mfh
   )  
 
 
 cat("Dataframe for SPLOM external metrics PUD plot CR:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
-if (nrow(df_for_plot) > 0) {
+if (nrow(df_for_plot) > 4) {
   
   
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
@@ -426,15 +426,15 @@ if (nrow(df_for_plot) > 0) {
                    text_cor_size = 5, 
                    text_strip_size = 9,
                    adjust_pvalues_method ="holm",
-                   adjust_pvalues_for_pairs =   c("Surprisal\nfeat\nagg_level = UPOS\nall features_TTR",
-                                                                          "Feat cat (n)\nall features_Surprisal\nfeat\nagg_level = UPOS\nall features",
-                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeat\nagg_level = UPOS\nall features",
-                                                                          "Surprisal\nfeatstring\nagg_level = lemma\ncore features only_TTR",
-                                                                          "Feat cat (n)\nall features_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                                          "Feat cat (n)\nall features_TTR"  ,
-                                                                          "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_TTR",
-                                                  "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Feat cat (n)\nall features"),
+                   adjust_pvalues_for_pairs =   c("morpho-surprisal / \n feat / \n UPOS / \n all features_TTR",
+                                                                          "# Feat cat / \n all features_morpho-surprisal / \n feat / \n UPOS / \n all features",
+                                                                          "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n feat / \n UPOS / \n all features",
+                                                                          "morpho-surprisal / \n featstring  / \n  lemma / \n core features only_TTR",
+                                                                          "# Feat cat / \n all features_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                                          "Ç&R's MFH\n(slightly modified\nversion)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                                          "# Feat cat / \n all features_TTR"  ,
+                                                                          "Ç&R's MFH\n(slightly modified\nversion)_TTR",
+                                                  "Ç&R's MFH\n(slightly modified\nversion)_# Feat cat / \n all features"),
                    method = "spearman",
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
@@ -472,20 +472,20 @@ df_for_plot <- df %>%
             Informativity = mean(Informativity), .groups = "drop"
             ) %>% 
   dplyr::select(
-    "Surprisal\nfeat\nagg_level = UPOS\nall features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
-                "Surprisal\nfeatstring\nagg_level = lemma\ncore features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
+    "morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" , 
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only", 
                 "TTR",
-                "Feat cat (n)\nall features" = "n_feat_cats_all_features",  
-    "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)" = "mfh",
-                "Fusion\n(Grambank v1.0)" = "Fusion", 
-                "Informativity\n(Grambank v1.0)" ="Informativity")  
+                "# Feat cat / \n all features" = "n_feat_cats_all_features",  
+    "Ç&R's MFH\n(slightly modified\nversion)" = "mfh",
+                "Fusion\n(Grambank)" = "Fusion", 
+                "Informativity\n(Grambank)" ="Informativity")  
 
 
 
 cat("Dataframe for SPLOM external metrics PUD plot CR:\n")
 cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
 
-if (nrow(df_for_plot) > 0) {
+if (nrow(df_for_plot) > 4) {
   
   pal <- c(sum_surprisal_morph_split_mean_upos_all_features_col, #1
            surprisal_per_morph_featstring_mean_lemma_core_features_only_col,   #2
@@ -502,16 +502,16 @@ if (nrow(df_for_plot) > 0) {
                    text_cor_size = 5, 
                    text_strip_size = 6,
                    method = "spearman",
-                   adjust_pvalues_method ="holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features", 
-                                                                        "Informativity\n(Grambank v1.0)_Surprisal\nfeat\nagg_level = UPOS\nall features" ,
-                                                                        "Fusion\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only",
-                                                                        "Informativity\n(Grambank v1.0)_Surprisal\nfeatstring\nagg_level = lemma\ncore features only" ,
-                                                                        "Fusion\n(Grambank v1.0)_TTR",
-                                                                        "Informativity\n(Grambank v1.0)_TTR",
-                                                                        "Feat cat (n)\nall features_Fusion\n(Grambank v1.0)" ,
-                                                                        "Feat cat (n)\nall features_Informativity\n(Grambank v1.0)" ,
-                                                                        "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Fusion\n(Grambank v1.0)"  ,
-                                                                        "Çöltekin & Rama's\nmfh\n(slightly modified\nversion)_Informativity\n(Grambank v1.0)"  
+                   adjust_pvalues_method ="holm",adjust_pvalues_for_pairs = c("Fusion\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features", 
+                                                                        "Informativity\n(Grambank)_morpho-surprisal / \n feat / \n UPOS / \n all features" ,
+                                                                        "Fusion\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only",
+                                                                        "Informativity\n(Grambank)_morpho-surprisal / \n featstring  / \n  lemma / \n core features only" ,
+                                                                        "Fusion\n(Grambank)_TTR",
+                                                                        "Informativity\n(Grambank)_TTR",
+                                                                        "# Feat cat / \n all features_Fusion\n(Grambank)" ,
+                                                                        "# Feat cat / \n all features_Informativity\n(Grambank)" ,
+                                                                        "Ç&R's MFH\n(slightly modified\nversion)_Fusion\n(Grambank)"  ,
+                                                                        "Ç&R's MFH\n(slightly modified\nversion)_Informativity\n(Grambank)"  
                    ),
                    hist_bins = 7, 
                    cor_test_method_exact = FALSE,
