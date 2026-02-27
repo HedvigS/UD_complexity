@@ -533,9 +533,9 @@ ADJ	&	çetrefil	&	çetrefilli	&		\\    \midrule
 \end{table}
 
 In this study, we are interested not only in how many morphological features a token bears on average, but also in how informative those features are given their usage frequencies.
-For example, in Turkish-Penn the feature Number appears frequently with the value Singular (86\% of its occurrences), whereas Tense is more evenly distributed (Past 50\%, Present 45\%, Future 5\%).
-From an information-theoretic perspective, Tense as a category is more informative than Number, as its values are less predictable. 
-For a given token, if the value of Tense is Past, that is less surprising than if it was Future.
+For example, in Turkish-Penn the feature Number appears frequently with the value Singular (87\% of its occurrences), whereas Tense is more evenly distributed (Past 50\%, Present 45\%, Future 5\%).
+From an information-theoretic perspective, Tense as a category is more informative than Number, as its values are less predictable: the entropy of Tense is $0.5\log{\frac{1}{0.5}}+0.45\log{\frac{1}{0.45}}+0.05\log{\frac{1}{0.05}}=\mathbf{1.234}\text{ bits}$, whereas the entropy of Number is only $0.87\log{\frac{1}{0.87}}+0.13\log{\frac{1}{0.13}}=\mathbf{0.557}\text{ bits}$. 
+For a given token, if the value of Tense is Past, that is less surprising than if it was Future ($\log{\frac{1}{0.5}}=\mathbf{1}\text{ bit}$ vs $\log{\frac{1}{0.05}}=\mathbf{4.322}\text{ bits}$).
 
 We measure token-level surprisal of morphological feature values and average across datasets to obtain a point estimate of morphological information (henceforth morpho-surprisal).
 
