@@ -1,5 +1,8 @@
 #This script takes the values and languages tables from a cldf-release and combines then and transforms them to a wide data format from a long. It does not take into account the parameter or code tables.
 
+# Fix libPaths to our local package directory
+.libPaths("../utility/packages/")
+
 library(readr, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(reshape2, lib.loc = "../utility/packages/")

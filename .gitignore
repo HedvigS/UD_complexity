@@ -26,7 +26,7 @@ code/output/sum_dfs/*_sum_df.tsv
 *.venv*
 *.egg-info/
 __pycache__/
-
+.python-version
 
 # VSCode
 *.code-workspace

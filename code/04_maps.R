@@ -1,3 +1,6 @@
+# Fix libPaths to our local package directory
+.libPaths("../utility/packages/")
+
 library(dplyr, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")

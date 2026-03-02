@@ -1,3 +1,6 @@
+# Fix libPaths to our local package directory
+.libPaths("../utility/packages/")
+
 library(dplyr, lib.loc = "../utility/packages/")
 library(reshape2, lib.loc = "../utility/packages/")
 library(readr, lib.loc = "../utility/packages/")

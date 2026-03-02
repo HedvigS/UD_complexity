@@ -1,3 +1,6 @@
+# Fix libPaths to our local package directory
+.libPaths("../utility/packages/")
+
 #directory = "output"
 #agg_level = "upos" 
 #core_features = "core_features_only"
