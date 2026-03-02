@@ -42,9 +42,14 @@ h_install <- function(pkg,
       
         
       if(!(pkg %in% installed_pkgs[,"Package"])){
-      
-        remotes::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, 
-                                  repos = repos, upgrade = upgrade)
+        
+        # On Windows systems, install the binary directly if available, otherwise use remotes to install the specified version
+        if(grepl("win", .Platform$pkgType)){
+          install.packages(pkg, version = version, lib = lib, repos = repos, type='binary')
+        }
+        else {
+          remotes::install_version(package  = pkg, version = version, lib = lib, dependencies = dependencies, repos = repos, upgrade = upgrade)
+        }
         
       }
       
