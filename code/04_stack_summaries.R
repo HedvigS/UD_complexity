@@ -34,7 +34,7 @@ custom_metrics_df_4_ways <- all %>%
 
 metrics_df_2_ways <- all %>% 
   dplyr::select(dir, agg_level, core_features,
-"n_feats_per_token_mean", "n_feat_cats" ) %>% 
+"n_feats_per_token_mean", "n_feat_cats" , "feat_cats") %>% 
   reshape2::melt(id.vars = c("dir", "agg_level", "core_features")) %>%
   tidyr::unite(variable, agg_level, core_features, col = "cast_variable", remove = TRUE) %>% 
   reshape2::dcast(dir ~ cast_variable, value.var = "value")
