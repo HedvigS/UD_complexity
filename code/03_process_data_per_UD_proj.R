@@ -94,10 +94,8 @@ process_UD_data <- function(input_dir = NULL,
   
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
   
-
-
   for(i in 1:length(fns)){
-    # i <-67
+    # i <-57
     fn <- fns[i]
     
     dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
@@ -108,7 +106,7 @@ process_UD_data <- function(input_dir = NULL,
     
     #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))
-
+    
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
     n_tokens_empty_dropped <- conllu %>% 
@@ -158,8 +156,10 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::filter(!is.na(token_id)) %>% 
         tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE, , sep = "£", fill = "right") %>% 
         dplyr::group_by(sentence_id, token_id) %>% 
-        dplyr::summarise(feats_contracted = paste0(feats, collapse = "|"), 
-                         upos_contracted = paste0(upos, collapse = "_"), .groups = "drop")
+        dplyr::summarise(feats_contracted = paste0(feats  %>%  na.omit(), collapse = "|"), 
+                         upos_contracted = paste0(upos  %>%  na.omit(), collapse = "_"), .groups = "drop") %>%
+        dplyr::mutate(feats_contracted = ifelse(feats_contracted == "", NA, feats_contracted)) %>%
+        dplyr::mutate(upos_contracted  = ifelse(upos_contracted  == "", NA, upos_contracted )) 
       
       conllu <- conllu  %>% 
         dplyr::anti_join(dplyr::select(df_uncontracted, sentence_id, token_id = token_num), by = c("sentence_id", "token_id")) %>%
@@ -187,7 +187,7 @@ process_UD_data <- function(input_dir = NULL,
     
     ########## SORT OUT TAGGING
     
-    # There are inconsistencies in coding of different UD-projects. It is not the case that every token of the same part-of-speech (upos) are tagged for the same information. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
+    # It is not the case that every token of the same part-of-speech (upos) are tagged for the same information, which is not desirable for our project. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
   
     #split for morph tags
     conllu_split <- conllu %>%
@@ -283,8 +283,10 @@ calculate_surprisal <- function(input_dir = NULL,
                                 core_features = NULL# core_features_only, all_features
              ){
 
-#input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/agg_level_lemma_all_features/processed_tsv/"
+#input_dir <- "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_all_features/processed_tsv/"
 #output_dir <- "output/results/ud-treebanks-v2.14_results"
+#agg_level = ""
+#core_features = "all_features"
   
   if(is.null(output_dir)){
     stop("output_dir is NULL, it needs to be defined.")
@@ -389,7 +391,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <-19
+# i <-57
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
@@ -404,9 +406,11 @@ conllu_split <- conllu %>%
   dplyr::mutate(feats_split = stringr::str_split(feats, "\\|")) %>% #split the feature cell for each feature
   tidyr::unnest(cols = c(feats_split)) %>% #unravel the feature cell into separate rows for each feature
   tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  
-  
-n_feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique()
-n_feat_cats <- n_feat_cats[!grepl("unassigned", n_feat_cats)] %>% length()
+
+feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique()
+feat_cats = feat_cats[!grepl("unassigned", feat_cats)]
+n_feat_cats <- feat_cats %>% length()
+feat_cats <- paste0(unique(conllu_split$feat_cat), collapse = ";")  #for transpercy, also just record all feature categories mentioned
 
 n_feats_per_token_df  <- conllu_split %>%
   dplyr::group_by(id) %>% 
@@ -506,6 +510,7 @@ data.frame(dir = dir,
            TTR = n_types /  n_tokens, 
            LTR = n_lemmas / n_tokens, 
            n_feat_cats = n_feat_cats,
+           feat_cats = feat_cats,
            n_feats_per_token_mean = n_feats_per_token_df$feats_n %>% mean(),
            suprisal_token_mean = surprisal_token$surprisal %>% mean(), 
            sum_surprisal_morph_split_mean = token_surprisal_df$sum_surprisal_morph_split %>% mean() ,
@@ -515,3 +520,4 @@ data.frame(dir = dir,
 
 
 }#end of function
+
