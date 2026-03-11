@@ -79,12 +79,16 @@ meta_list_aligned <- lapply(meta_list, function(df) {
 
 ud_dirs_used <- readr::read_tsv("output/results/all_results.tsv", show_col_types = FALSE) %>% dplyr::pull(dir) 
 
-metadata_df <- do.call(rbind, meta_list_aligned) %>% 
-  dplyr::filter(treebank %in% ud_dirs_used) %>%
-  dplyr::mutate(Genre = stringr::str_split(Genre, " ")) %>% 
-  tidyr::unnest(Genre) 
+metadata_df <- do.call(rbind, meta_list_aligned) 
+
+metadata_df %>% 
+  dplyr::rename(dir = treebank) %>%
+  readr::write_tsv("output/metadata.df")
 
 genre_df <- metadata_df %>% 
+  dplyr::filter(treebank %in% ud_dirs_used) %>%
+  dplyr::mutate(Genre = stringr::str_split(Genre, " ")) %>% 
+  tidyr::unnest(Genre) %>%
   dplyr::group_by(Genre) %>% 
   dplyr::summarise(n = dplyr::n()) %>% 
   dplyr::arrange(dplyr::desc(n))
