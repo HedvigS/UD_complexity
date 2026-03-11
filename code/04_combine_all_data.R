@@ -76,7 +76,7 @@ df$sum_surprisal_morph_split_mean_upos_all_features_rank <- base::rank(df$sum_su
 df$surprisal_per_morph_featstring_mean_lemma_core_features_only_rank <- base::rank(df$surprisal_per_morph_featstring_mean_lemma_core_features_only, na.last = "keep")
 
 df$Fusion_rank <- base::rank(df$Fusion, na.last = "keep")
-df$Informativity_rank <- rank(df$Informativity, na.last = "keep")
+df$Informativity_rank <- base::rank(df$Informativity, na.last = "keep")
 
 df %>% 
   readr::write_tsv("output/results/all_results.tsv", na = "")
