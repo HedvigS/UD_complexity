@@ -62,10 +62,11 @@ df <- df %>%
 
 #some datasets don't have the tokens in them
 df <- df %>% 
-  dplyr::mutate(TTR = ifelse(n_types <=2, NA, TTR)) %>% 
+  dplyr::mutate(TTR = ifelse(n_types <=2, NA, TTR)) %>% #if there are fewer than 2 types in the data, set number of types, TTR, LTR and surprisal of token to missing as this indicates that it is not reliable
   dplyr::mutate(LTR = ifelse(n_types <=2, NA, LTR))  %>% 
   dplyr::mutate(suprisal_token_mean = ifelse(n_types <=2, NA, suprisal_token_mean))  %>% 
   dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  %>% 
+  dplyr::mutate(mfh = ifelse(n_total_rows_filtered_mfh == 0, NA, mfh))   %>% #for C&R's mfh measurement, because of the dataset we use as input sometimes the number of tokens the score is based on is in fact 0. In those cases, mfh will also be 0 but it is not a meaningful value because it is based on 0 tokens. We exclude these.
   dplyr::filter(n_feat_cats_all_features >= 2)
 
 df %>% 
