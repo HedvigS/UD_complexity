@@ -102,12 +102,15 @@ process_UD_data <- function(input_dir = NULL,
     
     if(verbose == TRUE){
       
-    cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level =", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) }
+    cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level = ", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) }
     
     #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))  %>% 
-    dplyr::mutate(token = stringr::str_to_lower(token))
-    
+    dplyr::mutate(token = stringr::str_to_lower(token)) %>% 
+    dplyr::filter(!str_detect(text_column, "^\\p{Extended_Pictographic}+$")) %>% #remove tokens (rows) where the token field ONLY consists of emojis (e.g. "🎂🎂🎂")
+    dplyr::mutate(token = stringr::str_replace_all(token, "\\p{Extended_Pictographic}", "")) %>% #remove any remaining emojis from token field ("🎂Сёння" -> "Сёння")
+    dplyr::mutate(lemma = stringr::str_replace_all(lemma, "\\p{Extended_Pictographic}", "") ) #as with the token, remove any remaining emojis
+
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
     n_tokens_empty_dropped <- conllu %>% 
@@ -125,13 +128,15 @@ process_UD_data <- function(input_dir = NULL,
     ### DEAL WITH MULTIWORD WORDS
     # Contracted words, like "don't" are treated in UD in a special fashion. The conllu files contain 3 tokens for such a contraction: "don't", "do" and "n't". The contracted word (from now on: super-word), in this case "don't" does not receive feats, upos, lemma or dependency relation annotations. Instead, these annotations occur on the "sub-words", i.e. "do" and "n't". The schema for doing this is centrally governed, but it is up to each dataset to decide when to do this. In this project, we are intrested in morphology of surface forms, i.e. exactly what is said/written, as opposed to their teased out syntactical sub-parts. For this reason, we want to keep the "super word", i.e. "don't", move the annotations to that token and remove the components (i.e. "do" and "n't"). All contracted words (i.e "don't") have a dash in their token_id (e.g. "6-7") which can be mapped to the sub-words token_ids (e.g. "6" and "7"). We use this relationship to identify contracted words and sub-words and map information.
     
-  if(resolve_multiwords_to == "super-word"){
-    
     df_contracted <- conllu  %>%
       dplyr::filter(stringr::str_detect(token_id, "-"))
+
+      n_tokens_contracted <- nrow(df_contracted)
+    
+  if(resolve_multiwords_to == "super-word"){
     
     if(nrow(df_contracted) > 0){
-      if(verbose == TRUE){ cat("There are multiword tokens in this dataset, disentangling. \n")}
+      if(verbose == TRUE){ cat(paste0("There are multiword tokens (n=", nrow(df_contracted),") in this dataset, disentangling. \n"))}
       df_contracted <- conllu  %>%
         dplyr::filter(stringr::str_detect(token_id, "-")) %>% 
         dplyr::mutate(
@@ -178,7 +183,10 @@ process_UD_data <- function(input_dir = NULL,
     
     n_tokens_multiwords_resolved <- conllu %>% nrow()
     
-
+    n_lemma <- conllu$lemma %>% na.omit() %>%  length()
+    n_tokens <- conllu %>% nrow()
+    percent_missing_lemma <- round((n_tokens-n_lemma)/ n_tokens, 2) * 100
+    
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
       dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } #for multiwords, the lemma is missing. This is also the case for certain other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma by inserting the token information there.
@@ -254,6 +262,10 @@ process_UD_data <- function(input_dir = NULL,
     #making a data-frame of tokens counts at various points in this data processeing pipeline
     
     df_n_tokens <- data.frame(dir  = dir, 
+                              agg_level = agg_level, 
+                              core_features = core_features,
+                              percent_missing_lemma = percent_missing_lemma,
+                              n_tokens_contracted = n_tokens_contracted,
                               n_tokens_in_input = n_tokens_in_input,
                               n_tokens_empty_dropped = n_tokens_empty_dropped,
                               n_tokens_only_subwords = n_tokens_only_subwords ,
