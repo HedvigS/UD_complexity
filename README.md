@@ -31,16 +31,17 @@ Likewise, we expect that future versions of the data-sets yield very similar out
 
 #### R versions and packages
 
-All required R packages are installed for the user with R the script `code/01_requirements_install.R` which features some accommodations to platform-specific situations.
-All required R packages, with the exception of `data.table` and `Matrix`, are listed in the file `requirements.tsv` in a particular order that is optimally constructed in terms of package depencies. 
-The other packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements_install.R`.
+All required R packages are possible for the user to install with the R-script `code/01_requirements_install.R` which features some accommodations to platform-specific situations.
+All required R packages, with the exception of `data.table` (v1.17.8) and `Matrix` (v1.7-3), are listed in the file `requirements.tsv` in a particular order that is optimally constructed in terms of package depencies. 
+The other two packages need to be installed from binary files (provided in `utility/packages_binary/`), this is specified in `code/01_requirements_install.R`.
 
-We install all packages into a custom directory `utility/packages/`.
+All R-packages are to be installed to the custom directory `utility/packages/`, this is where each script will expect to load the packages from.
 R's virtual environment system `renv` does not fully shield the environment from global packages, which can lead to dependency conflicts.
-We thus avoid `renv` and set the library path in all our scripts exclusively to the custom directory when installing and loading packages.
+We thus avoid `renv` and set the library path in all our scripts exclusively to the custom directory `utility/packages/` when installing and loading packages.
 This ensures that the versions of the packages used througout the project are correct.
-If `code/01_requirements_install.R` fails for you in the installation guides below and you install packages by another route, please make sure to set the library directory to `utility/packages/` (i.e. create dir and set the argument `lib` in `install.packages()` to `utility/packages/`), otherwise the loading of packages in the subsequent scripts will break.
-If `code/01_requirements_install.R` fails but you succeed in installing packages by another route, please run `code/01_requirements_dirs.R` in order to set-up folders (this is otherwise called by `code/00_run_all.R`).
+
+If `code/01_requirements_install.R` fails for you in the installation guides below or you wish to install R-packages in another way, please see the `requirements.tsv` for a complete list of necessary R-packages, with the addition of `data.table` (v1.17.8) and `Matrix` (v1.7-3), and install it by other means (e.g. with `remotes::install_version()` or other similar functions). You will need to set the library directory to `utility/packages/` (i.e. create dir and set the argument `lib` in `install.packages()` to `utility/packages/`), otherwise the loading of packages in the subsequent scripts will break.
+If you avoid `code/01_requirements_install.R` fails but you succeed in installing packages by another route, please run `code/01_requirements_dirs.R` in order to set up the folders necessary (this is otherwise called by `code/00_run_all.R`).
 
 #### Python versions and packages
 
@@ -99,7 +100,7 @@ R will then install the required packages. On Windows this can take a long time 
 
 ## Run
 
-Be aware that running the entire pipeline end-to-end will create results in the `output/` directory totalling around **70GB**.
+Be aware that running the entire pipeline end-to-end will create results in the `output/` directory totalling around **78GB**.
 
 ### Run all
 
@@ -129,6 +130,7 @@ To run the analysis scripts individually, they **must** be run in the order they
 2.  Obtain data-sets (requires internet)
 3.  Calculate metrics on data-sets
 4.  Summarise and plot
+5.  Further plots
 
 The correct order of scripts and function calls can be found in `00_run_all.R`.
 The following subsections break down and explain each step.
