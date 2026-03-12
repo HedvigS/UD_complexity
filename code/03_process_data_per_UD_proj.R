@@ -180,7 +180,7 @@ process_UD_data <- function(input_dir = NULL,
 
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
-      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } #for multiwords, the lemma is missing. This is also the case for certain other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma by inserting the token information there.
+      dplyr::mutate(lemma = ifelse(is.na(lemma), stringr::str_to_lower(token), lemma)) } #for multiwords, the lemma is missing. This is also the case for certain other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma by inserting the token information there.
       
     conllu <- conllu %>% 
       dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
