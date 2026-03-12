@@ -45,7 +45,7 @@ If you avoid `code/01_requirements_install.R` fails but you succeed in installin
 
 #### Python versions and packages
 
-We have tested on python version 3.10 on Windows and TODO on MacOS.
+We have tested on python version 3.10 on Windows and 3.13.2 on MacOS (Sequoia 15.7.4).
 We expect other recent versions of python to work similarly.
 Earlier versions of python are unlikely to work due to incompatibility with the package `polars`.
 See below for instructions on installing the python virtual environment and package requirements, all of which are listed in `pyproject.toml`.
