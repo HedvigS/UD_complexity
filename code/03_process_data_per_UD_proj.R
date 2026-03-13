@@ -103,13 +103,15 @@ process_UD_data <- function(input_dir = NULL,
     if(verbose == TRUE){
       
     cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level = ", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) }
-    
-    #reading in
+
+        #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))  %>% 
     dplyr::mutate(token = stringr::str_to_lower(token)) %>% 
     dplyr::filter(!str_detect(token, "^\\p{Extended_Pictographic}+$")) %>% #remove tokens (rows) where the token field ONLY consists of emojis (e.g. "🎂🎂🎂")
     dplyr::mutate(token = stringr::str_replace_all(token, "\\p{Extended_Pictographic}", "")) %>% #remove any remaining emojis from token field ("🎂Сёння" -> "Сёння")
-    dplyr::mutate(lemma = stringr::str_replace_all(lemma, "\\p{Extended_Pictographic}", "") ) #as with the token, remove any remaining emojis
+    dplyr::mutate(lemma = stringr::str_replace_all(lemma, "\\p{Extended_Pictographic}", "") )  %>%#as with the token, remove any remaining emojis
+    dplyr::mutate(token = stringr::str_replace_all(token, "[\"]", "")) %>% #remove quote marks 
+      dplyr::mutate(lemma = stringr::str_replace_all(lemma, "[\"]", "") ) 
 
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
