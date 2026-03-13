@@ -107,7 +107,7 @@ process_UD_data <- function(input_dir = NULL,
     #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))  %>% 
     dplyr::mutate(token = stringr::str_to_lower(token)) %>% 
-    dplyr::filter(!str_detect(text_column, "^\\p{Extended_Pictographic}+$")) %>% #remove tokens (rows) where the token field ONLY consists of emojis (e.g. "🎂🎂🎂")
+    dplyr::filter(!str_detect(token, "^\\p{Extended_Pictographic}+$")) %>% #remove tokens (rows) where the token field ONLY consists of emojis (e.g. "🎂🎂🎂")
     dplyr::mutate(token = stringr::str_replace_all(token, "\\p{Extended_Pictographic}", "")) %>% #remove any remaining emojis from token field ("🎂Сёння" -> "Сёння")
     dplyr::mutate(lemma = stringr::str_replace_all(lemma, "\\p{Extended_Pictographic}", "") ) #as with the token, remove any remaining emojis
 
