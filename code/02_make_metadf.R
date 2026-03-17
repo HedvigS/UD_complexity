@@ -50,7 +50,7 @@ parse_ud_metadata <- function(README_fn) {
   
   out <- as.data.frame(as.list(values), stringsAsFactors = FALSE)
   names(out) <- keys
-  out$treebank <- basename(dirname(README_fn))
+  out$dir <- basename(dirname(README_fn))
   
   out
 }
@@ -78,5 +78,4 @@ meta_list_aligned <- lapply(meta_list, function(df) {
 metadata_df <- do.call(rbind, meta_list_aligned) 
 
 metadata_df %>% 
-  dplyr::rename(dir = treebank) %>%
   readr::write_tsv("output/metadata.df")
