@@ -571,7 +571,7 @@ If an UPOS or lemma lacks features altogether, a single dummy feature is assigne
 
 We define eight variants of morpho-surprisal based on three binary parameters. 
 The first has already been discussed, aggregation level.
-The second concerns wether we only use all features in a dataset, or only those centrally defined (`core'' features as defined by the UD project (see appendix \ref{caveat_comparability} and \ref{sec_appendix:core_features}).
+The second concerns whether we only use all features in a dataset, or only those centrally defined (`core'' features as defined by the UD project (see appendix \ref{subsec:caveat_comparability} and \ref{sec_appendix:core_features}).
 The third concerns wether we treat the features separately (e.g. Case=Ins, Degree=Pos) or as a concatenated string (e.g. ``Case=Ins|Degree=Pos''). 
 This parameter is included to partially address conditional frequency (see appendix \ref{caveat_conditional_order}).
 All variants of morpho-surprisal are listed in table \ref{tab:our_metrics_list}.
@@ -897,12 +897,12 @@ Some corpora use the XPOS field to record more fine-grained classifications of p
 UD\_English-GENTLE seems to do it; though the documentation doesn't say exactly what guidelines they followed, it appears similar to that of UD\_English-ESLSpok whose documentation explicitly cites the Penn Treebank Tagset guidelines.
 Aggregating at XPOS would ameliorate some of the overeager dummy feature assignment that happens at the UPOS level.
 However, it wouldn't change the result of the example we've just looked at.
-Both `no' and `the' get an XPOS of DT in UD\_English-GENTLE, so they would still receive each other's features as dummy values when aggregating at that level.
+Both `no' and `the' get the XPOS `DT' (determiner) in UD\_English-GENTLE, so they would still receive each other's features as dummy values when aggregating at that level.
 Furthermore, not all treebanks use the XPOS option, and those that do don't all use it in the same way.
 So this potential improvement would have to be looked at carefully in future developments of the current metric.
 
 \begin{itemize}
-    \item (Do we have an idea how many of our corpora this would work for?)
+    \item TODO: Do we have an idea how many of our corpora this would work for?
 \end{itemize}
 
 In sum, dummy feature assignment at the UPOS level can lead to unintuitive attribution of morphological features to tokens.
@@ -921,10 +921,40 @@ We leave to future work the possibly of estimating morphological information whe
 
 \subsection{Inconsistent annotation standards across corpora}
 
+The UD project provides documentation guiding treebank annotation.
+Nevertheless there are different levels of rigour and different choices made among the maintainers of different treebanks, even among those drawn from corpora of the same language.
+We deal with the most significant issues of this kind by altogether excluding some treebanks from our analysis.
+For example, UD\_Bavarian-MaiBaam has no feature annotations at all. 
+We exclude treebanks with no features because our informational measure requires feature annotations to produce a meaningful result.
+
+However, there are remaining differences that could negatively impact the comparability of our metric.
+Features may be annotated with slightly different standards across treebanks, even treebanks of the same language.
+For example, UD\_English-PUD does not assign a value for the feature Case to words such as `our' and `their', while UD\_English-GENTLE assigns the case `Gen' (for genitive). 
+This inconsistency results in different informational values for these words. 
+If the PUD dataset were so annotated, those words would get different values for our metric than they in fact do. 
+Conversely if the GENTLE dataset were not marked for these values, those tokens' informational quantities on our metric would also be different from those we actually calculated.
+This is bad: different annotation decisions has led to inconsistent data which means the values we have calculated are not as comparable as they could be.
+
+One consideration here is that inspecting treebanks that are of the same language helps us understand the range of variation involved.
+In fact, inspecting our results reveals that the PUD and GENTLE treebanks are among the most similar of the English-language treebanks.
+A clear outlier is rather UD\_English-Atis whose surprisal values are markedly lower than any of the other English datasets.
+This anomaly is not restricted to our measure: {\c{C}}{\"o}ltekin and Rama's mean feature entropy applied to the same datasets reveals a big jump between the Atis data and the other seven English treebanks.
+One explanation for this discrepancy is that Atis is derived from the Airline Travel Informations comprising transcriptions of flight information requests.
+Around 25\% of these tokens are therefore proper nouns -- American cities with airports -- a huge proportion compared to other datasets of different genres.
+Rather than excluding this dataset we have chosen to leave it in the analysis in part to highlight how differences in genre can impact informational measures.
+For more details on genre and comparability see appendix \ref{subsec:caveat_comparability}.
+
+A broader point worth making is that any workflow downstream of a large database will be hostage to that database's consistency. 
+To the extent that the data has been gathered and annotated by the same principles and with the same rigour, analytical results will be more commensurate and comparisons more meaningful. 
+Actually performing analyses like this one and that of \citet{ccoltekin2023complexity} can help reveal inconsistencies and increase the motivation for more rigorous and consistent data gathering in the first place. 
+So while the applicability of our results at this stage is admittedly hindered by such inconsistencies, the workflow itself can be redeployed continuously as the data quality improves. 
+(Contrariwise, if nobody ever attempted to analyse the data there would be little motivation to improve it -- we have to start somewhere, with the promise of getting better as we go along.)
+
 \begin{itemize}
-    \item Aggregation across corpora with different annotation standards (Rev ID 15): negative affects the comparability of our metric because features may be annotated differently.
-    \item Emojis, percentages, etc.
+    \item TODO: Emojis, percentages, etc.
 \end{itemize}
+
+See appendix \ref{subsec:caveat_comparability} for more detailed information about comparability challenges in UD.
 
 \FloatBarrier
 \section{Discussion \& conclusion}\label{sec:discussion}
@@ -1411,7 +1441,7 @@ Figure \ref{fig:boxPlotsMetrics} depicts box plots of the values of all eight of
 \label{sec:caveats}
 
 \subsection{Comparability of data}
-\label{caveat_comparability}
+\label{subsec:caveat_comparability}
 In comparative studies, it is desirable to compare like with like. There are several comparability challenges in this study. These are known and expected with datasets like UD \citep{UD_2.14}. We list the ones that are most important to our study here. 
 
 \subsubsection{Variation in morphological annotation}\label{sec_appendix:core_features}
