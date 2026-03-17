@@ -24,12 +24,7 @@ fns <- list.files(path = paste0("../data/ud-treebanks-v2.14"),
 UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
   dplyr::select(dir, conllu, glottocode) 
 
-metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE) %>% 
-  dplyr::filter(Features != "not available")
-
 dirs <- list.dirs(path = paste0("../data/ud-treebanks-v2.14"), full.names = F, recursive = F)
-
-dirs <- dirs[dirs %in% metadata_df$dir] #remove dirs that are marked as "Features not available"
 
 #check that the UD_languages.tsv correctly matches the fetched data, i.e. that all dirs and conllu files match
 checks <- list(UD_langs$conllu[!UD_langs$conllu %in% basename(fns)],
@@ -43,7 +38,11 @@ if(check == FALSE){
   stop("The file UD_languages.tsv and the fetched files don't match.")
 }
 
+metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE) %>% 
+  dplyr::filter(Features != "not available")
+
 UD_dirs <- UD_langs %>% 
+  dplyr::filter(dir %in% metadata_df$dir) %>% 
   dplyr::group_by(dir) %>% 
   dplyr::summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
 
