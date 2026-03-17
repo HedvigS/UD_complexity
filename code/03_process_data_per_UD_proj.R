@@ -95,14 +95,15 @@ process_UD_data <- function(input_dir = NULL,
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
   
   for(i in 1:length(fns)){
-    # i <-57
+    # i <-117
     fn <- fns[i]
     
     dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
     
     if(verbose == TRUE){
       
-    cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level = ", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) }
+    cat(paste0("I'm processesing ", dir, " with ", core_features, " and agg_level = ", agg_level, ". It is number ", i, " out of ", length(fns) ,". The time is ", format(Sys.time(), "%Y-%m-%d %H:%M"),".\n")) 
+      }
 
         #reading in
     conllu <- readr::read_tsv(fn, show_col_types = F, col_types =  cols(.default = "c"))  %>% 
@@ -113,6 +114,16 @@ process_UD_data <- function(input_dir = NULL,
     dplyr::mutate(token = stringr::str_replace_all(token, "[\"]", "")) %>% #remove quote marks 
       dplyr::mutate(lemma = stringr::str_replace_all(lemma, "[\"]", "") ) 
 
+    
+    if(stringr::str_detect(fn, "UD_Old_East_Slavic-Birchbark")){
+    #  the README.md of UD_Old_East_Slavic-Birchbark specifies specific conventions for missing content, which we can use to filter out unreliable content
+      conllu <- conllu %>% 
+        dplyr::filter(!stringr::str_detect(token, "\\(")) %>%
+        dplyr::filter(!stringr::str_detect(token, "\\…")) %>% 
+        dplyr::filter(!stringr::str_detect(token, "\\-")) 
+      }
+    
+    
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
     n_tokens_empty_dropped <- conllu %>% 
@@ -165,18 +176,20 @@ process_UD_data <- function(input_dir = NULL,
         tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE, , sep = "£", fill = "right") %>% 
         dplyr::group_by(sentence_id, token_id) %>% 
         dplyr::summarise(feats_contracted = paste0(feats  %>%  na.omit(), collapse = "|"), 
+                         lemma_contracted = paste0(lemma  %>%  na.omit(), collapse = "|"), 
                          upos_contracted = paste0(upos  %>%  na.omit(), collapse = "_"), .groups = "drop") %>%
         dplyr::mutate(feats_contracted = ifelse(feats_contracted == "", NA, feats_contracted)) %>%
-        dplyr::mutate(upos_contracted  = ifelse(upos_contracted  == "", NA, upos_contracted )) 
+        dplyr::mutate(upos_contracted  = ifelse(upos_contracted  == "", NA, upos_contracted )) %>%
+        dplyr::mutate(lemma_contracted  = ifelse(lemma_contracted  == "", NA, lemma_contracted )) 
       
       conllu <- conllu  %>% 
         dplyr::anti_join(dplyr::select(df_uncontracted, sentence_id, token_id = token_num), by = c("sentence_id", "token_id")) %>%
         dplyr::left_join(df_contracts_solved, by = dplyr::join_by(sentence_id, token_id)) %>% 
         dplyr::mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
         dplyr::mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
-        dplyr::select(-feats_contracted, -upos_contracted)
+        dplyr::mutate(lemma = ifelse(!is.na(lemma_contracted ), lemma_contracted , upos)) %>%
+        dplyr::select(-feats_contracted, -upos_contracted, lemma_contracted)
     }
-    
   }
     if(resolve_multiwords_to == "component-words"){
       conllu <- conllu %>% 
@@ -188,6 +201,9 @@ process_UD_data <- function(input_dir = NULL,
     n_lemma <- conllu$lemma %>% na.omit() %>%  length()
     n_tokens <- conllu %>% nrow()
     percent_missing_lemma <- round((n_tokens-n_lemma)/ n_tokens, 2) * 100
+    n_types <- conllu$token %>% unique() %>% length()
+    n_lemma_unique <- conllu$lemma %>% na.omit() %>% unique() %>% lengt()
+    
     
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
@@ -272,7 +288,10 @@ process_UD_data <- function(input_dir = NULL,
                               n_tokens_empty_dropped = n_tokens_empty_dropped,
                               n_tokens_only_subwords = n_tokens_only_subwords ,
                               n_tokens_multiwords_resolved = n_tokens_multiwords_resolved,
-                              n_tokens_output = nrow( conllu))
+                              n_tokens_output = nrow( conllu),
+                              n_lemma = n_lemma, 
+                              n_lemma_unique = n_lemma_unique, 
+                              n_types = n_types)
     
     output_fn <- paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/counts/", dir,".tsv")
     
@@ -425,7 +444,7 @@ conllu_split <- conllu %>%
 feat_cats = conllu_split$feat_cat %>% na.omit() %>% unique()
 feat_cats = feat_cats[!grepl("unassigned", feat_cats)]
 n_feat_cats <- feat_cats %>% length()
-feat_cats <- paste0(unique(conllu_split$feat_cat), collapse = ";")  #for transpercy, also just record all feature categories mentioned
+feat_cats <- paste0(unique(conllu_split$feat_cat), collapse = ";") %>% sort() #for transpercy, also just record all feature categories mentioned
 
 n_feats_per_token_df  <- conllu_split %>%
   dplyr::group_by(id) %>% 
