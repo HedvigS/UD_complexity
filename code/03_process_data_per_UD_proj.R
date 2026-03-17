@@ -168,7 +168,7 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::rename(token_num = token_id) %>% 
         tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE, sep = "£") %>% 
         dplyr::filter(id %in% df_contracted$id) %>% 
-        dplyr::select(id, feats, upos, sentence_id, token_num)
+        dplyr::select(id, feats, upos, sentence_id, token_num, lemma)
       
       df_contracts_solved <- df_contracted %>% 
         dplyr::full_join(df_uncontracted, by = c("id"), relationship = "many-to-many") %>% 
@@ -202,7 +202,7 @@ process_UD_data <- function(input_dir = NULL,
     n_tokens <- conllu %>% nrow()
     percent_missing_lemma <- round((n_tokens-n_lemma)/ n_tokens, 2) * 100
     n_types <- conllu$token %>% unique() %>% length()
-    n_lemma_unique <- conllu$lemma %>% na.omit() %>% unique() %>% lengt()
+    n_lemma_unique <- conllu$lemma %>% na.omit() %>% unique() %>% length()
     
     
     if(fill_empty_lemmas_with_tokens == TRUE){    
