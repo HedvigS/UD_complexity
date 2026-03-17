@@ -62,6 +62,7 @@ source("04_plot_SPLOM.R")
 source("04_maps.R")
 source("04_UD_Genre_plot.R")
 source("05_rank_heat_plot.R")
+source("05_assembling_readmes.R")
 
 # Python post-processing
 source("05_box_plots.R") # Box plots showing the range of values across our metrics and MFH
