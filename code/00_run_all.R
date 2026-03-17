@@ -7,6 +7,7 @@ source("02_get_glottolog_language_table.R")
 source("02_get_grambank_data.R")
 
 source("02_get_UD.R")
+source("02_make_metadf.R")
 source("02_collapse_UD_dirs.R")
 
 # Calculate C&R's mean feature entropy (MFH) using the Python script
@@ -55,7 +56,6 @@ calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_proces
                     core_features = "all_features", 
                     output_dir <- "output/results/ud-treebanks-v2.14_results")
 
-source("04_make_metadf.R")
 source("04_stack_summaries.R")
 source("04_combine_all_data.R")
 source("04_plot_SPLOM.R")
