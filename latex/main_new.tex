@@ -899,11 +899,7 @@ Aggregating at XPOS would ameliorate some of the overeager dummy feature assignm
 However, it wouldn't change the result of the example we've just looked at.
 Both `no' and `the' get the XPOS `DT' (determiner) in UD\_English-GENTLE, so they would still receive each other's features as dummy values when aggregating at that level.
 Furthermore, not all treebanks use the XPOS option, and those that do don't all use it in the same way.
-So this potential improvement would have to be looked at carefully in future developments of the current metric.
-
-\begin{itemize}
-    \item TODO: Do we have an idea how many of our corpora this would work for?
-\end{itemize}
+So this potential improvement would have to be looked at carefully in future developments of the current metric. % See pycode_ud/sandbox/notebooks/count_xpos.ipynb for an initial analysis of the statistics on the XPOS column across treebanks.
 
 In sum, dummy feature assignment at the UPOS level can lead to unintuitive attribution of morphological features to tokens.
 Our basic position is that information can be carried by the absence of morphological marking, and that is what dummy assignment is designed to capture.
@@ -1118,6 +1114,7 @@ See Figure \ref{fig:data_processing_flowchart} for a schematic overview of the d
 The full procedure of our metric is as follows:
 \begin{enumerate}
 \item Exclude multilingual datasets
+\item Exclude datasets where the README.md states that Features are not available
 \item Collapse the files of each UD dataset (e.g. dev, test and train) to one table with one token per row (including multiword-tokens, component word tokens and empty node tokens)
 \item Remove tokens that are punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')\footnote{For more on UPOS X, please see \url{https://universaldependencies.org/u/pos/X.html}}.
 \item Remove datasets with less than 13,000 tokens. 13,000 was chosen as a cut-off as this let us keep all PUD-datasets with more than 2 feature categories defined.
