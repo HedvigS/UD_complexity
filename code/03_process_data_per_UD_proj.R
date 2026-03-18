@@ -318,7 +318,7 @@ process_UD_data <- function(input_dir = NULL,
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
                                 verbose = TRUE,
-                                agg_level = NULL, #upos,lemma token
+                                agg_level = NULL, #upos,lemma token, subclass
                                 core_features = NULL# core_features_only, all_features
              ){
 
@@ -359,6 +359,10 @@ if(str_detect(input_dir, "agg_level_upos")){
 if(str_detect(input_dir, "agg_level_token")){
   agg_level_inferred <- "token"
 }
+
+if(str_detect(input_dir, "agg_level_subclass")){
+  agg_level_inferred <- "subclass"
+}
  
 core_features_inferred  <- NULL 
 
@@ -394,8 +398,8 @@ if(!is.null(agg_level_inferred) & agg_level != agg_level_inferred){
   }
   
   #various checks to make sure that arguments make sense
-  if(!(agg_level %in% c("upos", "lemma", "token"))){
-    stop("agg_level has to be either UPOS, lemma or token.")
+  if(!(agg_level %in% c("upos", "lemma", "token", "subclass"))){
+    stop("agg_level has to be either UPOS, lemma, subclass or token.")
   }
   
   if(!(core_features %in% c("core_features_only", "all_features"))){
