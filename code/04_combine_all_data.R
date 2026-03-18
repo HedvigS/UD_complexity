@@ -79,7 +79,7 @@ df <- df %>%
   dplyr::mutate(sum_surprisal_morph_split_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA, sum_surprisal_morph_split_mean_lemma_all_features)) %>% 
   dplyr::mutate( sum_surprisal_morph_split_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  sum_surprisal_morph_split_mean_lemma_core_features_only)) %>% 
   dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_all_features)) %>% 
-  dplyr::mutate(ssurprisal_per_morph_featstring_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_core_features_only)) %>% 
+  dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_core_features_only)) %>% 
   dplyr::filter(Features != "not available")
   
 #noting ranks
