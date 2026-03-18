@@ -19,10 +19,15 @@ fns3 <- list.files(path = "output/results/ud-treebanks-v2.14_results/agg_level_u
                   pattern = ".tsv", full.names = T)
 fns4 <- list.files(path = "output/results/ud-treebanks-v2.14_results/agg_level_upos_core_features_only/summarised/", 
                   pattern = ".tsv", full.names = T)
+fns5 <- list.files(path = "output/results/ud-treebanks-v2.14_results/agg_level_subclass_all_features/summarised/", 
+                   pattern = ".tsv", full.names = T)
+fns6 <- list.files(path = "output/results/ud-treebanks-v2.14_results/agg_level_subclass_core_features_only/summarised/", 
+                   pattern = ".tsv", full.names = T)
 
-fns <- c(fns1, fns2, fns3, fns4)
+fns <- c(fns1, fns2, fns3, fns4, 
+         fns5, fns6)
 
-all <- stack_tsvs(fns = fns, verbose = F) # from stack_tsvs.R
+all <- stack_tsvs(fns = fns, verbose = FALSE) # from stack_tsvs.R
 
 custom_metrics_df_4_ways <- all %>% 
   dplyr::select(dir, agg_level, core_features,
@@ -40,7 +45,7 @@ metrics_df_2_ways <- all %>%
   reshape2::dcast(dir ~ cast_variable, value.var = "value")
 
 df <- all %>%
-  dplyr::select(dir, "n_types", "n_tokens" , "n_lemmas", "n_sentences" ,"TTR" ,    "LTR"   , "suprisal_token_mean" ) %>% 
+  dplyr::select(dir, "n_types", "n_tokens" , "n_lemmas" ,"TTR" ,    "LTR"   , "suprisal_token_mean" ) %>% 
   dplyr::distinct() %>% 
   dplyr::full_join(custom_metrics_df_4_ways, by = "dir") %>% 
   dplyr::full_join(metrics_df_2_ways, by = "dir")
@@ -57,8 +62,13 @@ fns3 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/ag
                    pattern = ".tsv", full.names = T)
 fns4 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_core_features_only/counts/", 
                    pattern = ".tsv", full.names = T)
+fns5 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_subclass_all_features/counts/", 
+                   pattern = ".tsv", full.names = T)
+fns6 <- list.files(path = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_subclass_core_features_only/counts/", 
+                   pattern = ".tsv", full.names = T)
 
-fns <- c(fns1, fns2, fns3, fns4)
+fns <- c(fns1, fns2, fns3, fns4, 
+         fns5, fns6)
 
 all_counts <- stack_tsvs(fns = fns, verbose = F) # from stack_tsvs.R
 
@@ -95,3 +105,4 @@ all_counts$dir <- forcats::fct_reorder(all_counts$dir, all_counts$diff)
 p  <- all_counts %>% 
   ggplot2::ggplot() +
   ggplot2::geom_bar(mapping = ggplot2::aes(x = dir, y = diff), stat = "identity")
+
