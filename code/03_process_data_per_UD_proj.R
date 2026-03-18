@@ -31,14 +31,14 @@ process_UD_data <- function(input_dir = NULL,
   # input_dir <- paste0("output/processed_data/ud-treebanks-v2.14_collapsed/")
   # output_dir <- "output/processed_data/ud-treebanks-v2.14_processed"
   # core_features <- "all_features"
-  # agg_level <- "upos"
+  # agg_level <- "subclass"
   
   #various checks to make sure that arguments make sense
   if(!(core_features %in% c("core_features_only", "all_features"))){
     stop("core_features has to be either core_features_only or all_features.")
   }
   
-  if(!(agg_level %in% c("upos", "lemma", "token"))){
+  if(!(agg_level %in% c("upos", "lemma", "token", "subclass"))){
     stop("agg_level has to be either UPOS, lemma or token.")
   }
   
@@ -95,7 +95,7 @@ process_UD_data <- function(input_dir = NULL,
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
   
   for(i in 1:length(fns)){
-    # i <-117
+    # i <- 24
     fn <- fns[i]
     
     dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
@@ -122,7 +122,6 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::filter(!stringr::str_detect(token, "\\…")) %>% 
         dplyr::filter(!stringr::str_detect(token, "\\-")) 
       }
-    
     
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
@@ -212,7 +211,7 @@ process_UD_data <- function(input_dir = NULL,
     conllu <- conllu %>% 
       dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
     
-    ########## SORT OUT TAGGING
+    ########## SORT OUT TAGGING 
     
     # It is not the case that every token of the same part-of-speech (upos) are tagged for the same information, which is not desirable for our project. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
   
@@ -221,7 +220,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::mutate(feats_split = stringr::str_split(feats, "\\|")) %>% #split the feature cell for each feature
       tidyr::unnest(cols = c(feats_split))  %>% #unravel the feature cell into separate rows for each feature
       tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  %>% #split the feature into its two components: feat_cat and feat_value
-      dplyr::mutate(feat_cat = ifelse(feat_cat %in% bad_UD_morph_feat_cats, yes = NA, no = feat_cat)) %>% #if the feat_cat belongs to a set of feat_cats which is not relevant for the study, replace it with NA. the irrelevant set is defined in 01_requirements.R
+      dplyr::mutate(feat_cat = ifelse(feat_cat %in% bad_UD_morph_feat_cats, yes = NA, no = feat_cat)) %>% #if the feat_cat belongs to a set of feat_cats which is not relevant for the study, replace it with NA. the irrelevant set is defined in the function arguments
       {
         if (core_features == "core_features_only") { #if the variable core_features_only is set to TRUE, we only keep features that belong to this core set. UD_core_feats_df is defined in 01_requirements.R
           dplyr::mutate(., feat_cat = ifelse(feat_cat %in% UD_core_feats_df$feat, feat_cat, NA))
@@ -240,6 +239,13 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct() %>% 
       dplyr::ungroup()
 
+    #adding subclass, which is a grouping under upos defined by a specific set of feats. For example, adjectives that mark gender are a different subclass from adjectives that aren't marked for gender.
+      conllu_split<- conllu_split %>% 
+        dplyr::group_by(id) %>% 
+        dplyr::mutate(subclass = paste0(unique(upos), " (", paste0(sort(unique(feat_cat)), collapse = "|", ")"))) %>% 
+        dplyr::ungroup()
+
+    #wranling the data so that all tokens of the same agg_level (upos or lemma) has the same features
     if(make_all_tokens_of_same_agg_level_have_same_feat_cat == TRUE){    
     agg_level_feat_cat_df_distinct <- conllu_split %>% 
       dplyr::select(dplyr::all_of(agg_level), feat_cat) %>% 
@@ -247,29 +253,28 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct() 
     
     token_info <- conllu_split %>%
-      dplyr::distinct(id, sentence_id, token, lemma, upos)
+      dplyr::distinct(id, sentence_id, token, lemma, upos, subclass)
     
     expanded <- token_info %>%
       dplyr::left_join(agg_level_feat_cat_df_distinct , by = agg_level, relationship = "many-to-many")  # brings in only feat_cats attested for this agg_level
     
     conllu_split  <- expanded %>%
-      dplyr::left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "feat_cat")) %>%
+      dplyr::left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "subclass", "feat_cat")) %>%
       dplyr::mutate(feat_value = dplyr::coalesce(feat_value, "unassigned")) %>% 
       dplyr::mutate(feat_cat = ifelse(is.na(feat_cat), "unassigned", feat_cat))
-
     }
     
     ####################################
     #for the output, we need the original format with one row per token and all feats cocatenanted. here we render that back again
     conllu <- conllu_split  %>% 
       dplyr::mutate(feats_combo = paste0(feat_cat, "=", feat_value)) %>% 
-      dplyr::arrange(feat_cat) %>% 
       dplyr::group_by(id) %>% 
-      dplyr::summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
+      dplyr::summarise(feats_new = paste0(unique(feats_combo), collapse = "|"), 
+                       subclass = first(subclass)) %>% 
       dplyr::full_join(conllu, by = "id") %>% 
       dplyr::select(-feats) %>% 
       dplyr::rename(feats = feats_new) %>% 
-      dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos) 
+      dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos, subclass) 
     
     ###
     output_fn <- paste0(output_dir,  "/agg_level_", agg_level, "_", core_features, "/processed_tsv/", dir,".tsv")
