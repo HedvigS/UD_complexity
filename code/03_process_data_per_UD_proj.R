@@ -111,8 +111,8 @@ process_UD_data <- function(input_dir = NULL,
     dplyr::filter(!str_detect(token, "^\\p{Extended_Pictographic}+$")) %>% #remove tokens (rows) where the token field ONLY consists of emojis (e.g. "🎂🎂🎂")
     dplyr::mutate(token = stringr::str_replace_all(token, "\\p{Extended_Pictographic}", "")) %>% #remove any remaining emojis from token field ("🎂Сёння" -> "Сёння")
     dplyr::mutate(lemma = stringr::str_replace_all(lemma, "\\p{Extended_Pictographic}", "") )  %>%#as with the token, remove any remaining emojis
-    dplyr::mutate(token = stringr::str_replace_all(token, "[\"]", "")) %>% #remove quote marks 
-      dplyr::mutate(lemma = stringr::str_replace_all(lemma, "[\"]", "") ) 
+    dplyr::mutate(token = stringr::str_replace_all(token, "[\"]", "")) %>% #remove quote marks from token field
+      dplyr::mutate(lemma = stringr::str_replace_all(lemma, "[\"]", "") )  #remove quote marks from lemma field
 
     
     if(stringr::str_detect(fn, "UD_Old_East_Slavic-Birchbark")){
@@ -176,7 +176,7 @@ process_UD_data <- function(input_dir = NULL,
         tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE, , sep = "£", fill = "right") %>% 
         dplyr::group_by(sentence_id, token_id) %>% 
         dplyr::summarise(feats_contracted = paste0(feats  %>%  na.omit(), collapse = "|"), 
-                         lemma_contracted = paste0(lemma  %>%  na.omit(), collapse = "|"), 
+                         lemma_contracted = paste0(lemma  %>%  na.omit(), collapse = "_"), 
                          upos_contracted = paste0(upos  %>%  na.omit(), collapse = "_"), .groups = "drop") %>%
         dplyr::mutate(feats_contracted = ifelse(feats_contracted == "", NA, feats_contracted)) %>%
         dplyr::mutate(upos_contracted  = ifelse(upos_contracted  == "", NA, upos_contracted )) %>%
@@ -187,8 +187,8 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::left_join(df_contracts_solved, by = dplyr::join_by(sentence_id, token_id)) %>% 
         dplyr::mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
         dplyr::mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
-        dplyr::mutate(lemma = ifelse(!is.na(lemma_contracted ), lemma_contracted , upos)) %>%
-        dplyr::select(-feats_contracted, -upos_contracted, lemma_contracted)
+       dplyr::mutate(lemma = ifelse(!is.na(lemma_contracted ), lemma_contracted , upos)) %>%
+        dplyr::select(-feats_contracted, -upos_contracted, -lemma_contracted)
     }
   }
     if(resolve_multiwords_to == "component-words"){
