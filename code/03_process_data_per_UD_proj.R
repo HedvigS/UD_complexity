@@ -31,14 +31,21 @@ process_UD_data <- function(input_dir = NULL,
   # input_dir <- paste0("output/processed_data/ud-treebanks-v2.14_collapsed/")
   # output_dir <- "output/processed_data/ud-treebanks-v2.14_processed"
   # core_features <- "all_features"
-  # agg_level <- "upos"
+  # agg_level <- "subclass"
+  # resolve_multiwords_to = "super-word"
+  # remove_empty_nodes = TRUE
+  # bad_UD_morph_feat_cats =  c("Abbr", "Typo", "Foreign")
+  # fill_empty_lemmas_with_tokens = TRUE
+  # make_all_tokens_of_same_agg_level_have_same_feat_cat =  TRUE
+  # verbose = TRUE
+  
   
   #various checks to make sure that arguments make sense
   if(!(core_features %in% c("core_features_only", "all_features"))){
     stop("core_features has to be either core_features_only or all_features.")
   }
   
-  if(!(agg_level %in% c("upos", "lemma", "token"))){
+  if(!(agg_level %in% c("upos", "lemma", "token", "subclass"))){
     stop("agg_level has to be either UPOS, lemma or token.")
   }
   
@@ -95,7 +102,7 @@ process_UD_data <- function(input_dir = NULL,
   #looping through each of the tsv files, the output from 02_collapse_UD_dirs.R
   
   for(i in 1:length(fns)){
-    # i <-117
+    # i <- 56
     fn <- fns[i]
     
     dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
@@ -123,7 +130,6 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::filter(!stringr::str_detect(token, "\\-")) 
       }
     
-    
     #doing some counting of number of tokens
     n_tokens_in_input <- nrow(conllu)
     n_tokens_empty_dropped <- conllu %>% 
@@ -150,8 +156,10 @@ process_UD_data <- function(input_dir = NULL,
     
     if(nrow(df_contracted) > 0){
       if(verbose == TRUE){ cat(paste0("There are multiword tokens (n=", nrow(df_contracted),") in this dataset, disentangling. \n"))}
-      df_contracted <- conllu  %>%
+
+        df_contracted <- conllu  %>%
         dplyr::filter(stringr::str_detect(token_id, "-")) %>% 
+        dplyr::rename(id_multi = id) %>% 
         dplyr::mutate(
           token_range = stringr::str_extract(token_id, "\\d+-\\d+"),
           start = as.integer(stringr::str_extract(token_range, "^\\d+")),
@@ -160,34 +168,34 @@ process_UD_data <- function(input_dir = NULL,
         dplyr::rowwise() %>%
         dplyr::mutate(token_num =  list(start:end)) %>% 
         tidyr::unnest(token_num) %>% 
-        tidyr::unite(sentence_id, token_num, col = "id", sep = "£") %>% 
-        dplyr::select(id, token_id)
+        tidyr::unite(doc_id, paragraph_id, sentence_id, token_num, col = "id", sep = "_") %>% 
+        dplyr::select(id, id_multi, token)
       
       df_uncontracted <- conllu  %>%
         dplyr::filter(!stringr::str_detect(token_id, "-")) %>% 
-        dplyr::rename(token_num = token_id) %>% 
-        tidyr::unite(sentence_id, token_num, col = "id", remove = FALSE, sep = "£") %>% 
         dplyr::filter(id %in% df_contracted$id) %>% 
-        dplyr::select(id, feats, upos, sentence_id, token_num, lemma)
+        dplyr::select(id, feats, upos, lemma)
       
       df_contracts_solved <- df_contracted %>% 
-        dplyr::full_join(df_uncontracted, by = c("id"), relationship = "many-to-many") %>% 
-        dplyr::filter(!is.na(token_id)) %>% 
-        tidyr::separate(id, into = c("sentence_id", "token_num"), remove = TRUE, , sep = "£", fill = "right") %>% 
-        dplyr::group_by(sentence_id, token_id) %>% 
-        dplyr::summarise(feats_contracted = paste0(feats  %>%  na.omit(), collapse = "|"), 
+        dplyr::full_join(df_uncontracted, by = c("id")) %>% 
+        dplyr::group_by(id_multi) %>%
+        dplyr::summarise(token = first(token),
+                        feats_contracted = paste0(feats  %>%  na.omit(), collapse = "|"), 
                          lemma_contracted = paste0(lemma  %>%  na.omit(), collapse = "_"), 
                          upos_contracted = paste0(upos  %>%  na.omit(), collapse = "_"), .groups = "drop") %>%
         dplyr::mutate(feats_contracted = ifelse(feats_contracted == "", NA, feats_contracted)) %>%
         dplyr::mutate(upos_contracted  = ifelse(upos_contracted  == "", NA, upos_contracted )) %>%
-        dplyr::mutate(lemma_contracted  = ifelse(lemma_contracted  == "", NA, lemma_contracted )) 
+        dplyr::mutate(lemma_contracted  = ifelse(lemma_contracted  == "", NA, lemma_contracted )) %>% 
+        dplyr::distinct() %>% 
+        dplyr::rename(id = id_multi)
       
       conllu <- conllu  %>% 
-        dplyr::anti_join(dplyr::select(df_uncontracted, sentence_id, token_id = token_num), by = c("sentence_id", "token_id")) %>%
-        dplyr::left_join(df_contracts_solved, by = dplyr::join_by(sentence_id, token_id)) %>% 
+        dplyr::filter(!id %in% df_contracted$id) %>% 
+        dplyr::filter(!id %in% df_contracted$id_multi) %>% 
+        dplyr::full_join(df_contracts_solved, by = dplyr::join_by(id, token)) %>%
         dplyr::mutate(feats = ifelse(!is.na(feats_contracted), feats_contracted, feats)) %>% 
         dplyr::mutate(upos = ifelse(!is.na(upos_contracted ), upos_contracted , upos)) %>%
-       dplyr::mutate(lemma = ifelse(!is.na(lemma_contracted ), lemma_contracted , upos)) %>%
+       dplyr::mutate(lemma = ifelse(!is.na(lemma_contracted ), lemma_contracted , lemma)) %>%
         dplyr::select(-feats_contracted, -upos_contracted, -lemma_contracted)
     }
   }
@@ -207,12 +215,12 @@ process_UD_data <- function(input_dir = NULL,
     
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
-      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } #for multiwords, the lemma is missing. This is also the case for certain other words in some datasets, like proper nouns, adverbs etc. If can be desirable to normalise this annotation by giving all tokens a lemma by inserting the token information there.
+      dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } 
       
     conllu <- conllu %>% 
       dplyr::mutate(lemma = paste0(lemma, "_", upos)) #the same lemma but differen upos should count as different lemmas. e.g. "bow" (weapon) and "bow" (bodily gesture) should be counted as different
     
-    ########## SORT OUT TAGGING
+    ########## SORT OUT TAGGING 
     
     # It is not the case that every token of the same part-of-speech (upos) are tagged for the same information, which is not desirable for our project. For example, some ADJ are tagged for NumType but others aren't. This is most likely not a problem for most UD-purposes, but for this project it causes issues. To address that, we find all the unique feat-types for each upos, and if a token isn't tagged for it, we tag it for it and we denote it as "unassigned". So for example, all ADJ that don't have NumType get "NumType == unassigned". Likewise, tokens that have no morph feats at all, and no token for that UPOS have any, get the morph type "unassigned" with the value "unassigned". This is necessary for the way we later compute surprisal and entropy.
   
@@ -221,7 +229,7 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::mutate(feats_split = stringr::str_split(feats, "\\|")) %>% #split the feature cell for each feature
       tidyr::unnest(cols = c(feats_split))  %>% #unravel the feature cell into separate rows for each feature
       tidyr::separate(feats_split, sep = "=", into = c("feat_cat", "feat_value"), remove = T, fill = "right")  %>% #split the feature into its two components: feat_cat and feat_value
-      dplyr::mutate(feat_cat = ifelse(feat_cat %in% bad_UD_morph_feat_cats, yes = NA, no = feat_cat)) %>% #if the feat_cat belongs to a set of feat_cats which is not relevant for the study, replace it with NA. the irrelevant set is defined in 01_requirements.R
+      dplyr::mutate(feat_cat = ifelse(feat_cat %in% bad_UD_morph_feat_cats, yes = NA, no = feat_cat)) %>% #if the feat_cat belongs to a set of feat_cats which is not relevant for the study, replace it with NA. the irrelevant set is defined in the function arguments
       {
         if (core_features == "core_features_only") { #if the variable core_features_only is set to TRUE, we only keep features that belong to this core set. UD_core_feats_df is defined in 01_requirements.R
           dplyr::mutate(., feat_cat = ifelse(feat_cat %in% UD_core_feats_df$feat, feat_cat, NA))
@@ -240,6 +248,13 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct() %>% 
       dplyr::ungroup()
 
+    #adding subclass, which is a grouping under upos defined by a specific set of feats. For example, adjectives that mark gender are a different subclass from adjectives that aren't marked for gender.
+      conllu_split<- conllu_split %>% 
+        dplyr::group_by(id) %>% 
+        dplyr::mutate(subclass = paste0(unique(upos), " (", paste0(sort(unique(feat_cat)), collapse = "|", ")"))) %>% 
+        dplyr::ungroup()
+
+    #wranling the data so that all tokens of the same agg_level (upos or lemma) has the same features
     if(make_all_tokens_of_same_agg_level_have_same_feat_cat == TRUE){    
     agg_level_feat_cat_df_distinct <- conllu_split %>% 
       dplyr::select(dplyr::all_of(agg_level), feat_cat) %>% 
@@ -247,29 +262,28 @@ process_UD_data <- function(input_dir = NULL,
       dplyr::distinct() 
     
     token_info <- conllu_split %>%
-      dplyr::distinct(id, sentence_id, token, lemma, upos)
+      dplyr::distinct(id, sentence_id, token, lemma, upos, subclass)
     
     expanded <- token_info %>%
       dplyr::left_join(agg_level_feat_cat_df_distinct , by = agg_level, relationship = "many-to-many")  # brings in only feat_cats attested for this agg_level
     
     conllu_split  <- expanded %>%
-      dplyr::left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "feat_cat")) %>%
+      dplyr::left_join(conllu_split, by = c("id", "token","sentence_id", "lemma", "upos", "subclass", "feat_cat")) %>%
       dplyr::mutate(feat_value = dplyr::coalesce(feat_value, "unassigned")) %>% 
       dplyr::mutate(feat_cat = ifelse(is.na(feat_cat), "unassigned", feat_cat))
-
     }
     
     ####################################
     #for the output, we need the original format with one row per token and all feats cocatenanted. here we render that back again
     conllu <- conllu_split  %>% 
       dplyr::mutate(feats_combo = paste0(feat_cat, "=", feat_value)) %>% 
-      dplyr::arrange(feat_cat) %>% 
       dplyr::group_by(id) %>% 
-      dplyr::summarise(feats_new = paste0(unique(feats_combo), collapse = "|")) %>% 
+      dplyr::summarise(feats_new = paste0(unique(feats_combo), collapse = "|"), 
+                       subclass = first(subclass)) %>% 
       dplyr::full_join(conllu, by = "id") %>% 
       dplyr::select(-feats) %>% 
       dplyr::rename(feats = feats_new) %>% 
-      dplyr::distinct(id, sentence_id, token_id, token, lemma, feats, upos) 
+      dplyr::distinct(id, token, lemma, feats, upos, subclass) 
     
     ###
     output_fn <- paste0(output_dir,  "/agg_level_", agg_level, "_", core_features, "/processed_tsv/", dir,".tsv")
@@ -313,7 +327,7 @@ process_UD_data <- function(input_dir = NULL,
 calculate_surprisal <- function(input_dir = NULL, 
                                 output_dir = NULL,
                                 verbose = TRUE,
-                                agg_level = NULL, #upos,lemma token
+                                agg_level = NULL, #upos,lemma token, subclass
                                 core_features = NULL# core_features_only, all_features
              ){
 
@@ -354,6 +368,10 @@ if(str_detect(input_dir, "agg_level_upos")){
 if(str_detect(input_dir, "agg_level_token")){
   agg_level_inferred <- "token"
 }
+
+if(str_detect(input_dir, "agg_level_subclass")){
+  agg_level_inferred <- "subclass"
+}
  
 core_features_inferred  <- NULL 
 
@@ -389,8 +407,8 @@ if(!is.null(agg_level_inferred) & agg_level != agg_level_inferred){
   }
   
   #various checks to make sure that arguments make sense
-  if(!(agg_level %in% c("upos", "lemma", "token"))){
-    stop("agg_level has to be either UPOS, lemma or token.")
+  if(!(agg_level %in% c("upos", "lemma", "token", "subclass"))){
+    stop("agg_level has to be either UPOS, lemma, subclass or token.")
   }
   
   if(!(core_features %in% c("core_features_only", "all_features"))){
@@ -425,7 +443,7 @@ if(!dir.exists(dir_spec)){
 #looping through one tsv at a time
 
 for(i in 1:length(fns)){
-# i <-57
+# i <-1
   fn <- fns[i]
   dir <- basename(fn)  %>% stringr::str_replace_all(".tsv", "")
 
@@ -502,7 +520,7 @@ lookup %>%
   readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_feat_lookup/surprisal_per_feat_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
 token_surprisal_df <- conllu_split  %>% 
-  dplyr::distinct(id, token, lemma, feat_cat, feat_value, upos) %>% 
+  dplyr::distinct(id, token, lemma, feat_cat, feat_value, upos, subclass) %>% 
   dplyr::left_join(lookup, by = c(agg_level, "feat_cat", "feat_value")) %>%
   dplyr::group_by(id) %>% 
   dplyr::summarise(sum_surprisal_morph_split = sum(surprisal)) 
@@ -527,7 +545,7 @@ lookup_not_split %>%
   readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/surprisal_per_featstring_lookup/surprisal_per_featstring_lookup_agg_level_",agg_level, "_", core_features, "_", dir, ".tsv"),na = "", quote = "all")
 
 token_surprisal_df_feat_string <- conllu %>% 
-  dplyr::distinct(id, token, lemma, feats, upos) %>% 
+  dplyr::distinct(id, token, lemma, feats, upos, subclass) %>% 
   dplyr::left_join(lookup_not_split, by = c(agg_level, "feats")) 
 
 token_surprisal_df_feat_string %>% 
@@ -540,7 +558,6 @@ data.frame(dir = dir,
            n_types = n_types, 
            n_tokens = n_tokens, 
            n_lemmas = n_lemmas, 
-           n_sentences = conllu$sentence_id %>% unique() %>% length(), 
            TTR = n_types /  n_tokens, 
            LTR = n_lemmas / n_tokens, 
            n_feat_cats = n_feat_cats,

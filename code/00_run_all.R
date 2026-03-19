@@ -36,6 +36,20 @@ process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/
 )
 
 
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "subclass", #lemma token,
+                core_features = "core_features_only",
+)
+
+process_UD_data(input_dir = "output/processed_data/ud-treebanks-v2.14_collapsed/", 
+                output_dir = "output/processed_data/ud-treebanks-v2.14_processed/", 
+                agg_level = "subclass", #lemma token,
+                core_features = "all_features",
+)
+
+
+#calculate surprisal
 calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_upos_core_features_only/processed_tsv/", 
                     agg_level = "upos",
                     core_features = "core_features_only",
@@ -55,6 +69,17 @@ calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_proces
                     agg_level = "lemma", 
                     core_features = "all_features", 
                     output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_subclass_all_features/processed_tsv/", 
+                    agg_level = "subclass",
+                    core_features = "all_features",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
+calculate_surprisal(input_dir = "output/processed_data/ud-treebanks-v2.14_processed/agg_level_subclass_core_features_only/processed_tsv/", 
+                    agg_level = "subclass",
+                    core_features = "core_features_only",
+                    output_dir <- "output/results/ud-treebanks-v2.14_results")
+
 
 source("04_stack_summaries.R")
 source("04_combine_all_data.R")
