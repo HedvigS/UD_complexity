@@ -8,12 +8,12 @@ library(stringr, lib.loc = "../utility/packages/")
 library(tidyr, lib.loc = "../utility/packages/")
 library(ggplot2, lib.loc = "../utility/packages/")
 
-metadata_df <-  readr::read_tsv("output/metadata.df")
+metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE)
 
 ud_dirs_used <- readr::read_tsv("output/results/all_results.tsv", show_col_types = FALSE) %>% dplyr::pull(dir) 
 
 genre_df <- metadata_df %>% 
-  dplyr::filter(treebank %in% ud_dirs_used) %>%
+  dplyr::filter(dir %in% ud_dirs_used) %>%
   dplyr::mutate(Genre = stringr::str_split(Genre, " ")) %>% 
   tidyr::unnest(Genre) %>%
   dplyr::group_by(Genre) %>% 

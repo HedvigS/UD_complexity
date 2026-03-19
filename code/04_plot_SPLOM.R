@@ -73,6 +73,65 @@ p$p_values_df %>%
  
 ggplot2::ggsave("output/plots/SPLOM_metrics_custom.png", height = 30, width = 30, units = "cm", plot = p$plot)
 
+#adding in the morpho-surpisal with subclass as agg_level for appendix
+
+df_for_plot <- df %>% 
+  dplyr::select("morpho-surprisal / \n feat / \n lemma / \n all features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "morpho-surprisal / \n feat / \n lemma / \n core features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "morpho-surprisal / \n feat / \n UPOS / \n core features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  lemma / \n all features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n all features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n core features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only" ,
+                "morpho-surprisal / \n feat / \n subclass / \n all features" = "sum_surprisal_morph_split_mean_subclass_all_features",
+                "morpho-surprisal / \n feat / \n subclass / \n core features only"= "sum_surprisal_morph_split_mean_subclass_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  subclass / \n all features" = "surprisal_per_morph_featstring_mean_subclass_all_features"        ,
+                "morpho-surprisal / \n featstring  / \n  subclass / \n core features only" =  "surprisal_per_morph_featstring_mean_subclass_core_features_only"
+                ) 
+
+cat("Dataframe for SPLOM custom metrics plot:\n")
+cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
+
+
+pal <- c("#A7E1A1" , #1
+         "#5bafe3",   #2
+         sum_surprisal_morph_split_mean_upos_all_features_col, #3
+         "#90D8D7", #4
+         "#86e397" , #5
+         surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
+         "#35c43f", #7
+         "#4292c6", #8
+         "#27F59C",
+         "#47B3E6",
+         "#9AE649",
+         "#27CFF5"
+)
+
+p <- df_for_plot %>% 
+  coloured_SPLOM(text_cor_size = 5, 
+                 text_strip_size = 10, 
+                 method = "spearman",
+                 hist_label_size = 3, 
+                 herringbone = TRUE,
+                 hist_bins = 10, 
+                 pair_colors = pal, 
+                 cor_test_method_exact = TRUE
+  )
+
+p$p_values_df %>% 
+  dplyr::mutate(
+    pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+    x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+    y = stringr::str_replace_all(y, "\n", " "),
+    # keep fixed-point, suppress scientific notation
+    pvalue = sprintf("%.17f", pvalue),
+    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+  ) %>%   
+  readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_plus_subclass.tsv", na = "")
+
+ggplot2::ggsave("output/plots/SPLOM_metrics_custom_plus_subclass.png", height = 37, width = 37, units = "cm", plot = p$plot)
+
 ####################################
 # SPLOM other metrics
 
@@ -275,9 +334,8 @@ p$p_values_df %>%
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
 
 ##############################################################################
+########################### PUD  #############################################
 ##############################################################################
-##############################################################################
-# PUD
 
 df_for_plot <- df %>% 
   dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
@@ -331,6 +389,72 @@ if (nrow(df_for_plot) > 4) {
 } else {
   cat("No PUD data available for SPLOM custom metrics plot.\n")
 }
+
+
+###custom pluts subclass
+df_for_plot <- df %>% 
+  dplyr::filter(stringr::str_detect(dir, pattern = "PUD")) %>% 
+  dplyr::select("morpho-surprisal / \n feat / \n lemma / \n all features" = "sum_surprisal_morph_split_mean_lemma_all_features"  ,         
+                "morpho-surprisal / \n feat / \n lemma / \n core features only"  = "sum_surprisal_morph_split_mean_lemma_core_features_only"    ,  
+                "morpho-surprisal / \n feat / \n UPOS / \n all features" = "sum_surprisal_morph_split_mean_upos_all_features" ,           
+                "morpho-surprisal / \n feat / \n UPOS / \n core features only" = "sum_surprisal_morph_split_mean_upos_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  lemma / \n all features" = "surprisal_per_morph_featstring_mean_lemma_all_features" ,     
+                "morpho-surprisal / \n featstring  / \n  lemma / \n core features only" =  "surprisal_per_morph_featstring_mean_lemma_core_features_only",
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n all features" = "surprisal_per_morph_featstring_mean_upos_all_features",       
+                "morpho-surprisal / \n featstring  / \n  UPOS / \n core features only" = "surprisal_per_morph_featstring_mean_upos_core_features_only",
+                "morpho-surprisal / \n feat / \n subclass / \n all features" = "sum_surprisal_morph_split_mean_subclass_all_features",
+                "morpho-surprisal / \n feat / \n subclass / \n core features only"= "sum_surprisal_morph_split_mean_subclass_core_features_only"   ,    
+                "morpho-surprisal / \n featstring  / \n  subclass / \n all features" = "surprisal_per_morph_featstring_mean_subclass_all_features"        ,
+                "morpho-surprisal / \n featstring  / \n  subclass / \n core features only" =  "surprisal_per_morph_featstring_mean_subclass_core_features_only"
+  ) 
+
+cat("Dataframe for SPLOM custom metrics PUD plot:\n")
+cat(nrow(df_for_plot), "rows and", ncol(df_for_plot), "columns\n")
+
+if (nrow(df_for_plot) > 4) {
+  
+  pal <- c("#A7E1A1" , #1
+           "#5bafe3",   #2
+           sum_surprisal_morph_split_mean_upos_all_features_col, #3
+           "#90D8D7", #4
+           "#86e397" , #5
+           surprisal_per_morph_featstring_mean_lemma_core_features_only_col, #6
+           "#35c43f", #7
+           "#4292c6", #8
+           "#27F59C",
+           "#47B3E6",
+           "#9AE649",
+           "#27CFF5"
+  )
+  
+  p <- df_for_plot %>% 
+    coloured_SPLOM(pair_colors = pal, 
+                   text_cor_size = 5, 
+                   text_strip_size = 10,
+                   method = "spearman", 
+                   hist_label_size = 3, 
+                   herringbone = TRUE, 
+                   hist_bins = 7, 
+                   cor_test_method_exact = TRUE)
+  
+  p$p_values_df %>% 
+    dplyr::mutate(
+      pair_key = stringr::str_replace_all(pair_key, "\n", " "), #removing line breaks in tsv
+      x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
+      y = stringr::str_replace_all(y, "\n", " "),
+      # keep fixed-point, suppress scientific notation
+      pvalue = sprintf("%.17f", pvalue),
+      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+    ) %>%   
+    readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD_plus_subclass.tsv", na = "")
+  
+  ggplot2::ggsave("output/plots/SPLOM_metrics_custom_PUD_plus_subclass.png", height = 37, width = 37, units = "cm", plot = p$plot)
+  
+} else {
+  cat("No PUD data available for SPLOM custom metrics plot.\n")
+}
+
+
 
 ####################################
 # PUD other metrics

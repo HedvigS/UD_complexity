@@ -7,9 +7,11 @@ library(readr, lib.loc = "../utility/packages/")
 
 ##################################
 
-UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
+UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = FALSE) %>% 
   dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::distinct(dir, glottocode)
+
+metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE)
 
 mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE) %>% 
   dplyr::rename( n_total_rows_mfh = n_total_rows, 
@@ -18,10 +20,15 @@ mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE)
 df_grambank_metrics <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Language_ID) 
 
+all_counts_df <- readr::read_tsv("output/all_counts_stacked.tsv", show_col_types = FALSE) %>% 
+  dplyr::distinct(dir, percent_missing_lemma)
+
 df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types = F) %>% 
   dplyr::full_join(mfh, by = "dir") %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
-  dplyr::left_join(df_grambank_metrics, by = "glottocode") 
+  dplyr::left_join(df_grambank_metrics, by = "glottocode") %>%
+  dplyr::left_join(metadata_df, by = "dir") %>% 
+  dplyr::left_join(all_counts_df, by = "dir")
 
 # with each calculating run-through, we count number of feature categories (Tense, Def etc) in the entire dataset and per token. These should be exactly the same regardless if the agg_level is upos or lemma, but should differ depending on if we've trimmed to core_features or not. This is just a reality check to check that all is as expected
 if(sum(df$n_feat_cats_lemma_all_features == df$n_feat_cats_upos_all_features) != nrow(df)){
@@ -66,8 +73,15 @@ df <- df %>%
   dplyr::mutate(suprisal_token_mean = ifelse(n_types <=2, NA, suprisal_token_mean))  %>% 
   dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  %>% 
   dplyr::mutate(mfh = ifelse(n_total_rows_filtered_mfh == 0, NA, mfh))   %>% #for C&R's mfh measurement, because of the dataset we use as input sometimes the number of tokens the score is based on is in fact 0. In those cases, mfh will also be 0 but it is not a meaningful value because it is based on 0 tokens. We exclude these.
-  dplyr::filter(n_feat_cats_all_features >= 3)
-
+  dplyr::filter(n_feat_cats_all_features >= 3) %>% 
+  dplyr::mutate(LTR = ifelse(percent_missing_lemma > 40, NA, LTR)) %>% 
+  dplyr::mutate(n_lemmas= ifelse(n_lemmas > 40, NA, LTR)) %>% 
+  dplyr::mutate(sum_surprisal_morph_split_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA, sum_surprisal_morph_split_mean_lemma_all_features)) %>% 
+  dplyr::mutate( sum_surprisal_morph_split_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  sum_surprisal_morph_split_mean_lemma_core_features_only)) %>% 
+  dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_all_features)) %>% 
+  dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_core_features_only)) %>% 
+  dplyr::filter(Features != "not available")
+  
 #noting ranks
 df$mfh_rank <- base::rank(df$mfh, na.last = "keep") 
 
@@ -80,3 +94,4 @@ df$Informativity_rank <- base::rank(df$Informativity, na.last = "keep")
 
 df %>% 
   readr::write_tsv("output/results/all_results.tsv", na = "")
+

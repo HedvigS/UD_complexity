@@ -38,7 +38,11 @@ if(check == FALSE){
   stop("The file UD_languages.tsv and the fetched files don't match.")
 }
 
+metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE) %>% 
+  dplyr::filter(Features != "not available")
+
 UD_dirs <- UD_langs %>% 
+  dplyr::filter(dir %in% metadata_df$dir) %>% 
   dplyr::group_by(dir) %>% 
   dplyr::summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
 
