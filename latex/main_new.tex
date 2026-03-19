@@ -905,7 +905,10 @@ We leave to future work the possibility of estimating morphological information 
 \subsection{Artificial lemmas}
 
 \begin{itemize}
-    \item Artificial lemmas (Rev ID 8): these would impact the lemma/token ratio in an undesirable way.
+    \item  there are 6 metrics which we set to missing if there is more than 40\% missing lemmas (LTR, n\_lemmas and the four morpho-surprisal metrics that use lemma as an aggregation level). 
+    \item We chose this threshold because there is a big jump from 30-something to 50-something percent missing.
+    \item For datasets with less than 40\% missing lemmas we impute missing lemmas with the token value (plus underscore UPOS, as with all other lemmas).
+    \item Manual inspection suggests many of these are forms that don't inflect anyway. So they have typically been left out because the `lemma' would be considered identical to the token.
 \end{itemize}
 
 \subsection{Inconsistent annotation standards across corpora}
