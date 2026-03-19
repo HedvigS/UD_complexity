@@ -100,7 +100,7 @@ R will then install the required packages. On Windows this can take a long time 
 
 ## Run
 
-Be aware that running the entire pipeline end-to-end will create results in the `output/` directory totalling around **78GB**.
+Be aware that running the entire pipeline end-to-end will create results in the `output/` directory totalling around **100GB**.
 
 ### Run all
 
