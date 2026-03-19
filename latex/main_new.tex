@@ -904,12 +904,25 @@ We leave to future work the possibility of estimating morphological information 
 
 \subsection{Artificial lemmas}
 
-\begin{itemize}
-    \item  there are 6 metrics which we set to missing if there is more than 40\% missing lemmas (LTR, n\_lemmas and the four morpho-surprisal metrics that use lemma as an aggregation level). 
-    \item We chose this threshold because there is a big jump from 30-something to 50-something percent missing.
-    \item For datasets with less than 40\% missing lemmas we impute missing lemmas with the token value (plus underscore UPOS, as with all other lemmas).
-    \item Manual inspection suggests many of these are forms that don't inflect anyway. So they have typically been left out because the `lemma' would be considered identical to the token.
-\end{itemize}
+Some treebanks have a sizeable proportion of missing lemmas.
+This is a problem for several of our metrics.
+Not only do we report the total number of distinct lemmas and the lemma-token ratio, four of our custom metrics treat lemma as the aggregation level, which requires defining feature classes across tokens belonging to the same lemma.
+There is no determinate way to assign features to tokens with missing lemmas, so no way to consistently apply these six metrics without making further decisions.
+
+We ameliorate this problem in two ways, both of which can affect comparability.
+First, we simply omit those six metrics for datasets with more than 40\% missing lemmas.
+Second, for datasets with less than 40\% missing lemmas we impute missing lemmas with the token value (plus underscore UPOS, as with all other lemmas).
+We chose this 40\% threshold because there is a big jump from TODO to TODO missing lemmas across the treebanks we are dealing with.
+Manual inspection of a few treebanks with less than 40\% missing lemmas suggests many of these tokens are forms that don't inflect anyway.
+They have typically been left out because the lemma would be considered identical to the token.
+We have made this assumption explicit by filling in the lemma with the token value, allowing us to calculate the six metrics on these datasets.
+
+Both of these choices affect comparability.
+In the first case, we lose the ability to compare treebanks with many missing lemmas across the six metrics that rely on lemma presence.
+The power of statistical tests for correlations involving these metrics is therefore reduced.
+In the second case, we might be inadvertently adding lemmas to tokens which do not properly have lemmas.
+This would skew both the number of lemmas and the lemma-token ratio.
+Different decisions might reasonably be made here, but the aforementioned manual checks plus the relatively low level of missing lemmas in most datasets means that we would expect the negative impact of our procedure to be small.
 
 \subsection{Inconsistent annotation standards across corpora}
 
