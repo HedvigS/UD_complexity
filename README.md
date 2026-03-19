@@ -94,9 +94,11 @@ If problems pesists, users are recommended to seek support for installing/updati
 
 R will then install the required packages. On Windows this can take a long time because installing specific versions of packages requires compiling them from source.
 
-5.  When executing `code/01_requirements_install.R`, if the process terminates due to not finding `Rtools`, please install `Rtools` version 45 separately outside of R and then return to the guide above.
+5.  When executing `code/01_requirements_install.R`, if the process terminates due to not finding `Rtools` or `sh`, please install `Rtools` version 45 separately outside of R and then return to the guide above.
     -   `Rtools`: <https://cran.r-project.org/bin/windows/Rtools/>
     -   `Rtools` installation instructions: <https://ucdavisdatalab.github.io/install_guides/r-and-r-tools.html#r-tools>
+
+Check also that no stale Rtools entries exist in your ~/.Renviron or ~/Documents/.Renviron files.
 
 ## Run
 
