@@ -4,6 +4,7 @@
 library(readr, lib.loc = "../utility/packages/")
 library(dplyr, lib.loc = "../utility/packages/")
 library(magrittr, lib.loc = "../utility/packages/")
+library(stringr, lib.loc = "../utility/packages/")
 
 README_fns <- list.files(
   path = "../data/ud-treebanks-v2.14/",
