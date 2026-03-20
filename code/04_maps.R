@@ -10,7 +10,6 @@ library(viridis, lib.loc = "../utility/packages/")
 
 source("02_basemap.R")
 
-
 ##################################
 Glottolog <-readr::read_tsv("output/processed_data/glottolog_5.0_languages.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Glottocode) %>% 
@@ -26,12 +25,12 @@ df <- df %>%
 # Sum surprisal morph split mean, agg level = UPOS, all features
 p <- basemap +
   ggplot2::geom_jitter(data = df, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
-              size = 2, alpha = 0.8, width = 2, height=2, shape = 21, color = "black") +
+              size = 2, alpha = 0.6, width = 3, height=3, shape = 21, color = "black") +
   ggplot2::ggtitle("morpho-surprisal / feat / UPOS / all features") +
   viridis::scale_fill_viridis(option = "plasma", breaks = c(1,3, 5, 7, 9, 11)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
-         legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
+         legend.position.inside = c(0.65, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
          legend.direction = "horizontal",
          legend.title = ggplot2::element_blank())
@@ -41,12 +40,12 @@ ggplot2::ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos
 # Surprisal per morph featstring mean, agg level = lemma, core features only
 p <- basemap +
   ggplot2::geom_jitter(data = df, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
-              size = 2, alpha = 0.8, width = 2, height=2, shape = 21, color = "black") +
+              size = 2, alpha = 0.6, width = 3, height=3, shape = 21, color = "black") +
   ggplot2::ggtitle("morpho-surprisal / featstring  /  lemma / core features only")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0, 1,2)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
-         legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
+         legend.position.inside = c(0.65, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
          legend.direction = "horizontal",
          legend.title = ggplot2::element_blank())
@@ -60,12 +59,12 @@ df_PUD  <- df %>%
 # Sum surprisal morph split mean, agg level = UPOS, all features (PUD)
 p <- basemap +
   ggplot2::geom_jitter(data = df_PUD, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = sum_surprisal_morph_split_mean_upos_all_features),
-              size = 2, alpha = 0.8, width = 2, height=2, shape = 21, color = "black") +
+              size = 2, alpha = 0.6, width = 2, height=2, shape = 21, color = "black") +
   ggplot2::ggtitle("morpho-surprisal / feat / UPOS / all features (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,1,3, 5, 7)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
-         legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
+         legend.position.inside = c(0.65, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
          legend.direction = "horizontal",
          legend.title = ggplot2::element_blank())
@@ -75,12 +74,12 @@ ggplot2::ggsave(filename = "output/plots/map_sum_surprisal_morph_split_mean_upos
 # Surprisal per morph featstring mean, agg level = lemma, core features only (PUD)
 p <- basemap +
   ggplot2::geom_jitter(data = df_PUD, mapping = ggplot2::aes(x = Longitude, y = Latitude, fill = surprisal_per_morph_featstring_mean_lemma_core_features_only), 
-              size = 2, alpha = 0.8, width = 2, height=2, shape = 21, color = "black") +
+              size = 2, alpha = 0.6, width = 2, height=2, shape = 21, color = "black") +
   ggplot2::ggtitle("morpho-surprisal / featstring  /  lemma / core features only (PUD)")+
   viridis::scale_fill_viridis(option = "plasma", breaks = c(0,0.5, 1,2)) +
   ggplot2::theme( plot.margin = ggplot2::unit(c(0, 0, 0, 0), "cm") , 
          legend.position = "inside",
-         legend.position.inside = c(0.7, 0.02),       # x and y in [0,1]
+         legend.position.inside = c(0.65, 0.02),       # x and y in [0,1]
          legend.justification = c(1, 0),
          legend.direction = "horizontal",
          legend.title = ggplot2::element_blank())
