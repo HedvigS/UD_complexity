@@ -11,8 +11,6 @@ UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = FALSE) 
   dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::distinct(dir, glottocode)
 
-metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE)
-
 mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE) %>% 
   dplyr::rename( n_total_rows_mfh = n_total_rows, 
                  n_total_rows_filtered_mfh= n_total_rows_filtered)
@@ -27,7 +25,6 @@ df <- readr::read_tsv(file = "output/all_summaries_stacked.tsv", show_col_types 
   dplyr::full_join(mfh, by = "dir") %>% 
   dplyr::inner_join(UD_langs, by = "dir") %>% 
   dplyr::left_join(df_grambank_metrics, by = "glottocode") %>%
-  dplyr::left_join(metadata_df, by = "dir") %>% 
   dplyr::left_join(all_counts_df, by = "dir")
 
 # with each calculating run-through, we count number of feature categories (Tense, Def etc) in the entire dataset and per token. These should be exactly the same regardless if the agg_level is upos or lemma, but should differ depending on if we've trimmed to core_features or not. This is just a reality check to check that all is as expected
@@ -79,9 +76,10 @@ df <- df %>%
   dplyr::mutate(sum_surprisal_morph_split_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA, sum_surprisal_morph_split_mean_lemma_all_features)) %>% 
   dplyr::mutate( sum_surprisal_morph_split_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  sum_surprisal_morph_split_mean_lemma_core_features_only)) %>% 
   dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_all_features)) %>% 
-  dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_core_features_only)) %>% 
-  dplyr::filter(Features != "not available")
+  dplyr::mutate(surprisal_per_morph_featstring_mean_lemma_core_features_only = ifelse(percent_missing_lemma > 40, NA,  surprisal_per_morph_featstring_mean_lemma_core_features_only)) 
   
+
+
 #noting ranks
 df$mfh_rank <- base::rank(df$mfh, na.last = "keep") 
 
