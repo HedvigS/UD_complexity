@@ -33,7 +33,7 @@
 % Define fonts for non-latin characters
 \newfontfamily\Timesfont{Times New Roman}
 \newfontfamily\dolousfont{Doulos SIL}
-
+\newfontfamily\cyrillicfont{Doulos SIL}
 
 \usepackage{hyperref}
 \hypersetup{
@@ -307,9 +307,42 @@ Our metric, described in section \ref{ours_overview} and defined precisely in ap
 %We provide a quantitative answer to the question: how informative is the morphology of a particular language?
 
 \subsection{Data}
-We use Universal Dependencies (UD) v2.14 \citep{UD_2.14} and Glottolog v5.0 \citep{hammarstrom_glottologglottolog_2024}. 
+We use Universal Dependencies (UD) v2.14 \citep{UD_2.14} . We are grateful for all the labour of UD-maintainers and cite here the relevant dataset-specific publications where available: 
+
+\begin{itemize}
+    \item Akkadian-RIAO \citep{luukko_akkadian_2020}
+    \item Ancient\_Greek-Perseus \citep{bamman_ancient_2011, celano_ancient_2014}
+    \item Ancient\_Greek-PROIEL \citep{haug_creating_2008}
+    \item Ancient\_Hebrew-PTNK \citep{swanson_universal_2022}
+    \item Arabic-PADT \citep{hajic_prague_2009, smrz_prague_2008} 
+    \item Armenian-ArmTDP \citep{yavrumyan_armtdp_2017, yavrumyan_universal_2019, yavrumyan_universal_2020}
+    \item Armenian-BSUT \citep{yavrumyan_universal_2020}
+    \item Basque-BDT \citep{aranzabe_automatic_2015}
+    \item Belarusian-HSE \citep{shishkina_sculpting_2021}
+    \item Bulgarian-BTB \citep{osenova_btb-tr05_2004, simov_practical_2003, simov_hpsg-based_2002, simov_btb-tr03_2004, simov_design_2005}
+    \item Catalan AnCora \citep{taule_ancora_2008}
+%    \item Chinese-Beginner %can't tell how to cite this dataset properly
+    \item Classical\_Chinese-Kyoto \citep{yasuoka_universal_2019, yasuoka_designing_2022} %&here's where hedvig left off
+    \item Coptic-Scriptorium \citep{zeldes_coptic_2018}
+    \item Croatian-SET \citet{agic_universal_2015}
+    \item English-EWT \citep{silveira_gold_2014}
+    \item English-GUM \citet{zeldes_gum_2017}
+    \item English-GUMReddit \citep{behzad_cross-genre_2020}
+    \item Erzya-JR \citep{rueter_towards_2018}
+    \item Galician-PUD \citep{sanchez-rodriguez_increasing_2024}
+    \item Hebrew-HTB \citep{tsarfaty_unified_2013, mcdonald_universal_2013}
+    \item Hebrew-IAHLTwiki \citep{zeldes_secondwave_2022}
+    \item Hindi-HDTB \citep{bhat_hindiurdu_nodate, palmer_hindi_2009}
+    \item Italian-Old \citep{corbetta_highway_2023, alighieri_commedia_1994}
+    \item Italian-PoSTWITA \citep{sanguinetti_postwita-ud_2018, sanguinetti_treebanking_2023, sanguinetti_annotating_2017, bosco_overview_2016}
+    \item Low\_Saxon-LSDC \citep{siewert_low_2024}
+    \item North\_Sami-Giella \citep{sheyanova_annotation_2017}
+    \item Old\_East\_Slavic-Birchbark
+\end{itemize}
 
 We process the UD-datasets before calculating morpho-surprisal (removing empty-nodes, resolving multiwords, inserting dummy-values for missing features etc), see appendix \ref{sec:appendix_ours} for details. 
+
+We also use Glottolog v5.0 \citep{hammarstrom_glottologglottolog_2024} for information about languages such as their location.
 
 For comparison with Grambank metrics, we use Grambank v1.0 \citep{skirgard_grambank_2023-1, skirgard_grambank_2023}.
 
@@ -705,7 +738,7 @@ Once we have a measure of surprisal per token, we can average this across the en
 
 
 \section{Results}\label{sec:results}
-We report the results in ScatterPlOt Matrices (SPLOMs) and maps.\footnote{Unfortunately there are no UD datasets included in our study present in the Americas or Central or Eastern Pacific, which is why these regions are not displayed on the maps.}\footnote{We matched UD-datasets to glottocodes and used geographical locations of languages found in Glottolog 5.0 \citep{hammarstrom_glottologglottolog_2024}. The points have been jittered somewhat to avoid overlaps for dataset of the same/nearby languages which would obscure information.}
+We report the results in ScatterPlOt Matrices (SPLOMs) and maps.\footnote{Unfortunately there are no UD datasets included in our study representing languages of the Americas or Central or Eastern Pacific, which is why these regions are not displayed on the maps.}\footnote{We matched UD-datasets to glottocodes and used geographical locations of languages found in Glottolog 5.0 \citep{hammarstrom_glottologglottolog_2024}. The points have been jittered somewhat to avoid overlaps for dataset of the same/nearby languages which would obscure information.}
 The SPLOM visualisations compare different measurements of the same data in a  pairwise fashion.
 The lower-left portion of each SPLOM shows scatterplots for the pairwise comparisons of measurements.
 The upper-right portion shows the Spearman's rank correlation coefficient of the corresponding pair (see appendix \ref{appendix:spearman} for details). 
@@ -1147,8 +1180,8 @@ The full procedure of our metric is as follows:
 \item Mean surprisal per token is the average of this total across all tokens in the dataset.
 \item Calculate other relevant counts, such as number of feature categories in total for the dataset, TTR etc.
 \item Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages. \footnote{As this step happens later on in the workflow, this set includes the feature category ``unassigned'' but Abbr, Typo and Foreign are excluded. All but one of the 14 datasets that are excluded here only contain ``unassigned'', Abbr, Typo and Foreign as feature categories. The exception is Galician-CTG which contains the feature category ``Polarity'' for 120 tokens.}
-\item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages. \footnote{There are four datasets included in our study that do not contain regular tokens and more than 13,000 tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and
-Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types >=2). The lemma annotation is also irregular.} 
+\item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages. \footnote{There are four datasets included in our study that do not contain regular tokens and more than 13,000 tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types >=2). The lemma annotation is also irregular.} 
+\item If more than 40\% of tokens in a dataset do not have a defined lemma, set LTR, number of lemmas and all four morpho-surprisal scores that rely on lemma as aggregation level as missing. This applies to several datasets, including two from the PUD-datasets (Korean-PUD and Thai-PUD)
 % \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
 \end{enumerate}
 
@@ -1323,14 +1356,14 @@ As a result of these and other data processing decisions, there are datasets for
 \subsection{Ç\&R remove certain numerals; we don't} \label{appedix:differences_remove_numerals}
 
 Ç\&R remove tokens whose UPOS is NUM and which are non-alphabetical.
-This means they remove some tokens that are tagged for morphological features. 
+This means they remove some tokens that are meaningfully tagged for morphological features. 
 
-For example, in Russian-GSD we find the token ``30'' in the sentence ``Длительность инфузии составляет приблизительно 30 мин.'' (English translation: ``The duration of infusion is approximately 30 minutes''). 
+For example, in Russian-GSD we find the token ``30'' in the sentence ``{\cyrillicfont Длительность инфузии составляет приблизительно 30 мин}.'' (English translation: ``The duration of infusion is approximately 30 minutes''). 
 The token ``30'' is tagged as having accusative case and cardinal form (as opposed to ordinal and other numeral types). 
-We take that to mean that ``30'' is identical to ``тридцать'' (Cyrillic spelling of the cardinal numeral thirty in accusative form) and should be included when it comes to calculations of morphological features.
+We take that to mean that this token ``30'' is identical to ``{\cyrillicfont тридцать}'' (Cyrillic spelling of the cardinal numeral thirty in accusative form) and should be included when it comes to calculations of morphological features.
 
-Another example can be found in Chinese-GSDSimp where there are tokens such as `50\%' whose morphological feature list includes `NumType=Card', contrasting with other NUM tokens with feature values `NumType=Ord'. 
-We do not remove tokens of this kind because we want to avoid artificially restricting the kinds of tokens whose morphological features are involved in the calculation of the metric due to different writing styles and decisions from UD dataset contributors.
+We also find the tokens ``tjugo'' (English translation: ``twenty'') and ``20'' in Swedish-Talbanken, which are both tagged as a NumType=Card.
+We do not remove tokens which consists of numbers (e.g. ``30'', ``20'') because we want to avoid artificially restricting the kinds of tokens whose morphological features are involved in the calculation of the metric due to different writing styles.
 
 %One might ask: why not remove the numbers? 
 %Perhaps NumType=Ord is not the kind of feature we want to include? 
@@ -1340,7 +1373,7 @@ We do not remove tokens of this kind because we want to avoid artificially restr
 
 \subsection{Ç\&R sample; we use the entire dataset}\label{appedix:differences_sampling}
 
-For MFH, Ç\&R sample sentences (with replacement) until they reach 20,000 tokens, derive entropy and repeat this 100 times per dataset, yielding an average value for morphological feature entropy.
+For the original implementation of MFH, Ç\&R sample sentences (with replacement) until they reach 20,000 tokens, derive entropy and repeat this 100 times per dataset, yielding an average value for morphological feature entropy.
 Their justification is that this aids comparability across datasets of very different sizes, since raw corpus size can affect the stability of several of the metrics they consider. 
 Furthermore, resampling many times makes it possible to derive not only point estimates but distributions (standard deviations, confidence intervals) over many iteration.
 
