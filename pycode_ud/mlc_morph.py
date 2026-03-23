@@ -298,7 +298,11 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
 
         dict_extra_info["n_total_rows"] = df_nodes.height
         
-        # Filter empty tokens and lemmas
+        # Filter empty tokens and lemmas.
+        # This also filters out multiword tokens,
+        # which have empty lemmas.
+        # The original procedure filtered out multiword tokens twice:
+        # once in construction of the Sentence and Node objects, and once in sample_nodes().
         df_nodes = df_nodes.filter(
             (pl.col("token").is_not_null()) &
             (pl.col("lemma").is_not_null()) &
@@ -307,6 +311,8 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
         )
 
         # Filter empty nodes - where token id contains the literal character "."
+        # They ignore these in the creation of the Sentence and Node objects,
+        # even before sample_nodes() occurs.
         df_nodes = df_nodes.filter(
             ~pl.col("token_id").cast(pl.Utf8).str.contains(r"\.").fill_null(True)
         )
@@ -326,6 +332,8 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
         cfeat = Counter()
         cpos = Counter()
         npos, nfeat = 0, 0
+
+        n_total_rows_with_features = 0
     
         # Each row should create a DotDict-like object with 'feats' and 'upos' attributes,
         # taken from the columns 'feats' and 'upos' of the dataframe.
@@ -334,6 +342,7 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
             # print(row['feats'])
             # print(row['upos'])
             if row['feats']:
+                n_total_rows_with_features+=1
                 feats = row['feats'].split('|')
                 cfeat.update(feats)
 
@@ -345,6 +354,8 @@ def get_mfh(sentences, sample_size=1000, random_sample=True,
                     dict_extra_info[key] += 1
 
             cpos.update([row['upos']])
+
+        dict_extra_info["n_total_rows_with_features"] = n_total_rows_with_features
     
     if return_distributions_only:
         return cfeat, cpos, dict_extra_info

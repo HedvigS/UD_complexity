@@ -111,6 +111,7 @@ def main(
         "mfh": [],
         "n_total_rows": [],
         "n_total_rows_filtered": [],
+        "n_total_rows_with_features": [],
     })
 
     # Set schema
@@ -119,6 +120,7 @@ def main(
         pl.col("mfh").cast(pl.Float64),
         pl.col("n_total_rows").cast(pl.Int64),
         pl.col("n_total_rows_filtered").cast(pl.Int64),
+        pl.col("n_total_rows_with_features").cast(pl.Int64),
     ])
 
     # For each TSV file...
@@ -139,6 +141,7 @@ def main(
                 "mfh": [float(mfh_value)],
                 "n_total_rows": [dict_extra_info.get("n_total_rows", -1)],
                 "n_total_rows_filtered": [dict_extra_info.get("n_total_rows_filtered", -1)],
+                "n_total_rows_with_features": [dict_extra_info.get("n_total_rows_with_features", -1)],
             })
 
         # Stack the new dataframe to the output dataframe
