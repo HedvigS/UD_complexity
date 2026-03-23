@@ -31,7 +31,6 @@
 % what UD says about `missing' features: ``Not mentioning a feature in the data implies the empty value, which means that the feature is either irrelevant for this part of speech, or its value cannot be determined for this word form due to language-specific reasons.'' https://universaldependencies.org/u/overview/morphology.html
 
 % Define fonts for non-latin characters
-\newfontfamily\Timesfont{Times New Roman}
 \newfontfamily\dolousfont{Doulos SIL}
 \newfontfamily\cyrillicfont{Doulos SIL}
 
@@ -146,8 +145,8 @@ Section \ref{sec:discussion} discusses implications and conclusions of our resul
 \section{Background: defining language complexity}\label{sec:background}
 % \subsection{``Language complexity''}
 %Measuring information
-Language complexity\footnote{Unfortunately, the terms ``simple'' and ``complex'' in relation to language have in some circles acquired value judgment, with so called ``complex'' languages being interpreted as more admirable or better in some other way \citep{sampson2009linguistic}. 
-This is nonsense, all languages are equally valid and valuable forms of human communication.} is a multifaceted concept that can be approached in different ways \citep{raviv2022simple}.
+Language complexity\footnote{Unfortunately, the terms ``simple'' and ``complex'' in relation to language have in some circles acquired value judgment, with so called ``complex'' languages being interpreted as more admirable or better in some other way \citep[4-5]{sampson_linguistic_2009}. 
+This is nonsense, all languages are equally valid and valuable forms of human communication.} is a multifaceted concept that can be approached in different ways \citep{raviv_what_2022}.
 One influential distinction is between absolute complexity, referring to properties of the linguistic system itself (e.g. the number of morphological distinctions), and relative complexity, concerning learning and processing difficulty for particular speakers \citep{miestamo_complexity_2006, miestamo_grammatical_2008}. 
 Even when focusing on absolute complexity, however, many measures are motivated by cognitive considerations.
 The present study is primarily concerned with absolute complexity.
@@ -307,38 +306,53 @@ Our metric, described in section \ref{ours_overview} and defined precisely in ap
 %We provide a quantitative answer to the question: how informative is the morphology of a particular language?
 
 \subsection{Data}
-We use Universal Dependencies (UD) v2.14 \citep{UD_2.14} . We are grateful for all the labour of UD-maintainers and cite here the relevant dataset-specific publications where available: 
+We use Universal Dependencies (UD) v2.14 \citep{UD_2.14} . We are grateful for all the labour of UD-maintainers and cite here several relevant dataset-specific publications as requested: %    Akkadian-RIAO \citep{luukko_akkadian_2020}; 
+%    Ancient\_Greek-Perseus \citep{bamman_ancient_2011, celano_ancient_2014}; 
+%    Ancient\_Greek-PROIEL \citep{haug_creating_2008}; 
+%    Ancient\_Hebrew-PTNK \citep{swanson_universal_2022}; 
+%    Arabic-PADT \citep{hajic_prague_2009, smrz_prague_2008};  
+%    Armenian-ArmTDP \citep{yavrumyan_armtdp_2017, yavrumyan_universal_2019, yavrumyan_universal_2020}; 
+%    Armenian-BSUT \citep{yavrumyan_universal_2020}; 
+%    Basque-BDT \citep{aranzabe_automatic_2015}; 
+%    Belarusian-HSE \citep{shishkina_sculpting_2021}; 
+%    Bulgarian-BTB \citep{osenova_btb-tr05_2004, simov_practical_2003, simov_hpsg-based_2002, simov_btb-tr03_2004, simov_design_2005}; 
+    Catalan AnCora \citep{taule_ancora_2008}; 
+    Chinese-Beginner %can't tell how to cite this dataset properly
+%    Classical\_Chinese-Kyoto \citep{yasuoka_universal_2019, yasuoka_designing_2022};  
+    Coptic-Scriptorium \citep{zeldes_coptic_2018}; 
+    Croatian-SET \citet{agic_universal_2015}; 
+    Czech-CAC \citep{hladka_pruvodce_2007, hladka_czech_2008, tesitelova_k_1983}; 
+%    Czech-CLTT \citep{kriz_czech_2018, kriz_czech_2017}; 
+%    Czech-FicTree \citep{jelinek_fictree_2017}; 
+%    Czech-PDT  \citep{hajic_prague_2020, bejcek_prague_2013, bejcek_prague_2012}; 
+%    Danish-DDT  \citep{johannsen_universal_2015, buch-kromann_danish_2003, keson_documentation_1998}; 
+%    Dutch-Alpino  \citep{bouma_increasing_2017, bouma_comparing_2018, van_noord_large_2012, van_der_beek_alpino_2002}; 
+    English-EWT \citep{silveira_gold_2014}; 
+    English-GUM \citet{zeldes_gum_2017}; 
+    English-GUMReddit \citep{behzad_cross-genre_2020}; 
+    English-GENTLE \citep{aoyama_gentle_2023}; 
+    Erzya-JR \citep{rueter_towards_2018}; 
+    Galician-PUD \citep{sanchez-rodriguez_increasing_2024}; 
+    German-HDT
+    Hebrew-HTB \citep{tsarfaty_unified_2013, mcdonald_universal_2013}; 
+    Hebrew-IAHLTwiki \citep{zeldes_secondwave_2022}; 
+    Hindi-HDTB \citep{bhat_hindiurdu_2017, palmer_hindi_2009}; 
+    Italian-Old \citep{corbetta_highway_2023, alighieri_commedia_1994}; 
+    Italian-PoSTWITA \citep{sanguinetti_postwita-ud_2018, sanguinetti_treebanking_2023, sanguinetti_annotating_2017, bosco_overview_2016}; 
+    Low\_Saxon-LSDC \citep{siewert_low_2024}; 
+    North\_Sami-Giella \citep{sheyanova_annotation_2017}; 
+    Old\_East\_Slavic-Birchbark
+     Polish-LFG \citep{patejuk_lexical_2018}; 
+     Polish-PDB \citep{wroblewska_extended_2018}; 
+     Polish-PUD \citep{wroblewska_extended_2018}; 
+     Portuguese-Bosque \citep{rademaker_universal_2017}; 
+     Portuguese-PetroGold \citep{de_souza_polishing_2022}; 
+     Spanish-AnCora \citep{taule_ancora_2008}; 
+     Turkish-IMST \citep{sulubacak_implementing_2018, sulubacak_universal_2016}; 
+     Urdu-UDTB \citep{bhat_hindiurdu_2017}; 
+     Welsh-CCG \citep{heinecke_development_2019}; 
+   and  Xibe-XDT \citep{zhou_universal_2020}.
 
-\begin{itemize}
-    \item Akkadian-RIAO \citep{luukko_akkadian_2020}
-    \item Ancient\_Greek-Perseus \citep{bamman_ancient_2011, celano_ancient_2014}
-    \item Ancient\_Greek-PROIEL \citep{haug_creating_2008}
-    \item Ancient\_Hebrew-PTNK \citep{swanson_universal_2022}
-    \item Arabic-PADT \citep{hajic_prague_2009, smrz_prague_2008} 
-    \item Armenian-ArmTDP \citep{yavrumyan_armtdp_2017, yavrumyan_universal_2019, yavrumyan_universal_2020}
-    \item Armenian-BSUT \citep{yavrumyan_universal_2020}
-    \item Basque-BDT \citep{aranzabe_automatic_2015}
-    \item Belarusian-HSE \citep{shishkina_sculpting_2021}
-    \item Bulgarian-BTB \citep{osenova_btb-tr05_2004, simov_practical_2003, simov_hpsg-based_2002, simov_btb-tr03_2004, simov_design_2005}
-    \item Catalan AnCora \citep{taule_ancora_2008}
-%    \item Chinese-Beginner %can't tell how to cite this dataset properly
-    \item Classical\_Chinese-Kyoto \citep{yasuoka_universal_2019, yasuoka_designing_2022} %&here's where hedvig left off
-    \item Coptic-Scriptorium \citep{zeldes_coptic_2018}
-    \item Croatian-SET \citet{agic_universal_2015}
-    \item English-EWT \citep{silveira_gold_2014}
-    \item English-GUM \citet{zeldes_gum_2017}
-    \item English-GUMReddit \citep{behzad_cross-genre_2020}
-    \item Erzya-JR \citep{rueter_towards_2018}
-    \item Galician-PUD \citep{sanchez-rodriguez_increasing_2024}
-    \item Hebrew-HTB \citep{tsarfaty_unified_2013, mcdonald_universal_2013}
-    \item Hebrew-IAHLTwiki \citep{zeldes_secondwave_2022}
-    \item Hindi-HDTB \citep{bhat_hindiurdu_nodate, palmer_hindi_2009}
-    \item Italian-Old \citep{corbetta_highway_2023, alighieri_commedia_1994}
-    \item Italian-PoSTWITA \citep{sanguinetti_postwita-ud_2018, sanguinetti_treebanking_2023, sanguinetti_annotating_2017, bosco_overview_2016}
-    \item Low\_Saxon-LSDC \citep{siewert_low_2024}
-    \item North\_Sami-Giella \citep{sheyanova_annotation_2017}
-    \item Old\_East\_Slavic-Birchbark
-\end{itemize}
 
 We process the UD-datasets before calculating morpho-surprisal (removing empty-nodes, resolving multiwords, inserting dummy-values for missing features etc), see appendix \ref{sec:appendix_ours} for details. 
 
@@ -463,7 +477,7 @@ However, unfortunately we cannot include a direct comparison because the origina
 % \item Determine the full set of morphological feature categories per lemma. \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType; supposing there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for `sebuah' would be Definite, Number and PronType.
 % \item Remove features that are not related to morphology: ``Abbr'' (abbreviations), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
 % \item Assign a dummy value to unassigned morphological categories for each token, given the other available feature categories for tokens of the same lemma. \textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned.
-% \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\Timesfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
+% \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\cyrillicfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
 % \item Count how many times each feature \textit{value} occurs \textit{for that category, in tokens of that lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
 % \item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that lemma appears in the dataset)
 % \item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
@@ -1153,35 +1167,42 @@ The python scripts that calculate Ç\&R's MFH take the same input as the R-scrip
 See Figure \ref{fig:data_processing_flowchart} for a schematic overview of the data flow.
 \FloatBarrier
 \newpage
+
 \subsection{The present study}\label{sec:appendix_ours}
 %\subsubsection{Procedure for measuring mean surprisal per token}
 The full procedure of our metric is as follows:
 \begin{enumerate}
+\item (\texttt{collapse\_UD\_dirs}) Exclude datasets where the README.md states that Features are not available
 \item Exclude multilingual datasets
-\item Exclude datasets where the README.md states that Features are not available
 \item Collapse the files of each UD dataset (e.g. dev, test and train) to one table with one token per row (including multiword-tokens, component word tokens and empty node tokens)
-\item Remove tokens that are punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X')\footnote{For more on UPOS X, please see \url{https://universaldependencies.org/u/pos/X.html}}.
+\item Remove tokens that are punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X').\footnote{For more on UPOS X, please see \url{https://universaldependencies.org/u/pos/X.html}}
 \item Remove datasets with less than 13,000 tokens. 13,000 was chosen as a cut-off as this let us keep all PUD-datasets with more than 2 feature categories defined.
-\item Remove empty nodes. UD allows the insertion of tokens that are not present in the surface sentence in order to facilitate certain kinds of syntactic analysis. For example, the insertion of ``likes'' between ``Bill'' and ``tea'' in the sentence ``Sue likes coffee and Bill tea''. We drop these tokens from our analysis as we want to analyse the surface form as closely as possible. 
-\footnote{For more details on empty nodes in UD, see \url{https://universaldependencies.org/format.html}}
-\item Make all tokens lower-case
-\item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple syntactic words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. For UD-datasets, words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. The multiword also appears as a token, but without UPOS, lemma or morphological features. In this project, we want to analyse the surface forms as they appear in writing/speech transcription - therefore we retain the multiword and remove the component syntactic words. We assign the multiwork token the morphological features and UPOS of the component words (e.g. "AUX\_PART). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see UD documentation: \url{https://universaldependencies.org/format.html}.}
-\item Missing lemmas are replaced by the token.  There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Arabic-NYUAD, leave the lemma field empty for most tokens where UPOS is ADP or PROPN. Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field.
+\item (\texttt{process\_UD\_data()}) Make all tokens lower-case.
+\item Remove tokens which are solely emojis.
+\item Remove emojis and double-quote marks from token and lemma fields.
+\item Remove special tokens indicating illegibility in the Old East Slavic Birchbark dataset.
+\item Remove empty nodes. UD allows the insertion of tokens that are not present in the surface sentence in order to facilitate certain kinds of syntactic analysis. For example, the insertion of ``likes'' between ``Bill'' and ``tea'' in the sentence ``Sue likes coffee and Bill tea''. We drop these tokens from our analysis as we want to analyse the surface form as closely as possible.\footnote{For more details on empty nodes in UD, see \url{https://universaldependencies.org/format.html}}
+\item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple syntactic words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. For UD-datasets, words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. The multiword also appears as a token, but without UPOS, lemma or morphological features. In this project, we want to analyse the surface forms as they appear in writing/speech transcription - therefore we retain the multiword and remove the component syntactic words. We assign the multiword token the morphological features, lemma and UPOS of the component words (e.g. AUX\_PART). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see UD documentation: \url{https://universaldependencies.org/format.html}.}
+\item Replace missing lemmas with the token. There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Arabic-NYUAD, leave the lemma field empty for most tokens where UPOS is ADP or PROPN. Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field. At this stage we also keep track of what proportion of lemmas were missing, because certain metrics are not calculated on datasets with greater than 40\% missing lemmas (see below and section \ref{sec:limitations}).
 \item Define lemmas as a combination of lemma + UPOS, to ensure that lemmas that are spelled the same but belong to different UPOS can be reliably distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English-PUD are both annotated as belonging to the lemma ``mark''. By combinig lemma with UPOS, we can distinguish these as ``mark\_NOUN'' and ``mark\_VERB''.
-\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} in appendix lists the individual features for the sample shown in Table \ref{tab:unassigned_ex})\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\Timesfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
-\item Remove features that are not related to morphology: ``Abbr'' (abbreviation), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language)
+\item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} in appendix lists the individual features for the sample shown in Table \ref{tab:unassigned_ex}).\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\cyrillicfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
+\item Remove features that are not related to morphology: ``Abbr'' (abbreviation), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language).
+\item Determine valid morphological features based on the procedure parameters: either all features, or core features only.
 \item Determine the full set of morphological feature categories per aggregation level (UPOS/lemma). \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType. If in the larger dataset there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for the lemma `sebuah' would be Definite, Number and PronType.
 \item Assign a ``dummy'' feature value (`unassigned') where there is a missing value for a given token given the other available feature categories for tokens of the same aggregation level (UPOS/lemma). %\textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned since.
 \item If tokens of a given aggregation level (UPOS/lemma) all have no morphological features at all, assign them `unassigned=unassigned'.
-\item Count how many times each feature \textit{value} occurs \textit{for that feature category, in tokens of the same UPOS/lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT})
-\item Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that UPOS/lemma appears in the dataset)
-\item Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$
-\item Calculate the total `surprisal of a token' by summing the surprisals of all its features (including ``dummy'' features)
-\item Mean surprisal per token is the average of this total across all tokens in the dataset.
-\item Calculate other relevant counts, such as number of feature categories in total for the dataset, TTR etc.
-\item Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages. \footnote{As this step happens later on in the workflow, this set includes the feature category ``unassigned'' but Abbr, Typo and Foreign are excluded. All but one of the 14 datasets that are excluded here only contain ``unassigned'', Abbr, Typo and Foreign as feature categories. The exception is Galician-CTG which contains the feature category ``Polarity'' for 120 tokens.}
-\item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages. \footnote{There are four datasets included in our study that do not contain regular tokens and more than 13,000 tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types >=2). The lemma annotation is also irregular.} 
-\item If more than 40\% of tokens in a dataset do not have a defined lemma, set LTR, number of lemmas and all four morpho-surprisal scores that rely on lemma as aggregation level as missing. This applies to several datasets, including two from the PUD-datasets (Korean-PUD and Thai-PUD)
+\item Concatenate all features and values together per token, in a common order, yielding its canonical feature string or `featstring'.
+\item (\texttt{calculate\_surprisal()}) Count the number of unique feature categories.
+\item Count the number of tokens, types and lemmas, and the number of features per token (excluding those whose value is `unassigned'); calculate the type/token ratio (TTR) and lemma/token ratio (LTR).
+\item Calculate the surprisal of the token. This value does not depend on morphological features: it is based solely on the token's frequency in the dataset.
+\item \textit{Separated features}: Count how many times each feature \textit{value} occurs \textit{for that feature category, in tokens of the same UPOS/lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT}). \textit{Featstring}: Count how many times each \textit{featstring} occurs, in tokens of the same UPOS/lemma.
+\item \textit{Separated features}: Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that UPOS/lemma appears in the dataset). \textit{Featstring}: Calculate the relative frequency of each featstring relative to the aggregation level.
+\item \textit{Separated features}: Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$. \textit{Featstring}: Calculate the surprisal of that featstring for that token.
+\item \textit{Separated features}: Calculate the total `morpho-surprisal of a token' by summing the surprisals of all its features (including ``dummy'' features). \textit{Featstring}: The morpho-surprisal of the token is just the surprisal of its featstring, since each token has exactly one featstring.
+\item Mean morpho-surprisal per token is the average of the tokens' morpho-surprisals in the dataset.
+\item (\texttt{combine\_all\_data}) Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages.\footnote{As this step happens later on in the workflow, this set includes the feature category ``unassigned'' but Abbr, Typo and Foreign are excluded. All but one of the 14 datasets that are excluded here only contain ``unassigned'', Abbr, Typo and Foreign as feature categories. The exception is Galician-CTG which contains the feature category ``Polarity'' for 120 tokens.}
+\item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages.\footnote{There are four datasets included in our study that do not contain regular tokens and more than 13,000 tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types <=2). The lemma annotation is also irregular.} 
+\item If more than 40\% of tokens in a dataset do not have a defined lemma, set LTR, number of lemmas and all four morpho-surprisal scores that rely on lemma as aggregation level as missing. This applies to several datasets, including two from the PUD-datasets (Korean-PUD and Thai-PUD).
 % \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
 \end{enumerate}
 
@@ -1274,18 +1295,18 @@ The function \texttt{calculate\_surprisal()} can use any column name in the inpu
     \begin{tabular}{p{1.55cm}p{1.7cm}p{1.3cm}p{2cm}p{3.2cm}p{1.5cm}}
 \toprule
 \textbf{dir}&  \textbf{id}	&	\textbf{token}	&	\textbf{lemma}	&	\textbf{feats}	&	\textbf{upos}	\\	\midrule
-Ukranian-IU &  001\_0002\_1	&	\Timesfont{У}	&	\Timesfont{у}\_ADP	&	Case=Loc	&	ADP	\\	\midrule
-Ukranian-IU & 001\_0002\_10	&	\Timesfont{зображення}	&	\Timesfont{зображення}\_NOUN	&	Animacy=Inan| Case=Nom| Gender=Neut|Number=Sing	&	NOUN	\\	\midrule
-Ukranian-IU & 001\_0002\_11	&	\Timesfont{Венери}	&	\Timesfont{Венера}\_PROPN	&	Animacy=Anim| Case=Gen|Gender=Fem| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
-Ukranian-IU & 001\_0002\_12	&	\Timesfont{та}	&	\Timesfont{та}\_CCONJ	&	unassigned=unassigned	&	CCONJ	\\	\midrule
-Ukranian-IU & 001\_0002\_13	&	\Timesfont{Адоніса}	&	\Timesfont{Адоніс}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
-Ukranian-IU & 001\_0002\_2	&	\Timesfont{домі}	&	\Timesfont{дім}\_NOUN	&	Animacy=Inan|Case=Loc| Gender=Masc| Number=Sing	&	NOUN	\\	\midrule
-Ukranian-IU & 001\_0002\_3	&	\Timesfont{римського}	&	\Timesfont{римський}\_ADJ	&	Case=Gen|Gender=Masc| Number=Sing	&	ADJ	\\	\midrule
-Ukranian-IU & 001\_0002\_4	&	\Timesfont{патриція}	&	\Timesfont{патрицій}\_NOUN	&	Animacy=Anim|Case=Gen| Gender=Masc|Number=Sing	&	NOUN	\\	\midrule
-Ukranian-IU & 001\_0002\_5	&	\Timesfont{Руфіна}	&	\Timesfont{Руфін}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc|NameType=Giv| Number=Sing	&	PROPN	\\	\midrule
-Ukranian-IU & 001\_0002\_6	&	\Timesfont{була}	&	\Timesfont{бути}\_VERB	&	Aspect=Imp|Gender=Fem| Mood=Ind|Number=Sing| Person=unassigned|Tense=Past| VerbForm=Fin	&	VERB	\\	\midrule
-Ukranian-IU & 001\_0002\_7	&	\Timesfont{прегарна}	&	\Timesfont{прегарний}\_ADJ	&	Case=Nom|Gender=Fem| Number=Sing	&	ADJ	\\	\midrule
-Ukranian-IU & 001\_0002\_8	&	\Timesfont{фреска}	&	\Timesfont{фреска}\_NOUN	&	Animacy=Inan|Case=Nom| Gender=Fem|Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU &  001\_0002\_1	&	\cyrillicfont{У}	&	\cyrillicfont{у}\_ADP	&	Case=Loc	&	ADP	\\	\midrule
+Ukranian-IU & 001\_0002\_10	&	\cyrillicfont{зображення}	&	\cyrillicfont{зображення}\_NOUN	&	Animacy=Inan| Case=Nom| Gender=Neut|Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_11	&	\cyrillicfont{Венери}	&	\cyrillicfont{Венера}\_PROPN	&	Animacy=Anim| Case=Gen|Gender=Fem| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_12	&	\cyrillicfont{та}	&	\cyrillicfont{та}\_CCONJ	&	unassigned=unassigned	&	CCONJ	\\	\midrule
+Ukranian-IU & 001\_0002\_13	&	\cyrillicfont{Адоніса}	&	\cyrillicfont{Адоніс}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc| NameType=Giv|Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_2	&	\cyrillicfont{домі}	&	\cyrillicfont{дім}\_NOUN	&	Animacy=Inan|Case=Loc| Gender=Masc| Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_3	&	\cyrillicfont{римського}	&	\cyrillicfont{римський}\_ADJ	&	Case=Gen|Gender=Masc| Number=Sing	&	ADJ	\\	\midrule
+Ukranian-IU & 001\_0002\_4	&	\cyrillicfont{патриція}	&	\cyrillicfont{патрицій}\_NOUN	&	Animacy=Anim|Case=Gen| Gender=Masc|Number=Sing	&	NOUN	\\	\midrule
+Ukranian-IU & 001\_0002\_5	&	\cyrillicfont{Руфіна}	&	\cyrillicfont{Руфін}\_PROPN	&	Animacy=Anim|Case=Gen| Gender=Masc|NameType=Giv| Number=Sing	&	PROPN	\\	\midrule
+Ukranian-IU & 001\_0002\_6	&	\cyrillicfont{була}	&	\cyrillicfont{бути}\_VERB	&	Aspect=Imp|Gender=Fem| Mood=Ind|Number=Sing| Person=unassigned|Tense=Past| VerbForm=Fin	&	VERB	\\	\midrule
+Ukranian-IU & 001\_0002\_7	&	\cyrillicfont{прегарна}	&	\cyrillicfont{прегарний}\_ADJ	&	Case=Nom|Gender=Fem| Number=Sing	&	ADJ	\\	\midrule
+Ukranian-IU & 001\_0002\_8	&	\cyrillicfont{фреска}	&	\cyrillicfont{фреска}\_NOUN	&	Animacy=Inan|Case=Nom| Gender=Fem|Number=Sing	&	NOUN	\\	\midrule
 \bottomrule
     \end{tabular}
 \end{table}
@@ -1478,6 +1499,7 @@ Figure \ref{fig:boxPlotsMetrics} depicts box plots of the values of all eight of
 \FloatBarrier
 \newpage
 
+
 \section{Caveats}
 \label{sec:caveats}
 
@@ -1549,57 +1571,92 @@ The UD datasets use a specific set of Universal Part-Of-Speech categories (UPOS)
     \item X: other
 \end{itemize}
 
-These are defined centrally across datasets, but as with morphological features there may also be some language specific variation in how they are applied. 
+These are defined centrally across datasets, but as with morphological features there may also be dataset-specific variation in how they are applied. 
 Parts-Of-Speech/word classes famously vary across languages in terms of which ones exist, how they behave, how they subdivide further, and so on. 
-For example, some languages do not have an identifiable class of adjectives, with such meanings instead being expressed with nouns or verbs. 
-Some languages have a fluid boundary between nouns and verbs. 
+For example, some languages do not have an identifiable class of adjectives, with such meanings instead being expressed with nouns or verbs and some languages have a fluid boundary between what we might call nouns and verbs. 
 There is a substantial literature in linguistic theory and typology that deals with the definition of parts-of-speech/word classes across languages (c.f. \citet{davey_beyond_2024}).
 For this project, we are naturally dependent on how the UD central team have defined these labels and how the contributors of each dataset have then further specified and applied them.
 
 For example, in the UD dataset Abaza-ATB there are tokens which are marked as having UPOS VERB but which have very different morphological features. 
-Consider the token {\Timesfont цIитI} in Table \ref{tab:Abaza_sent_10} and {\Timesfont йазкIкIыта} in Table \ref{tab:Abaza_sent_11} which are both marked as UPOS VERB. 
-The first token, {\Timesfont цIитI}, is annotated for features often associated with finite verbs such as tense. 
-The token {\Timesfont йазкIкIыта} is likewise also tagged as UPOS VERB, but the morphological features are quite different. 
-The morphological features of {\Timesfont йазкIкIыта} are all related to the gender, person and number of the arguments of the verb (io = indirect object, abs = absolutive). 
-In fact, these two tokens do not share any features: {\Timesfont цIитI} is not marked for gender/person/number of the arguments and {\Timesfont йазкIкIыта} is not marked for tense or VerbForm.
-Based on studying these annotations alone, we reach the conclusion that there are at least two groups of tokens which are both included under the UPOS VERB and that have very different morphological behaviour.
+Consider the token {\cyrillicfont цIитI} in Table \ref{tab:Abaza_sent_10} and {\cyrillicfont йазкIкIыта} in Table \ref{tab:Abaza_sent_11} which are both marked as UPOS VERB. 
+The first token, {\cyrillicfont цIитI}, is annotated for features often associated with finite verbs such as tense. 
+The token {\cyrillicfont йазкIкIыта} is likewise also tagged as UPOS VERB, but the morphological features are quite different. 
+The morphological features of {\cyrillicfont йазкIкIыта} are all related to the gender, person and number of the arguments of the verb (io = indirect object, abs = absolutive). 
+In fact, these two tokens do not share any morphological features: {\cyrillicfont цIитI} is not marked for gender/person/number of the arguments and {\cyrillicfont йазкIкIыта} is not marked for tense or VerbForm.
+Based on studying these annotations alone, we reach the conclusion that there are at least two groups of tokens which are both included under the UPOS VERB and that have very different morphological behaviour in this dataset.
 This is not unexpected and is likely to occur for many datasets in UD, to different degrees.
 
 \begin{table}[]
     \centering
-    \begin{tabular}{p{3cm}|p{8cm}}
-    Abaza     & {\Timesfont{щарда \underline{цIитI} ари агIаншижьтара}} \\
-    Russian    & {\Timesfont{С тех пор прошло много времени }}\\
-    English & A lot of time has passed since then\\
-    Morphological features & Tense=Pres|VerbForm=Fin \\
-    \end{tabular}
-    \caption{Sentence 10 from UD dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word are listed.}
+        \caption{Sentence 10 from UD dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word are listed.}
     \label{tab:Abaza_sent_10}
+    \begin{tabular}{p{3cm}|p{8cm}}
+    Abaza     & {\cyrillicfont{щарда \underline{цIитI} ари агIаншижьтара}} \\    \midrule
+    Russian    & {\cyrillicfont{С тех пор прошло много времени }}\\ 
+    English & A lot of time has passed since then\\    \midrule
+    Morphological features & Tense=Pres|VerbForm=Fin \\   
+    \end{tabular}
 \end{table}
 
 \begin{table}[]
     \centering
-    \begin{tabular}{p{3cm}|p{8cm}}
-    Abaza     & {\Timesfont{апхъа азаман уагIахъата адунай йыквыз шабгаз \underline{йазкIкIыта} зджьара йбзазун }}\\
-    Russian    &{\Timesfont{В то время люди, которые находились на свете, собравшись, жили где-то }}\\
-    English & At that time, the people who were in the world, having gathered, lived somewhere\\
-    Morphological features & Gender[io]=Neut|Number[abs]=Plur|Number[io]=Sing| Person[abs]=3|Person[io]=3 \\
-    \end{tabular}
-    \caption{Sentence 11 from UD dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word are listed.}
+      \caption{Sentence 11 from UD dataset Abaza-ATB (UD v2.14). Only the morphological features for the underlined word are listed.}
     \label{tab:Abaza_sent_11}
+    \begin{tabular}{p{3cm}|p{8cm}}
+    Abaza     & {\cyrillicfont{апхъа азаман уагIахъата адунай йыквыз шабгаз \underline{йазкIкIыта} зджьара йбзазун }}\\  \midrule
+    Russian    &{\cyrillicfont{В то время люди, которые находились на свете, собравшись, жили где-то }}\\  \midrule
+    English & At that time, the people who were in the world, having gathered, lived somewhere\\
+    Morphological features & Gender[io]=Neut|Number[abs]=Plur|Number[io]=Sing| Person[abs]=3|Person[io]=3 \\  
+    \end{tabular}
+  
 \end{table}
 
 The UD annotation guidelines states that a verb ``is a member of the syntactic class of words that typically signal events and actions, can constitute a minimal predicate in a clause, and govern the number and types of other constituents which may occur in the clause'' \citep{de_marneffe_verb_2022}. 
 They go on to note that the UPOS-label VERB is not applied to auxiliary verbs. 
 The documentation further specifies that, depending on language-specific analysis, (i) participles may be tagged as VERB or ADJ, (ii) gerunds and infinitives may be analysed as VERB or NOUN and that (iii) converbs (transgressives) or adverbial participles may be classed as VERB or ADV.
-This standardized definition therefore still leaves a lot of flexibility.%, as is desirable and expected in a project of this kind.
+This standardized definition therefore still leaves a lot of flexibility, as may be desirable and expected in a project of this kind.
 
 Given the structure of the language at hand and the specific decisions of the contributors, this can mean that the Parts-Of-Speech-topology can differ a lot between datasets. 
-For the study at hand, this means that when the imputation of dummy features depends on the annotation of other tokens of the same UPOS, the Abaza VERB tokens above would receive a lot of dummy features (e.g. {\Timesfont{цIитI} marked as Gender[io]=unassigned etc)
+For the study at hand, this means that when the imputation of dummy features depends on the annotation of other tokens of the same UPOS, the Abaza VERB tokens above would receive a lot of dummy features (e.g. {\cyrillicfont{цIитI} marked as Gender[io]=unassigned etc)
 
 This variability in terms of application and definition of UPOS is one of the reasons we why we compute the metrics with the aggregation level set to both UPOS and lemma, which is further ameliorated by the fact that we make lemma be a combination of lemma + UPOS, which can tease apart some of these pattens mentioned above in Abaza.
 This does not completely resolve the issue however, and we note that this is an important caveat of studies of this kind.
 
+We also tested out an experimental approach to addressing this issue: defining groups of tokens within the same UPOS based on consistent patterns of morphological features.
+We constructed these group by finding all unique combinations of feature categories within the same UPOS, no matter how few members each group had.
+For example, this would mean treating all tokens with the UPOS verb that are marked for Tense and VerbForm in Abaza-UTB as a separate group from all verbs which are marked for Gender, Number[abs], Number[io], Person[abs] and Person[io]. 
+We call this grouping ``subclass'' and they can be thought of as a level below UPOS but above lemma. 
+Because of the way these subclasses are defined, there is no dummy-feature value insertion because all tokens of the same subclass share exactly the same feature categories.
+This approach is experimental, and it relies on the assumption that the systemic patterns of feature categories within UPOS of the same dataset are a meaningful unit. 
+As this is a novel and experimental approach, we do not discuss this in the main text.
+We computed the morpho-surprisal scores for each dataset using subclass as an aggregation level, in addition to UPOS and lemma, varying all features / core features and separated feature / featstring --- making for an additional four morpho-surpisal scores.
+Figures \ref{fig:SPLOM_metric_custom_plus_subclass} and \ref{fig:SPLOM_metrics_custom_PUD_plus_subclass} shows the correlations between all 12 morpho-surpiscal scores, including those using subclass as an aggregation level.
+Using subclass as an aggregation level gives very similar results to using 
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom_plus_subclass.png}
+    \caption{}
+%    \caption{SPLOM of custom metrics (all UD datasets). 
+    %Since all eight measures are variations on the theme `mean surprisal per token', the correlations are all strong or very strong. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_metrics_other} and \ref{fig:SPLOM_metrics_external_CR}, \ref{fig:SPLOM_metrics_external_grambank}
+%    }
+    \label{fig:SPLOM_metric_custom_plus_subclass}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom_PUD_plus_subclass.png}
+    \caption{}
+%    \caption{SPLOM of custom metrics (all UD datasets). 
+    %Since all eight measures are variations on the theme `mean surprisal per token', the correlations are all strong or very strong. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_metrics_other} and \ref{fig:SPLOM_metrics_external_CR}, \ref{fig:SPLOM_metrics_external_grambank}
+%    }
+    \label{fig:SPLOM_metrics_custom_PUD_plus_subclass}
+\end{figure}
+
+
+\FloatBarrier
 \subsubsection{Variation in genre}
 \label{sec:caveat_genres}
 Another comparability issue is related to \textbf{genre}, as the datasets of UD can be of very different genres. 
