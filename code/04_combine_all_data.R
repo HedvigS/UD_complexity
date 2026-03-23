@@ -12,8 +12,7 @@ UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = FALSE) 
   dplyr::distinct(dir, glottocode)
 
 mfh <- readr::read_tsv("output/results/mfh_stacked.tsv", show_col_types = FALSE) %>% 
-  dplyr::rename( n_total_rows_mfh = n_total_rows, 
-                 n_total_rows_filtered_mfh= n_total_rows_filtered)
+  dplyr::rename(n_row_mfh= n_total_rows_with_features)
 
 df_grambank_metrics <- readr::read_tsv("output/processed_data/grambank_theo_scores.tsv", show_col_types = F) %>% 
   dplyr::rename(glottocode = Language_ID) 
@@ -65,12 +64,12 @@ df <- df %>%
 
 #some datasets don't have the tokens in them
 df <- df %>% 
+  dplyr::filter(n_feat_cats_all_features >= 3) %>% 
   dplyr::mutate(TTR = ifelse(n_types <=2, NA, TTR)) %>% #if there are fewer than 2 types in the data, set number of types, TTR, LTR and surprisal of token to missing as this indicates that it is not reliable
   dplyr::mutate(LTR = ifelse(n_types <=2, NA, LTR))  %>% 
   dplyr::mutate(suprisal_token_mean = ifelse(n_types <=2, NA, suprisal_token_mean))  %>% 
   dplyr::mutate(n_types = ifelse(n_types <=2, NA, n_types))  %>% 
-  dplyr::mutate(mfh = ifelse(n_total_rows_filtered_mfh == 0, NA, mfh))   %>% #for C&R's mfh measurement, because of the dataset we use as input sometimes the number of tokens the score is based on is in fact 0. In those cases, mfh will also be 0 but it is not a meaningful value because it is based on 0 tokens. We exclude these.
-  dplyr::filter(n_feat_cats_all_features >= 3) %>% 
+  dplyr::mutate(mfh = ifelse(n_row_mfh == 0, NA, mfh))   %>% #for C&R's mfh measurement, because of the dataset we use as input sometimes the number of tokens the score is based on is in fact 0. In those cases, mfh will also be 0 but it is not a meaningful value because it is based on 0 tokens. We exclude these.
   dplyr::mutate(LTR = ifelse(percent_missing_lemma > 40, NA, LTR)) %>% 
   dplyr::mutate(n_lemmas= ifelse(n_lemmas > 40, NA, LTR)) %>% 
   dplyr::mutate(sum_surprisal_morph_split_mean_lemma_all_features = ifelse(percent_missing_lemma > 40, NA, sum_surprisal_morph_split_mean_lemma_all_features)) %>% 
