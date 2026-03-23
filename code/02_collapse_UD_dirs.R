@@ -22,7 +22,7 @@ fns <- list.files(path = paste0("../data/ud-treebanks-v2.14"),
                   recursive = T)
 
 UD_langs <- readr::read_tsv("../data/UD_languages.tsv", show_col_types = F) %>% 
-  dplyr::select(dir, conllu, glottocode) 
+  dplyr::select(dir, conllu, multilingual_exclude) 
 
 dirs <- list.dirs(path = paste0("../data/ud-treebanks-v2.14"), full.names = F, recursive = F)
 
@@ -41,8 +41,9 @@ if(check == FALSE){
 metadata_df <-  readr::read_tsv("output/metadata.df", show_col_types = FALSE) %>% 
   dplyr::filter(Features != "not available")
 
-UD_dirs <- UD_langs %>% 
+UD_dirs <- UD_langs %>%
   dplyr::filter(dir %in% metadata_df$dir) %>% 
+  dplyr::filter(is.na(multilingual_exclude)) %>% 
   dplyr::group_by(dir) %>% 
   dplyr::summarise(conllus = paste0(conllu, collapse = ";"), .groups = "drop")
 
