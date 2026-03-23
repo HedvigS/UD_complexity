@@ -212,7 +212,6 @@ process_UD_data <- function(input_dir = NULL,
     n_types <- conllu$token %>% unique() %>% length()
     n_lemma_unique <- conllu$lemma %>% na.omit() %>% unique() %>% length()
     
-    
     if(fill_empty_lemmas_with_tokens == TRUE){    
     conllu <- conllu %>% 
       dplyr::mutate(lemma = ifelse(is.na(lemma), token, lemma)) } 
@@ -486,6 +485,7 @@ conllu %>%
   dplyr::mutate(dir = dir) %>% 
   readr::write_tsv(file = paste0(output_dir, "/agg_level_", agg_level, "_", core_features, "/TTR/", dir, "_TTR_full.tsv"))
 
+#surprisal per token (regardless of lemma, upoas, morphological features etc)
 surprisal_all_tokens_lookup <- conllu %>% 
   dplyr::group_by(token) %>% 
   dplyr::summarise(n = n(), .groups = "drop") %>%
