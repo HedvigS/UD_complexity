@@ -551,7 +551,7 @@ However, unfortunately we cannot include a direct comparison because the origina
 % The formula describing our measure is therefore $\Sigma_i p_i \left( \Sigma_{j_i} \log{\frac{1}{p_{j_i}}} \right)$ where $i$ ranges across tokens and $j_i$ ranges across feature values of token $i$.
 %%% SFM end chopping
 
-
+%#TODO rephrase
 Corpora differ in their levels of annotation and metadata. Universal Dependencies (UD) datasets \citep{UD_2.14} provide syntactic dependencies, part-of-speech (UPOS), lemma, and morphological feature annotations.
 The latter three are central to our study of morphological information.
 Table~\ref{tab:turkish_example} illustrates a Turkish sentence from the UD Turkish-Penn dataset \citep{kuzgun_2020_UD_turkish_penn}, where tokens are annotated for categories such as case, number, tense, aspect, and person.
@@ -589,11 +589,14 @@ The exact procedure for calculating our metric can be found in appendix \ref{sec
 
 We calculate feature and value frequencies conditional on either UPOS or lemma (henceforth aggregation level).
 This serves several methodological purposes.
-First, feature categories need not have comparable functions across parts of speech (e.g. Number on nouns vs. verbs).
-Second, feature distributions often pattern by groups words.
+First, features need not have comparable functions across parts of speech (e.g. Number on nouns vs. verbs).
+Second, feature distributions often pattern into groups such as UPOS.
 Besides UPOS, there can be other classes of words which pattern regularly (e.g. animates versus inanimates, transitive verbs versus intransitive).
-Because other linguistically relevant classes (e.g. animacy, verb type) are not consistently annotated across languages, lemma serves as a complementary aggregation level.
+Because other linguistically relevant classes (e.g. animacy, verb type) are not consistently annotated across languages\footnote{In appendix \ref{appendix_UPOS_variation_subclass} we present a novel experimental approach to finding subclasses within UPOS, however since it is experimental it is not included in the main section of this study.}, lemma serves as a complementary more fine-grained aggregation level.
 Third, aggregating by UPOS or lemma better reflects language use, since users are not facing situations where any feature category can appear for any word.
+
+We acknowledge that ``lemma'' is as an elusive category psycholinguistically  \citep{meyer_elusive_2026}, but in this study we believe it contributes a meaningful way of structuring the lexicon at a finer level compared to UPOS and is preferable to treating all tokens are belonging to one group.
+If another way of grouping tokens is preferable, we are happy to re-apply our approach with another aggregation level --- also to other datasets (see appendix \ref{appendix:applying_to_non_UD}).
 
 To ensure comparability, all tokens of a given UPOS or lemma are assigned the same set of feature categories.
 Missing feature values are filled with a dummy value (`unassigned'), reflecting the fact that absence of annotation itself may carry information.
@@ -905,12 +908,12 @@ This lack of correlation highlights the distinctiveness of corpus-based analyses
 \FloatBarrier
 \section{Limitations}\label{sec:limitations}
 
-\subsection{Dummy feature assignment at the UPOS level}
+\subsection{Dummy feature assignment at the UPOS level}\label{subsec:dummyAssignment}
 
-In order to account for the fact that a lack of marking can carry morphological information, we assign `dummy' features to tokens of the same aggregation level (UPOS/lemma) based on certain rules.
+Because a lack of marking can carry morphological information, we assign `dummy' features to tokens of the same aggregation level (UPOS/lemma) based on certain rules.
 Unfortunately, when aggregating at the UPOS level this can lead to dummy features being assigned to tokens that intuitively ought not receive them.
 That's because UPOS is a broad church: different subclasses of token within the same part-of-speech may be associated with different features.
-In such a case we would assign to all members of one subgroup dummy values of features that belong properly to another.
+We assign to all members of one subgroup dummy values of features that belong properly to another.
 
 For example, tokens representing the word `the' in the corpus English-GENTLE get the following feature values when processed at aggregation level UPOS and only considering core features:
 
@@ -923,8 +926,8 @@ For example, tokens representing the word `the' in the corpus English-GENTLE get
 \end{itemize}
 
 `Def' and `Art' mark `the' as the definite article.
-But it intuitively it may seem odd to describe `the' as carrying information about Polarity.
-The tokens receive this dummy feature assignment (Polarity=unassigned) because another tokens of the same UPOS (DET) carry this feature. 
+But it seems odd to describe `the' as carrying information about Polarity.
+The tokens receive this dummy feature assignment (Polarity=unassigned) because another token of the same UPOS (DET) carry this feature. 
 In this case, it is specifically the word `no' which has a value for Polarity (Neg).
 Since some determiners are explicitly marked for polarity and others aren't, in order to quantify the amount of information conveyed about polarity on encountering a determiner we must capture the distinction with this unassigned dummy feature.
 One can argue that UPOS DET is too broad a category, that it ought to be broken down into smaller subclasses with distinct morphological behaviour. 
@@ -933,14 +936,14 @@ Unfortunately, no such categorization is available across UD-datasets.
 The good news is that the information quantity contributed to `the' by Polarity is very small.
 Vastly more determiners have `unassigned' than `Neg' for Polarity (1165 vs 35).
 All these non-marking determiners therefore see a very small informational contribution: it's unsurprising when you encounter a determiner without Polarity.
-And when `no' is encountered, the negative Polarity is much more surprising and contributes more significantly to that token's information quantity.
+When `no' is encountered, the negative Polarity is much more surprising and contributes more significantly to that token's information quantity.
 
 We have made no attempt to correct what might be seen as ``mistakes'' in tagging of morphological features in the treebanks themselves: we have only established a workflow designed to estimate morphological information quantities given reasonable groupings.
 The approach to measuring information in morphology suggested in this paper can be applied to other datasets besides UD. 
 We provide R-code with generalised functions in supplementary material and guidance in appendix \ref{appendix:applying_to_non_UD}.
 
 Dummy feature assignment can lead to unintuitive attribution of morphological features to tokens.
-Our basic position is that information can be carried by the absence of morphological marking and that it is relevant to standardise within groups (UPOS/lemma) -  this is what dummy assignment is designed to address.
+Our view is that information can be carried by the absence of morphological marking and that it is relevant to standardise within groups (UPOS/lemma) -- this is what dummy assignment is designed to address.
 Cases where this can be problematic include situations where not all morphological features are strictly relevant for all tokens of the same UPOS or lemma.
 For our study, we saw it as necessary to differentiate in some way between groups of tokens, instead of treating them all as one big group. 
 The systematic groupings that were most readily available to us in a consistent format across UD datasets were UPOS and lemma.
@@ -951,63 +954,41 @@ We leave to future work the possibility of estimating morphological information 
 
 \subsection{Artificial lemmas}
 
-Some treebanks have a sizeable proportion of missing lemmas.
+Some UD-datasets have a sizeable proportion of missing lemmas.
 This is a problem for several of our metrics.
-Not only do we report the total number of distinct lemmas and the lemma-token ratio, four of our custom metrics treat lemma as the aggregation level, which requires defining feature classes across tokens belonging to the same lemma.
-There is no determinate way to assign features to tokens with missing lemmas, so no way to consistently apply these six metrics without making further decisions.
+Not only do we report the total number of distinct lemmas and the lemma-token ratio, four of our custom morpho-surprisal metrics use lemma as the aggregation level, which requires all tokens having decent lemma-assignment.
 
 We ameliorate this problem in two ways, both of which can affect comparability.
-First, we simply omit those six metrics for datasets with more than 40\% missing lemmas.
+First, we simply omit those six metrics for datasets with more than 40\% missing lemmas (e.g. Thai-PUD, English-GUMReddit \& Faroese-FarPaHC).
 Second, for datasets with less than 40\% missing lemmas we impute missing lemmas with the token value (plus underscore UPOS, as with all other lemmas).
-We chose this 40\% threshold because there is a big jump from TODO to TODO missing lemmas across the treebanks we are dealing with.
-Manual inspection of a few treebanks with less than 40\% missing lemmas suggests many of these tokens are forms that don't inflect anyway.
-They have typically been left out because the lemma would be considered identical to the token.
+We chose this threshold because there is a jump from 32\% to 58\% missing lemmas across the datasets in question.
+Manual inspection of a few  datasets with less than 40\% missing lemmas suggests many of these tokens are forms that don't inflect anyway. %#TODO
+They may have been left out because the lemma would be considered identical to the token.
 We have made this assumption explicit by filling in the lemma with the token value, allowing us to calculate the six metrics on these datasets.
 
 Both of these choices affect comparability.
-In the first case, we lose the ability to compare treebanks with many missing lemmas across the six metrics that rely on lemma presence.
+In the first case, we lose the ability to compare datasets with many missing lemmas across the six metrics that rely on lemma presence.
 The power of statistical tests for correlations involving these metrics is therefore reduced.
-In the second case, we might be inadvertently adding lemmas to tokens which do not properly have lemmas.
-This would skew both the number of lemmas and the lemma-token ratio.
-Different decisions might reasonably be made here, but the aforementioned manual checks plus the relatively low level of missing lemmas in most datasets means that we would expect the negative impact of our procedure to be small.
+In the second case, we might be inadvertently adding lemmas to tokens in a suboptimal manner.
+This would skew both the number of lemmas, the lemma-token ratio and our morpho-surprisal scores which aggregate over lemmas.
+Different decisions might reasonably be made here, but the aforementioned manual checks plus the relatively low level of missing lemmas in most datasets means that we would expect the impact of our procedure to be small.
 
 \subsection{Inconsistent annotation standards across corpora}
 
-The UD project provides documentation guiding treebank annotation.
-Nevertheless there are different levels of rigour and different choices made among the maintainers of different treebanks, even among those drawn from corpora of the same language.
-We deal with the most significant issues of this kind by altogether excluding some treebanks from our analysis.
-For example, Bavarian-MaiBaam has no feature annotations at all. 
-We exclude treebanks with no features because our informational measure requires feature annotations to produce a meaningful result.
+The UD project provides documentation guiding dataset annotation.
+Nevertheless there are different levels of rigour and different choices made among the maintainers of different datasets, even among those drawn from corpora of the same language.
+We deal with the most significant issues of this kind by excluding some datasets from our analysis.
+For example, we exclude datasets such as Bavarian-MaiBaam that have no feature annotations at all. 
+Our informational measure requires feature annotations to produce a meaningful result.
 
-However, there are remaining differences that could negatively impact the comparability of our metric.
-Features may be annotated with slightly different standards across treebanks, even treebanks of the same language.
-For example, English-PUD does not assign a value for the feature Case to words such as `our' and `their', while English-GENTLE assigns the case `Gen' (for genitive). 
-This inconsistency results in different informational values for these words. 
-If the PUD dataset were so annotated, those words would get different values for our metric than they in fact do. 
-Conversely if the English-GENTLE dataset were not marked for these values, those tokens' informational quantities on our metric would also be different from those we actually calculated.
-This is bad: different annotation decisions has led to inconsistent data which means the values we have calculated are not as comparable as they could be.
-
-One consideration here is that inspecting treebanks that are of the same language helps us understand the range of variation involved.
-In fact, inspecting our results reveals that the PUD and GENTLE treebanks are among the most similar of the English-language treebanks.
-A clear outlier is rather English-Atis whose surprisal values are markedly lower than any of the other English datasets.
-This anomaly is not restricted to our measure: {\c{C}}{\"o}ltekin and Rama's mean feature entropy applied to the same datasets reveals a big jump between the Atis data and the other seven English treebanks.
-One explanation for this discrepancy is that Atis is derived from the Airline Travel Informations comprising transcriptions of flight information requests.
-Around 25\% of these tokens are therefore proper nouns -- American cities with airports -- a huge proportion compared to other datasets of different genres.
-Rather than excluding this dataset we have chosen to leave it in the analysis in part to highlight how differences in genre can impact informational measures.
-For more details on genre and comparability see appendix \ref{subsec:caveat_comparability}.
-
-A broader point worth making is that any workflow downstream of a large database will be hostage to that database's consistency. 
-To the extent that the data has been gathered and annotated by the same principles and with the same rigour, analytical results will be more commensurate and comparisons more meaningful. 
-Actually performing analyses like this one and that of \citet{ccoltekin2023complexity} can help reveal inconsistencies and increase the motivation for more rigorous and consistent data gathering in the first place. 
-So while the applicability of our results at this stage is admittedly hindered by such inconsistencies, the workflow itself can be redeployed continuously as the data quality improves. 
-(Contrariwise, if nobody ever attempted to analyse the data there would be little motivation to improve it -- we have to start somewhere, with the promise of getting better as we go along.)
-
-Finally in this section, while we have removed certain symbols such as emojis from each dataset before the calculation step, we elected to leave in certain other symbols such as ampersands (\&), hashes (\#) and at-signs (@).
+While we have removed certain symbols such as emojis from each dataset before the calculation step, we elected to leave in certain other symbols such as ampersands (\&), hashes (\#) and at-signs (@).
 Manual inspection of several datasets reveals that these symbols are typically used consistently within each treebank.
 For example, UD\_Finnish-TDT uses the hash character as a separator between the constituent parts of compound words.
 Such symbols could cause problems if they are used inconsistently, but we would estimate the effect on our results to be minor or negligible.
 
-See appendix \ref{subsec:caveat_comparability} for more detailed information about comparability challenges in UD.
+There are remaining differences that could negatively impact the comparability of our metric.
+For reasons of space we could not address these in the main text.
+They are discussed in detail in appendix \ref{subsec:caveat_comparability}.
 
 \FloatBarrier
 \section{Discussion \& conclusion}\label{sec:discussion}
@@ -1111,16 +1092,17 @@ Thus entropy captures something like the average amount of uncertainty among a s
 Their method of calculating this value is as follows:\footnote{This procedure describes the code which can be found at \url{https://github.com/coltekin/mcomplexity/blob/main/mlc-morph.py}, specifically the method \texttt{get\_mfh}. We are grateful to Ç\&R for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}
 \begin{enumerate}
 \item For a given dataset, randomly sample sentences (with replacement) until you reach a fixed set of tokens (in the paper, they use 20,000). 
-\item Remove tokens that are punctuation (UPOS=`PUNCT') or unanalysable tokens (UPOS=`X')
-\item Remove tokens with no lemma (i.e. with no value in the `lemma' field; this includes removing multiword tokens) % line 145 of mlc_morph.py
-\item Remove tokens with no value in the `token' field % line 145 of mlc_morph.py 
-\item Remove tokens that have the UPOS NUM and where the token is non-alphabetical (i.e. ``50'') % line 142 of mlc_morph.py
-\item Remove tokens with no morphological features (i.e. with no value in the `feats' field) % lines 281 and 336 of mlc_morph.py
+\item Ignore tokens that are punctuation (UPOS=`PUNCT') or unanalysable tokens (UPOS=`X')
+\item Ignore tokens that have the UPOS NUM and where the token is non-alphabetical (i.e. ``50'') % line 142 of mlc_morph.py
+\item Ignore tokens with no lemma (i.e. with no value in the `lemma' field; this includes removing multiword tokens) % line 145 of mlc_morph.py
+\item Ignore tokens with no value in the `token' field % line 145 of mlc_morph.py 
+\item Ignore ``empty'' node tokens, tokens that did not appear in the raw input but were syntactically inferred
+\item Ignore tokens with no morphological features (i.e. with no value in the `feats' field) % lines 281 and 336 of mlc_morph.py
 \item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table \ref{tab:turkish_example}). Note that the features are not split further for feature categories and values.
 \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
 \item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
 \item Calculate entropy from the frequencies ($\Sigma p \log{\frac{1}{p}}$)
-\item Run steps 1-10 100 times for different samples of the same size and take the mean entropy. 
+\item Run steps 1-10 100 times and take the mean entropy. 
 \end{enumerate}
 
 \noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table \ref{tab:turkish_example}.
@@ -1152,38 +1134,40 @@ This average is then an estimate of the `overall' entropy measure for the datase
 \end{table}
 
 \paragraph{Implementation in this project}
-For comparison, we re-ran the code for Ç\&R's MFH on the same dataset as our analysis. 
+We re-ran the code for Ç\&R's MFH on the same datasets as our analysis. 
 To make the outcomes more comparable, we introduced a small set of modifications of their procedure. 
-We did not do the bootstrapping sampling (sample sentences with replacement until you reach a given token target) - instead we ran the analysis on the exact same datasets as ours - i.e all datasets in the 173 UD datasets with more than 13,000 tokens (excluding tokens with UPOS PUNCT or X). 
+We did not do the bootstrapping sampling (sample sentences with replacement until you reach a given token target) - instead we ran the analysis on the exact same datasets as ours - i.e all tokens in all datasets in the UD datasets with more than 13,000 tokens (excluding tokens with UPOS PUNCT or X). 
 Ç\&R MFH procedure was originally applied to a specific set of 63 UD datasets where the smallest number of tokens was approximately 40,000 \citet[32]{ccoltekin2023complexity}. 
-In this study, we work with a larger number of datasets where some have fewer tokens (>13,000).
-Note that the datasets serving as the input have more than 13,000 tokens, but filters in the Ç\&R-procedure eliminate further tokens.
+In this study, we work with a larger number of datasets where some have fewer tokens.
+Note that the datasets serving as the input have more than 13,000 tokens, but filters in the Ç\&R-procedure eliminate further tokens (ignore tokens with missing features etc).
 In three cases \footnote{English-GUMReddit, Thai-PUD and Faroese-FarPaHC} the datasets contained 0 tokens once the filters in Ç\&R's procedure were applied because the tokens lacked lemmas. 
 Technically the outcome for these three datasets would be a MFH value of 0, but we treated these instead as missing.
 We copied the python scripts graciously provide by Çağrı Çöltekin and Taraka Rama at \url{https://github.com/coltekin/mcomplexity/}, made a few small modifications and incorporated the modified scripts into our project's codebase. 
-Removing bootstrapping also included removing the calling of the function sample\_nodes in get\_mfh, which had the consequence that some of the filtering in sample\_nodes happen in get\_mfh instead.
+Removing bootstrapping also included removing the calling of the function sample\_nodes in get\_mfh, which had the consequence that some of the filtering in sample\_nodes happen in get\_mfh instead (e.g. remove empty nodes).
 
-The python scripts that calculate Ç\&R's MFH take the same input as the R-scripts that calculate our metrics. 
+The python scripts that calculate Ç\&R's MFH take the same input as the R-scripts that calculate our morpho-surprisal metrics (see steps 1-5 in appendix \ref{sec:appendix_ours}). 
 See Figure \ref{fig:data_processing_flowchart} for a schematic overview of the data flow.
 \FloatBarrier
 \newpage
 
-\subsection{The present study}\label{sec:appendix_ours}
+\subsection{Our morpho-surprisal procedure}\label{sec:appendix_ours}
 %\subsubsection{Procedure for measuring mean surprisal per token}
-The full procedure of our metric is as follows:
+The full procedure of our metric is as follows:\\
 \begin{enumerate}
-\item (\texttt{collapse\_UD\_dirs}) Exclude datasets where the README.md states that Features are not available
+  \item[] \hspace*{-\leftmargin} Steps 1-5 take place in the script \texttt{code/collapse\_UD\_dirs.R}
+\item Exclude datasets where the README.md states that Features are not available
 \item Exclude multilingual datasets
 \item Collapse the files of each UD dataset (e.g. dev, test and train) to one table with one token per row (including multiword-tokens, component word tokens and empty node tokens)
 \item Remove tokens that are punctuation (UPOS=`PUNCT') and unanalysable tokens (UPOS=`X').\footnote{For more on UPOS X, please see \url{https://universaldependencies.org/u/pos/X.html}}
-\item Remove datasets with less than 13,000 tokens. 13,000 was chosen as a cut-off as this let us keep all PUD-datasets with more than 2 feature categories defined.
-\item (\texttt{process\_UD\_data()}) Make all tokens lower-case.
+\item Remove datasets with less than 13,000 tokens. 13,000 was chosen as a cut-off as this let us keep all PUD-datasets with more than 2 feature categories defined.\\
+ \item[] \hspace*{-\leftmargin}Steps 6-20 take place in the function \texttt{process\_UD\_data()} in \newline\texttt{code/03\_process\_data\_per\_UD\_proj.R}
+ \item Make all tokens lower-case.
 \item Remove tokens which are solely emojis.
 \item Remove emojis and double-quote marks from token and lemma fields.
 \item Remove special tokens indicating illegibility in the Old East Slavic Birchbark dataset.
 \item Remove empty nodes. UD allows the insertion of tokens that are not present in the surface sentence in order to facilitate certain kinds of syntactic analysis. For example, the insertion of ``likes'' between ``Bill'' and ``tea'' in the sentence ``Sue likes coffee and Bill tea''. We drop these tokens from our analysis as we want to analyse the surface form as closely as possible.\footnote{For more details on empty nodes in UD, see \url{https://universaldependencies.org/format.html}}
 \item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple syntactic words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. For UD-datasets, words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. The multiword also appears as a token, but without UPOS, lemma or morphological features. In this project, we want to analyse the surface forms as they appear in writing/speech transcription - therefore we retain the multiword and remove the component syntactic words. We assign the multiword token the morphological features, lemma and UPOS of the component words (e.g. AUX\_PART). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see UD documentation: \url{https://universaldependencies.org/format.html}.}
-\item Replace missing lemmas with the token. There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Arabic-NYUAD, leave the lemma field empty for most tokens where UPOS is ADP or PROPN. Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field. At this stage we also keep track of what proportion of lemmas were missing, because certain metrics are not calculated on datasets with greater than 40\% missing lemmas (see below and section \ref{sec:limitations}).
+\item Replace missing lemmas with the token. There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Portuguese-GSD, leave the lemma field empty for many tokens where UPOS is ADP (15\% have missing lemmas) or PROPN (83\%). Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field. At this stage we also keep track of what proportion of lemmas were missing, because certain metrics are not calculated on datasets with greater than 40\% missing lemmas (see below and section \ref{sec:limitations}).
 \item Define lemmas as a combination of lemma + UPOS, to ensure that lemmas that are spelled the same but belong to different UPOS can be reliably distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English-PUD are both annotated as belonging to the lemma ``mark''. By combinig lemma with UPOS, we can distinguish these as ``mark\_NOUN'' and ``mark\_VERB''.
 \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} in appendix lists the individual features for the sample shown in Table \ref{tab:unassigned_ex}).\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\cyrillicfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
 \item Remove features that are not related to morphology: ``Abbr'' (abbreviation), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language).
@@ -1191,16 +1175,20 @@ The full procedure of our metric is as follows:
 \item Determine the full set of morphological feature categories per aggregation level (UPOS/lemma). \textit{Example:} the token `sebuah' in Table \ref{tab:unassigned_ex} has features Definite and PronType. If in the larger dataset there were another token of the same lemma in the dataset that had a value for the category Number, then the full set of categories for the lemma `sebuah' would be Definite, Number and PronType.
 \item Assign a ``dummy'' feature value (`unassigned') where there is a missing value for a given token given the other available feature categories for tokens of the same aggregation level (UPOS/lemma). %\textit{Example:} for `sebuah' we insert the dummy feature Number=unassigned since.
 \item If tokens of a given aggregation level (UPOS/lemma) all have no morphological features at all, assign them `unassigned=unassigned'.
-\item Concatenate all features and values together per token, in a common order, yielding its canonical feature string or `featstring'.
-\item (\texttt{calculate\_surprisal()}) Count the number of unique feature categories.
+\item Concatenate all features and values together per token, in a common order, yielding its canonical feature string or `featstring'.\\
+
+ \item[] \hspace*{-\leftmargin} Steps 21-28 take place in the function \texttt{calculate\_surprisal()} in \newline\texttt{code/03\_process\_data\_per\_UD\_proj.R}
+\item Count the number of unique feature categories.
 \item Count the number of tokens, types and lemmas, and the number of features per token (excluding those whose value is `unassigned'); calculate the type/token ratio (TTR) and lemma/token ratio (LTR).
 \item Calculate the surprisal of the token. This value does not depend on morphological features: it is based solely on the token's frequency in the dataset.
-\item \textit{Separated features}: Count how many times each feature \textit{value} occurs \textit{for that feature category, in tokens of the same UPOS/lemma} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT}). \textit{Featstring}: Count how many times each \textit{featstring} occurs, in tokens of the same UPOS/lemma.
+\item \textit{Separated features}: Count how many times each feature \textit{value} (e.g. ``Sing'')) occurs \textit{for that feature category (e.g. (``Number''), in tokens of the same aggregation level (UPOS/lemma)} (column `Count' in Table \ref{tab:unassigned_ex_SPLIT}). \textit{Featstring}: Count how many times each \textit{featstring} occurs, in tokens of the same UPOS/lemma.
 \item \textit{Separated features}: Calculate the relative frequency of each feature value (column `Frequency' in Table \ref{tab:unassigned_ex_SPLIT}; this is the feature value's Count divided by the number of times that UPOS/lemma appears in the dataset). \textit{Featstring}: Calculate the relative frequency of each featstring relative to the aggregation level.
 \item \textit{Separated features}: Calculate the surprisal of that feature value for that token: $\log{\frac{1}{\text{frequency}}}$. \textit{Featstring}: Calculate the surprisal of that featstring for that token.
 \item \textit{Separated features}: Calculate the total `morpho-surprisal of a token' by summing the surprisals of all its features (including ``dummy'' features). \textit{Featstring}: The morpho-surprisal of the token is just the surprisal of its featstring, since each token has exactly one featstring.
-\item Mean morpho-surprisal per token is the average of the tokens' morpho-surprisals in the dataset.
-\item (\texttt{combine\_all\_data}) Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages.\footnote{As this step happens later on in the workflow, this set includes the feature category ``unassigned'' but Abbr, Typo and Foreign are excluded. All but one of the 14 datasets that are excluded here only contain ``unassigned'', Abbr, Typo and Foreign as feature categories. The exception is Galician-CTG which contains the feature category ``Polarity'' for 120 tokens.}
+\item Mean morpho-surprisal per token is the average of the tokens' morpho-surprisals in the dataset.\\
+
+\item[] \hspace*{-\leftmargin} Steps 29-31 take place in \texttt{code/combine\_all\_data.R}
+\item Remove datasets where there are 2 or fewer feature categories defined (in total) as these appear not representative of the languages.\footnote{As this step happens later on in the workflow, this set includes the feature category ``unassigned'' but Abbr, Typo and Foreign are excluded. All but one of the 14 datasets that are excluded here only contain ``unassigned'', Abbr, Typo and Foreign as feature categories. The exception is Galician-CTG which contains the feature category ``Polarity'' for 120 tokens.}
 \item If there are 2 or fewer unique types in the dataset, set TTR, LTR, surprisal per token and number of types to missing as these appear not representative of the languages.\footnote{There are four datasets included in our study that do not contain regular tokens and more than 13,000 tokens. They are: Arabic-NYUAD, English-GUMReddit, Japanese-BCCWJ and Japanese-BCCWJLUW. The tokens are annotated for dependencies and features, but the tokens themselves are missing or very irregular (types <=2). The lemma annotation is also irregular.} 
 \item If more than 40\% of tokens in a dataset do not have a defined lemma, set LTR, number of lemmas and all four morpho-surprisal scores that rely on lemma as aggregation level as missing. This applies to several datasets, including two from the PUD-datasets (Korean-PUD and Thai-PUD).
 % \item Calculate the mean surprisal in the dataset by summing the surprisals and dividing by the number of tokens.
@@ -1252,7 +1240,7 @@ ADJ & akhir	&terakhir&	Degree=Sup& NumType\\\bottomrule
 \toprule
 
 %id	&
-UPOS&lemma	&token	&feat name & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
+UPOS&lemma	&token	&feat category & feat value & Count\newline (illustrative) & Frequency\newline (illustrative)	\\ \midrule
 
 DET & buah & sebuah & Definite& Ind & 6 & 0.3\\
 DET & buah & sebuah & Number& unassigned & 1 & 0.05\\
@@ -1274,7 +1262,7 @@ ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
 \FloatBarrier
 \newpage
 \paragraph{Applying our approach to non-UD-datasets}
-\label{appendix:applying_to_non_UD}
+\label{appendix:applying_to_non_UD} %#todo add subclass values
 In this study, we specifically apply our approach to UD-datasets. 
 However, any corpus that can be formatted into a table where every row is a token and there is morphological tagging in a similar style (``Tense=Prs'') can be used as input. 
 In this paper, we have used UPOS and lemma as groupings of tokens, but the approach can work with other groupings as well such as subclasses (declensions, conjugation classes etc).
@@ -1514,7 +1502,7 @@ This is due to the design choices of the contributors of each dataset, and varia
 Unfortunately, cross-dataset divergence in terms levels of annotation or annotation schemes makes them less comparable.
 We address this by calculating our metrics once for all features specified in a given dataset and once for the ``universal'' morphological features only. 
 The UD-documentation guidelines specify a subset of the morphological features as ``universal'' \citep{de_marneffe_universal_2022}. 
-The UD-documentation writes that these are described in a standardized manner, with some flexibility\footnote{For an example of this flexibility, the UD guidelines note that while gender is commonly associated with nouns, there is nothing in the central guidelines that prevent the feature from also appearing on adjectives and verbs.}. 
+The UD-documentation writes that these are described in a standardized manner, with some flexibility.\footnote{For an example of this flexibility, the UD guidelines note that while gender is commonly associated with nouns, there is nothing in the central guidelines that prevent the feature from also appearing on adjectives and verbs.} 
 However, ``[t]his does not mean that they occur in all languages. It means that they have been attested in more than one language and they are considered linguistically important. UD treebanks may use additional features and values if they are properly documented'' \citep{de_marneffe_universal_2022}. 
 This set of morphological features are defined centrally within the UD-project as a whole (by Marie de Marneffe, Chris Manning, Lori Levin, Joakim Nivre, Nathan Schneider, Francis Tyers, Amir Zeldes and Dan Zeman), as opposed to defined locally for each UD dataset. 
 They are:\footnote{For more detailed definitions of morphological features in the UD datasets, see the UD website. We also note that three features originally included in this list -- Abbr (abbreviations), Typo and Foreign -- are excluded from all of our analyses as they do not correspond to aspects of morphological complexity and are therefore not listed here.}
@@ -1548,7 +1536,27 @@ They are:\footnote{For more detailed definitions of morphological features in th
 As core features are more standardized across UD datasets, albeit with some flexibility, we expect these features to be the most comparable across datasets.
 We use the term ``core'' in this paper for this class of morphological features so as to not confuse it with other senses of the term ``universal''.
 
+Even focusing just on core features, tokens may be annotated with slightly different standards across treebanks, even treebanks of the same language.
+For example, English-PUD does not assign a value for the feature Case to words such as `our' and `their', while English-GENTLE assigns the case `Gen' (for genitive). 
+This inconsistency results in different informational values for these words. 
+This is bad: different annotation decisions has led to inconsistent data which means the values we have calculated are not as comparable as we desire.
+
+One consideration here is that inspecting treebanks that are of the same language helps us understand the range of variation involved.
+In fact, inspecting our results reveals that the PUD and GENTLE treebanks are among the most similar of the English-language treebanks.
+A clear outlier is rather English-Atis whose surprisal values are markedly lower than any of the other English datasets.
+This anomaly is not restricted to our measure: {\c{C}}{\"o}ltekin and Rama's mean feature entropy applied to the same datasets reveals a big jump between the Atis data and the other seven English treebanks.
+One explanation for this discrepancy is that Atis is derived from the Airline Travel Informations comprising transcriptions of flight information requests.
+Around 25\% of these tokens are therefore proper nouns -- American cities with airports -- a huge proportion compared to other datasets of different genres.
+Rather than excluding this dataset we have chosen to leave it in the analysis in part to highlight how differences in genre can impact informational measures.
+For more details on genre and comparability see appendix \ref{sec:caveat_genres}.
+
+A broader point worth making is that any workflow downstream of a large database will be hostage to that database's structure and internal consistency. 
+To the extent that the data has been gathered and annotated by the same principles and with the same rigour, analytical results will be more commensurate and comparisons more meaningful. 
+Actually performing analyses like our morpho-surprisal metrics and that of \citet{ccoltekin2023complexity} can help reveal inconsistencies.
+So while the applicability of our results at this stage is admittedly hindered by such inconsistencies, the workflow itself can be redeployed continuously as the data quality improves.
+
 \subsubsection{Variation in Universal Part-Of-Speech annotation (UPOS)}
+\label{appendix_UPOS_variation_subclass}
 The UD datasets use a specific set of Universal Part-Of-Speech categories (UPOS)\footnote{Universal here is as opposed to language-specific Part-of-Speech categories (labeled XPOS in UD).}:
 
 \begin{itemize}
@@ -1617,7 +1625,8 @@ The documentation further specifies that, depending on language-specific analysi
 This standardized definition therefore still leaves a lot of flexibility, as may be desirable and expected in a project of this kind.
 
 Given the structure of the language at hand and the specific decisions of the contributors, this can mean that the Parts-Of-Speech-topology can differ a lot between datasets. 
-For the study at hand, this means that when the imputation of dummy features depends on the annotation of other tokens of the same UPOS, the Abaza VERB tokens above would receive a lot of dummy features (e.g. {\cyrillicfont{цIитI} marked as Gender[io]=unassigned etc)
+For the study at hand, this means that when the imputation of dummy features depends on the annotation of other tokens of the same UPOS, the Abaza VERB tokens above would receive a lot of dummy features (e.g. {\cyrillicfont{цIитI}} marked as Gender[io]=unassigned etc).
+See also section \ref{subsec:dummyAssignment} for a discussion of this issue as it relates to our dummy feature assignment procedure.
 
 This variability in terms of application and definition of UPOS is one of the reasons we why we compute the metrics with the aggregation level set to both UPOS and lemma, which is further ameliorated by the fact that we make lemma be a combination of lemma + UPOS, which can tease apart some of these pattens mentioned above in Abaza.
 This does not completely resolve the issue however, and we note that this is an important caveat of studies of this kind.
@@ -1631,13 +1640,13 @@ This approach is experimental, and it relies on the assumption that the systemic
 As this is a novel and experimental approach, we do not discuss this in the main text.
 We computed the morpho-surprisal scores for each dataset using subclass as an aggregation level, in addition to UPOS and lemma, varying all features / core features and separated feature / featstring --- making for an additional four morpho-surpisal scores.
 Figures \ref{fig:SPLOM_metric_custom_plus_subclass} and \ref{fig:SPLOM_metrics_custom_PUD_plus_subclass} shows the correlations between all 12 morpho-surpiscal scores, including those using subclass as an aggregation level.
-Using subclass as an aggregation level gives very similar results to using 
+Using subclass as an aggregation level gives very similar results to using TODO FINISH
 
 
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom_plus_subclass.png}
-    \caption{}
+    \caption{TODO CAPTION}
 %    \caption{SPLOM of custom metrics (all UD datasets). 
     %Since all eight measures are variations on the theme `mean surprisal per token', the correlations are all strong or very strong. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_metrics_other} and \ref{fig:SPLOM_metrics_external_CR}, \ref{fig:SPLOM_metrics_external_grambank}
 %    }
@@ -1648,7 +1657,7 @@ Using subclass as an aggregation level gives very similar results to using
 \begin{figure}
     \centering
     \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_custom_PUD_plus_subclass.png}
-    \caption{}
+    \caption{TODO CAPTION}
 %    \caption{SPLOM of custom metrics (all UD datasets). 
     %Since all eight measures are variations on the theme `mean surprisal per token', the correlations are all strong or very strong. The third and sixth measures here are used for comparison with other metrics in Figures \ref{fig:SPLOM_metrics_other} and \ref{fig:SPLOM_metrics_external_CR}, \ref{fig:SPLOM_metrics_external_grambank}
 %    }
@@ -1674,7 +1683,7 @@ Figure \ref{fig:genre_doughnut} shows a frequency doughnut-plot of genre tags fo
 \end{figure}
 
 While we present the metrics as they are calculated over each dataset in UD, future studies could delve more into the differences between and within datasets as they relate to the genre of the content.
-Some of the UD datasets are more comparable in genre than others, in particular those that stem from the \hyperlink{http://universaldependencies.org/conll17/}{Conference on Computational Natural Language Learning 2017 shared task on Multilingual Parsing from Raw Text to Universal Dependencies}.
+Some of the UD datasets are more comparable in genre than others, in particular those that stem from the \href{http://universaldependencies.org/conll17/}{Conference on Computational Natural Language Learning 2017 shared task on Multilingual Parsing from Raw Text to Universal Dependencies}.
 These datasets are all based on the same texts from news and Wikipedia, translated into different languages.
 These datasets are referred to as the Parallel Universal Dependencies (PUD) treebanks.
 We separate out analysis for PUD datasets only as they represent highly comparable data in terms of genre.
