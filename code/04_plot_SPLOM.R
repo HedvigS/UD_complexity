@@ -66,8 +66,9 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue),
-    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+    coef = sprintf("%.2f", coef),
+    pvalue = sprintf("%.6f", pvalue),
+    pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom.tsv", na = "")
  
@@ -125,8 +126,9 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue),
-    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+    coef = sprintf("%.2f", coef),
+    pvalue = sprintf("%.6f", pvalue),
+    pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_plus_subclass.tsv", na = "")
 
@@ -185,8 +187,9 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue),
-    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+    coef = sprintf("%.2f", coef),
+    pvalue = sprintf("%.6f", pvalue),
+    pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other.tsv", na = "")
 
@@ -239,8 +242,9 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue),
-    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+    coef = sprintf("%.2f", coef),
+    pvalue = sprintf("%.6f", pvalue),
+    pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
   ) %>%   
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR.tsv", na = "")
 
@@ -327,8 +331,9 @@ p$p_values_df %>%
     x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
     y = stringr::str_replace_all(y, "\n", " "),
     # keep fixed-point, suppress scientific notation
-    pvalue = sprintf("%.17f", pvalue),
-    pvalue_adjusted = sprintf("%.17f", pvalue_adjusted))  %>% 
+    coef = sprintf("%.2f", coef),
+    pvalue = sprintf("%.6f", pvalue),
+    pvalue_adjusted = sprintf("%.6f", pvalue_adjusted))  %>% 
   readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank.tsv", na = "")
 
 ggplot2::ggsave("output/plots/SPLOM_metrics_external_Grambank.png", height = 18, width = 18, units = "cm", plot = p$plot)
@@ -379,8 +384,9 @@ if (nrow(df_for_plot) > 4) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue),
-      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+      coef = sprintf("%.2f", coef),
+      pvalue = sprintf("%.6f", pvalue),
+      pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD.tsv", na = "")
   
@@ -443,8 +449,9 @@ if (nrow(df_for_plot) > 4) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue),
-      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+      coef = sprintf("%.2f", coef),
+      pvalue = sprintf("%.6f", pvalue),
+      pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_custom_PUD_plus_subclass.tsv", na = "")
   
@@ -509,8 +516,9 @@ if (nrow(df_for_plot) > 4) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue),
-      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+      coef = sprintf("%.2f", coef),
+      pvalue = sprintf("%.6f", pvalue),
+      pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_other_PUD.tsv", na = "")
   
@@ -573,8 +581,9 @@ if (nrow(df_for_plot) > 4) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue),
-      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+      coef = sprintf("%.2f", coef),
+      pvalue = sprintf("%.6f", pvalue),
+      pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_CR_PUD.tsv", na = "")
   
@@ -650,8 +659,9 @@ if (nrow(df_for_plot) > 4) {
       x = stringr::str_replace_all(x, "\n", " "), #removing line breaks in tsv
       y = stringr::str_replace_all(y, "\n", " "),
       # keep fixed-point, suppress scientific notation
-      pvalue = sprintf("%.17f", pvalue),
-      pvalue_adjusted = sprintf("%.17f", pvalue_adjusted)
+      coef = sprintf("%.2f", coef),
+      pvalue = sprintf("%.6f", pvalue),
+      pvalue_adjusted = sprintf("%.6f", pvalue_adjusted)
     ) %>%   
     readr::write_tsv("output/results/correlation_dfs/correlation_df_metrics_external_Grambank_PUD.tsv", na = "")
   
