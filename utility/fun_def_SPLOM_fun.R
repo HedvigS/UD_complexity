@@ -166,11 +166,11 @@ stop("Mismatches between adjust_pvalues_for_pairs and pair_keys.")
     if(p < 0.05){
       color_scale <- scales::col_bin(
         palette = c("grey40", "darkred"),
-        bins = c(0,0.6,1),
+        bins = c(0,0.7,1),
         domain = c(0,1)
       )
       text_color <- color_scale(abs(r))
-      fontface <- if(r > 0.6 | r < -0.6) "bold" else "plain"
+      fontface <- if(r > 0.7 | r < -0.7) "bold" else "plain"
     } else {
       text_color <- "grey60"
       fontface <- "plain"
