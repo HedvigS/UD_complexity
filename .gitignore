@@ -13,8 +13,14 @@ data/ud-treebanks-v2.13*
 code/UD_complexity.Rproj
 code/output/sum_dfs/*_sum_df.tsv
 /code/output/processed_data
-/code/output
 /code/output_test
+/code/output/results/ud-treebanks-v2.14_results/agg_level_lemma_all_features
+/code/output/results/ud-treebanks-v2.14_results/agg_level_lemma_core_features_only
+/code/output/results/ud-treebanks-v2.14_results/agg_level_subclass_all_features
+/code/output/results/ud-treebanks-v2.14_results/agg_level_subclass_core_features_only
+/code/output/results/ud-treebanks-v2.14_results/agg_level_upos_all_features
+/code/output/results/ud-treebanks-v2.14_results/agg_level_upos_core_features_only
+/code/output/results/correlation_dfs
 /data/ud-treebanks-v2.14
 /data/ud-documentation-v2.14
 /data/UD_zip_files
