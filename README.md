@@ -1,6 +1,6 @@
 # Using annotated cross-linguistic corpora to explore morphological information
 
-R project for exploring informational load of morphology using the Universal Dependencies data-sets of corpora from multiple languages.
+Code project for exploring informational load of morphology using the Universal Dependencies data-sets of corpora from multiple languages. This project is tied to the paper `An improved metric for estimating morphological information in corpora`, written by Hedvig Skirgård and Stephen Francis Mann. The paper is to be published in Linguistics Vanguard.
 
 ## Project overview
 
