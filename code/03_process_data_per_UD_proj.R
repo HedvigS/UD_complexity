@@ -250,7 +250,7 @@ process_UD_data <- function(input_dir = NULL,
     #adding subclass, which is a grouping under upos defined by a specific set of feats. For example, adjectives that mark gender are a different subclass from adjectives that aren't marked for gender.
       conllu_split<- conllu_split %>% 
         dplyr::group_by(id) %>% 
-        dplyr::mutate(subclass = paste0(unique(upos), " (", paste0(sort(unique(feat_cat)), collapse = "|", ")"))) %>% 
+        dplyr::mutate(subclass = paste0(unique(upos), " (", paste0(sort(unique(feat_cat)), collapse = "|"), ")")) %>% 
         dplyr::ungroup()
 
     #wranling the data so that all tokens of the same agg_level (upos or lemma) has the same features
