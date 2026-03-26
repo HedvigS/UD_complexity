@@ -1,7 +1,7 @@
 \documentclass[USenglish]{article}
 %DIF LATEXDIFF DIFFERENCE FILE
-%DIF DEL main_old.tex   Thu Mar 26 14:05:35 2026
-%DIF ADD main_new.tex   Thu Mar 26 14:05:26 2026
+%DIF DEL main_old.tex   Thu Mar 26 14:26:34 2026
+%DIF ADD main_new.tex   Thu Mar 26 14:26:27 2026
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % SFM: fix to avoid amsmath warnings about redefining "hat", "check" etc
@@ -211,23 +211,45 @@ We also discuss various drawbacks with corpus-based typology, such as comparabil
 %DIF > Our approach complements other measurements of morphological complexity are based on the grammatical potential rather than usage.
 
   \DIFaddend \keywords{morphology, Universal Dependencies, corpora, information theory, surprisal}
-%  \classification[PACS]{...}
-%  \communicated{...}
-%  \dedication{...}
-%  \received{...}
-%  \accepted{...}
-%  \journalname{...}
-%  \journalyear{...}
-%  \journalvolume{..}
-%  \journalissue{..}
-%  \startpage{1}
-%  \aop
-%  \DOI{...}
+%DIF <   \classification[PACS]{...}
+%DIF <   \communicated{...}
+%DIF <   \dedication{...}
+%DIF <   \received{...}
+%DIF <   \accepted{...}
+%DIF <   \journalname{...}
+%DIF <   \journalyear{...}
+%DIF <   \journalvolume{..}
+%DIF <   \journalissue{..}
+%DIF <   \startpage{1}
+%DIF <   \aop
+%DIF <   \DOI{...}
 
 \maketitle
 
-%TC:endignore
 
+\DIFaddbegin \newpage 
+
+\textbf{\DIFadd{Second language abstract, in Swedish:}}\\
+
+\DIFadd{Framväxten av stora annoterade flerspråkiga korpussamlingar öppnar upp nya möjligheter för språktyologiska studier, t.ex. inom forskning på språkkomplexitet.
+Morfologisk information är en av flera aspekter av språkkomplexitet. 
+I den här artikeln använder vi oss av morfologiska annoteringar från Universal Dependencies (UD)-korpusarna för att kvantifiera information i morfologi baserat på språkanvändning. 
+Studien täcker 154 korpusar spänner över 72 språkvarianter.
+Vi föreslår en informationsteoretisk metod som mäter hur överraskande morfologiska annoteringar är givet tokenens ordklass eller lemma.
+Vi aggregerar dessa mätvärden på tokennivå till medelvärden för korpusar, vilket ger en användningsviktad uppskattning av morfologisk informationsbelastning överlag.
+Vi finner betydande tvärspråklig variation i morfologisk information och observerar måttliga till starka korrelationer med en relaterad informationsteoretisk mätteknik som föreslagits av Çöltekin och Rama.
+Däremot finner vi liten överensstämmelse med frågeformulärsbaserade typologiska mätvärden härledda från Grambank, vilket representerar ett alternativt tillvägagångssätt för tvärspråklig jämförelse baserad på grammatiska system snarare än användning.
+Detta illustrerar skillnaden mellan att studera den möjliga omfattningen av det grammatiska systemet kontra hur språket används.
+Vi diskuterar också olika nackdelar med korpusbaserad typologi, såsom jämförbarhet av datamängder och dålig global täckning.
+}
+
+\textbf{\DIFadd{Nyckelord:}} \DIFadd{morfologi, Universal Depdencies, korpus, informationsteori, överraskning
+}
+
+\DIFaddend %TC:endignore
+
+
+    
 \newpage
 \section{Introduction}
 %DIF <  Do some languages necessarily encode more information than others?
