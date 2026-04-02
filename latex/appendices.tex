@@ -61,9 +61,15 @@
 \date{}
 \maketitle
 
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
 
 \tableofcontents
-  
+
+  \renewcommand{\thesection}{\Alph{section}} % appendix sections start with letters.
+  \renewcommand{\thetable}{\Alph{table}} % Table labels are letters in the appendix.
+  \renewcommand{\thefigure}{\Alph{figure}} % Figure labels are letters in the appendix.
+  \newpage
 \section{Detailed procedures}
 \subsection{Ç\&R's MFH}\label{sec:appendix_ccoltekin}
 
@@ -81,8 +87,8 @@ Their method of calculating this value is as follows:\footnote{This procedure de
 \item Ignore tokens with no value in the `token' field % line 145 of mlc_morph.py 
 \item Ignore ``empty'' node tokens, tokens that did not appear in the raw input but were syntactically inferred
 \item Ignore tokens with no morphological features (i.e. with no value in the `feats' field) % lines 281 and 336 of mlc_morph.py
-\item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table 
-\ref{tab:turkish_example}). % CROSSREFTODO
+\item Split the remaining tokens' morphological features into a list (e.g. Table \ref{tab:mfh} lists the individual features in the sample shown in Table 2 in the main text.
+%\ref{tab:turkish_example}). % CROSSREFDONE
 Note that the features are not split further for feature categories and values.
 \item Count how many times each feature occurs in the sample (column `Count' in Table \ref{tab:mfh})
 \item Calculate the relative frequency of each feature (column `Frequency (p)' in Table \ref{tab:mfh}; this is the feature's Count value divided by the sum of the Count column for the entire sample)
@@ -90,16 +96,16 @@ Note that the features are not split further for feature categories and values.
 \item Run steps 1-10 100 times and take the mean entropy. 
 \end{enumerate}
 
-\noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table 
-\ref{tab:turkish_example}. % CROSSREFTODO
+\noindent Table \ref{tab:mfh} shows the components of the entropy measure for the sample of tokens listed in Table 2 in the main text.
+%\ref{tab:turkish_example}. % CROSSREFDONE
 The total entropy for this sample is approximately 3.15 bits.
 %In their study \citet{ccoltekin2023complexity} sample (with replacement) 20,000 tokens 100 times, generating an entropy measure each time and then taking the average.
 This average is then an estimate of the `overall' entropy measure for the dataset.
 
 \begin{table}[ht]
     \centering
-    \caption{Components of Ç\&R's MFH for the sample of tokens in Table 
-    \ref{tab:turkish_example}. % CROSSREFTODO
+    \caption{Components of Ç\&R's MFH for the sample of tokens in Table 2 in the main text.
+%    \ref{tab:turkish_example}. % CROSSREFDONE
     The total feature count is 17, and each feature's Frequency is its Count divided by this total (rounded to three significant figures). The entropy of this sample is 3.15 bits (also to three significant figures).} %note table captions go above the table
     \label{tab:mfh}   
     \begin{tabular}{p{5cm}p{3cm}p{3cm}}
@@ -121,7 +127,7 @@ This average is then an estimate of the `overall' entropy measure for the datase
     \end{tabular}
 \end{table}
 
-\paragraph{Implementation in this project}
+\subsubsection{Implementation in this project}
 We re-ran the code for Ç\&R's MFH on the same datasets as our analysis. 
 To make the outcomes more comparable, we introduced a small set of modifications of their procedure. 
 We did not do the bootstrapping sampling (sample sentences with replacement until you reach a given token target) - instead we ran the analysis on the exact same datasets as ours - i.e all tokens in all datasets in the UD-datasets with more than 13,000 tokens (excluding tokens with UPOS PUNCT or X). 
@@ -155,8 +161,8 @@ The full procedure of our metric is as follows:\\
 \item Remove special tokens indicating illegibility in the Old East Slavic Birchbark dataset.
 \item Remove empty nodes. UD allows the insertion of tokens that are not present in the surface sentence in order to facilitate certain kinds of syntactic analysis. For example, the insertion of ``likes'' between ``Bill'' and ``tea'' in the sentence ``Sue likes coffee and Bill tea''. We drop these tokens from our analysis as we want to analyse the surface form as closely as possible.\footnote{For more details on empty nodes in UD, see \url{https://universaldependencies.org/format.html}}
 \item Resolve multi-word tokens. Some datasets will split tokens which are taken as representing multiple syntactic words into separate tokens. For example contractions such as: ``don't'' in English could be split into ``do'' and ``n't''. For UD-datasets, words that belong to a multi-word token (e.g. ``do'' and ``n't'') can be included as separate tokens and marked for syntactic dependencies, part-of-speech (UPOS), lemma and morphological features. The multiword also appears as a token, but without UPOS, lemma or morphological features. In this project, we want to analyse the surface forms as they appear in writing/speech transcription - therefore we retain the multiword and remove the component syntactic words. We assign the multiword token the morphological features, lemma and UPOS of the component words (e.g. AUX\_PART). This may also be beneficial for comparability as multi-words may represent highly grammaticalised items that may be treated differently across datasets (sometimes split, sometimes not). By not analysing them further, we may be avoiding issues of uneven level of granularity of analysis.\footnote{For more details on multi-word tokens in UD, see UD documentation: \url{https://universaldependencies.org/format.html}.}
-\item Replace missing lemmas with the token. There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Portuguese-GSD, leave the lemma field empty for many tokens where UPOS is ADP (15\% have missing lemmas) or PROPN (83\%). Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field. At this stage we also keep track of what proportion of lemmas were missing, because certain metrics are not calculated on datasets with greater than 40\% missing lemmas (see below and section 
-\ref{sec:limitations}). % CROSSREFTODO
+\item Replace missing lemmas with the token. There is variation in how datasets of UD treat certain tokens in terms of defining or not defining a lemma. For example, many proper nouns (PROPN) or adpositions (ADP) will lack a lemma annotation. Some datasets, like Portuguese-GSD, leave the lemma field empty for many tokens where UPOS is ADP (15\% have missing lemmas) or PROPN (83\%). Conversely, in Greek-GUD all items of the same UPOS values have a defined lemma (majority of the time identical to the token). To normalise for our comparison, we replace missing lemmas with the content in the token field. At this stage we also keep track of what proportion of lemmas were missing, because certain metrics are not calculated on datasets with greater than 40\% missing lemmas (see below and section 5: Limitations in the main text).
+%\ref{sec:limitations}). % CROSSREFDONE
 \item Define lemmas as a combination of lemma + UPOS, to ensure that lemmas that are spelled the same but belong to different UPOS can be reliably distinguished. \textit{Example:} the noun ``mark'' and the verb ``mark'' in English-PUD are both annotated as belonging to the lemma ``mark''. By combinig lemma with UPOS, we can distinguish these as ``mark\_NOUN'' and ``mark\_VERB''.
 \item Split the tokens' morphological features into a list (e.g. Table \ref{tab:unassigned_ex_SPLIT} in appendix lists the individual features for the sample shown in Table \ref{tab:unassigned_ex}).\footnote{Some tokens have been given more than one feature value for the same feature category. This is allowable within the UD-framework, though the coordinators note that such multi-values should be used sparingly. For example, the adjective ``{\dolousfont ἀ}{\cyrillicfont όρατος}'' in the Ancient Greek PTNK-dataset is assigned ``Gender=Fem,Masc''. We are treating instances like these as a case of the feature value being ``Fem,Masc'' and not a case of both ``Gender=Fem'' and ``Gender=Masc''.}
 \item Remove features that are not related to morphology: ``Abbr'' (abbreviation), ``Typo'' (whether or not a token has a typo) and ``Foreign'' (whether or not a token is deemed as in a foreign language).
@@ -250,7 +256,7 @@ ADJ & akhir	&terakhir&	NumType & unassigned & 4 & 0.333\\
 
 \FloatBarrier
 \newpage
-\paragraph{Applying our approach to non-UD-datasets}
+\subsubsection{Applying our approach to non-UD-datasets}
 \label{appendix:applying_to_non_UD} 
 In this study, we specifically apply our approach to UD-datasets. 
 However, any corpus that can be formatted into a table where every row is a token and there is morphological tagging in a similar style (``Tense=Prs'') can be used as input. 
@@ -632,8 +638,8 @@ Given the structure of a given language and the specific decisions of the contri
 
 When the aggregation level is set to UPOS in our analysis workflow, we want to normalise within the groups and take into account the informational value of lack of marking by making all tokens have the same feature categories. In the case of Czech-CAC case that means inserting ``Animacy=unassigned'' for the first and third ADJ tokens in the above Czech example.
 %For the study at hand, this means that when the imputation of dummy features depends on the annotation of other tokens of the same UPOS, the Abaza VERB tokens above would receive a lot of dummy features (e.g. {\cyrillicfont{цIитI}} marked as Gender[io]=unassigned etc).
-See also section 
-\ref{subsec:dummyAssignment} % CROSSREFTODO
+See also section 5.1 in the main text
+%\ref{subsec:dummyAssignment} % CROSSREFDONE
 for a discussion of this issue as it relates to our dummy feature assignment procedure.
 
 This variability in terms of application and definition of UPOS is one of the reasons we why we compute the metrics with the aggregation level set to UPOS and lemma.
@@ -772,8 +778,8 @@ It would be possible to define a more nuanced measure that takes these condition
 \section{Data and code availability}\label{appendix_data_code}
 All code in this project is public:
 \begin{itemize}
-    \item GitHub: \href{https://github.com/HedvigS/UD_complexity}{https://github.com/HedvigS/UD\_complexity}
-    \item Zenodo: \href{https://zenodo.org/records/19223126}{https://zenodo.org/records/19223126}
+    \item GitHub: \href{https://github.com/HedvigS/UD_complexity}{https://github.com/HedvigS/UD\_complexity} (v.1.0.1)
+    \item Zenodo: \href{https://doi.org/10.5281/zenodo.19223125}{https://doi.org/10.5281/zenodo.19223125} (v.1.0.1)
 \end{itemize}
 
 All data in this study is available freely, see the README in the code project for details versions and access. 
@@ -864,11 +870,11 @@ In such cases, we use asymptotic $t$ approximation as implemented in the base R-
 \newpage
 
 \section{Adjusted p-values for multiple comparisons}\label{subsec:adjustedPValues}
-To address potential multiple-comparisons concerns, we adjust p-values using the Holm–Bonferroni method \citep{holm_simple_1979} for correlation tests involving external complexity measures, specifically in Figures 
-\ref{fig:SPLOM_metrics_external_CR} % CROSSREFTODO
-(comparisons with Ç\&R’s MFH) and 
-\ref{fig:SPLOM_metrics_external_grambank} % CROSSREFTODO
-(comparisons with Grambank Fusion and Informativity).
+To address potential multiple-comparisons concerns, we adjust p-values using the Holm–Bonferroni method \citep{holm_simple_1979} for correlation tests involving external complexity measures, specifically in Figures 4
+%\ref{fig:SPLOM_metrics_external_CR} % CROSSREFDONE
+(comparisons with Ç\&R’s MFH) and 5
+%\ref{fig:SPLOM_metrics_external_grambank} % CROSSREFDONE
+(comparisons with Grambank Fusion and Informativity) in the main text.
 Many other correlation tests in this study are descriptive in nature and/or concern variables that are closely related by construction, for example different variants of the same morpho-surprisal metric (UPOS/lemma, core/ all features, feat/featstring). 
 In such cases, the correlations serve to assess internal coherence and contextualise the measures rather than to test independent hypotheses, and concerns about multiple comparisons are therefore less relevant.
 For this reason, we do not adjust p-values for correlations between different variants of morpho-surprisal, nor for descriptive correlations reported in Figures \ref{fig:SPLOM_metrics_other} and \ref{fig:SPLOM_metrics_other_PUD}. 
@@ -876,8 +882,8 @@ In contrast, p-value adjustment is applied to correlations involving external or
 
 \begin{table}[ht]
     \centering
-    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 
-    \ref{fig:SPLOM_metrics_external_CR_all} % CROSSREFTODO
+    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 4a
+%    \ref{fig:SPLOM_metrics_external_CR_all} % CROSSREFDONE
     (comparisons with Ç\&R’s MFH, all datasets). } %note table captions go above the table
     \label{tab:p_values_adjusted_cr_all}   
     \begin{tabular}{p{3.1cm}p{3.1cm}p{2.4cm}p{2.4cm}}
@@ -901,8 +907,8 @@ TTR	&	Ç\&R's MFH (slightly modified version)	&	0.008873 &	0.026618
 
 \begin{table}[ht]
     \centering
-    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 
-    \ref{fig:SPLOM_metrics_external_CR_PUD} % CROSSREFTODO
+    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 4b
+%    \ref{fig:SPLOM_metrics_external_CR_PUD} % CROSSREFDONE
     (comparisons with Ç\&R’s MFH, only PUD datasets). } %note table captions go above the table
     \label{tab:p_values_adjusted_cr_PUD}   
    \begin{tabular}{p{3.1cm}p{3.1cm}p{2.4cm}p{2.4cm}}
@@ -929,8 +935,8 @@ TTR	&	Ç\&R's MFH (slightly modified version)	&	0.031283	& 0.108488
 
 \begin{table}[ht]
     \centering
-    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 
-    \ref{fig:SPLOM_metrics_external_grambank_all} % CROSSREFTODO
+    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 5a
+%    \ref{fig:SPLOM_metrics_external_grambank_all} % CROSSREFDONE
     (comparisons with Grambank metrics, all datasets). } %note table captions go above the table
     \label{tab:p_values_adjusted_grambank_all}   
    \begin{tabular}{p{3.1cm}p{3.1cm}p{2.4cm}p{2.4cm}}
@@ -957,8 +963,8 @@ TTR	&	Informativity (Grambank)	&	0.328048&	1	\\ \midrule
 
 \begin{table}[ht]
     \centering
-    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 
-    \ref{fig:SPLOM_metrics_external_grambank_PUD} % CROSSREFTODO
+    \caption{Adjusted p-values using the Holm-Bonferroni method \citep{holm_simple_1979} for Figure 5b
+%    \ref{fig:SPLOM_metrics_external_grambank_PUD} % CROSSREFDONE
     (comparisons with Grambank metrics, only PUD datasets). } %note table captions go above the table
     \label{tab:p_values_adjusted_grambank_pud}   
    \begin{tabular}{p{3.1cm}p{3.1cm}p{2.4cm}p{2.4cm}}
@@ -1076,8 +1082,8 @@ This suggests that genre has an impact on the variability of types in a dataset,
 \begin{figure}
     \centering
         \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_other.png}  
-    \caption{SPLOM additional metrics  (all UD-datasets). The first two measures are representatives of our custom measures shown in Figure 
-    \ref{fig:SPLOM_metric_custom}, % CROSSREFTODO
+    \caption{SPLOM additional metrics  (all UD-datasets). The first two measures are representatives of our custom measures shown in Figure 1,
+%    \ref{fig:SPLOM_metric_custom}, % CROSSREFDONE
     while the remaining measures are standard quantities calculated from the UD-datasets.}
     \label{fig:SPLOM_metrics_other}
 \end{figure}
@@ -1085,8 +1091,8 @@ This suggests that genre has an impact on the variability of types in a dataset,
 \begin{figure}
     \centering
         \includegraphics[width=1\linewidth]{latex/graphics/SPLOM_metrics_other_PUD.png}  
-    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure 
-    \ref{fig:SPLOM_metric_custom_PUD}, % CROSSREFTODO
+    \caption{SPLOM additional metrics (PUD datasets only). The first two measures are representatives of our custom measures shown in Figure 2,
+%    \ref{fig:SPLOM_metric_custom_PUD}, % CROSSREFDONE
     while the remaining measures are standard quantities calculated from the PUD datasets. Number of sentences is not displayed as it is fixed for all PUD datasets (1,000 sentences).}
     \label{fig:SPLOM_metrics_other_PUD}
 \end{figure}

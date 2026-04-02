@@ -92,7 +92,7 @@ We also discuss various drawbacks with corpus-based typology, such as comparabil
   %Our approach yields a way of estimating the information in morphology in language usage, taking into account distributional asymmetries in feature usage and making fewer assumptions about the uniform relevance of grammatical distinctions. 
 %Our approach complements other measurements of morphological complexity are based on the grammatical potential rather than usage.
 
-  \keywords{morphology, Universal Dependencies, corpora, information theory, surprisal}
+  \keywords{morphology, dependency treebank, corpora, information theory, surprisal}
 
 \maketitle
 
@@ -112,7 +112,7 @@ Däremot finner vi liten överensstämmelse med frågeformulärsbaserade typolog
 Detta illustrerar skillnaden mellan att studera den möjliga omfattningen av det grammatiska systemet kontra hur språket används.
 Vi diskuterar också olika nackdelar med korpusbaserad typologi, såsom jämförbarhet av datamängder och dålig global täckning.
 
-\textbf{Nyckelord:} morfologi, Universal Depdencies, korpus, informationsteori, överraskning
+\textbf{Nyckelord:} morfologi, dependency treebank, korpus, informationsteori, överraskning
 
 %TC:endignore
 
@@ -208,21 +208,19 @@ Such distributional asymmetries suggest that usage-based measures, such as the o
 \section{Study outline}\label{sec:studyOutline}
 We quantify one aspect of language complexity by studying how much information is typically encoded in morphology in language use.
 An increase in morphological information can be understood as an increase in the informational commitments made in the grammatical form. 
-Our metric, described in section \ref{ours_overview} and defined in great detail in appendix 
-\ref{sec:appendix_ours}, % CROSSREFTODO
+Our metric, described in section \ref{ours_overview} and defined in more detail in appendix A.2, % CROSSREFDONE \ref{sec:appendix_ours}
 captures the amount of information carried by morphological features across 72 language varieties spanning 157 datasets from the Universal Dependencies corpora collection v2.14 (UD) \citep{UD_2.14}.
 
 \subsection{Data}
-We use Universal Dependencies (UD) v2.14 \citep{UD_2.14}.
-We cite specific datasets in appendix 
-\ref{appendix_data_code}. % CROSSREFTODO
-We process the UD-datasets before calculating morpho-surprisal (removing empty-nodes, resolving multiwords, inserting dummy-values for missing features etc), see appendix 
-\ref{sec:appendix_ours} % CROSSREFTODO
+We use Universal Dependencies (UD) v2.14 \citep{UD_2.14}, see further citations in appendix D.
+%\ref{appendix_data_code}. % CROSSREFDONE
+We process the UD-datasets before calculating morpho-surprisal (removing empty-nodes, resolving multiwords, inserting dummy-values for missing features etc), see appendix A.2
+%\ref{sec:appendix_ours} % CROSSREFDONE
 for details. 
 We use Glottolog v5.0 \citep{hammarstrom_glottologglottolog_2024} for information about languages such as their location.
 For comparison with Grambank metrics, we use Grambank v1.0 \citep{skirgard_grambank_2023-1, skirgard_grambank_2023}.
-All code and data are freely available, see appendix 
-\ref{appendix_data_code}. % CROSSREFTODO
+All code and data are freely available, see appendix D.
+%\ref{appendix_data_code}. % CROSSREFDONE
  
 \subsection{Similar studies}
 This study follows similar theoretical principles to studies involving the Grambank-based metrics Fusion (out of all Grambank features that target bound morphology, what proportion are answered positively?) and Informativity (out of all Grambank features which target if a grammatical distinction is made, how many are answered yes?\footnote{The term ``informativity'' is found in the literature with at least two senses: how many grammatical distinctions a grammar makes possible \citep{shcherbakova2023societies, skirgard_grambank_2023-1} and the average contextual unpredictability \citep{cohen-priva_phone_2008}. These two senses are distinct. When we refer to the Grambank informativity metric, we refer to the first one.}$^{,}$\footnote{For more details on these metrics, please see \citet{skirgard_grambank_2023-1} and \citet{skirgard_aggregate_2025}.}) \citep{shcherbakova2023societies}.
@@ -231,8 +229,8 @@ As discussed earlier, corpora-based studies have the advantage of capturing grea
 We note that one of the current drawbacks with corpora based typology is a considerably smaller sample size. 
 For example, Grambank contains more than 2,000 languages and UD fewer than 200. 
 Sample bias is also a concern, with smaller and non-Eurasian languages being under-represented in corpora collections like UD (see Figure \ref{fig:maps_custom_two}).
-For comparison with our metric, we compute the two Grambank metrics according to established procedures using Grambank v1.0 (see appendix 
-\ref{sec:appendix_rgrambank}). % CROSSREFTODO
+For comparison with our metric, we compute the two Grambank metrics according to established procedures using Grambank v1.0 (see appendix A.3).
+%\ref{sec:appendix_rgrambank}). % CROSSREFDONE
 
 A similar approach to ours was pursued by \citet{ccoltekin2023complexity}.
 They calculated several complexity metrics on UD-datasets, including one designed to capture morphological information.
@@ -245,13 +243,11 @@ Since predictability is intuitively connected to complexity, the even-spreadedne
 Ç\&R's MFH has also been used in further studies, such as \citet{bentz_complexity_2023}.
 The similarity between our approach and Ç\&R's MFH was accidental, we only discovered their paper after formulating our study.\footnote{We are grateful to Çöltekin \& Rama for corresponding with us so that we could confirm our understanding of their procedure. Any remaining misunderstandings are our own.}
 % This goes to show that sometimes the same idea can occur to different people independently, perhaps indicating particular scientific unavoidability.
-Given the similarity of Ç\&R's MFH with the current study, we describe this metric in more detail in appendix 
-\ref{sec:appendix_ccoltekin} % CROSSREFTODO
-and we directly compare results of both metrics.
-We see our study as an improvement of Ç\&R's MFH as we believe that our handling of missing features, aggregation levels and other aspects are preferable, but we acknowledge that they are similar in spirit and results. 
-See appendix 
-\ref{sec:appendixComparison} % CROSSREFTODO
-for details.
+Given the similarity of Ç\&R's MFH with the current study, we describe this metric in more detail in appendix A.1.
+%\ref{sec:appendix_ccoltekin} % CROSSREFDONE
+and we directly compare results of both metrics (more details in appendix B). %\ref{sec:appendixComparison} % CROSSREFDONE
+We see our study as an improvement of Ç\&R's MFH as we believe that our handling of missing features, aggregation levels and other aspects are preferable. 
+We acknowledge that they are similar in spirit and results and we appreciate {\c{C}}a{\u{g}}r{\i} {\c{C}}{\"o}ltekin and Taraka making their code available and responding to questions. 
 
 Lastly, a similar measure was previously defined by \citet{sproat_database_2014}.
 Their focus is efficiency, which they relate to differences in informational content across strings when normalised by length.
@@ -297,24 +293,24 @@ From an information-theoretic perspective, Tense is more informative than Number
 For a given token, if the value of Tense is Past, that is less surprising than if it was Future ($\log{\frac{1}{0.5}}=\mathbf{1}\text{ bit}$ vs $\log{\frac{1}{0.05}}=\mathbf{4.322}\text{ bits}$).
 
 We measure token-level surprisal of morphological feature values and average across datasets to obtain a point estimate of morphological information (henceforth morpho-surprisal).
-The exact procedure for calculating our metrics can be found in appendix 
-\ref{sec:appendix_ours}. % CROSSREFTODO
+The exact procedure for calculating our metrics can be found in appendix A.2.
+%\ref{sec:appendix_ours}. % CROSSREFDONE
 
 We calculate feature and value frequencies conditional on either UPOS or lemma (henceforth aggregation level).
 This serves several methodological purposes.
 First, features need not have comparable functions across parts of speech (e.g. Number on nouns vs. verbs).
 Second, feature distributions often pattern into groups such as UPOS.
 Besides UPOS, there can be other classes of words which pattern regularly (e.g. animates versus inanimates).
-Because other linguistically relevant classes (e.g. animacy, verb type) are not consistently annotated across languages\footnote{In appendix 
-\ref{appendix_UPOS_variation_subclass} % CROSSREFTODO
+Because other linguistically relevant classes (e.g. animacy, verb type) are not consistently annotated across languages\footnote{In appendix C.1.2.1
+%\ref{appendix_UPOS_variation_subclass} % CROSSREFDONE
 we explore ``subclasses'' within UPOS. This approach is experimental and is included in the appendix as sensitivity analysis.}, lemma serves as a complementary more fine-grained aggregation level.
 Third, aggregating by UPOS or lemma better reflects language use, since users are not facing situations where any feature category can appear for any word.
 
 We acknowledge that ``lemma'' is as an elusive category psycholinguistically  \citep{meyer_elusive_2026}, but in this study we believe it contributes a meaningful way of structuring the lexicon at a finer level compared to UPOS and is preferable to treating all tokens as one group.
-In principle any way of grouping tokens can be implemented in our approach (e.g. appendix 
-\ref{appendix_UPOS_variation_subclass}), % CROSSREFTODO
-our metric can be calculated on any dataset with certain formatting (appendix 
-\ref{appendix:applying_to_non_UD}). % CROSSREFTODO
+In principle any way of grouping tokens can be implemented in our approach (e.g. appendix C.1.2.1,
+%\ref{appendix_UPOS_variation_subclass}), % CROSSREFDONE
+our metric can be calculated on any dataset with certain formatting (appendix A.2.1).
+%\ref{appendix:applying_to_non_UD}). % CROSSREFDONE
 
 All tokens of a given UPOS or lemma are assigned the same set of feature categories.
 Missing feature values are filled with a dummy value (`unassigned'), reflecting the fact that absence of annotation itself may carry information.
@@ -323,11 +319,11 @@ If all tokens of an UPOS or lemma lacks features, a single dummy feature is assi
 
 We define eight variants of morpho-surprisal based on three binary parameters. 
 The first is aggregation level (UPOS or lemma).
-The second concerns whether we only use all features in a dataset, or only those centrally defined (`core' features as defined by the UD project (see appendix 
-\ref{sec_appendix:core_features}). % CROSSREFTODO
+The second concerns whether we only use all features in a dataset, or only those centrally defined (`core' features as defined by the UD project (see appendix C.1.1).
+%\ref{sec_appendix:core_features}). % CROSSREFDONE
 The third concerns whether we treat the features separately (e.g. Case=Ins, Degree=Pos) or as a concatenated string (e.g. ``Case=Ins|Degree=Pos''). 
-This parameter is included to partially address conditional frequency (see appendix 
-\ref{caveat_conditional_order}). % CROSSREFTODO
+This parameter is included to partially address conditional frequency (see appendix C.2).
+%\ref{caveat_conditional_order}). % CROSSREFDONE
 All variants of morpho-surprisal are listed in table \ref{tab:our_metrics_list}.
 
 
@@ -397,13 +393,13 @@ The additional metrics are:
 Finally, we compare with metrics from other studies: 
 
 \begin{itemize}
-    \item Ç\&R's MFH - with small modifications (see appendices 
-    \ref{sec:appendix_ccoltekin} % CROSSREFTODO
-    and 
-    \ref{sec:appendixComparison}) % CROSSREFTODO
-\item Grambank metrics (see appendix 
-\ref{sec:appendix_rgrambank}): % CROSSREFTODO
-    \begin{itemize}
+    \item Ç\&R's MFH - with small modifications (see appendices A.1, A.1.1 
+%    \ref{sec:appendix_ccoltekin} % CROSSREFDONE
+    and B)
+%    \ref{sec:appendixComparison}) % CROSSREFDONE
+\item Grambank metrics (see appendix A.3
+%\ref{sec:appendix_rgrambank}  % CROSSREFDONE
+):   \begin{itemize}
     \item Fusion (degree of morphological boundness as measured by Grambank features)
     \item Informativity (amount of grammatical distinctions as measured by Grambank features)
     \end{itemize}
@@ -414,8 +410,9 @@ Finally, we compare with metrics from other studies:
 \subsection{Comparison: Ç\&R's MFH and ours}
 \label{sec:CR_comparison}
 
-There are several differences between Ç\&R's MFH and ours. We list a few key differences here, for more see appendix 
-\ref{sec:appendixComparison}. % CROSSREFTODO
+There are several differences between Ç\&R's MFH and ours. We list a few key differences here, for more see appendix B
+%\ref{sec:appendixComparison}  % CROSSREFDONE
+.
 Firstly, Çöltekin \& Rama remove tokens with missing features (for example `ölçekli', `kullanılan', `karmaşık' and `ve' in Table \ref{tab:turkish_example}), we keep them. 
 For datasets of languages with little morphology, this makes a large difference in number of tokens analyzed and therefore the averages.
 
@@ -427,15 +424,15 @@ Once we have a measure of morpho-surprisal for each token, we can average this a
 We report the results in ScatterPlOt Matrices (SPLOMs) and maps.\footnote{Unfortunately there are no UD-datasets included in our study representing languages of the Americas or Central or Eastern Pacific, which is why these regions are not displayed on the maps.}$^{,}$\footnote{We matched UD-datasets to glottocodes and used geographical locations of languages found in Glottolog 5.0 \citep{hammarstrom_glottologglottolog_2024}. The points have been jittered somewhat to avoid overlaps for dataset of the same/nearby languages which would obscure information.}
 The SPLOM visualisations compare different measurements of the same data in a  pairwise fashion.
 The lower-left portion of each SPLOM shows scatterplots for the pairwise comparisons of measurements.
-The upper-right portion shows the Spearman's rank correlation coefficient of the corresponding pair (see appendix 
-\ref{appendix:spearman} % CROSSREFTODO
+The upper-right portion shows the Spearman's rank correlation coefficient of the corresponding pair (see appendix E
+%\ref{appendix:spearman} % CROSSREFDONE
 for details). 
 The diagonal of the plot shows histograms of each measure. 
 The upper and right edges of the diagram list the names of each measure, while the left and lower edges display axis values for the scatterplots.
 
 Significant correlations (p<0.05) are marked with an asterisk. 
-Because these SPLOM plots comprise multiple comparisons, we used the Holm–Bonferroni method \citep{holm_simple_1979} to adjust p-values in order to control the family-wise error rate where relevant (see appendix 
-\ref{subsec:adjustedPValues} % CROSSREFTODO
+Because these SPLOM plots comprise multiple comparisons, we used the Holm–Bonferroni method \citep{holm_simple_1979} to adjust p-values in order to control the family-wise error rate where relevant (see appendix F
+%\ref{subsec:adjustedPValues} % CROSSREFDONE
 for more details).
 An absolute correlation coefficient larger than 0.7 is commonly interpreted as a strong relationship, and above 0.9 very strong \citep{schober_correlation_2018}. 
 We have marked significant correlations above 0.7 in red bold text.
@@ -453,8 +450,8 @@ The number of data-points compared for each pair is reported in the upper triang
 UD-datasets can vary considerably in terms of genre, which can have an impact on the measurements we are calculating. 
 The UD-datasets that belong to the Parallel Universal Dependencies (PUD) subset are more comparable in genre as they are translational equivalents. 
 Therefore, we report results both for all UD-datasets and for the PUD-datasets only. 
-See appendix section 
-\ref{sec:caveat_genres} % CROSSREFTODO
+See appendix section C.1.3
+%\ref{sec:caveat_genres} % CROSSREFDONE
 for more information.
 
 \subsection{Our morpho-surprisal metrics}
@@ -513,8 +510,8 @@ However, as several key areas are missing or severely under-represented (primari
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 We also compare our metrics to other statistics of the dataset (TTR, number of feature categories and more). 
-Due to space constraints, we cannot include these SPLOMS and discussion in full here, please see appendix 
-\ref{appendix_other}. % CROSSREFTODO
+Due to space constraints, we cannot include these SPLOMS and discussion in full here, please see appendix G.
+%%\ref{appendix_other}. % CROSSREFDONE
 Both representative custom metrics correlate moderately-to-strongly (>=0.69$^*$) with mean number of features per token (for all datasets and for PUD only).
 This is expected: the more features tokens have, the more chances there are to be surprised.
 
@@ -546,20 +543,20 @@ By contrast, UPOS-level aggregation pools across lemmas and preserves cross-lemm
 \FloatBarrier
 \subsection{Comparison with Ç\&R's MFH}
 \label{supplementary_section_comparison_MFH}
-An empirical comparison of Ç\&R's MFH-metric with our two representative morpho-surprisal metrics, absolute number of feature categories and Type-Token Ratio can be seen in Figure \ref{fig:SPLOM_metrics_external_CR}.\footnote{Note that we implement Ç\&R's MFH slightly differently from the original version. See appendix 
-\ref{sec:appendix_ccoltekin} % CROSSREFTODO
+An empirical comparison of Ç\&R's MFH-metric with our two representative morpho-surprisal metrics, absolute number of feature categories and Type-Token Ratio can be seen in Figure \ref{fig:SPLOM_metrics_external_CR}.\footnote{Note that we implement Ç\&R's MFH slightly differently from the original version. See appendix A.1.1
+%\ref{sec:appendix_ccoltekin} % CROSSREFDONE
 for details.}
 The correlations between our metrics and Ç\&R's MFH are moderate to strong (0.58-0.83$^*$).
-For further details of the conceptual differences between the metrics, see section \ref{sec:CR_comparison} and appendices \ref{sec:appendix_ccoltekin} % CROSSREFTODO
-and 
-\ref{sec:appendixComparison}. % CROSSREFTODO
+For further details of the conceptual differences between the metrics, see section \ref{sec:CR_comparison} and appendices A.1 %\ref{sec:appendix_ccoltekin} % CROSSREFDONE
+and B.
+%\ref{sec:appendixComparison}. % CROSSREFDONE
 
 Why should our metric not correlate perfectly with Ç\&R's MFH?
 Firstly, there are whole datasets as well as parts of datasets that cannot be included in calculating Ç\&R's MFH but where our approach functions.
 This is due to differences in data processing decisions.
 For example, tokens without morphological features, without lemmas and/or without a string for the token field are excluded from their analysis.
-We keep these in as they can still be useful for computing the information in morphology across datasets (see appendix 
-\ref{sec:appendix_ours}). % CROSSREFTODO
+We keep these in as they can still be useful for computing the information in morphology across datasets (see appendix A.2).
+%\ref{sec:appendix_ours}). % CROSSREFDONE
 This make a difference for isolating languages like Mandarin Chinese, as only tokens with any morphology are taken into account for computing MFH.
 If a language has many tokens with no morphological features and these are all excluded, then the metric is only computed on a particular subset of the tokens instead of over all tokens. 
 We can see the possible consequences of this if we compare Mandarin Chinese with Portuguese, which are commonly described as having little and moderate morphology respectively.
@@ -567,13 +564,13 @@ If we rank UD-datsets by their MFH values, then Portuguese-PUD appears lower tha
 This is not the case for our morpho-surprisal scores, where Chinese-PUD ranks lower than Portuguese-PUD as we would expect given common descriptions of their grammatical systems.
 
 Secondly, the first of our representative metrics (mean sum surprisal of features, aggregation level = UPOS, all features) assigns a wider range of values to the datasets, some of which are lower and some higher than mean feature entropy.
-This is because our UPOS-based measure covers a wider range of values than does mean feature entropy (see Figure 
-\ref{fig:boxPlotsMetrics} % CROSSREFTODO
-in appendix 
-\ref{subsec:appendixConsequences}), % CROSSREFTODO
+This is because our UPOS-based measure covers a wider range of values than does mean feature entropy (see Figure B
+%\ref{fig:boxPlotsMetrics} % CROSSREFDONE
+in appendix B.8,
+%\ref{subsec:appendixConsequences}), % CROSSREFDONE
 giving a more fine-grained measure of morphological complexity.
-For more information on the differences between our two approaches methodologically, see appendix 
-\ref{sec:appendixComparison}. % CROSSREFTODO
+For more information on the differences between our two approaches methodologically, see appendix B.
+%\ref{sec:appendixComparison}. % CROSSREFDONE
 
 %Table \ref{tab:p_values_adjusted_cr} in appendix \ref{subsec:adjustedPValues} lists the adjusted p-values.
 %All but one of the significant relationships remains so, with only the Featstring/lemma/core correlation with the Type-Token Ratio over the PUD datasets becoming non-significant.
@@ -653,8 +650,8 @@ When `no' is encountered, the negative Polarity is much more surprising and cont
 
 We have made no attempt to correct what might be seen as ``mistakes'' in tagging of morphological features in the treebanks themselves: we have only established a workflow designed to estimate morphological information quantities given reasonable groupings.
 The approach to measuring information in morphology suggested in this paper can be applied to other datasets besides UD. 
-We provide R-code with generalised functions in supplementary material and guidance in appendix 
-\ref{appendix:applying_to_non_UD}. % CROSSREFTODO
+We provide R-code with generalised functions in supplementary material and guidance in appendix A.2.1.
+%\ref{appendix:applying_to_non_UD}. % CROSSREFDONE
 
 Dummy feature assignment can lead to unintuitive attribution of morphological features to tokens.
 Our view is that information can be carried by the absence of morphological marking and that it is relevant to standardise within groups (UPOS/lemma) -- this is what dummy assignment is designed to address.
@@ -669,8 +666,8 @@ We call these groups ``subclasses'' and this approach avoids the issue with dumm
 The results strongly correlate with the other metrics (>=0.74$^*$), especially with the metrics that are aggregated over UPOS. 
 This suggests that the effect of dummy values is not detrimental.
 %This is an unconventional approach that relies on certain assumptions about the structure of datasets.
-For more details see appendix 
-\ref{appendix_UPOS_variation_subclass}. % CROSSREFTODO
+For more details see appendix C.1.2.1.
+%\ref{appendix_UPOS_variation_subclass}. % CROSSREFDONE
 
 We recognise that other solutions exists, such as making use of other datasets besides UD.
 We leave to future work the possibility of estimating morphological information aggregating in other ways.
@@ -678,8 +675,7 @@ We leave to future work the possibility of estimating morphological information 
 \subsection{Artificial lemmas}
 
 Some UD-datasets have a sizeable proportion of missing lemmas.
-This is a problem for several of our metrics.
-Not only do we report the total number of distinct lemmas and the lemma-token ratio, four of our custom morpho-surprisal metrics use lemma as the aggregation level, which requires all tokens having decent lemma-assignment.
+This becomes problematic for calculating total number of unique lemmas, LTR and for the four of our custom morpho-surprisal metrics using lemma as the aggregation level.
 
 We ameliorate this problem in two ways, both of which can affect comparability.
 First, we simply omit those six metrics for datasets with more than 40\% missing lemmas (e.g. Thai-PUD, English-GUMReddit \& Faroese-FarPaHC).
@@ -690,16 +686,17 @@ They may have been left out because the lemma would be considered identical to t
 We have made this assumption explicit by filling in the lemma with the token value, allowing us to calculate the six metrics on these datasets.
 
 Both of these choices affect comparability.
-In the first case, we lose the ability to compare datasets with many missing lemmas across the six metrics that rely on lemma presence.
-The power of statistical tests for correlations involving these metrics is therefore reduced.
+In the first case, we lose the ability to compare datasets with >40\% missing lemmas for all metrics. 
+The power of statistical tests involving these metrics is therefore reduced.
 In the second case, we might be inadvertently adding lemmas to tokens in a suboptimal manner.
 This would skew both the number of lemmas, the lemma-token ratio and our morpho-surprisal scores which aggregate over lemmas.
 Different decisions might reasonably be made here, but the aforementioned manual checks plus the relatively low level of missing lemmas in most datasets means that we would expect the impact of our procedure to be small.
 
 \subsection{Inconsistent annotation standards across corpora}
 
-The UD project provides documentation guiding dataset annotation.
-Nevertheless there are different levels of rigour and different choices made among the maintainers of different datasets, even among those drawn from corpora of the same language.
+The UD project provides central documentation guiding dataset annotation.
+At the same time, individual dataset contributors have freedom to provide additional annotation and vary implementation.
+%There are different choices made among the maintainers of different datasets, even among those drawn from corpora of the same language.
 We deal with the most significant issues of this kind by excluding some datasets from our analysis.
 For example, we exclude datasets such as Bavarian-MaiBaam that have no feature annotations at all. 
 Our informational measure requires feature annotations to produce a meaningful result.
@@ -711,8 +708,8 @@ Such symbols could cause problems if they are used inconsistently, but we would 
 
 There are remaining differences that could negatively impact the comparability of our metric.
 For reasons of space we could not address these in the main text.
-They are discussed in detail in appendix 
-\ref{sec:caveats}. % CROSSREFTODO
+They are discussed in detail in appendix C.
+%\ref{sec:caveats}. % CROSSREFDONE
 
 \FloatBarrier
 \section{Discussion \& conclusion}\label{sec:discussion}
@@ -725,17 +722,22 @@ Our metrics correlate moderately-to-strongly with Ç\&R's MFH.
 One key difference is that our metric yields non-zero values for datasets with certain missing values (e.g. little morphology) and produces a larger range of values.
 Weak alignment with Grambank's Fusion/Informativity most likely reflects a difference in target: usage distributions versus possibility space.
 Limitations include variation in UD annotation practices, artificial lemmas and dummy-feature assignment. 
-We discuss these in section \ref{sec:limitations} and appendix 
-\ref{sec:caveats}. % CROSSREFTODO
+We discuss these in section \ref{sec:limitations} and appendix C.
+%\ref{sec:caveats}. % CROSSREFDONE
 We also note that the limited number of languages represented in UD makes historical or geographical interpretations limited (compared to for example WALS or Grambank).
 
 In conclusion, morpho-surprisal offers a compact, usage-based estimate of information in morphology --- one facet of morphological complexity. 
 
 
 %TC:ignore
+\section{Additional materials}
 
-\bibliographystyle{unified}
-\bibliography{bib.bib, used_pkgs}
+Appendices, data and source code for this project are available at: 
+\begin{itemize}
+    \item GitHub: \href{https://github.com/HedvigS/UD_complexity}{https://github.com/HedvigS/UD\_complexity}
+    \item Zenodo: \href{https://zenodo.org/records/19223126}{https://zenodo.org/records/19223126}
+\end{itemize}
+
 
 \section{Acknowledgements}
 We are indebted to Matthew Spike for his input on this article in particular and for our discussions on ``complexity'' and information in general. We thank {\c{C}}a{\u{g}}r{\i} {\c{C}}{\"o}ltekin and Taraka Rama for generous their aid in understanding the intricacies of their measurement. We also want to thank the audiences at the Working Group for Empirical Linguistics-seminar series (WoGEL) at the Department of Linguistics and Philology at Uppsala University, department seminars at the Department of Linguistic and Cultural Evolution (DLCE) at the Max Planck Institute for Evolutionary Anthropology and participants at the 2024 Biennial meeting of the Association for Linguistic Typology in Singapore. We have also benefitted from advice from Daan van Esch, code review by Christoph Rzymski and discussions with Angela Chira. We also gratefully acknowledge comments on the draft by Natalie Korobzow and Deepthi Gopal.
@@ -743,6 +745,8 @@ The manuscript was greatly improved thanks to the comments of two anonymous revi
 Finally, we'd like to thank the organisers of the workshop on Dependency Grammar for Typology at the ALT-meeting and editors of this special issue (Andrew Dyer, Luigi Talamo, Annemarie Verkerk, Luca Brigada Villa, Erica Biagetti \& Diego Alves) as well as the other presenters at the workshop and the audience. 
 
 \newpage
+\bibliographystyle{unified}
+\bibliography{bib.bib, used_pkgs}
 
 
 %TC:endignore
